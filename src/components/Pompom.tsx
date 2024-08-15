@@ -59,16 +59,16 @@ const PompomInit: React.FC<PompomInitProps> = ({ name, rollWidth, pitchWidth }) 
         const meshList: any = [];
         for (let roll = 0; roll < rollWidth; roll++) {
             for (let pitch = 0; pitch < pitchWidth; pitch++) {
-                console.log({ yaw: roll, pitch })
+                // console.log({ yaw: roll, pitch })
                 let yawMin = 2 * Math.PI * (roll / rollWidth);
                 let yawMax = 2 * Math.PI * ((roll + 1) / rollWidth);
 
                 let pitchMin = Math.PI * (pitch / pitchWidth) / 2;
                 let pitchMax = Math.PI * ((pitch + 1) / pitchWidth) / 2;
-                console.log({
-                    pitchMin: pitchMin * (180 / Math.PI),
-                    pitchMax: pitchMax * (180 / Math.PI)
-                });
+                // console.log({
+                //     pitchMin: pitchMin * (180 / Math.PI),
+                //     pitchMax: pitchMax * (180 / Math.PI)
+                // });
                 let radiusMin = Math.cos(pitchMin);
                 let radiusMax = Math.cos(pitchMax);
                 // let radiusMin = 1;
@@ -128,36 +128,62 @@ const PompomInit: React.FC<PompomInitProps> = ({ name, rollWidth, pitchWidth }) 
             // -1〜+1の範囲で現在のマウス座標を登録する
             mouse.x = (x / w) * 2 - 1;
             mouse.y = -(y / h) * 2 + 1;
+            cameraControlEnableSet()
         });
+
+        function cameraControlEnableSet() {
+            raycaster.setFromCamera(mouse, camera);
+
+            // レイキャスターがシーン内のオブジェクトと交差しているかをチェックする
+            const intersects = raycaster.intersectObjects(scene.children);
+            // console.log(intersects.length)
+            if (intersects.length > 0) {
+                // 交差があった場合、OrbitControlsを無効化する
+                controls.enabled = false;
+            } else {
+                // 交差がなかった場合、OrbitControlsを有効化する
+                controls.enabled = true;
+            }
+        }
+        let isMouseDowning = false
+        window.addEventListener('mousedown', () => {
+
+            isMouseDowning = true;
+        }, false);
+        window.addEventListener('mouseup', () => {
+
+            isMouseDowning = false;
+        }, false);
+
         // 毎フレーム時に実行されるループイベントです
         tick();
         function tick() {
             // box.rotation.y += 0.01;
             // レイキャスト = マウス位置からまっすぐに伸びる光線ベクトルを生成
 
+            if (isMouseDowning) {
 
+                raycaster.setFromCamera(mouse, camera);
 
-            raycaster.setFromCamera(mouse, camera);
+                // その光線とぶつかったオブジェクトを得る
+                const intersects = raycaster.intersectObjects(scene.children);
 
-            // その光線とぶつかったオブジェクトを得る
-            const intersects = raycaster.intersectObjects(scene.children);
+                meshList.map((mesh: any) => {
+                    // 交差しているオブジェクトが1つ以上存在し、
+                    // 交差しているオブジェクトの1番目(最前面)のものだったら
+                    // console.log(intersects.length)
+                    if (intersects.length > 0 && mesh === intersects[0].object) {
+                        console.log("ぬる")
+                        // 色を赤くする
+                        console.log((mesh as any).patternPos)
+                        let patternPos = (mesh as any).patternPos;
+                        pattern[patternPos.r, patternPos.p] = 1
+                        let color = colorPalette[pattern[patternPos.r, patternPos.p]];
+                        mesh.material.color.set(color);
+                    }
 
-            meshList.map((mesh: any) => {
-                // 交差しているオブジェクトが1つ以上存在し、
-                // 交差しているオブジェクトの1番目(最前面)のものだったら
-                if (intersects.length > 0 && mesh === intersects[0].object) {
-                    // 色を赤くする
-                    // console.log((mesh as any).patternPos)
-                    let patternPos = (mesh as any).patternPos;
-                    pattern[patternPos.r, patternPos.p] = 1
-                    let color = colorPalette[pattern[patternPos.r, patternPos.p]];
-                    mesh.material.color.set(color);
-                } else {
-                    // それ以外は元の色にする
-                    // mesh.material.color.set(colorPalette[0]);
-                }
-
-            });
+                });
+            }
 
 
             renderer.render(scene, camera); // レンダリング

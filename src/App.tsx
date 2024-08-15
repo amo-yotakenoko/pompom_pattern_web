@@ -21,7 +21,7 @@ function App() {
 
     <div style={{ width: '100vw', height: '100vh' }}>
 
-      <PompomInit name="Pompom Box" rollWidth={50} pitchWidth={50} ></PompomInit>
+      <PompomInit name="Pompom Box" rollWidth={20} pitchWidth={20} ></PompomInit>
       {boxes}
 
 
