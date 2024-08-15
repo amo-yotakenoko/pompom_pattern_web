@@ -4,5 +4,10 @@ npm audit fix --force
 npm install three @react-three/fiber
 npm install @types/three
 npm install gh-pages --save-dev
+https://qiita.com/iwasaki-hub/items/c4fb660076c85e6f48d5
+npm install @react-three/drei
+npm install react-bootstrap bootstrap
 
 npm start
+
+npm run deploy
