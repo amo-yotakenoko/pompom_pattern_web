@@ -3,6 +3,6 @@ npx create-react-app pompom_pattern_web --template typescript
 npm audit fix --force
 npm install three @react-three/fiber
 npm install @types/three
-
+npm install gh-pages --save-dev
 
 npm start
