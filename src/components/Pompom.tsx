@@ -1,34 +1,52 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useRef } from 'react';
 import * as THREE from 'three';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
 
 
-type PompomInitProps = {
-    name: string;
+type PompomProps = {
+    pattern: any;
+    colorList: any;
     rollWidth: number;
     pitchWidth: number;
+    selectColor: number;
+    setPattern: any;
 };
-let colorPalette = [
-    "#FFFFFF", // white
-    "#FF5733", // Red-Orange
-    "#FFBD33", // Orange-Yellow
-    "#FFFF33", // Yellow
-    "#B6FF33", // Yellow-Green
-    "#33FF57", // Green
-    "#33FFBD", // Green-Cyan
-    "#33FFFF", // Cyan
-    "#33B6FF", // Cyan-Blue
-    "#3357FF", // Blue
-    "#BD33FF", // Purple
-    "#FF33FF", // Magenta
-    "#FF33B6"  // Pink
-];
-let pattern: any;
-const PompomInit: React.FC<PompomInitProps> = ({ name, rollWidth, pitchWidth }) => {
+
+const Pompom: React.FC<PompomProps> = ({ pattern, colorList, rollWidth, pitchWidth, selectColor, setPattern }) => {
+    // let tmpSelectId = selectColor;
+    // useEffect(() => {
+    //     tick();
+    // }, [selectColor]);
+    const meshList = useRef<THREE.Mesh[]>([]);
+    const propsRef = useRef({ pattern, colorList, selectColor });
+    useEffect(() => {
+        // propsが変わるたびにpropsRefを更新
+        propsRef.current = { pattern, colorList, selectColor };
+        // meshList.map((mesh: any) => {
+        //     console.log("更新")
+        //     let patternPos = (mesh as any).patternPos;
+        //     let color = propsRef.current.colorList[pattern[patternPos.r, patternPos.p]];
+        //     mesh.material.color.set(color);
+
+        // console.log("更新")
+        // });
+    }, [pattern, colorList, selectColor]);
+    useEffect(() => {
+
+        console.log("パレット更新", meshList)
+        meshList.current.map((mesh: any) => {
+            let patternPos = (mesh as any).patternPos;
+            console.log(patternPos)
+            let color = propsRef.current.colorList[pattern[patternPos.r][patternPos.p]];
+            mesh.material.color.set(color);
+        });
+
+        // });
+    }, [colorList]);
+
     useEffect(() => {
         // console.log(name,  rollWidth, pitchWidth);
 
-        pattern = [];
         for (let i = 0; i < rollWidth; i++) {
             pattern[i] = [];
             for (let j = 0; j < pitchWidth; j++) {
@@ -53,10 +71,10 @@ const PompomInit: React.FC<PompomInitProps> = ({ name, rollWidth, pitchWidth }) 
         // カメラを作成
         const camera = new THREE.PerspectiveCamera(15, width / height);
         camera.position.set(0, 0, +1000);
-        const controls = new OrbitControls(camera, document.body);
+        const controls = new OrbitControls(camera, canvas);
         controls.enableZoom = false
         controls.enablePan = false
-        const meshList: any = [];
+
         for (let roll = 0; roll < rollWidth; roll++) {
             for (let pitch = 0; pitch < pitchWidth; pitch++) {
                 // console.log({ yaw: roll, pitch })
@@ -87,19 +105,25 @@ const PompomInit: React.FC<PompomInitProps> = ({ name, rollWidth, pitchWidth }) 
                     Math.sin(pitchMax) * 100, Math.sin(yawMax) * radiusMax * 100, Math.cos(yawMax) * radiusMax * 100,
                     Math.sin(pitchMin) * 100, Math.sin(yawMax) * radiusMin * 100, Math.cos(yawMax) * radiusMin * 100,
                     Math.sin(pitchMin) * 100, Math.sin(yawMin) * radiusMin * 100, Math.cos(yawMin) * radiusMin * 100,
+
+                    -Math.sin(pitchMin) * 100, Math.sin(yawMin) * radiusMin * 100, Math.cos(yawMin) * radiusMin * 100,
+                    -Math.sin(pitchMin) * 100, Math.sin(yawMax) * radiusMin * 100, Math.cos(yawMax) * radiusMin * 100,
+                    -Math.sin(pitchMax) * 100, Math.sin(yawMax) * radiusMax * 100, Math.cos(yawMax) * radiusMax * 100,
+                    -Math.sin(pitchMax) * 100, Math.sin(yawMin) * radiusMax * 100, Math.cos(yawMin) * radiusMax * 100,
                 ]);
 
 
                 geometry.setAttribute('position', new THREE.BufferAttribute(vertices, 3));
 
                 const indices = new Uint16Array([
-                    0, 1, 2, 0, 2, 3
+                    0, 1, 2, 0, 2, 3,
+                    0 + 4, 1 + 4, 2 + 4, 0 + 4, 2 + 4, 3 + 4,
                 ]);
                 geometry.setIndex(new THREE.BufferAttribute(indices, 1));
                 geometry.computeVertexNormals();
-                var randomColor = "rgb(" + (~~(256 * Math.random())) + ", " + (~~(256 * Math.random())) + ", " + (~~(256 * Math.random())) + ")";
-                // マテリアル（材質）を作成
-                const material = new THREE.MeshBasicMaterial({ color: randomColor });
+                // var randomColor = "rgb(" + (~~(256 * Math.random())) + ", " + (~~(256 * Math.random())) + ", " + (~~(256 * Math.random())) + ")";
+                // const material = new THREE.MeshBasicMaterial({ color: randomColor });
+                const material = new THREE.MeshBasicMaterial({ color: "#ffffff" });
                 // const material = new THREE.MeshNormalMaterial();
 
                 const mesh = new THREE.Mesh(geometry, material);
@@ -107,7 +131,7 @@ const PompomInit: React.FC<PompomInitProps> = ({ name, rollWidth, pitchWidth }) 
 
 
 
-                meshList.push(mesh);
+                meshList.current.push(mesh);
                 // シーンに追加
                 scene.add(mesh);
 
@@ -157,10 +181,11 @@ const PompomInit: React.FC<PompomInitProps> = ({ name, rollWidth, pitchWidth }) 
 
         // 毎フレーム時に実行されるループイベントです
         tick();
+
         function tick() {
             // box.rotation.y += 0.01;
             // レイキャスト = マウス位置からまっすぐに伸びる光線ベクトルを生成
-
+            // console.log(propsRef)
             if (isMouseDowning) {
 
                 raycaster.setFromCamera(mouse, camera);
@@ -168,17 +193,30 @@ const PompomInit: React.FC<PompomInitProps> = ({ name, rollWidth, pitchWidth }) 
                 // その光線とぶつかったオブジェクトを得る
                 const intersects = raycaster.intersectObjects(scene.children);
 
-                meshList.map((mesh: any) => {
+                meshList.current.map((mesh: any) => {
                     // 交差しているオブジェクトが1つ以上存在し、
                     // 交差しているオブジェクトの1番目(最前面)のものだったら
                     // console.log(intersects.length)
                     if (intersects.length > 0 && mesh === intersects[0].object) {
-                        console.log("ぬる")
+                        console.log("ぬる", propsRef.current.selectColor)
                         // 色を赤くする
-                        console.log((mesh as any).patternPos)
+                        // console.log((mesh as any).patternPos)
                         let patternPos = (mesh as any).patternPos;
-                        pattern[patternPos.r, patternPos.p] = 1
-                        let color = colorPalette[pattern[patternPos.r, patternPos.p]];
+
+                        // pattern[patternPos.r, patternPos.p] = propsRef.current.selectColor
+                        let newPatternList = [...propsRef.current.pattern]
+                        newPatternList[patternPos.r][patternPos.p] = propsRef.current.selectColor;
+                        setPattern(newPatternList);
+
+
+                        // meshList.current.map((mesh: any) => {
+                        //     let patternPos = (mesh as any).patternPos;
+                        //     console.log(patternPos)
+                        //     let color = propsRef.current.colorList[pattern[patternPos.r][patternPos.p]];
+                        //     mesh.material.color.set(color);
+                        // });
+
+                        let color = propsRef.current.colorList[pattern[patternPos.r][patternPos.p]];
                         mesh.material.color.set(color);
                     }
 
@@ -194,7 +232,13 @@ const PompomInit: React.FC<PompomInitProps> = ({ name, rollWidth, pitchWidth }) 
 
     }, []);
 
-    return <canvas id="edit3d" />;
+
+    return <div>
+        <canvas id="edit3d" />
+        {selectColor}<br></br>
+        {colorList}<br></br>
+        {/* {meshList} */}
+    </div>;
 };
 
-export default PompomInit;
+export default Pompom;
