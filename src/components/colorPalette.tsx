@@ -29,7 +29,7 @@ const ColorPalette: React.FC<colorPaletteProps> = ({ colorList, selectColor, set
     for (let idx = 0; idx < colorList.length; idx++) {
         let color = colorList[idx];
         let isSelected = selectColor === idx;
-        let height = isSelected ? '60px' : '50px';
+
         colorButtons.push(
             <ToggleButton
                 key={idx}
@@ -43,12 +43,13 @@ const ColorPalette: React.FC<colorPaletteProps> = ({ colorList, selectColor, set
                 style={{
                     backgroundColor: color,
                     color: '#000000',
-                    height: height,
+                    height: isSelected ? '60px' : '50px',
+
 
                 }}
             >
                 {idx}
-            </ToggleButton>
+            </ToggleButton >
         );
     }
 
@@ -57,10 +58,17 @@ const ColorPalette: React.FC<colorPaletteProps> = ({ colorList, selectColor, set
             {/* {selectColor} */}
             <Sketch color={colorList[selectColor]} onChange={colorChange} disableAlpha={true} />
 
-            <ButtonGroup >
+            <ButtonGroup style={{
+                position: "fixed",
+                bottom: 0,
+                // https://zero-plus.io/media/css-align-items-how-to-use/
+                display: "flex",
+                alignItems: "flex-end",
+                width: "100%"
+            }}>
                 {colorButtons}
             </ButtonGroup>
-        </div>
+        </div >
 
 
     );

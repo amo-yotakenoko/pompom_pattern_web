@@ -28,7 +28,7 @@ function App() {
     "#FF33FF", // Magenta
     "#FF33B6"  // Pink
   ]);
-  const [selectColor, setSelectColor] = useState(0);
+  const [selectColor, setSelectColor] = useState(1);
   const [pattern, setPattern] = useState([]);
 
 
@@ -47,7 +47,6 @@ function App() {
         colorList={colorList}
         selectColor={selectColor}
         setSelectColor={setSelectColor}
-
         setColorList={setColorList}
       ></ColorPalette>
 

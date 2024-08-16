@@ -71,7 +71,7 @@ const Pompom: React.FC<PompomProps> = ({ pattern, colorList, rollWidth, pitchWid
         // カメラを作成
         const camera = new THREE.PerspectiveCamera(15, width / height);
         camera.position.set(0, 0, +1000);
-        const controls = new OrbitControls(camera, canvas);
+        let controls = new OrbitControls(camera, canvas);
         controls.enableZoom = false
         controls.enablePan = false
 
@@ -140,8 +140,13 @@ const Pompom: React.FC<PompomProps> = ({ pattern, colorList, rollWidth, pitchWid
         // https://ics.media/tutorial-three/raycast/
         const raycaster = new THREE.Raycaster();
         const mouse = new THREE.Vector2();
-        canvas.addEventListener('mousemove', (event: any) => {
-            const element = event.currentTarget;
+        canvas.addEventListener('pointermove', (event: any) => {
+            mouseUpdate(event)
+        });
+        function mouseUpdate(event: any) {
+            console.log(event.clientX)
+            // const element = event.currentTarget;
+            const element = canvas;
             // canvas要素上のXY座標
             const x = event.clientX - element.offsetLeft;
             const y = event.clientY - element.offsetTop;
@@ -152,32 +157,43 @@ const Pompom: React.FC<PompomProps> = ({ pattern, colorList, rollWidth, pitchWid
             // -1〜+1の範囲で現在のマウス座標を登録する
             mouse.x = (x / w) * 2 - 1;
             mouse.y = -(y / h) * 2 + 1;
-            cameraControlEnableSet()
-        });
-
-        function cameraControlEnableSet() {
-            raycaster.setFromCamera(mouse, camera);
-
-            // レイキャスターがシーン内のオブジェクトと交差しているかをチェックする
-            const intersects = raycaster.intersectObjects(scene.children);
-            // console.log(intersects.length)
-            if (intersects.length > 0) {
-                // 交差があった場合、OrbitControlsを無効化する
-                controls.enabled = false;
-            } else {
-                // 交差がなかった場合、OrbitControlsを有効化する
-                controls.enabled = true;
-            }
         }
-        let isMouseDowning = false
-        window.addEventListener('mousedown', () => {
 
-            isMouseDowning = true;
-        }, false);
-        window.addEventListener('mouseup', () => {
+        // function cameraControlEnableSet() {
+        //     raycaster.setFromCamera(mouse, camera);
 
-            isMouseDowning = false;
+        //     // レイキャスターがシーン内のオブジェクトと交差しているかをチェックする
+        //     const intersects = raycaster.intersectObjects(scene.children);
+        //     // console.log(intersects.length)
+        //     if (intersects.length > 0) {
+        //         // 交差があった場合、OrbitControlsを無効化する
+        //         controls.enabled = false;
+        //     } else {
+        //         // 交差がなかった場合、OrbitControlsを有効化する
+        //         controls.enabled = true;
+        //     }
+        // }
+        // let isMouseDowning = false
+        let isDrwaing = false
+
+        window.addEventListener('pointerup', (event: any) => {
+            // controls.dispose();
+
         }, false);
+        window.addEventListener('pointerdown', (event: any) => {
+            mouseUpdate(event)
+            raycaster.setFromCamera(mouse, camera);
+            const intersects = raycaster.intersectObjects(scene.children);
+
+            isDrwaing = intersects.length > 0
+            console.log({ isDrwaing, controls });
+
+            controls.rotateSpeed = isDrwaing ? 0 : 1;
+            // controls = new OrbitControls(camera, canvas);
+            // controls.enableZoom = false
+            // controls.enablePan = false
+
+        });
 
         // 毎フレーム時に実行されるループイベントです
         tick();
@@ -186,7 +202,7 @@ const Pompom: React.FC<PompomProps> = ({ pattern, colorList, rollWidth, pitchWid
             // box.rotation.y += 0.01;
             // レイキャスト = マウス位置からまっすぐに伸びる光線ベクトルを生成
             // console.log(propsRef)
-            if (isMouseDowning) {
+            if (isDrwaing) {
 
                 raycaster.setFromCamera(mouse, camera);
 
@@ -235,9 +251,7 @@ const Pompom: React.FC<PompomProps> = ({ pattern, colorList, rollWidth, pitchWid
 
     return <div>
         <canvas id="edit3d" />
-        {selectColor}<br></br>
-        {colorList}<br></br>
-        {/* {meshList} */}
+
     </div>;
 };
 
