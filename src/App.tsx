@@ -17,7 +17,7 @@ import Menu from './components/menu'
 function App() {
 
   const [colorList, setColorList] = useState([
-    "#FFAFFF", // white
+    "#FFFFFF", // white
     "#FF5733", // Red-Orange
     "#FFBD33", // Orange-Yellow
     "#FFFF33", // Yellow
@@ -29,7 +29,7 @@ function App() {
     "#3357FF", // Blue
     "#BD33FF", // Purple
     "#FF33FF", // Magenta
-    "#FF33B6"  // Pink
+    // "#FF33B6"  // Pink
   ]);
   const rollWidth = 10
   const pitchWidth = 10
@@ -94,7 +94,7 @@ function App() {
 
       {/* {`${pattern}`}
       {`${selectColor}`} */}
-      aaaa
+
       <Menu
         activeMenu={activeMenu}
         setActiveMenu={setActiveMenu}

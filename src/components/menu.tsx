@@ -17,7 +17,8 @@ const Menu: React.FC<MenuProps> = ({ activeMenu, setActiveMenu }) => {
             // https://zero-plus.io/media/css-align-items-how-to-use/
             display: "flex",
             alignItems: "flex-end",
-            width: "100%"
+            width: "100%",
+            zIndex: 1000,
         }}>
             <Item displayName={"編集"} tabId={"pompom"} activeMenu={activeMenu} setActiveMenu={setActiveMenu}></Item>
             <Item displayName={"設計図"} tabId={"bluePrint"} activeMenu={activeMenu} setActiveMenu={setActiveMenu}></Item>

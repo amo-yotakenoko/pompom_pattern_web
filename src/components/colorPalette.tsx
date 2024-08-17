@@ -4,6 +4,7 @@ import { Slider, Sketch, Material, Colorful, Compact, Circle, Wheel, Block, Gith
 import { EditableInput, EditableInputRGBA, EditableInputHSLA } from '@uiw/react-color';
 import ButtonGroup from 'react-bootstrap/ButtonGroup';
 import ToggleButton from 'react-bootstrap/ToggleButton';
+import 'bootstrap/dist/css/bootstrap.min.css';
 type colorPaletteProps = {
 
     colorList: any;
@@ -42,11 +43,17 @@ const ColorPalette: React.FC<colorPaletteProps> = ({ colorList, selectColor, set
                 onChange={(e) => setSelectColor(idx)}
                 style={{
                     backgroundColor: color,
-                    color: '#000000',
-                    height: isSelected ? '60px' : '50px',
+                    // color: '#000000',
+                    // display: "flex",
+                    width: "100%",
+                    height: "100%",
+                    border: 'none',
+                    borderRadius: isSelected ? '10%' : '100%',
+                    // height: isSelected ? '60px' : '50px',
+                    paddingTop: "100%"
 
-
-                }}
+                }
+                }
             >
                 {/* {idx} */}
             </ToggleButton >
@@ -56,18 +63,34 @@ const ColorPalette: React.FC<colorPaletteProps> = ({ colorList, selectColor, set
     return (
         <div>
             {/* {selectColor} */}
-            <Sketch color={colorList[selectColor]} onChange={colorChange} disableAlpha={true} />
 
-            <ButtonGroup style={{
-                // position: "fixed",
-                // bottom: 0,
-                // // https://zero-plus.io/media/css-align-items-how-to-use/
-                // display: "flex",
-                // alignItems: "flex-end",
-                width: "100%"
-            }}>
-                {colorButtons}
-            </ButtonGroup>
+
+
+            <div className="container">
+                <div className="row">
+                    <div className="col">
+                        <Sketch color={colorList[selectColor]} onChange={colorChange} disableAlpha={true} style={{
+                            width: "100%",
+                        }} />
+                    </div>
+                    <div className="col">
+                        <ButtonGroup style={{
+                            // position: "fixed",
+                            // bottom: 0,
+                            // // https://zero-plus.io/media/css-align-items-how-to-use/
+                            // display: "flex",
+                            // alignItems: "flex-end",
+                            display: "grid",
+                            gridTemplateColumns: 'repeat(auto-fit, minmax(12vw, 1fr))',
+                        }}>
+                            {colorButtons}
+
+                        </ButtonGroup>
+                    </div>
+                </div>
+            </div>
+
+            {/* <br /><br /><br /><br /><br /><br /><br /><br /><br /> */}
         </div >
 
 
