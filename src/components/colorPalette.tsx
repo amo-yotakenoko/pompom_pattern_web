@@ -7,7 +7,7 @@ import ToggleButton from 'react-bootstrap/ToggleButton';
 type colorPaletteProps = {
 
     colorList: any;
-    selectColor: number;
+    selectColor: any;
     setSelectColor: any;
     setColorList: any;
 
@@ -48,7 +48,7 @@ const ColorPalette: React.FC<colorPaletteProps> = ({ colorList, selectColor, set
 
                 }}
             >
-                {idx}
+                {/* {idx} */}
             </ToggleButton >
         );
     }
@@ -59,11 +59,11 @@ const ColorPalette: React.FC<colorPaletteProps> = ({ colorList, selectColor, set
             <Sketch color={colorList[selectColor]} onChange={colorChange} disableAlpha={true} />
 
             <ButtonGroup style={{
-                position: "fixed",
-                bottom: 0,
-                // https://zero-plus.io/media/css-align-items-how-to-use/
-                display: "flex",
-                alignItems: "flex-end",
+                // position: "fixed",
+                // bottom: 0,
+                // // https://zero-plus.io/media/css-align-items-how-to-use/
+                // display: "flex",
+                // alignItems: "flex-end",
                 width: "100%"
             }}>
                 {colorButtons}

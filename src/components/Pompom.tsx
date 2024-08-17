@@ -20,19 +20,17 @@ const Pompom: React.FC<PompomProps> = ({ pattern, colorList, rollWidth, pitchWid
     const meshList = useRef<THREE.Mesh[]>([]);
     const propsRef = useRef({ pattern, colorList, selectColor });
     useEffect(() => {
-        // propsが変わるたびにpropsRefを更新
         propsRef.current = { pattern, colorList, selectColor };
-        // meshList.map((mesh: any) => {
-        //     console.log("更新")
-        //     let patternPos = (mesh as any).patternPos;
-        //     let color = propsRef.current.colorList[pattern[patternPos.r, patternPos.p]];
-        //     mesh.material.color.set(color);
-
-        // console.log("更新")
-        // });
     }, [pattern, colorList, selectColor]);
     useEffect(() => {
 
+        updateColor();
+
+        // });
+    }, [colorList]);
+    let canvas: any = null;
+
+    function updateColor() {
         console.log("パレット更新", meshList)
         meshList.current.map((mesh: any) => {
             let patternPos = (mesh as any).patternPos;
@@ -40,19 +38,12 @@ const Pompom: React.FC<PompomProps> = ({ pattern, colorList, rollWidth, pitchWid
             let color = propsRef.current.colorList[pattern[patternPos.r][patternPos.p]];
             mesh.material.color.set(color);
         });
+    }
 
-        // });
-    }, [colorList]);
 
     useEffect(() => {
         // console.log(name,  rollWidth, pitchWidth);
 
-        for (let i = 0; i < rollWidth; i++) {
-            pattern[i] = [];
-            for (let j = 0; j < pitchWidth; j++) {
-                pattern[i][j] = 0;
-            }
-        }
 
         // サイズを指定
         const size = Math.min(window.innerWidth, window.innerHeight);
@@ -60,7 +51,7 @@ const Pompom: React.FC<PompomProps> = ({ pattern, colorList, rollWidth, pitchWid
         const height = size;
 
         // レンダラーを作成
-        const canvas = document.querySelector("#edit3d") as HTMLCanvasElement;
+        canvas = document.querySelector("#edit3d") as HTMLCanvasElement;
         const renderer = new THREE.WebGLRenderer({ canvas });
         renderer.setPixelRatio(window.devicePixelRatio);
         renderer.setSize(width, height);
@@ -137,6 +128,7 @@ const Pompom: React.FC<PompomProps> = ({ pattern, colorList, rollWidth, pitchWid
 
             }
         }
+        updateColor()
         // https://ics.media/tutorial-three/raycast/
         const raycaster = new THREE.Raycaster();
         const mouse = new THREE.Vector2();
@@ -144,7 +136,7 @@ const Pompom: React.FC<PompomProps> = ({ pattern, colorList, rollWidth, pitchWid
             mouseUpdate(event)
         });
         function mouseUpdate(event: any) {
-            console.log(event.clientX)
+            // console.log(event.clientX)
             // const element = event.currentTarget;
             const element = canvas;
             // canvas要素上のXY座標
@@ -186,7 +178,7 @@ const Pompom: React.FC<PompomProps> = ({ pattern, colorList, rollWidth, pitchWid
             const intersects = raycaster.intersectObjects(scene.children);
 
             isDrwaing = intersects.length > 0
-            console.log({ isDrwaing, controls });
+            // console.log({ isDrwaing, controls });
 
             controls.rotateSpeed = isDrwaing ? 0 : 1;
             // controls = new OrbitControls(camera, canvas);
