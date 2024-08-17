@@ -27,14 +27,15 @@ const Pompom: React.FC<PompomProps> = ({ pattern, colorList, rollWidth, pitchWid
         updateColor();
 
         // });
-    }, [colorList]);
+    }, [pattern, colorList]);
+
     let canvas: any = null;
 
     function updateColor() {
         console.log("パレット更新", meshList)
         meshList.current.map((mesh: any) => {
             let patternPos = (mesh as any).patternPos;
-            console.log(patternPos)
+            // console.log(patternPos)
             let color = propsRef.current.colorList[pattern[patternPos.r][patternPos.p]];
             mesh.material.color.set(color);
         });
@@ -170,8 +171,9 @@ const Pompom: React.FC<PompomProps> = ({ pattern, colorList, rollWidth, pitchWid
 
         window.addEventListener('pointerup', (event: any) => {
             // controls.dispose();
-
-        }, false);
+            // console.log("pointerup")
+            isDrwaing = false
+        });
         window.addEventListener('pointerdown', (event: any) => {
             mouseUpdate(event)
             raycaster.setFromCamera(mouse, camera);
@@ -206,15 +208,19 @@ const Pompom: React.FC<PompomProps> = ({ pattern, colorList, rollWidth, pitchWid
                     // 交差しているオブジェクトの1番目(最前面)のものだったら
                     // console.log(intersects.length)
                     if (intersects.length > 0 && mesh === intersects[0].object) {
-                        console.log("ぬる", propsRef.current.selectColor)
                         // 色を赤くする
                         // console.log((mesh as any).patternPos)
                         let patternPos = (mesh as any).patternPos;
 
                         // pattern[patternPos.r, patternPos.p] = propsRef.current.selectColor
-                        let newPatternList = [...propsRef.current.pattern]
-                        newPatternList[patternPos.r][patternPos.p] = propsRef.current.selectColor;
-                        setPattern(newPatternList);
+                        if (propsRef.current.pattern[patternPos.r][patternPos.p] !== propsRef.current.selectColor) {
+                            console.log("ぬる", isDrwaing)
+                            console.log(propsRef.current.pattern[patternPos.r][patternPos.p], propsRef.current.selectColor, propsRef.current.pattern[patternPos.r][patternPos.p] !== propsRef.current.selectColor)
+
+                            let newPatternList = [...propsRef.current.pattern]
+                            newPatternList[patternPos.r][patternPos.p] = propsRef.current.selectColor;
+                            setPattern(newPatternList);
+                        }
 
 
                         // meshList.current.map((mesh: any) => {
@@ -224,8 +230,8 @@ const Pompom: React.FC<PompomProps> = ({ pattern, colorList, rollWidth, pitchWid
                         //     mesh.material.color.set(color);
                         // });
 
-                        let color = propsRef.current.colorList[pattern[patternPos.r][patternPos.p]];
-                        mesh.material.color.set(color);
+                        // let color = propsRef.current.colorList[pattern[patternPos.r][patternPos.p]];
+                        // mesh.material.color.set(color);
                     }
 
                 });

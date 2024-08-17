@@ -9,8 +9,8 @@ import Pompom from './components/Pompom'
 import ColorPalette from './components/colorPalette'
 import BluePrint from './components/bluePrint'
 import Menu from './components/menu'
+import UndoRedo from './components/undoRedu'
 // import Button from 'react-bootstrap/Button';
-
 
 
 
@@ -31,8 +31,8 @@ function App() {
     "#FF33FF", // Magenta
     // "#FF33B6"  // Pink
   ]);
-  const rollWidth = 10
-  const pitchWidth = 10
+  const rollWidth = 20
+  const pitchWidth = 20
   const [selectColor, setSelectColor] = useState(1);
 
   const [activeMenu, setActiveMenu] = useState("pompom");
@@ -98,6 +98,7 @@ function App() {
       <Menu
         activeMenu={activeMenu}
         setActiveMenu={setActiveMenu}
+        pattern={pattern} setPattern={setPattern} colorList={colorList} setColorList={setColorList} selectColor={selectColor} setSelectColor={setSelectColor}
       ></Menu>
 
     </div >
