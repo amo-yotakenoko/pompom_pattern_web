@@ -245,7 +245,7 @@ const BluePrint: React.FC<BluePrintProps> = ({ pattern, colorList, rollWidth, pi
                             piledText(piled, ctx, center, theta, getR, getTheta, pitch, roll, rollWidth, textHeight, thetaWidth, canvas);
                         }
                         if (widthCount > 1) {
-                            widthCoountText(theta, widthCount, rollWidth, ctx, center, thetaWidth, r, textHeight, roll);
+                            widthCoountText(theta, widthCount, rollWidth, ctx, center, thetaWidth, r, textHeight, roll, pitch, colorList, pattern);
                         }
 
 
@@ -298,9 +298,13 @@ const BluePrint: React.FC<BluePrintProps> = ({ pattern, colorList, rollWidth, pi
 }
 export default BluePrint;
 
-function widthCoountText(theta: number, widthCount: number, rollWidth: number, ctx: any, center: { x: number; y: number; }, thetaWidth: number, r: number, textHeight: number, roll: number) {
+function widthCoountText(theta: number, widthCount: number, rollWidth: number, ctx: any, center: { x: number; y: number; }, thetaWidth: number, r: number, textHeight: number, roll: number, pitch: number, colorList: any, pattern: any) {
     theta -= (2 * Math.PI) * ((widthCount) / rollWidth) / 2;
     let text = `${widthCount}`;
+    let colorLength = colorList[pattern[roll][pitch]].length
+    if (colorLength > 1) {
+        text = `${Math.ceil(widthCount / colorLength)}(*${colorLength})`;
+    }
     const textWidth = ctx.measureText(text).width;
     ctx.save();
     let x = center.x + Math.cos(theta + thetaWidth) * (r + (textHeight)); //- (textWidth / 2)
