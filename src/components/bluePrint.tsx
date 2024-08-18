@@ -237,10 +237,10 @@ const BluePrint: React.FC<BluePrintProps> = ({ pattern, colorList, rollWidth, pi
 
 
                         // if (piled == 1) text = `${widthCount}`
-                        let fontsize = 30
+                        let fontsize = 20
                         ctx.font = `${fontsize}px Arial`;       // フォントとサイズを設定
                         ctx.fillStyle = 'black';        // 塗りつぶしの色を設定
-                        let textHeight = 15;
+                        let textHeight = fontsize / 2;
                         if (piled > 1) {
                             piledText(piled, ctx, center, theta, getR, getTheta, pitch, roll, rollWidth, textHeight, thetaWidth, canvas);
                         }
@@ -334,11 +334,14 @@ function piledText(piled: number, ctx: any, center: { x: number; y: number; }, t
     ctx.translate(x, y);
     // textHeight *= 2;
     let textY = textHeight * 2
-    if (Math.cos(theta) > 0) {
+    textTheta = getTheta(roll + 0.5);
+    if (Math.cos(getTheta(roll + 0.5)) > 0) {
         textTheta += Math.PI;
-        textY = -textHeight / 2
+        textY = 0
+
+        // ctx.fillStyle = 'red';
     }
-    ctx.rotate(textTheta + thetaWidth + (2 * Math.PI) / 2); // `theta` による回転
+    ctx.rotate(textTheta + (2 * Math.PI) / 2); // `theta` による回転
     ctx.fillText(text, -(textWidth / 2), textY);
     ctx.restore();
 
