@@ -16,10 +16,10 @@ type colorPaletteProps = {
 };
 
 const ColorPalette: React.FC<colorPaletteProps> = ({ colorList, selectColor, setSelectColor, setColorList }) => {
-    const colorChange = (color: any) => {
+    const colorChange = (color: any, selectColor: any, i: any) => {
         // console.log(color.hex)
         let newColorList = [...colorList]
-        newColorList[selectColor] = color.hex;
+        newColorList[selectColor][i] = color.hex;
         setColorList(newColorList);
     };
 
@@ -28,38 +28,46 @@ const ColorPalette: React.FC<colorPaletteProps> = ({ colorList, selectColor, set
     // }
     let colorButtons = [];
     for (let idx = 0; idx < colorList.length; idx++) {
-        let color = colorList[idx];
+        // let color = colorList[idx][0];
         let isSelected = selectColor === idx;
-
+        let cssColor = [];
+        for (let ci = 0; ci < colorList[idx].length; ci++) {
+            const color = colorList[idx][ci];
+            cssColor.push(`${color} ${ci / colorList[idx].length * 100}% , ${color} ${(ci + 1) / colorList[idx].length * 100}%`)
+        }
+        console.log(cssColor.join(', '))
         colorButtons.push(
-            <ToggleButton
-                key={idx}
-                id={`radio-${idx}`}
-                type="radio"
-                // variant={idx % 2 ? 'outline-success' : 'outline-danger'}
-                name="radio"
-                value={color}
-                checked={isSelected}
-                onChange={(e) => setSelectColor(idx)}
-                style={{
-                    backgroundColor: color,
-                    // color: '#000000',
-                    // display: "flex",
-                    width: "100%",
-                    height: "100%",
-                    border: 'none',
-                    borderRadius: isSelected ? '10%' : '100%',
-                    // height: isSelected ? '60px' : '50px',
-                    paddingTop: "100%"
+            <>
 
-                }
-                }
-            >
-                {/* {idx} */}
-            </ToggleButton >
+                <ToggleButton
+                    key={idx}
+                    id={`radio-${idx}`}
+                    type="radio"
+                    // variant={idx % 2 ? 'outline-success' : 'outline-danger'}
+                    name="radio"
+                    value="color"
+                    checked={isSelected}
+                    onChange={(e) => setSelectColor(idx)}
+                    style={{
+                        background: `linear-gradient(150deg,${cssColor})`,
+                        // color: '#000000',
+                        // display: "flex",
+                        width: "100%",
+                        height: "100%",
+                        border: 'none',
+                        borderRadius: isSelected ? '10%' : '100%',
+                        // height: isSelected ? '60px' : '50px',
+                        paddingTop: "100%"
+
+                    }}
+                >  </ToggleButton >
+
+            </>
         );
     }
 
+
+    console.log({ color: colorList[selectColor] })
     return (
         <div>
             {/* {selectColor} */}
@@ -68,10 +76,57 @@ const ColorPalette: React.FC<colorPaletteProps> = ({ colorList, selectColor, set
 
             <div className="container">
                 <div className="row">
-                    <div className="col">
-                        <Sketch color={colorList[selectColor]} onChange={colorChange} disableAlpha={true} style={{
-                            width: "100%",
-                        }} />
+                    <div className="col" style={{
+                        height: "30vh",
+                        overflow: "auto",
+                        border: "1px solid #333333"
+                    }}>
+
+
+                        {colorList[selectColor].map((color: any, i: any) => (
+                            // <div >{i}_{color}</div>
+
+                            <div style={{
+                                backgroundColor: color,
+                                // border: '2px solid #333',
+                                borderRadius: '10px',
+                                // padding: '1px',
+                                margin: '20px 0',
+                                // display: 'flex',
+                                boxShadow: '0 4px 8px rgba(0, 0, 0, 0.2)',
+
+                            }}>
+                                {/* <div>{i}_{color}</div> */}
+
+
+                                <button
+                                    className="btn btn-outline-primary"
+                                    style={{
+                                        visibility: colorList[selectColor].length < 2 ? 'hidden' : 'visible',
+                                    }}
+                                    onClick={() => {
+                                        console.log("削除");
+                                        let newColorList = [...colorList]
+                                        colorList[selectColor].splice(i, 1);
+
+                                        setColorList(newColorList);
+                                        // 他の処理をここに追加
+                                    }}
+                                    disabled={colorList[selectColor].length < 2}
+                                >x </button>
+                                {/* {colorList[selectColor].length} */}
+                                <Sketch color={color} onChange={(color) => colorChange(color, selectColor, i)} disableAlpha={true} style={{
+                                    width: "100%",
+                                }} />
+                            </div>
+                        ))}
+                        <button className="btn btn-primary"
+                            onClick={() => {
+                                let newColorList = [...colorList]
+                                colorList[selectColor].push("#FF2233")
+                                setColorList(newColorList);
+                            }}>追加</button>
+
                     </div>
                     <div className="col">
                         <ButtonGroup style={{
@@ -82,6 +137,7 @@ const ColorPalette: React.FC<colorPaletteProps> = ({ colorList, selectColor, set
                             // alignItems: "flex-end",
                             display: "grid",
                             gridTemplateColumns: 'repeat(auto-fit, minmax(12vw, 1fr))',
+
                         }}>
                             {colorButtons}
 

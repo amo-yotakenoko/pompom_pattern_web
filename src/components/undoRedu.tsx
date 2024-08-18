@@ -32,26 +32,26 @@ const UndoRedo: React.FC<UndoRedoProps> = ({ pattern, colorList, selectColor, se
     useEffect(() => {
         // console.log("更新")
         // history.push({ pattern, colorList, selectColor });
-        console.log("追加a")
+        // console.log("追加a")
         // console.log(history)
 
         const handlePointerUp = (event: any) => {
             requestAnimationFrame(() => {
                 // console.log({ color: propsRef.current.selectColor })
-                console.log(JSON.stringify(history[current]), JSON.stringify(stateRef.current), JSON.stringify(history[current]) !== JSON.stringify(stateRef.current))
+                // console.log(JSON.stringify(history[current]), JSON.stringify(stateRef.current), JSON.stringify(history[current]) !== JSON.stringify(stateRef.current))
 
                 // console.log("pointerup", current, history, JSON.stringify(history[current]) !== JSON.stringify(propsRef.current))
                 if (JSON.stringify(history[current]) !== JSON.stringify(stateRef.current)) {
 
                     // history.push({ pattern, colorList, selectColor })
                     current += 1
-                    console.log("bedore", history)
+                    // console.log("bedore", history)
                     history = history.slice(0, current);
-                    console.log("after", history)
+                    // console.log("after", history)
                     history.push(copy(stateRef.current))
                     // history.splice(current, 0, copy(propsRef.current));
-                    console.log("追加")
-                    console.log(history)
+                    // console.log("追加")
+                    // console.log(history)
                 }
             });
         };
@@ -67,7 +67,7 @@ const UndoRedo: React.FC<UndoRedoProps> = ({ pattern, colorList, selectColor, se
     // if (!pointreUpRegistered) {
     //     pointreUpRegistered = true;
 
-    console.log("登録")
+    // console.log("登録")
 
 
     // イベントリスナーを追加

@@ -17,22 +17,24 @@ import UndoRedo from './components/undoRedu'
 function App() {
 
   const [colorList, setColorList] = useState([
-    "#FFFFFF", // white
-    "#FF5733", // Red-Orange
-    "#FFBD33", // Orange-Yellow
-    "#FFFF33", // Yellow
-    "#B6FF33", // Yellow-Green
-    "#33FF57", // Green
-    "#33FFBD", // Green-Cyan
-    "#33FFFF", // Cyan
-    "#33B6FF", // Cyan-Blue
-    "#3357FF", // Blue
-    "#BD33FF", // Purple
-    "#FF33FF", // Magenta
+    ["#FFFFFF"], // white
+    ["#FF5733",], // Red-Orange
+    ["#FFBD33", "#FF0033"], // Orange-Yellow
+    ["#FFFF33"], // Yellow
+    ["#B6FF33"], // Yellow-Green
+    ["#33FF57"], // Green
+    ["#33FFBD"], // Green-Cyan
+    ["#33FFFF"], // Cyan
+    ["#33B6FF"], // Cyan-Blue
+    ["#3357FF"], // Blue
+    ["#BD33FF"], // Purple
+    ["#FF33FF"], // Magenta
     // "#FF33B6"  // Pink
   ]);
-  const rollWidth = 20
-  const pitchWidth = 20
+  const rollWidth = 8 * 12
+  const pitchWidth = 9
+  // const rollWidth = 10
+  // const pitchWidth = 9
   const [selectColor, setSelectColor] = useState(1);
 
   const [activeMenu, setActiveMenu] = useState("pompom");

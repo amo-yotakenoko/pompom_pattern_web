@@ -36,7 +36,10 @@ const Pompom: React.FC<PompomProps> = ({ pattern, colorList, rollWidth, pitchWid
         meshList.current.map((mesh: any) => {
             let patternPos = (mesh as any).patternPos;
             // console.log(patternPos)
-            let color = propsRef.current.colorList[pattern[patternPos.r][patternPos.p]];
+            const p = patternPos.r + patternPos.p
+            const i = p % propsRef.current.colorList[pattern[patternPos.r][patternPos.p]].length;
+
+            let color = propsRef.current.colorList[pattern[patternPos.r][patternPos.p]][i];
             mesh.material.color.set(color);
         });
     }
@@ -249,7 +252,7 @@ const Pompom: React.FC<PompomProps> = ({ pattern, colorList, rollWidth, pitchWid
 
     return <div>
         <canvas id="edit3d" />
-
+        { }
     </div>;
 };
 

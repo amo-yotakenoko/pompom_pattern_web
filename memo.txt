@@ -11,3 +11,6 @@ npm install react-color
 npm start
 
 npm run deploy
+
+
+https://amo-yotakenoko.github.io/pompom_pattern_web/

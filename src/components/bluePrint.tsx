@@ -24,7 +24,12 @@ const BluePrint: React.FC<BluePrintProps> = ({ pattern, colorList, rollWidth, pi
     useEffect(() => {
         activeMenuRef.current = activeMenuRef;
     }, [activeMenu]);
-
+    function getR(pitch: any) {
+        return 150 + (pitch / pitchWidth) * 330
+    }
+    function getTheta(roll: any) {
+        return (2 * Math.PI) * (roll / rollWidth)
+    }
     var ctx: any;
     useEffect(() => {
         console.log(activeMenu)
@@ -40,17 +45,19 @@ const BluePrint: React.FC<BluePrintProps> = ({ pattern, colorList, rollWidth, pi
 
 
         // });
+        var cancel = false
 
 
-        function draw() {
 
+        async function draw() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
             // canvas.width = canvasParent.clientWidth;
             // canvas.height = canvasParent.clientHeight;
             console.log("draw")
+            ctx.lineWidth = 5; // 枠線の太さ
             ctx.beginPath(); // パスの開始
             ctx.arc(512, 512, 150, 0, 2 * Math.PI); // 円を描く (x座標, y座標, 半径, 開始角度, 終了角度)
             ctx.strokeStyle = 'blue'; // 枠線の色
-            ctx.lineWidth = 5; // 枠線の太さ
             ctx.stroke(); // 枠線を描く
             ctx.fillStyle = 'lightblue'; // 塗りつぶしの色
             ctx.fill(); // 円を塗りつぶす
@@ -61,23 +68,77 @@ const BluePrint: React.FC<BluePrintProps> = ({ pattern, colorList, rollWidth, pi
             // ctx.fillText("aa", 100, 100);
 
 
-            for (let roll = 0; roll < rollWidth; roll++) {
+            function countPiled(pitch: any, roll: any, i: any, center: any, color: any) {
+                let piled = 0
+                for (piled = 0; (pitch + piled) < pitchWidth; piled++) {
+                    for (let roll_i = roll; roll_i > roll - i; roll_i--) {
+
+                        let r = getR((pitch + piled))
+                        let t = getTheta(roll_i);
+                        // ctx.beginPath();
+                        // ctx.arc(center.x + Math.cos(t) * r, center.y + Math.sin(t) * r, 5, 0, Math.PI * 2);
+                        // ctx.closePath();
+                        if (color !== propsRef.current.pattern[roll_i][(pitch + piled)]) {
+                            return piled;
+
+                        }
+
+                        ctx.strokeStyle = propsRef.current.pattern[roll][pitch] == propsRef.current.pattern[roll_i][(pitch + piled)] ? 'black' : 'red';
+                        ctx.lineWidth = 2;
+                        ctx.stroke()
+                        // await new Promise(requestAnimationFrame);
+
+                    }
+
+                }
+                return piled;
+            }
+
+
+            //使い終わった
+            function drawputed() {
+                ctx.lineWidth = 0.5;
                 for (let pitch = 0; pitch < pitchWidth; pitch++) {
+                    for (let roll = 0; roll < rollWidth; roll++) {
+                        if (puted[roll][pitch]) {
+
+                            const center = { x: canvas.width / 2, y: canvas.height / 2 + (0.5 <= roll / rollWidth ? -1 : 1) * 20 }
+                            let r = getR(pitch)
+                            let t = getTheta(roll);
+                            ctx.beginPath();
+                            ctx.arc(center.x + Math.cos(t) * r, center.y + Math.sin(t) * r, 5, 0, Math.PI * 2);
+                            ctx.closePath();
+                            ctx.stroke()
+                        }
+                    }
+                }
+            }
+
+
+
+
+
+            for (let pitch = 0; pitch < pitchWidth; pitch++) {
+                for (let roll = 0; roll < rollWidth; roll++) {
                     // console.log(pattern)
                     // console.log(canvas)
-                    ctx.fillStyle = propsRef.current.colorList[propsRef.current.pattern[roll][pitch]];
+                    const p = roll + pitch
+                    const color = propsRef.current.pattern[roll][pitch]
+                    const i = p % propsRef.current.colorList[color].length;
+                    ctx.fillStyle = propsRef.current.colorList[color][i];
                     ctx.strokeStyle = "#000000";
                     ctx.lineWidth = 2;
                     const center = { x: canvas.width / 2, y: canvas.height / 2 }
 
                     // console.log({ x, y })
                     // ctx.fillRect(x, y, 10, 10);
-                    let theta = (2 * Math.PI) * (roll / rollWidth)
+                    let theta = getTheta(roll)
 
                     let thetaWidth = (2 * Math.PI) * (1 / rollWidth)
-                    let r = 150 + (pitch / pitchWidth) * 330
+                    let r = getR(pitch)
                     let rWidth = (1 / pitchWidth) * 330 - 1
                     center.y += (theta >= Math.PI ? -1 : 1) * 20
+                    ctx.lineWidth = 0.5;
                     ctx.beginPath();
 
                     ctx.moveTo(center.x + Math.cos(theta) * (r), center.y + Math.sin(theta) * (r));
@@ -86,13 +147,117 @@ const BluePrint: React.FC<BluePrintProps> = ({ pattern, colorList, rollWidth, pi
                     ctx.lineTo(center.x + Math.cos(theta) * (r + rWidth), center.y + Math.sin(theta) * (r + rWidth));
                     ctx.lineTo(center.x + Math.cos(theta) * (r), center.y + Math.sin(theta) * (r));
                     ctx.stroke()
+                    ctx.closePath();
                     ctx.fill()
 
-                    // ctx.font = '10px Arial';       // フォントとサイズを設定
-                    // ctx.fillStyle = 'black';        // 塗りつぶしの色を設定
+                }
+                await new Promise(requestAnimationFrame);
+                if (cancel) return
+            }
+            // await new Promise(resolve => setTimeout(resolve, 1000));
+            let puted: any = []
+            for (let i = 0; i < rollWidth; i++) {
+                puted[i] = [];
+                for (let j = 0; j < pitchWidth; j++) {
+                    puted[i][j] = false;
+                }
+            }
 
-                    // ctx.fillText(`${x.toFixed(0)},${y.toFixed(0)}`, x, y);
+            // await new Promise(resolve => setTimeout(resolve, 1000));
 
+            ctx.beginPath();
+            // ctx.moveTo(center.x + Math.cos(getTheta(roll + 1)) * getR(pitch), center.y + Math.sin(getTheta(roll + 1)) * getR(pitch));
+            // ctx.lineTo(center.x + Math.cos(getTheta(roll + 1)) * getR(pitch + piled), center.y + Math.sin(getTheta(roll + 1)) * getR(pitch + piled));
+
+            ctx.moveTo(0, 0);
+            let widthCount = 0;
+            for (let pitch = 0; pitch < pitchWidth; pitch++) {
+                for (let roll = 0; roll < rollWidth; roll++) {
+                    // ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+                    const color = propsRef.current.pattern[roll][pitch]
+                    let theta = getTheta(roll)
+                    let thetaWidth = (2 * Math.PI) * (1 / rollWidth)
+                    let rWidth = (1 / pitchWidth) * 330 - 1
+                    let r = 150 + (pitch / pitchWidth) * 330
+                    const center = { x: canvas.width / 2, y: canvas.height / 2 + (0.5 <= roll / rollWidth ? -1 : 1) * 20 }
+
+                    let isChange = false
+
+                    //上下の分かれ目なら
+                    if (roll == rollWidth - 1 || 0.5 <= roll / rollWidth !== 0.5 <= (roll + 1) / rollWidth)
+                        isChange = true
+                    else if (puted[roll + 1][pitch])
+                        isChange = true
+                    else if (propsRef.current.pattern[roll][pitch] !== propsRef.current.pattern[roll + 1][pitch])
+                        isChange = true
+                    if (puted[roll][pitch]) {
+                        continue
+                    }
+                    widthCount += 1
+                    // console.log("ああああああ")
+                    if (isChange) {
+
+
+                        let piled = countPiled(pitch, roll, widthCount, center, color)
+
+                        for (let pitch_i = pitch; pitch_i < pitch + piled; pitch_i++) {
+                            for (let roll_i = roll; roll_i > roll - widthCount; roll_i--) {
+                                puted[roll_i][pitch_i] = true
+                            }
+                        }
+                        // await new Promise(resolve => setTimeout(resolve, 1000));
+                        ctx.beginPath();
+                        // ctx.moveTo(center.x + Math.cos(getTheta(roll + 1)) * getR(pitch), center.y + Math.sin(getTheta(roll + 1)) * getR(pitch));
+                        // ctx.lineTo(center.x + Math.cos(getTheta(roll + 1)) * getR(pitch + piled), center.y + Math.sin(getTheta(roll + 1)) * getR(pitch + piled));
+
+                        ctx.moveTo(center.x + Math.cos(getTheta(roll + 1)) * getR(pitch), center.y + Math.sin(getTheta(roll + 1)) * getR(pitch));
+                        for (let i = 0; i <= widthCount; i++) {
+                            ctx.lineTo(center.x + Math.cos(getTheta(roll + 1 - i)) * getR(pitch), center.y + Math.sin(getTheta(roll + 1 - i)) * getR(pitch));
+                            console.log("up")
+                            // ctx.arc(center.x + Math.cos(getTheta(roll + 1 - i)) * getR(pitch), center.y + Math.sin(getTheta(roll + 1 - i)) * getR(pitch), 5, 0, Math.PI * 2);
+                        }
+
+                        for (let i = widthCount; i >= 0; i--) {
+                            ctx.lineTo(center.x + Math.cos(getTheta(roll + 1 - i)) * getR(pitch + piled), center.y + Math.sin(getTheta(roll + 1 - i)) * getR(pitch + piled));
+                            console.log("down")
+                            // ctx.arc(center.x + Math.cos(getTheta(roll + 1 - i)) * getR(pitch + piled), center.y + Math.sin(getTheta(roll + 1 - i)) * getR(pitch + piled), 5, 0, Math.PI * 2);
+                        }
+                        // ctx.lineTo(center.x + Math.cos(getTheta(roll + 1 - widthCount)) * getR(pitch), center.y + Math.sin(getTheta(roll + 1 - widthCount)) * getR(pitch));
+
+
+                        // ctx.lineTo(center.x + Math.cos(getTheta(roll + 1 - widthCount)) * getR(pitch + piled), center.y + Math.sin(getTheta(roll + 1 - widthCount)) * getR(pitch + piled));
+
+                        ctx.closePath(); // 最初の点に戻る
+                        ctx.lineWidth = 1;
+                        ctx.stroke(); // 線を描画
+
+                        // drawputed()
+
+
+
+                        // if (piled == 1) text = `${widthCount}`
+                        let fontsize = 30
+                        ctx.font = `${fontsize}px Arial`;       // フォントとサイズを設定
+                        ctx.fillStyle = 'black';        // 塗りつぶしの色を設定
+                        let textHeight = 15;
+                        if (piled > 1) {
+                            piledText(piled, ctx, center, theta, getR, getTheta, pitch, roll, rollWidth, textHeight, thetaWidth, canvas);
+                        }
+                        if (widthCount > 1) {
+                            widthCoountText(theta, widthCount, rollWidth, ctx, center, thetaWidth, r, textHeight, roll);
+                        }
+
+
+                        // ctx.fillText(text, center.x + Math.cos(theta + thetaWidth / 2) * (r + rWidth / 2) - (textWidth / 2), center.y + Math.sin(theta + thetaWidth / 2) * (r + rWidth / 2) + (textHeight / 2));
+                        console.log("まつ")
+
+                        await new Promise(requestAnimationFrame);
+                        // await new Promise(resolve => setTimeout(resolve, 1000));
+                        if (cancel) return
+                    }
+
+                    if (isChange) widthCount = 0
                 }
             }
 
@@ -101,7 +266,10 @@ const BluePrint: React.FC<BluePrintProps> = ({ pattern, colorList, rollWidth, pi
         }
         draw();
         // window.addEventListener('resize', () => draw());
-
+        return () => {
+            console.log("おわり")
+            cancel = true;
+        };
 
     }, [activeMenu]);
 
@@ -129,3 +297,49 @@ const BluePrint: React.FC<BluePrintProps> = ({ pattern, colorList, rollWidth, pi
     )
 }
 export default BluePrint;
+
+function widthCoountText(theta: number, widthCount: number, rollWidth: number, ctx: any, center: { x: number; y: number; }, thetaWidth: number, r: number, textHeight: number, roll: number) {
+    theta -= (2 * Math.PI) * ((widthCount) / rollWidth) / 2;
+    let text = `${widthCount}`;
+    const textWidth = ctx.measureText(text).width;
+    ctx.save();
+    let x = center.x + Math.cos(theta + thetaWidth) * (r + (textHeight)); //- (textWidth / 2)
+    let y = center.y + Math.sin(theta + thetaWidth) * (r + (textHeight));
+
+    // 中心座標に移動
+    ctx.translate(x, y);
+    if (0.5 >= roll / rollWidth) {
+        theta += Math.PI;
+        textHeight *= 2;
+    }
+    ctx.rotate(theta + thetaWidth + (2 * Math.PI) / 4); // `theta` による回転
+    ctx.fillText(text, -(textWidth / 2), (textHeight / 2));
+    ctx.restore();
+
+}
+
+function piledText(piled: number, ctx: any, center: { x: number; y: number; }, theta: number, getR: (pitch: any) => number, getTheta: (pitch: any) => number, pitch: number, roll: number, rollWidth: number, textHeight: number, thetaWidth: number, canvas: any) {
+    let text = `${piled}`;
+    // center = { x: canvas.width / 2, y: canvas.height / 2 + (0.5 <= (roll + 0) / rollWidth ? -1 : 1) * 20 }
+    // if (rollWidth === roll + 1) {
+    //     center.y = canvas.height / 2 - 20
+    // }
+    const textWidth = ctx.measureText(text).width;
+    ctx.save();
+    let textTheta = getTheta(roll + 1);
+    let x = center.x + Math.cos(textTheta) * getR(pitch + piled / 2); //- (textWidth / 2)
+    let y = center.y + Math.sin(textTheta) * getR(pitch + piled / 2);
+    // ctx.arc(x, y, 5, 0, Math.PI * 2);
+    // 中心座標に移動
+    ctx.translate(x, y);
+    // textHeight *= 2;
+    let textY = textHeight * 2
+    if (Math.cos(theta) > 0) {
+        textTheta += Math.PI;
+        textY = -textHeight / 2
+    }
+    ctx.rotate(textTheta + thetaWidth + (2 * Math.PI) / 2); // `theta` による回転
+    ctx.fillText(text, -(textWidth / 2), textY);
+    ctx.restore();
+
+}
