@@ -3,6 +3,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import { Button } from 'react-bootstrap';
 
 type UndoRedoProps = {
+    enable: any;
     pattern: any;
     colorList: any;
     selectColor: number;
@@ -11,7 +12,7 @@ type UndoRedoProps = {
     setSelectColor: any;
 };
 var isundo = false;
-const UndoRedo: React.FC<UndoRedoProps> = ({ pattern, colorList, selectColor, setPattern, setColorList, setSelectColor }) => {
+const UndoRedo: React.FC<UndoRedoProps> = ({ enable, pattern, colorList, selectColor, setPattern, setColorList, setSelectColor }) => {
     const [history, setHistory] = useState<any[]>([]);
     const [current, setCurrent] = useState<number>(0);
 
@@ -33,17 +34,17 @@ const UndoRedo: React.FC<UndoRedoProps> = ({ pattern, colorList, selectColor, se
 
     useEffect(() => {
         const handlePointerUp = () => {
-            console.log("pointerup")
+            // console.log("pointerup")
             setTimeout(() => {
                 if (isundo) {
                     isundo = false
                     console.log("前操作がundoなのでcancel")
                     return
                 }
-                console.log("更新チャック\n", JSON.stringify(history[current - 1]), "\n", JSON.stringify(stateRef.current), JSON.stringify(history[current - 1]) != JSON.stringify(stateRef.current))
+                // console.log("更新チャック\n", JSON.stringify(history[current - 1]), "\n", JSON.stringify(stateRef.current), JSON.stringify(history[current - 1]) != JSON.stringify(stateRef.current))
                 if (JSON.stringify(history[current - 1]) != JSON.stringify(stateRef.current)) {
                     // const newHistory = copy(history);
-                    console.log("登録")
+                    // console.log("登録")
                     let newHistory = copy(history)
                     newHistory = newHistory.splice(0, current);
                     let nextCurrent = current + 1
@@ -74,6 +75,7 @@ const UndoRedo: React.FC<UndoRedoProps> = ({ pattern, colorList, selectColor, se
             {/* {current}/{history.length}{`[${history.map(item => item.selectColor)}]`} */}
             {/* ,{new Date().getMilliseconds()} */}
             <UndoButton
+                enable={enable}
                 history={history}
                 current={current}
                 setPattern={setPattern}
@@ -82,6 +84,7 @@ const UndoRedo: React.FC<UndoRedoProps> = ({ pattern, colorList, selectColor, se
                 setCurrent={setCurrent}
             />
             <RedoButton
+                enable={enable}
                 history={history}
                 current={current}
                 setPattern={setPattern}
@@ -97,6 +100,7 @@ export default UndoRedo;
 
 
 type UndoButtonProps = {
+    enable: boolean;
     history: any[];
     current: number;
     setPattern: (pattern: any) => void;
@@ -105,15 +109,16 @@ type UndoButtonProps = {
     setCurrent: (current: number) => void;
 };
 
-const UndoButton: React.FC<UndoButtonProps> = ({ history, current, setPattern, setColorList, setSelectColor, setCurrent }) => {
+const UndoButton: React.FC<UndoButtonProps> = ({ enable, history, current, setPattern, setColorList, setSelectColor, setCurrent }) => {
     return (
         <Button
             variant="primary"
             style={{
-                height: '50px',
+                height: '2em',
                 width: "10%",
                 borderBottomLeftRadius: '0px',
                 borderBottomRightRadius: '0px',
+                display: enable ? 'block' : 'none'
             }}
             disabled={current === 1}
             onClick={() => {
@@ -133,24 +138,18 @@ const UndoButton: React.FC<UndoButtonProps> = ({ history, current, setPattern, s
 
 
 
-type RedoButtonProps = {
-    history: any[];
-    current: number;
-    setPattern: (pattern: any) => void;
-    setColorList: (colorList: any[]) => void;
-    setSelectColor: (color: number) => void;
-    setCurrent: (current: number) => void;
-};
 
-const RedoButton: React.FC<RedoButtonProps> = ({ history, current, setPattern, setColorList, setSelectColor, setCurrent }) => {
+
+const RedoButton: React.FC<UndoButtonProps> = ({ enable, history, current, setPattern, setColorList, setSelectColor, setCurrent }) => {
     return (
         <Button
             variant="primary"
             style={{
-                height: '50px',
+                height: '2em',
                 width: "10%",
                 borderBottomLeftRadius: '0px',
                 borderBottomRightRadius: '0px',
+                display: enable ? 'block' : 'none'
             }}
             disabled={current >= history.length}
             onClick={() => {

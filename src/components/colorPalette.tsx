@@ -5,6 +5,7 @@ import { EditableInput, EditableInputRGBA, EditableInputHSLA } from '@uiw/react-
 import ButtonGroup from 'react-bootstrap/ButtonGroup';
 import ToggleButton from 'react-bootstrap/ToggleButton';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import '../styles.css';
 type colorPaletteProps = {
 
     colorList: any;
@@ -54,11 +55,15 @@ const ColorPalette: React.FC<colorPaletteProps> = ({ colorList, selectColor, set
                         // display: "flex",
                         width: "100%",
                         height: "100%",
+                        // width: "100%",
+                        // height: "100%",
+
                         border: 'none',
                         borderRadius: isSelected ? '90%' : '100%',
                         // height: isSelected ? '60px' : '50px',
                         paddingTop: "100%",
                         boxShadow: `0 4px 8px rgba(0, 0, 0, ${isSelected ? 0.75 : 0.2})`,
+                        // padding: 0.2
 
                     }}
                 >  </ToggleButton >
@@ -70,17 +75,22 @@ const ColorPalette: React.FC<colorPaletteProps> = ({ colorList, selectColor, set
 
     console.log({ color: colorList[selectColor] })
     return (
-        <div>
+        <div >
             {/* {selectColor} */}
 
 
 
-            <div className="container">
-                <div className="row">
-                    <div className="col" style={{
-                        height: "30vh",
+            <div className="container no-margin" style={{ margin: 0, padding: 0 }}>
+                <div className="row no-margin" style={{ margin: 0, padding: 0 }} >
+                    <div className="col-5 no-margin" style={{
+                        maxHeight: "calc(100vh - 100vw - 2.5em)",
+                        // height: "100%",
                         overflow: "auto",
-                        border: "1px solid #333333"
+                        // maxWidth: "100%",
+                        margin: "0",
+                        // maxHeight: "30vh",
+                        padding: "0 1em 0 0",
+                        // border: "1px solid #333333"
                     }}>
 
 
@@ -92,7 +102,7 @@ const ColorPalette: React.FC<colorPaletteProps> = ({ colorList, selectColor, set
                                 // border: '2px solid #333',
                                 borderRadius: '10px',
                                 // padding: '1px',
-                                margin: '20px 0',
+                                margin: '0.1em 0',
                                 // display: 'flex',
                                 boxShadow: '0 4px 8px rgba(0, 0, 0, 0.2)',
 
@@ -104,6 +114,9 @@ const ColorPalette: React.FC<colorPaletteProps> = ({ colorList, selectColor, set
                                     className="btn btn-outline-primary"
                                     style={{
                                         visibility: colorList[selectColor].length < 2 ? 'hidden' : 'visible',
+                                        // width: '1ch',
+                                        // height: '1em',
+                                        // lineHeight: '1em',
                                     }}
                                     onClick={() => {
                                         console.log("削除");
@@ -122,15 +135,18 @@ const ColorPalette: React.FC<colorPaletteProps> = ({ colorList, selectColor, set
                             </div>
                         ))}
                         <button className="btn btn-primary"
+                            style={{
+                                width: "100%"
+                            }}
                             onClick={() => {
                                 let newColorList = [...colorList]
-                                colorList[selectColor].push("#FF2233")
+                                colorList[selectColor].push(selectColor[0])
                                 setColorList(newColorList);
                             }}>追加</button>
 
                     </div>
-                    <div className="col">
-                        <ButtonGroup style={{
+                    <div className="col-7 no-margin"  >
+                        <ButtonGroup className="no-margin" style={{
                             // position: "fixed",
                             // bottom: 0,
                             // // https://zero-plus.io/media/css-align-items-how-to-use/
@@ -139,13 +155,19 @@ const ColorPalette: React.FC<colorPaletteProps> = ({ colorList, selectColor, set
                             display: "grid",
                             gridTemplateColumns: 'repeat(auto-fit, minmax(12vw, 1fr))',
 
+                            maxHeight: "calc(100vh - 100vw - 2.5em)",
+                            // height: "100%",
+                            overflow: "auto",
+                            padding: "8px",
+                            // border: "1px solid #333333"
+
                         }}>
                             {colorButtons}
-
+                            <br></br>
                         </ButtonGroup>
                     </div>
                 </div>
-            </div>
+            </div >
 
             {/* <br /><br /><br /><br /><br /><br /><br /><br /><br /> */}
         </div >

@@ -29,11 +29,19 @@ const Menu: React.FC<MenuProps> = ({ activeMenu, setActiveMenu, pattern, colorLi
 
         }}>
 
+
+            {/* <div style={{ display: activeMenu == "pompom" ? 'block' : 'none' }}> */}
+
             <UndoRedo
-                pattern={pattern} setPattern={setPattern} colorList={colorList} setColorList={setColorList} selectColor={selectColor} setSelectColor={setSelectColor}></UndoRedo>
-            <Item displayName={"編集"} tabId={"pompom"} activeMenu={activeMenu} setActiveMenu={setActiveMenu}></Item>
+                enable={activeMenu == "pompom"} pattern={pattern} setPattern={setPattern} colorList={colorList} setColorList={setColorList} selectColor={selectColor} setSelectColor={setSelectColor}></UndoRedo>
+            {/* </div> */}
+
+
+
+
+            < Item displayName={"編集"} tabId={"pompom"} activeMenu={activeMenu} setActiveMenu={setActiveMenu} ></Item >
             <Item displayName={"設計図"} tabId={"bluePrint"} activeMenu={activeMenu} setActiveMenu={setActiveMenu}></Item>
-        </ButtonGroup>
+        </ButtonGroup >
     )
 }
 type ItemProps = {
@@ -64,7 +72,7 @@ const Item: React.FC<ItemProps> = ({ displayName, tabId, activeMenu, setActiveMe
             onChange={(e) => tabSet(tabId)}
             style={{
 
-                height: isSelected ? '60px' : '50px',
+                height: isSelected ? '2.5em' : '2em',
                 width: "100%",
                 borderBottomLeftRadius: '0px',
                 borderBottomRightRadius: '0px',

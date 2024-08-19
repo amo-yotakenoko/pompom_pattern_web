@@ -1,7 +1,7 @@
 import React, { useEffect, useRef } from 'react';
 import * as THREE from 'three';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
-
+import '../styles.css';
 
 type PompomProps = {
     pattern: any;
@@ -30,6 +30,7 @@ const Pompom: React.FC<PompomProps> = ({ pattern, colorList, rollWidth, pitchWid
     }, [pattern, colorList]);
 
     let canvas: any = null;
+    let renderer: any = null;
 
     function updateColor() {
         console.log("パレット更新", meshList)
@@ -50,22 +51,30 @@ const Pompom: React.FC<PompomProps> = ({ pattern, colorList, rollWidth, pitchWid
 
 
         // サイズを指定
-        const size = Math.min(window.innerWidth, window.innerHeight);
-        const width = size;
-        const height = size;
 
         // レンダラーを作成
         canvas = document.querySelector("#edit3d") as HTMLCanvasElement;
-        const renderer = new THREE.WebGLRenderer({ canvas });
-        renderer.setPixelRatio(window.devicePixelRatio);
-        renderer.setSize(width, height);
+        renderer = new THREE.WebGLRenderer({ canvas });
+        window.addEventListener('resize', resize);
+        resize()
+        function resize() {
+            const size = Math.min(window.innerWidth, window.innerHeight);
+            const width = size;
+            const height = size;
+            renderer.setPixelRatio(window.devicePixelRatio);
+            renderer.setSize(width, height);
+            console.log("resize")
+            // ここにウィンドウサイズ変更時の処理を追加します
+            // 例えば、Three.jsのカメラやレンダラーのサイズを更新するなど
+        }
 
         // シーンを作成
         const scene = new THREE.Scene();
 
         // カメラを作成
-        const camera = new THREE.PerspectiveCamera(15, width / height);
-        camera.position.set(0, 0, +1000);
+
+        const camera = new THREE.PerspectiveCamera(15, 1 / 1);
+        camera.position.set(0, 0, +800);
         let controls = new OrbitControls(camera, canvas);
         controls.enableZoom = false
         controls.enablePan = false
@@ -262,10 +271,9 @@ const Pompom: React.FC<PompomProps> = ({ pattern, colorList, rollWidth, pitchWid
     }, []);
 
 
-    return <div>
-        <canvas id="edit3d" />
-        { }
-    </div>;
+    return (
+        <canvas id="edit3d" className="no-margin" />
+    )
 };
 
 export default Pompom;

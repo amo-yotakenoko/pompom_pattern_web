@@ -1,5 +1,5 @@
 import React, { useEffect, useRef } from 'react';
-
+import ImageSave from './ImageSave'
 
 
 type BluePrintProps = {
@@ -295,7 +295,7 @@ const BluePrint: React.FC<BluePrintProps> = ({ pattern, colorList, rollWidth, pi
                 // // display: "block",
                 // margin: "auto"
             }} />
-
+            <ImageSave data={{ pattern, colorList, rollWidth, pitchWidth }}></ImageSave>
         </>
     )
 }

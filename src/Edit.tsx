@@ -14,7 +14,7 @@ import UndoRedo from './components/undoRedu'
 
 
 
-function App() {
+function Edit() {
 
   const [colorList, setColorList] = useState([
     ["#FFFFFF"], // white
@@ -65,8 +65,11 @@ function App() {
 
   return (
 
-    <div style={{ width: '100vw', height: '100vh' }}>
-      <div style={{ display: activeMenu === "pompom" ? "block" : "none" }}>
+    <>
+      <div style={{
+        display: activeMenu === "pompom" ? "block" : "none",
+        height: "100%"
+      }}>
         <Pompom
           pattern={pattern}
           colorList={colorList}
@@ -103,8 +106,8 @@ function App() {
         pattern={pattern} setPattern={setPattern} colorList={colorList} setColorList={setColorList} selectColor={selectColor} setSelectColor={setSelectColor}
       ></Menu>
 
-    </div >
+    </ >
   );
 }
 
-export default App;
+export default Edit;
