@@ -1,5 +1,5 @@
 import React, { useEffect, useRef } from 'react';
-import ImageSave from './ImageSave'
+import ImageSave, { drawData } from './ImageSave'
 
 
 type BluePrintProps = {
@@ -268,6 +268,7 @@ const BluePrint: React.FC<BluePrintProps> = ({ pattern, colorList, rollWidth, pi
 
         }
         draw();
+        drawData({ pattern, colorList, rollWidth, pitchWidth });
         // window.addEventListener('resize', () => draw());
         return () => {
             console.log("おわり")

@@ -1,20 +1,24 @@
 import React, { useEffect, useState } from 'react';
-
+import { useLocation } from "react-router-dom"
 // import { Canvas, useFrame } from '@react-three/fiber';
 // import { BufferGeometry, Float32BufferAttribute, Mesh, MeshBasicMaterial } from 'three';
 // import { OrbitControls } from "@react-three/drei";
 import 'bootstrap/dist/css/bootstrap.min.css';
 
-import Pompom from './components/Pompom'
-import ColorPalette from './components/colorPalette'
-import BluePrint from './components/bluePrint'
-import Menu from './components/menu'
-import UndoRedo from './components/undoRedu'
+import Pompom from './Pompom'
+import ColorPalette from './colorPalette'
+import BluePrint from './bluePrint'
+import Menu from './menu'
+import UndoRedo from './undoRedu'
 // import Button from 'react-bootstrap/Button';
 
 
 
 function Edit() {
+  const location = useLocation()
+
+
+
 
   const [colorList, setColorList] = useState([
     ["#FFFFFF"], // white
@@ -31,6 +35,9 @@ function Edit() {
     ["#FF33FF"], // Magenta
     // "#FF33B6"  // Pink
   ]);
+
+
+
   const rollWidth = 8 * 12
   const pitchWidth = 9
   // const rollWidth = 10
@@ -41,8 +48,6 @@ function Edit() {
 
 
   const [pattern, setPattern] = useState(resetPattern());
-
-
   function resetPattern() {
 
     const _pattern: any = []
@@ -57,9 +62,17 @@ function Edit() {
   }
 
 
-  // useEffect(() => {
-  //   patternRef = pattern;
-  // }, [pattern]);
+
+  useEffect(() => {
+    if (location.state) {
+      console.log("読込", location.state)
+      console.log("読込", location.state.colorList)
+      setColorList(location.state.colorList)
+      // setSelectColor(location.state.selectColor)
+      setPattern(location.state.pattern)
+    }
+
+  }, []);
 
 
 
