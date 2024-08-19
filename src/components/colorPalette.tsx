@@ -35,7 +35,7 @@ const ColorPalette: React.FC<colorPaletteProps> = ({ colorList, selectColor, set
             const color = colorList[idx][ci];
             cssColor.push(`${color} ${ci / colorList[idx].length * 100}% , ${color} ${(ci + 1) / colorList[idx].length * 100}%`)
         }
-        console.log(cssColor.join(', '))
+        // console.log(cssColor.join(', '))
         colorButtons.push(
             <>
 
@@ -55,9 +55,10 @@ const ColorPalette: React.FC<colorPaletteProps> = ({ colorList, selectColor, set
                         width: "100%",
                         height: "100%",
                         border: 'none',
-                        borderRadius: isSelected ? '10%' : '100%',
+                        borderRadius: isSelected ? '90%' : '100%',
                         // height: isSelected ? '60px' : '50px',
-                        paddingTop: "100%"
+                        paddingTop: "100%",
+                        boxShadow: `0 4px 8px rgba(0, 0, 0, ${isSelected ? 0.5 : 0.2})`,
 
                     }}
                 >  </ToggleButton >

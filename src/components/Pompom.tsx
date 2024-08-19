@@ -130,8 +130,8 @@ const Pompom: React.FC<PompomProps> = ({ pattern, colorList, rollWidth, pitchWid
                 geometry.computeVertexNormals();
                 // var randomColor = "rgb(" + (~~(256 * Math.random())) + ", " + (~~(256 * Math.random())) + ", " + (~~(256 * Math.random())) + ")";
                 // const material = new THREE.MeshBasicMaterial({ color: randomColor });
-                // const material = new THREE.MeshBasicMaterial({ color: "#ffffff" });
-                const material = new THREE.MeshToonMaterial({ color: "#ffffff" });
+                const material = new THREE.MeshBasicMaterial({ color: "#ffffff" });
+                // const material = new THREE.MeshToonMaterial({ color: "#ffffff" });
 
                 const mesh = new THREE.Mesh(geometry, material);
                 (mesh as any).patternPos = { r: roll, p: pitch };

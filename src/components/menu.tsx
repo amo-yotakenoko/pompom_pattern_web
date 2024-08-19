@@ -26,6 +26,7 @@ const Menu: React.FC<MenuProps> = ({ activeMenu, setActiveMenu, pattern, colorLi
             alignItems: "flex-end",
             width: "100%",
             zIndex: 1000,
+
         }}>
 
             <UndoRedo
@@ -64,8 +65,9 @@ const Item: React.FC<ItemProps> = ({ displayName, tabId, activeMenu, setActiveMe
             style={{
 
                 height: isSelected ? '60px' : '50px',
-                width: "100%"
-
+                width: "100%",
+                borderBottomLeftRadius: '0px',
+                borderBottomRightRadius: '0px',
             }}
         >
             {displayName}

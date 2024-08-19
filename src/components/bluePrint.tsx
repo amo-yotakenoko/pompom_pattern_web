@@ -176,6 +176,7 @@ const BluePrint: React.FC<BluePrintProps> = ({ pattern, colorList, rollWidth, pi
                     // ctx.clearRect(0, 0, canvas.width, canvas.height);
 
                     const color = propsRef.current.pattern[roll][pitch]
+                    ctx.fillStyle = isNearBlack(propsRef.current.colorList[color][0]) ? 'white' : 'black';        // 塗りつぶしの色を設定
                     let theta = getTheta(roll)
                     let thetaWidth = (2 * Math.PI) * (1 / rollWidth)
                     let rWidth = (1 / pitchWidth) * 330 - 1
@@ -239,7 +240,9 @@ const BluePrint: React.FC<BluePrintProps> = ({ pattern, colorList, rollWidth, pi
                         // if (piled == 1) text = `${widthCount}`
                         let fontsize = 20
                         ctx.font = `${fontsize}px Arial`;       // フォントとサイズを設定
-                        ctx.fillStyle = 'black';        // 塗りつぶしの色を設定
+
+
+
                         let textHeight = fontsize / 2;
                         if (piled > 1) {
                             piledText(piled, ctx, center, theta, getR, getTheta, pitch, roll, rollWidth, textHeight, thetaWidth, canvas);
@@ -349,4 +352,17 @@ function piledText(piled: number, ctx: any, center: { x: number; y: number; }, t
     ctx.fillText(text, -(textWidth / 2), textY);
     ctx.restore();
 
+}
+
+function isNearBlack(color: any) {
+    // カラーコードをR, G, Bに分解
+    let r = parseInt(color.substring(1, 3), 16);
+    let g = parseInt(color.substring(3, 5), 16);
+    let b = parseInt(color.substring(5, 7), 16);
+
+    // 明るさを計算
+    let brightness = 0.2126 * r + 0.7152 * g + 0.0722 * b;
+
+    // しきい値128で判定
+    return brightness > 128 ? false : true;
 }
