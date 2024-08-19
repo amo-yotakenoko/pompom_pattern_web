@@ -53,7 +53,7 @@ const UndoRedo: React.FC<UndoRedoProps> = ({ pattern, colorList, selectColor, se
                     setHistory(newHistory)
                     setCurrent(nextCurrent);
                 }
-            }, 100);
+            }, 1);
         };
 
         window.addEventListener('pointerup', handlePointerUp);
@@ -72,7 +72,7 @@ const UndoRedo: React.FC<UndoRedoProps> = ({ pattern, colorList, selectColor, se
     return (
         <>
             {/* {current}/{history.length}{`[${history.map(item => item.selectColor)}]`} */}
-            ,{new Date().getMilliseconds()}
+            {/* ,{new Date().getMilliseconds()} */}
             <UndoButton
                 history={history}
                 current={current}

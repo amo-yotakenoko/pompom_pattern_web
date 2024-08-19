@@ -58,7 +58,7 @@ const ColorPalette: React.FC<colorPaletteProps> = ({ colorList, selectColor, set
                         borderRadius: isSelected ? '90%' : '100%',
                         // height: isSelected ? '60px' : '50px',
                         paddingTop: "100%",
-                        boxShadow: `0 4px 8px rgba(0, 0, 0, ${isSelected ? 0.5 : 0.2})`,
+                        boxShadow: `0 4px 8px rgba(0, 0, 0, ${isSelected ? 0.75 : 0.2})`,
 
                     }}
                 >  </ToggleButton >
