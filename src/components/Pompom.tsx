@@ -70,14 +70,26 @@ const Pompom: React.FC<PompomProps> = ({ pattern, colorList, rollWidth, pitchWid
         controls.enableZoom = false
         controls.enablePan = false
 
+        const directionalLight = new THREE.DirectionalLight(0xffffff, 1);
+        directionalLight.position.set(5, 5, 5).normalize();
+        scene.add(directionalLight);
+
         for (let roll = 0; roll < rollWidth; roll++) {
             for (let pitch = 0; pitch < pitchWidth; pitch++) {
                 // console.log({ yaw: roll, pitch })
                 let yawMin = 2 * Math.PI * (roll / rollWidth);
                 let yawMax = 2 * Math.PI * ((roll + 1) / rollWidth);
 
-                let pitchMin = Math.PI * (pitch / pitchWidth) / 2;
-                let pitchMax = Math.PI * ((pitch + 1) / pitchWidth) / 2;
+
+
+
+                // let pitchMin = Math.PI * (pitch / pitchWidth) / 2;
+                // let pitchMax = Math.PI * ((pitch + 1) / pitchWidth) / 2;
+                let pitchMin = Math.PI / 2 - Math.acos(1 - ((pitchWidth - pitch) / pitchWidth));
+                let pitchMax = Math.PI / 2 - Math.acos(1 - ((pitchWidth - (pitch + 1)) / pitchWidth));
+
+
+
                 // console.log({
                 //     pitchMin: pitchMin * (180 / Math.PI),
                 //     pitchMax: pitchMax * (180 / Math.PI)
@@ -118,8 +130,8 @@ const Pompom: React.FC<PompomProps> = ({ pattern, colorList, rollWidth, pitchWid
                 geometry.computeVertexNormals();
                 // var randomColor = "rgb(" + (~~(256 * Math.random())) + ", " + (~~(256 * Math.random())) + ", " + (~~(256 * Math.random())) + ")";
                 // const material = new THREE.MeshBasicMaterial({ color: randomColor });
-                const material = new THREE.MeshBasicMaterial({ color: "#ffffff" });
-                // const material = new THREE.MeshNormalMaterial();
+                // const material = new THREE.MeshBasicMaterial({ color: "#ffffff" });
+                const material = new THREE.MeshToonMaterial({ color: "#ffffff" });
 
                 const mesh = new THREE.Mesh(geometry, material);
                 (mesh as any).patternPos = { r: roll, p: pitch };
