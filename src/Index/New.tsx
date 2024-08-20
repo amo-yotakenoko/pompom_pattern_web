@@ -15,7 +15,7 @@ const New: React.FC<NewProps> = ({ }) => {
     const newCreate = () => {
         navigate('/edit', {
             state: {
-                rollWidth: rollWidth,
+                rollWidth: rollWidth * 2,
                 pitchWidth: pitchWidth,
                 // colorList: [
                 //     ["#FF33FF"], // Magenta
