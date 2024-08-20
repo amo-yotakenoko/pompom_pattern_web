@@ -138,7 +138,7 @@ function drawData(data: any) {
 
 
 // https://mclab.uunyan.com/lab/html/canvas004.htm
-function convartDownloadble() {
+function convartDownloadble(bluePrintImg: any) {
     let canvas = document.getElementById('bluePrint') as HTMLCanvasElement;
 
 
@@ -151,8 +151,8 @@ function convartDownloadble() {
     const imageUrl = window.URL.createObjectURL(blob) //URL生成
     console.log(imageUrl)
 
-    const imgElement = document.getElementById('bluePrintImg') as HTMLImageElement;
-    imgElement.src = imageUrl;
+
+    bluePrintImg.src = imageUrl;
 
 
 }

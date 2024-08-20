@@ -44,17 +44,29 @@ const BluePrint: React.FC<BluePrintProps> = ({ pattern, colorList, rollWidth, pi
         if (ctx == null) return;
 
         // console.log(propsRef.current.pattern)
-
+        const bluePrintImg = document.getElementById('bluePrintImg') as HTMLImageElement;
 
         // });
         (async function () {
+            bluePrintImg.src = "";
             // 関数の内容
             console.log("かきこみ1")
             await drawbluePrint(ctx, canvas, pitchWidth, propsRef, rollWidth, getTheta, getR, colorList, pattern);
             console.log("かきこみ2")
             await drawData({ pattern, colorList, rollWidth, pitchWidth });
             console.log("かきこみ3")
-            convartDownloadble();
+            convartDownloadble(bluePrintImg);
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+
+            //適当な縁
+            ctx.lineWidth = 5; // 枠線の太さ
+            ctx.beginPath(); // パスの開始
+            ctx.arc(0, 0, 300, 0, 2 * Math.PI); // 円を描く (x座標, y座標, 半径, 開始角度, 終了角度)
+            ctx.strokeStyle = 'blue'; // 枠線の色
+            ctx.stroke(); // 枠線を描く
+            ctx.fillStyle = 'lightblue'; // 塗りつぶしの色
+            ctx.fill(); // 円を塗りつぶす
         })();
 
         // window.addEventListener('resize', () => draw());
@@ -78,14 +90,15 @@ const BluePrint: React.FC<BluePrintProps> = ({ pattern, colorList, rollWidth, pi
             }}> */}
             <div style={{ width: '100vw', height: 'auto', position: 'relative' }}>
 
+                <ImageSave data={{ pattern, colorList, rollWidth, pitchWidth }}></ImageSave>
                 <canvas id="bluePrint" width="900" height="900" style={{
 
                     border: "2px solid black",
-                    width: '100%', height: 'auto', position: 'absolute', top: 0, left: 0
+                    width: '100%', height: 'auto', position: 'absolute', top: 0, left: 0,
+                    pointerEvents: 'none'
                     // // display: "block",
                     // margin: "auto"
                 }} />
-                <ImageSave data={{ pattern, colorList, rollWidth, pitchWidth }}></ImageSave>
             </div>
 
         </>

@@ -9,6 +9,7 @@ const ImageLoad: React.FC = () => {
         if (selFile) {
             selFile.addEventListener("change", function (evt) {
                 const canvas = document.getElementById('canvas') as HTMLCanvasElement;
+
                 const ctx = canvas.getContext('2d');
                 if (!ctx) return;
 
@@ -33,6 +34,7 @@ const ImageLoad: React.FC = () => {
                         img.onload = function () {
                             canvas.width = img.width;
                             canvas.height = img.height;
+                            canvas.style.display = 'block';
                             ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
                             console.log("aaaa")
                             try {
@@ -81,7 +83,8 @@ const ImageLoad: React.FC = () => {
             <canvas id="canvas" style={{
 
                 border: "2px solid black",
-                width: "100%"
+                width: "100%",
+                display: 'none'
                 // // display: "block",
                 // margin: "auto"
             }} ></canvas>
