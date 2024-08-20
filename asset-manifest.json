@@ -1,15 +1,15 @@
 {
   "files": {
     "main.css": "/pompom_pattern_web/static/css/main.411c6d59.css",
-    "main.js": "/pompom_pattern_web/static/js/main.5c52df5a.js",
+    "main.js": "/pompom_pattern_web/static/js/main.b470655a.js",
     "static/js/453.6bcba444.chunk.js": "/pompom_pattern_web/static/js/453.6bcba444.chunk.js",
     "index.html": "/pompom_pattern_web/index.html",
     "main.411c6d59.css.map": "/pompom_pattern_web/static/css/main.411c6d59.css.map",
-    "main.5c52df5a.js.map": "/pompom_pattern_web/static/js/main.5c52df5a.js.map",
+    "main.b470655a.js.map": "/pompom_pattern_web/static/js/main.b470655a.js.map",
     "453.6bcba444.chunk.js.map": "/pompom_pattern_web/static/js/453.6bcba444.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.411c6d59.css",
-    "static/js/main.5c52df5a.js"
+    "static/js/main.b470655a.js"
   ]
 }
