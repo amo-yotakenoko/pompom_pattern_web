@@ -14,6 +14,7 @@ root.render(
     <Routes>
       <Route path={`/`} element={<IndexPage />} />
       <Route path={`/edit`} element={<Edit />} />
+      <Route path="*" element={<IndexPage />} />
     </Routes>
   </BrowserRouter>
 
