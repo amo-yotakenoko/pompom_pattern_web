@@ -76,15 +76,17 @@ const BluePrint: React.FC<BluePrintProps> = ({ pattern, colorList, rollWidth, pi
                 height: '100vw',
                 aspectRatio: '1 / 1',
             }}> */}
+            <div style={{ width: '100vw', height: 'auto', position: 'relative' }}>
 
-            <canvas id="bluePrint" width="900" height="900" style={{
+                <canvas id="bluePrint" width="900" height="900" style={{
 
-                border: "2px solid black",
-                width: "100%"
-                // // display: "block",
-                // margin: "auto"
-            }} />
-            <ImageSave data={{ pattern, colorList, rollWidth, pitchWidth }}></ImageSave>
+                    border: "2px solid black",
+                    width: '100%', height: 'auto', position: 'absolute', top: 0, left: 0
+                    // // display: "block",
+                    // margin: "auto"
+                }} />
+                <ImageSave data={{ pattern, colorList, rollWidth, pitchWidth }}></ImageSave>
+            </div>
 
         </>
     )

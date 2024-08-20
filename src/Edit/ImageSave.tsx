@@ -15,28 +15,35 @@ const ImageSave: React.FC<ImageSaveProps> = ({ data }) => {
 
 
     return (
-
-        <div style={{ width: '30vw', height: 'auto', position: 'relative' }}>
+        <>
             <img
                 id="bluePrintImg"
-                style={{ width: '100%', height: 'auto' }}
-            />
-            <p
                 style={{
-                    position: 'absolute',
-                    top: '0%',
-                    left: '0%',
-                    transform: 'translate(0%, 0%)',
-                    padding: 0,
-                    margin: 0,
-                    textAlign: 'left',
-                    width: '100%',
-                    fontSize: '50%',
+                    width: '100%', height: 'auto', position: 'absolute', top: 0, left: 0
                 }}
-            >
-                保存する際はこの画像を長押し
-            </p>
-        </div>
+            />
+            {/* <div style={{ width: '30vw', height: 'auto', position: 'relative' }}>
+                <img
+                    id="bluePrintImg"
+                    style={{ width: '100%', height: 'auto' }}
+                />
+                <p
+                    style={{
+                        position: 'absolute',
+                        top: '0%',
+                        left: '0%',
+                        transform: 'translate(0%, 0%)',
+                        padding: 0,
+                        margin: 0,
+                        textAlign: 'left',
+                        width: '100%',
+                        fontSize: '50%',
+                    }}
+                >
+                    保存する際はこの画像を長押し
+                </p>
+            </div> */}
+        </>
 
         //     <div>
         //         <div style="position: relative; text-align: center;">
