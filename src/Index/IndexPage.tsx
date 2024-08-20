@@ -1,12 +1,55 @@
 import React, { useEffect } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import Button from 'react-bootstrap/Button';
 import ImageLoad from './ImageLoad'
-function IndexPage() {
+import { useNavigate } from "react-router-dom";
 
+
+function testPattern(rollWidth: any, pitchWidth: any) {
+    console.log("Pattern書き直し", rollWidth, pitchWidth)
+    const _pattern: any = []
+    for (let i = 0; i < rollWidth; i++) {
+        _pattern[i] = [];
+        for (let j = 0; j < pitchWidth; j++) {
+            _pattern[i][j] = j % 3 + 1;
+        }
+    }
+    return _pattern
+
+}
+
+
+function IndexPage() {
+    const navigate = useNavigate();
+    const newCreate = () => {
+        navigate('/edit', {
+            state: {
+                rollWidth: 20,
+                pitchWidth: 20,
+                // colorList: [
+                //     ["#FF33FF"], // Magenta
+                //     ["#FFFFFF"], // white
+                //     ["#FF5733",], // Red-Orange
+                //     ["#FFBD33", "#FF0033"], // Orange-Yellow
+                //     ["#FFFF33"], // Yellow
+                //     ["#B6FF33"], // Yellow-Green
+                //     ["#33FF57"], // Green
+                //     ["#33FFBD"], // Green-Cyan
+                //     ["#33FFFF"], // Cyan
+                //     ["#33B6FF"], // Cyan-Blue
+                //     ["#3357FF"], // Blue
+                //     ["#BD33FF"], // Purple
+                // ],
+                // pattern: testPattern(20, 20)
+            }
+        });
+    };
 
     return (
         <>
-            ファイルを入れてね
+            <Button onClick={newCreate}>新規作成</Button>
+
             <ImageLoad></ImageLoad>
         </>
     );

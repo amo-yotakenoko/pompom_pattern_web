@@ -33,16 +33,25 @@ const Pompom: React.FC<PompomProps> = ({ pattern, colorList, rollWidth, pitchWid
     let renderer: any = null;
 
     function updateColor() {
-        console.log("パレット更新", meshList)
-        meshList.current.map((mesh: any) => {
-            let patternPos = (mesh as any).patternPos;
-            // console.log(patternPos)
-            const p = patternPos.r + patternPos.p
-            const i = p % propsRef.current.colorList[pattern[patternPos.r][patternPos.p]].length;
+        try {
+            console.log("パレット更新", meshList)
+            meshList.current.map((mesh: any) => {
+                let patternPos = (mesh as any).patternPos;
+                // console.log(patternPos)
+                const p = patternPos.r + patternPos.p
+                let colors = propsRef.current.colorList[pattern[patternPos.r][patternPos.p]]
+                // console.log(colors)
+                if (colors !== undefined) {
 
-            let color = propsRef.current.colorList[pattern[patternPos.r][patternPos.p]][i];
-            mesh.material.color.set(color);
-        });
+                    const i = p % colors.length;
+
+                    let color = colors[i];
+                    mesh.material.color.set(color);
+                }
+            });
+        } catch (error) {
+            console.log("updateColorでエラー", error)
+        }
     }
 
 
@@ -193,12 +202,10 @@ const Pompom: React.FC<PompomProps> = ({ pattern, colorList, rollWidth, pitchWid
         // let isMouseDowning = false
         let isDrwaing = false
 
-        window.addEventListener('pointerup', (event: any) => {
-            // controls.dispose();
-            // console.log("pointerup")
-            isDrwaing = false
-        });
-        window.addEventListener('pointerdown', (event: any) => {
+
+
+
+        const handlePointerDown = (event: MouseEvent) => {
             mouseUpdate(event)
             raycaster.setFromCamera(mouse, camera);
             const intersects = raycaster.intersectObjects(scene.children);
@@ -210,8 +217,16 @@ const Pompom: React.FC<PompomProps> = ({ pattern, colorList, rollWidth, pitchWid
             // controls = new OrbitControls(camera, canvas);
             // controls.enableZoom = false
             // controls.enablePan = false
+        };
 
-        });
+        const handlePointerUp = () => {
+            // controls.dispose();
+            // console.log("pointerup")
+            isDrwaing = false
+        };
+
+        window.addEventListener('pointerdown', handlePointerDown);
+        window.addEventListener('pointerup', handlePointerUp);
 
         // 毎フレーム時に実行されるループイベントです
         tick();
@@ -237,6 +252,7 @@ const Pompom: React.FC<PompomProps> = ({ pattern, colorList, rollWidth, pitchWid
                         let patternPos = (mesh as any).patternPos;
 
                         // pattern[patternPos.r, patternPos.p] = propsRef.current.selectColor
+
                         if (propsRef.current.pattern[patternPos.r][patternPos.p] !== propsRef.current.selectColor) {
                             console.log("ぬる", isDrwaing)
                             console.log(propsRef.current.pattern[patternPos.r][patternPos.p], propsRef.current.selectColor, propsRef.current.pattern[patternPos.r][patternPos.p] !== propsRef.current.selectColor)
@@ -268,7 +284,25 @@ const Pompom: React.FC<PompomProps> = ({ pattern, colorList, rollWidth, pitchWid
         }
 
 
-    }, []);
+        return () => {
+            // イベントリスナーの削除
+            window.removeEventListener('resize', resize);
+            canvas.removeEventListener('pointermove', mouseUpdate);
+            window.removeEventListener('pointerdown', handlePointerDown);
+            window.removeEventListener('pointerup', handlePointerUp);
+
+            // メッシュの削除
+            meshList.current.forEach(mesh => {
+                scene.remove(mesh);
+                mesh.geometry.dispose();
+                // mesh.material.dispose();
+            });
+
+            // その他のリソースのクリーンアップ
+            renderer.dispose();
+        };
+
+    }, [rollWidth, pitchWidth]);
 
 
     return (

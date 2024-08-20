@@ -1,5 +1,5 @@
 import React, { useEffect, useRef } from 'react';
-import ImageSave, { drawData } from './ImageSave'
+import ImageSave, { drawData, convartDownloadble } from './ImageSave'
 
 
 type BluePrintProps = {
@@ -18,15 +18,17 @@ const BluePrint: React.FC<BluePrintProps> = ({ pattern, colorList, rollWidth, pi
     useEffect(() => {
         propsRef.current = { pattern, colorList };
     }, [pattern, colorList]);
-
+    let canvas: any;
 
     const activeMenuRef = useRef(activeMenu);
     useEffect(() => {
         activeMenuRef.current = activeMenuRef;
     }, [activeMenu]);
     function getR(pitch: any) {
-        return 150 + (pitch / pitchWidth) * 330
+        return (canvas.width / 2 * 0.3) + (pitch / pitchWidth) * (canvas.width / 2 * 0.65)
     }
+
+
     function getTheta(roll: any) {
         return (2 * Math.PI) * (roll / rollWidth)
     }
@@ -35,7 +37,7 @@ const BluePrint: React.FC<BluePrintProps> = ({ pattern, colorList, rollWidth, pi
         cancel = false;
         console.log(activeMenu)
         if (activeMenu != "bluePrint") return;
-        let canvas = document.getElementById('bluePrint') as HTMLCanvasElement;
+        canvas = document.getElementById('bluePrint') as HTMLCanvasElement;
         // if (!canvas || !canvas.getContext || !canvasParent) return;
 
         ctx = canvas.getContext('2d');
@@ -75,7 +77,7 @@ const BluePrint: React.FC<BluePrintProps> = ({ pattern, colorList, rollWidth, pi
                 aspectRatio: '1 / 1',
             }}> */}
 
-            <canvas id="bluePrint" width="1024" height="1024" style={{
+            <canvas id="bluePrint" width="900" height="900" style={{
 
                 border: "2px solid black",
                 width: "100%"
@@ -83,70 +85,13 @@ const BluePrint: React.FC<BluePrintProps> = ({ pattern, colorList, rollWidth, pi
                 // margin: "auto"
             }} />
             <ImageSave data={{ pattern, colorList, rollWidth, pitchWidth }}></ImageSave>
-            <img id="bluePrintImg" style={{
-                width: "100%"
-            }} ></img>
+
         </>
     )
 }
 export default BluePrint;
 
-// https://mclab.uunyan.com/lab/html/canvas004.htm
-function convartDownloadble() {
-    let canvas = document.getElementById('bluePrint') as HTMLCanvasElement;
 
-
-
-    var base64 = canvas.toDataURL();
-
-
-
-    // --------------------
-    //  ダウンロード
-    // --------------------
-    // ダウンロード ファイル名
-    // var fileName = "sample.png";
-    // base64データをblobに変換
-
-    var blob = Base64toBlob(base64);
-    console.log({ blob })
-    const imageUrl = window.URL.createObjectURL(blob) //URL生成
-    console.log(imageUrl)
-
-    const imgElement = document.getElementById('bluePrintImg') as HTMLImageElement;
-    imgElement.src = imageUrl;
-
-
-    //  ダウンロード リンクを設定
-    // Edge, Chrome等はこれでaタグからダウンロードできるようになります。
-    // IEではこの方法ではaタグからダウンロードできません。
-
-    // // BlobをBlob URL Schemeへ変換
-    // document.getElementById("dlImg").href = window.URL.createObjectURL(blob);
-    // // ダウンロードファイル名を設定
-    // document.getElementById("dlImg").download = fileName;
-
-}
-// https://code.st40.xyz/article/133
-// Base64データをBlobデータに変換
-function Base64toBlob(base64: any) {
-    // カンマで分割して以下のようにデータを分ける
-    // tmp[0] : データ形式（data:image/png;base64）
-    // tmp[1] : base64データ（iVBORw0k～）
-    var tmp = base64.split(',');
-    // base64データの文字列をデコード
-    var data = atob(tmp[1]);
-    // tmp[0]の文字列（data:image/png;base64）からコンテンツタイプ（image/png）部分を取得
-    var mime = tmp[0].split(':')[1].split(';')[0];
-    //  1文字ごとにUTF-16コードを表す 0から65535 の整数を取得
-    var buf = new Uint8Array(data.length);
-    for (var i = 0; i < data.length; i++) {
-        buf[i] = data.charCodeAt(i);
-    }
-    // blobデータを作成
-    var blob = new Blob([buf], { type: mime });
-    return blob;
-}
 
 
 async function drawbluePrint(ctx: any, canvas: HTMLCanvasElement, pitchWidth: number, propsRef: React.MutableRefObject<{ pattern: any; colorList: any; }>, rollWidth: number, getTheta: (roll: any) => number, getR: (pitch: any) => number, colorList: any, pattern: any) {
@@ -155,13 +100,15 @@ async function drawbluePrint(ctx: any, canvas: HTMLCanvasElement, pitchWidth: nu
     // canvas.width = canvasParent.clientWidth;
     // canvas.height = canvasParent.clientHeight;
     console.log("draw");
-    ctx.lineWidth = 5; // 枠線の太さ
-    ctx.beginPath(); // パスの開始
-    ctx.arc(512, 512, 150, 0, 2 * Math.PI); // 円を描く (x座標, y座標, 半径, 開始角度, 終了角度)
-    ctx.strokeStyle = 'blue'; // 枠線の色
-    ctx.stroke(); // 枠線を描く
-    ctx.fillStyle = 'lightblue'; // 塗りつぶしの色
-    ctx.fill(); // 円を塗りつぶす
+
+    // //適当な縁
+    // ctx.lineWidth = 5; // 枠線の太さ
+    // ctx.beginPath(); // パスの開始
+    // ctx.arc(512, 512, 150, 0, 2 * Math.PI); // 円を描く (x座標, y座標, 半径, 開始角度, 終了角度)
+    // ctx.strokeStyle = 'blue'; // 枠線の色
+    // ctx.stroke(); // 枠線を描く
+    // ctx.fillStyle = 'lightblue'; // 塗りつぶしの色
+    // ctx.fill(); // 円を塗りつぶす
 
 
 
@@ -215,8 +162,8 @@ async function drawbluePrint(ctx: any, canvas: HTMLCanvasElement, pitchWidth: nu
 
             let thetaWidth = (2 * Math.PI) * (1 / rollWidth);
             let r = getR(pitch);
-            let rWidth = (1 / pitchWidth) * 330 - 1;
-            center.y += (theta >= Math.PI ? -1 : 1) * 20;
+            let rWidth = getR(pitch + 1) - getR(pitch);
+            center.y += (theta >= Math.PI ? -1 : 1) * 15;
             ctx.lineWidth = 0.5;
             ctx.beginPath();
 
@@ -255,8 +202,8 @@ async function drawbluePrint(ctx: any, canvas: HTMLCanvasElement, pitchWidth: nu
             ctx.fillStyle = isNearBlack(propsRef.current.colorList[color][0]) ? 'white' : 'black'; // 塗りつぶしの色を設定
             let theta = getTheta(roll);
             let thetaWidth = (2 * Math.PI) * (1 / rollWidth);
-            let r = 150 + (pitch / pitchWidth) * 330;
-            const center = { x: canvas.width / 2, y: canvas.height / 2 + (0.5 <= roll / rollWidth ? -1 : 1) * 20 };
+            let r = getR(pitch);
+            const center = { x: canvas.width / 2, y: canvas.height / 2 + (0.5 <= roll / rollWidth ? -1 : 1) * 15 };
 
             let isChange = false;
 
@@ -321,7 +268,7 @@ async function drawbluePrint(ctx: any, canvas: HTMLCanvasElement, pitchWidth: nu
                     piledText(piled, ctx, center, theta, getR, getTheta, pitch, roll, rollWidth, textHeight, thetaWidth, canvas);
                 }
                 if (widthCount > 1) {
-                    widthCoountText(theta, widthCount, rollWidth, ctx, center, thetaWidth, r, textHeight, roll, pitch, colorList, pattern);
+                    widthCoountText(theta, widthCount, rollWidth, ctx, center, thetaWidth, r, roll, pitch, colorList, pattern);
                 }
 
 
@@ -342,26 +289,28 @@ async function drawbluePrint(ctx: any, canvas: HTMLCanvasElement, pitchWidth: nu
 
 }
 
-function widthCoountText(theta: number, widthCount: number, rollWidth: number, ctx: any, center: { x: number; y: number; }, thetaWidth: number, r: number, textHeight: number, roll: number, pitch: number, colorList: any, pattern: any) {
+function widthCoountText(theta: number, widthCount: number, rollWidth: number, ctx: any, center: { x: number; y: number; }, thetaWidth: number, r: number, roll: number, pitch: number, colorList: any, pattern: any) {
     theta -= (2 * Math.PI) * ((widthCount) / rollWidth) / 2;
     let text = `${widthCount}`;
     let colorLength = colorList[pattern[roll][pitch]].length
     if (colorLength > 1) {
         text = `${Math.ceil(widthCount / colorLength)}(*${colorLength})`;
     }
+    let textHeight = 0;
     const textWidth = ctx.measureText(text).width;
     ctx.save();
-    let x = center.x + Math.cos(theta + thetaWidth) * (r + (textHeight)); //- (textWidth / 2)
-    let y = center.y + Math.sin(theta + thetaWidth) * (r + (textHeight));
-
+    let x = center.x + Math.cos(theta + thetaWidth) * (r); //- (textWidth / 2)
+    let y = center.y + Math.sin(theta + thetaWidth) * (r);
+    // ctx.arc(x, y, 5, 0, Math.PI * 2);
     // 中心座標に移動
+
     ctx.translate(x, y);
     if (0.5 >= roll / rollWidth) {
         theta += Math.PI;
-        textHeight *= 2;
+        textHeight = ctx.measureText(text).actualBoundingBoxAscent
     }
     ctx.rotate(theta + thetaWidth + (2 * Math.PI) / 4); // `theta` による回転
-    ctx.fillText(text, -(textWidth / 2), (textHeight / 2));
+    ctx.fillText(text, -(textWidth / 2), (textHeight / 1));
     ctx.restore();
 
 }

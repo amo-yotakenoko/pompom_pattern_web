@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useLocation } from "react-router-dom"
+
 // import { Canvas, useFrame } from '@react-three/fiber';
 // import { BufferGeometry, Float32BufferAttribute, Mesh, MeshBasicMaterial } from 'three';
 // import { OrbitControls } from "@react-three/drei";
@@ -33,13 +34,14 @@ function Edit() {
     ["#3357FF"], // Blue
     ["#BD33FF"], // Purple
     ["#FF33FF"], // Magenta
-    // "#FF33B6"  // Pink
+
   ]);
 
 
 
-  const rollWidth = 8 * 12
-  const pitchWidth = 9
+  const [rollWidth, setRollWidth] = useState(3);
+  const [pitchWidth, setPitchWidth] = useState(3);
+
   // const rollWidth = 10
   // const pitchWidth = 9
   const [selectColor, setSelectColor] = useState(1);
@@ -47,9 +49,9 @@ function Edit() {
   const [activeMenu, setActiveMenu] = useState("pompom");
 
 
-  const [pattern, setPattern] = useState(resetPattern());
-  function resetPattern() {
-
+  const [pattern, setPattern] = useState(brankPattern(rollWidth, pitchWidth));
+  function brankPattern(rollWidth: any, pitchWidth: any) {
+    console.log("Pattern書き直し", rollWidth, pitchWidth)
     const _pattern: any = []
     for (let i = 0; i < rollWidth; i++) {
       _pattern[i] = [];
@@ -62,19 +64,37 @@ function Edit() {
   }
 
 
-
   useEffect(() => {
+    console.log({ 読込: location.state })
     if (location.state) {
-      console.log("読込", location.state)
-      console.log("読込", location.state.colorList)
-      setColorList(location.state.colorList)
-      // setSelectColor(location.state.selectColor)
-      setPattern(location.state.pattern)
+
+      if (location.state.colorList !== undefined) {
+        console.log("カラーリストを読み込み")
+        setColorList(location.state.colorList);
+      }
+
+
+      let sizeChange = false
+
+      if (location.state.pitchWidth !== undefined && location.state.rollWidth !== undefined) {
+        console.log("rollWidthを読み込み")
+        setRollWidth(location.state.rollWidth)
+        setPitchWidth(location.state.pitchWidth)
+        setPattern(brankPattern(location.state.rollWidth, location.state.pitchWidth))
+      }
+
+      if (location.state.pattern !== undefined) {
+        console.log("Patternを読み込み")
+        console.log({ pattern: location.state.pattern })
+        setPattern(location.state.pattern);
+      }
     }
+  }, [location.state]);
 
-  }, []);
 
-
+  // useEffect(() => {
+  //   setPattern(brankPattern(rollWidth, pitchWidth))
+  // }, [rollWidth, pitchWidth]);
 
   return (
 
