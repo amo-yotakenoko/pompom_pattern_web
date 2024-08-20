@@ -252,14 +252,18 @@ const Pompom: React.FC<PompomProps> = ({ pattern, colorList, rollWidth, pitchWid
                         let patternPos = (mesh as any).patternPos;
 
                         // pattern[patternPos.r, patternPos.p] = propsRef.current.selectColor
+                        try {
 
-                        if (propsRef.current.pattern[patternPos.r][patternPos.p] !== propsRef.current.selectColor) {
-                            console.log("ぬる", isDrwaing)
-                            console.log(propsRef.current.pattern[patternPos.r][patternPos.p], propsRef.current.selectColor, propsRef.current.pattern[patternPos.r][patternPos.p] !== propsRef.current.selectColor)
+                            if (propsRef.current.pattern[patternPos.r][patternPos.p] !== propsRef.current.selectColor) {
+                                console.log("ぬる", isDrwaing)
+                                console.log(propsRef.current.pattern[patternPos.r][patternPos.p], propsRef.current.selectColor, propsRef.current.pattern[patternPos.r][patternPos.p] !== propsRef.current.selectColor)
 
-                            let newPatternList = [...propsRef.current.pattern]
-                            newPatternList[patternPos.r][patternPos.p] = propsRef.current.selectColor;
-                            setPattern(newPatternList);
+                                let newPatternList = [...propsRef.current.pattern]
+                                newPatternList[patternPos.r][patternPos.p] = propsRef.current.selectColor;
+                                setPattern(newPatternList);
+                            }
+                        } catch (e) {
+                            console.log(e)
                         }
 
 

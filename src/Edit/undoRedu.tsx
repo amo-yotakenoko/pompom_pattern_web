@@ -22,10 +22,13 @@ const UndoRedo: React.FC<UndoRedoProps> = ({ enable, pattern, colorList, selectC
     }, [pattern, colorList, selectColor]);
 
     useEffect(() => {
-        if (history.length === 0) {
-            setHistory([copy(stateRef.current)]);
-            setCurrent(1);
-        }
+        setTimeout(() => {
+            if (history.length === 0) {
+                console.log("追加判定")
+                setHistory([copy(stateRef.current)]);
+                setCurrent(1);
+            }
+        }, 5);
     }, [history]);
 
     function copy(obj: any) {
@@ -128,7 +131,7 @@ const UndoButton: React.FC<UndoButtonProps> = ({ enable, history, current, setPa
                 setSelectColor(history[current - 2]?.selectColor);
                 setCurrent(current - 1);
                 isundo = true
-
+                console.log({ history })
             }}
         >
             👈

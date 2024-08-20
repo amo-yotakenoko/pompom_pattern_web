@@ -59,14 +59,6 @@ const BluePrint: React.FC<BluePrintProps> = ({ pattern, colorList, rollWidth, pi
             ctx.clearRect(0, 0, canvas.width, canvas.height);
 
 
-            //適当な縁
-            ctx.lineWidth = 5; // 枠線の太さ
-            ctx.beginPath(); // パスの開始
-            ctx.arc(0, 0, 300, 0, 2 * Math.PI); // 円を描く (x座標, y座標, 半径, 開始角度, 終了角度)
-            ctx.strokeStyle = 'blue'; // 枠線の色
-            ctx.stroke(); // 枠線を描く
-            ctx.fillStyle = 'lightblue'; // 塗りつぶしの色
-            ctx.fill(); // 円を塗りつぶす
         })();
 
         // window.addEventListener('resize', () => draw());
@@ -99,6 +91,8 @@ const BluePrint: React.FC<BluePrintProps> = ({ pattern, colorList, rollWidth, pi
                     // // display: "block",
                     // margin: "auto"
                 }} />
+                {/* ポインタイベント改良版 */}
+
             </div>
 
         </>

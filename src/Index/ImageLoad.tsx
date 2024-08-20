@@ -79,7 +79,7 @@ const ImageLoad: React.FC = () => {
     }, []);
     return (
         <div>
-            <input type="file" id="inputFile" accept=".png" />
+            <input type="file" id="inputFile" className="form-control" accept=".png" />
             <canvas id="canvas" style={{
 
                 border: "2px solid black",

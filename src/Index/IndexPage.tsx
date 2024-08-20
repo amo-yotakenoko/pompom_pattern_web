@@ -4,7 +4,8 @@ import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import Button from 'react-bootstrap/Button';
 import ImageLoad from './ImageLoad'
 import { useNavigate } from "react-router-dom";
-
+import SizeSet from './sizeSet'
+import New from './New'
 
 function testPattern(rollWidth: any, pitchWidth: any) {
     console.log("Pattern書き直し", rollWidth, pitchWidth)
@@ -21,36 +22,49 @@ function testPattern(rollWidth: any, pitchWidth: any) {
 
 
 function IndexPage() {
-    const navigate = useNavigate();
-    const newCreate = () => {
-        navigate('/edit', {
-            state: {
-                rollWidth: 20,
-                pitchWidth: 20,
-                // colorList: [
-                //     ["#FF33FF"], // Magenta
-                //     ["#FFFFFF"], // white
-                //     ["#FF5733",], // Red-Orange
-                //     ["#FFBD33", "#FF0033"], // Orange-Yellow
-                //     ["#FFFF33"], // Yellow
-                //     ["#B6FF33"], // Yellow-Green
-                //     ["#33FF57"], // Green
-                //     ["#33FFBD"], // Green-Cyan
-                //     ["#33FFFF"], // Cyan
-                //     ["#33B6FF"], // Cyan-Blue
-                //     ["#3357FF"], // Blue
-                //     ["#BD33FF"], // Purple
-                // ],
-                // pattern: testPattern(20, 20)
-            }
-        });
-    };
+
 
     return (
         <>
-            <Button onClick={newCreate}>新規作成</Button>
 
-            <ImageLoad></ImageLoad>
+
+            <div className="container mt-4">
+                <div className="row">
+                    <div className="col-12 col-md-6 mb-4 d-flex">
+                        <div className="card flex-fill">
+                            <div className="card-body">
+                                <h5 className="card-title">新規作成</h5>
+                                <New />
+                            </div>
+                        </div>
+                    </div>
+                    <div className="col-12 col-md-6 mb-4 d-flex">
+                        <div className="card flex-fill">
+                            <div className="card-body">
+                                <h5 className="card-title">画像から読み込み</h5>
+                                <ImageLoad />
+                            </div>
+                        </div>
+                    </div>
+
+                    <div className="col-12 col-md-6 mb-4 d-flex">
+                        <div className="card flex-fill">
+                            <div className="card-body">
+                                <h5 className="card-title">テスト用</h5>
+                                <input
+                                    type="color"
+                                    id="colorPicker"
+                                    name="color"
+
+                                />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+
         </>
     );
 }
