@@ -1,5 +1,7 @@
 
 import React, { useEffect, useRef } from 'react';
+import downloadImg from "../img/designsystem-assets/icon/svg/download_fill.svg"
+import bluePrintBase from "../img/bluePrint_base.png"
 // 型定義
 interface ImageSaveProps {
     data: any;
@@ -13,15 +15,145 @@ const ImageSave: React.FC<ImageSaveProps> = ({ data }) => {
     // }, []);
     // ボタンがクリックされたときに呼ばれる関数
 
+    function drawData(canvas: any, data: any) {
+        let json = JSON.stringify(data)
+        let bin = new TextEncoder().encode(json);
+        // let hexBin = Array.from(bin).map((byte) => {
+        //     return byte.toString(16).padStart(2, '0'); // 2桁の16進数表現にパディング
+        // }); // 16進数の文字列を結合
+        // console.log(hexBin);
+
+
+        // 配列に要素を追加
+        // while (hexBin.length % 3 != 0) {
+        //     hexBin.push("00");
+        // }
+        // let canvas = document.getElementById('bluePrint') as HTMLCanvasElement;
+        let ctx = canvas.getContext('2d');
+        if (!ctx) return
+
+        // let colors = []
+        var ImageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+        let image_i = 0
+        for (let i = 0; i < bin.length; i += 1) {
+            ImageData.data[image_i++] = bin[i]
+            ImageData.data[image_i++] = 0
+            ImageData.data[image_i++] = 0
+            ImageData.data[image_i++] = 255
+            // ImageData.data[image_i + 3] = 255
+
+            // ImageData.data[i] = 0
+            // let color = "#"
+            // color += `${hexBin[i++]}`;
+            // color += `${hexBin[i++]}`;
+            // color += `${hexBin[i++]}`;
+            // colors.push(color)
+            // const image = ctx.getImageData(x, y, 1, 1).data;
+        }
+
+        ctx.putImageData(ImageData, 0, 0);
+        console.log(bin)
+
+
+        // (() => {
+        //     let i = 0
+        //     for (let y = 0; y < canvas.height; y++) {
+        //         for (let x = 0; x < canvas.width; x++) {
+
+        //             console.log(x, y, colors[i])
+        //             if (colors[i] === undefined) return
+        //             ctx.fillStyle = colors[i++];
+        //             ctx.fillRect(x, y, 2, 2);
+
+        //             // ctx.beginPath();
+        //             // ctx.rect(0, 0, 100, 100); // キャンバス全体の矩形を指定
+        //             // ctx.stroke();                 // 縁を描画
+
+
+        //         }
+
+        //     }
+        // })();
+
+
+    };
+
+    const bluePrintBaseImage = new Image();
+    bluePrintBaseImage.src = bluePrintBase;
+    function download() {
+        console.log("ダウンロード")
+        let viewCanvas = document.getElementById('bluePrint') as HTMLCanvasElement;
+        const canvas = document.createElement('canvas');
+        canvas.width = 900;
+        canvas.height = 900;
+        const ctx = canvas.getContext('2d');
+        if (ctx == undefined) return
+        ctx.drawImage(bluePrintBaseImage, 0, 0, 900, 900);
+
+
+
+
+        // ctx.drawImage(viewCanvas, 0, 0);
+        ctx.drawImage(viewCanvas, 0, 0, viewCanvas.width, viewCanvas.height, 0, 0, 900, 900);
+        drawData(canvas, data);
+        let link = document.createElement("a");
+        link.href = canvas.toDataURL();
+        link.download = "canvas-002.png";
+        link.click();
+
+    }
+
+    // https://mclab.uunyan.com/lab/html/canvas004.htm
+    function convartDownloadble(bluePrintImg: any) {
+        let canvas = document.getElementById('bluePrint') as HTMLCanvasElement;
+
+
+
+        var base64 = canvas.toDataURL();
+
+
+        var blob = Base64toBlob(base64);
+        console.log({ blob })
+        const imageUrl = window.URL.createObjectURL(blob) //URL生成
+        console.log(imageUrl)
+
+
+        bluePrintImg.src = imageUrl;
+
+
+    }
+    // https://code.st40.xyz/article/133
+    // Base64データをBlobデータに変換
+    function Base64toBlob(base64: any) {
+        // カンマで分割して以下のようにデータを分ける
+        // tmp[0] : データ形式（data:image/png;base64）
+        // tmp[1] : base64データ（iVBORw0k～）
+        var tmp = base64.split(',');
+        // base64データの文字列をデコード
+        var data = atob(tmp[1]);
+        // tmp[0]の文字列（data:image/png;base64）からコンテンツタイプ（image/png）部分を取得
+        var mime = tmp[0].split(':')[1].split(';')[0];
+        //  1文字ごとにUTF-16コードを表す 0から65535 の整数を取得
+        var buf = new Uint8Array(data.length);
+        for (var i = 0; i < data.length; i++) {
+            buf[i] = data.charCodeAt(i);
+        }
+        // blobデータを作成
+        var blob = new Blob([buf], { type: mime });
+        return blob;
+    }
+
 
     return (
         <>
-            <img
+            <img src={downloadImg} onClick={download}></img>
+            {/* <img src={bluePrintBase}></img> */}
+            {/* <img
                 id="bluePrintImg"
                 style={{
                     width: '100%', height: 'auto', position: 'absolute', top: 0, left: 0
                 }}
-            />
+            /> */}
             {/* <div style={{ width: '30vw', height: 'auto', position: 'relative' }}>
                 <img
                     id="bluePrintImg"
@@ -77,115 +209,11 @@ const ImageSave: React.FC<ImageSaveProps> = ({ data }) => {
 
 
 
-function drawData(data: any) {
-    let json = JSON.stringify(data)
-    let bin = new TextEncoder().encode(json);
-    // let hexBin = Array.from(bin).map((byte) => {
-    //     return byte.toString(16).padStart(2, '0'); // 2桁の16進数表現にパディング
-    // }); // 16進数の文字列を結合
-    // console.log(hexBin);
-
-
-    // 配列に要素を追加
-    // while (hexBin.length % 3 != 0) {
-    //     hexBin.push("00");
-    // }
-    let canvas = document.getElementById('bluePrint') as HTMLCanvasElement;
-    let ctx = canvas.getContext('2d');
-    if (!ctx) return
-
-    // let colors = []
-    var ImageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
-    let image_i = 0
-    for (let i = 0; i < bin.length; i += 1) {
-        ImageData.data[image_i++] = bin[i]
-        ImageData.data[image_i++] = 0
-        ImageData.data[image_i++] = 0
-        ImageData.data[image_i++] = 255
-        // ImageData.data[image_i + 3] = 255
-
-        // ImageData.data[i] = 0
-        // let color = "#"
-        // color += `${hexBin[i++]}`;
-        // color += `${hexBin[i++]}`;
-        // color += `${hexBin[i++]}`;
-        // colors.push(color)
-        // const image = ctx.getImageData(x, y, 1, 1).data;
-    }
-
-    ctx.putImageData(ImageData, 0, 0);
-    console.log(bin)
-
-
-    // (() => {
-    //     let i = 0
-    //     for (let y = 0; y < canvas.height; y++) {
-    //         for (let x = 0; x < canvas.width; x++) {
-
-    //             console.log(x, y, colors[i])
-    //             if (colors[i] === undefined) return
-    //             ctx.fillStyle = colors[i++];
-    //             ctx.fillRect(x, y, 2, 2);
-
-    //             // ctx.beginPath();
-    //             // ctx.rect(0, 0, 100, 100); // キャンバス全体の矩形を指定
-    //             // ctx.stroke();                 // 縁を描画
-
-
-    //         }
-
-    //     }
-    // })();
-
-
-};
-
-
-// https://mclab.uunyan.com/lab/html/canvas004.htm
-function convartDownloadble(bluePrintImg: any) {
-    let canvas = document.getElementById('bluePrint') as HTMLCanvasElement;
-
-
-
-    var base64 = canvas.toDataURL();
-
-
-    var blob = Base64toBlob(base64);
-    console.log({ blob })
-    const imageUrl = window.URL.createObjectURL(blob) //URL生成
-    console.log(imageUrl)
-
-
-    bluePrintImg.src = imageUrl;
-
-
-}
-// https://code.st40.xyz/article/133
-// Base64データをBlobデータに変換
-function Base64toBlob(base64: any) {
-    // カンマで分割して以下のようにデータを分ける
-    // tmp[0] : データ形式（data:image/png;base64）
-    // tmp[1] : base64データ（iVBORw0k～）
-    var tmp = base64.split(',');
-    // base64データの文字列をデコード
-    var data = atob(tmp[1]);
-    // tmp[0]の文字列（data:image/png;base64）からコンテンツタイプ（image/png）部分を取得
-    var mime = tmp[0].split(':')[1].split(';')[0];
-    //  1文字ごとにUTF-16コードを表す 0から65535 の整数を取得
-    var buf = new Uint8Array(data.length);
-    for (var i = 0; i < data.length; i++) {
-        buf[i] = data.charCodeAt(i);
-    }
-    // blobデータを作成
-    var blob = new Blob([buf], { type: mime });
-    return blob;
-}
-
 
 export default ImageSave;
 
 // drawData を名前付きエクスポート
-export { drawData, convartDownloadble };
+// export { drawData, convartDownloadble };
 // export default drawData;
 
 // Uint8Array(2131) [123, 34, 112, 97, 116, 116, 101, 114, 110, 34, 58, 91, 91, 48, 44, 48, 44, 48, 44, 48, 44, 48, 44, 48, 44, 48, 44, 48, 44, 48, 93, 44, 91, 48, 44, 48, 44, 48, 44, 48, 44, 48, 44, 48, 44, 48, 44, 48, 44, 48, 93, 44, 91, 48, 44, 48, 44, 48, 44, 48, 44, 48, 44, 48, 44, 48, 44, 48, 44, 48, 93, 44, 91, 48, 44, 48, 44, 48, 44, 48, 44, 48, 44, 48, 44, 48, 44, 48, 44, 48, 93, 44, 91, 48, 44, 48, 44, 48, 44, 48, …]

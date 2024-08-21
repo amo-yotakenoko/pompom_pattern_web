@@ -1,5 +1,5 @@
 import React, { useEffect, useRef } from 'react';
-import ImageSave, { drawData, convartDownloadble } from './ImageSave'
+import ImageSave from './ImageSave'
 
 
 type BluePrintProps = {
@@ -44,22 +44,22 @@ const BluePrint: React.FC<BluePrintProps> = ({ pattern, colorList, rollWidth, pi
         if (ctx == null) return;
 
         // console.log(propsRef.current.pattern)
-        const bluePrintImg = document.getElementById('bluePrintImg') as HTMLImageElement;
+        // const bluePrintImg = document.getElementById('bluePrintImg') as HTMLImageElement;
         const pompomCanvas = document.getElementById("edit3d") as HTMLCanvasElement;
         // });
         (async function () {
-            bluePrintImg.src = "";
+            // bluePrintImg.src = "";
             // 関数の内容
-            ctx.fillStyle = "#FFFFFF";
-            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            // ctx.fillStyle = "#FFFFFF";
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
             await drawPompom(ctx, canvas, pompomCanvas, getR)
             console.log("かきこみ1")
             await drawbluePrint(ctx, canvas, pitchWidth, propsRef, rollWidth, getTheta, getR, colorList, pattern);
             console.log("かきこみ2")
-            await drawData({ pattern, colorList, rollWidth, pitchWidth });
+
             console.log("かきこみ3")
-            convartDownloadble(bluePrintImg);
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            // convartDownloadble(bluePrintImg);
+            // ctx.clearRect(0, 0, canvas.width, canvas.height);
 
 
         })();
@@ -83,20 +83,21 @@ const BluePrint: React.FC<BluePrintProps> = ({ pattern, colorList, rollWidth, pi
                 height: '100vw',
                 aspectRatio: '1 / 1',
             }}> */}
-            <div style={{ width: '100vw', height: 'auto', position: 'relative' }}>
+            {/* <div style={{ width: '100vw', height: 'auto', position: 'relative' }}> */}
 
-                <ImageSave data={{ pattern, colorList, rollWidth, pitchWidth }}></ImageSave>
-                <canvas id="bluePrint" width="900" height="900" style={{
+            <canvas id="bluePrint" width="1024" height="1024" style={{
 
-                    border: "2px solid black",
-                    width: '100%', height: 'auto', position: 'absolute', top: 0, left: 0,
-                    pointerEvents: 'none'
-                    // // display: "block",
-                    // margin: "auto"
-                }} />
-                {/* ポインタイベント改良版 */}
+                border: "2px solid black",
+                width: '100%', height: 'auto',
+                // position: 'absolute', top: 0, left: 0,
+                pointerEvents: 'none'
+                // // display: "block",
+                // margin: "auto"
+            }} />
+            <ImageSave data={{ pattern, colorList, rollWidth, pitchWidth }}></ImageSave>
+            {/* ポインタイベント改良版 */}
 
-            </div>
+            {/* </div> */}
 
         </>
     )
