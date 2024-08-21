@@ -116,11 +116,11 @@ const ColorPalette: React.FC<colorPaletteProps> = ({ colorList, selectColor, set
 
             <div className="container no-margin" style={{ margin: 0, padding: 0 }}>
                 <div className="row no-margin" style={{ margin: 0, padding: 0 }} >
-                    <div className="col-5 no-margin" style={{
+                    <div className="col-7 no-margin" style={{
                         maxHeight: "calc(100vh - 100vw - 2.5em)",
                         // height: "100%",
-                        overflow: "auto",
-                        // maxWidth: "100%",
+                        // overflow: "auto",
+                        maxWidth: "100%",
                         margin: "0",
                         // maxHeight: "30vh",
                         padding: "0 1em 0 0",
@@ -136,7 +136,7 @@ const ColorPalette: React.FC<colorPaletteProps> = ({ colorList, selectColor, set
                     </div>
 
 
-                    <div className="col-7 no-margin"  >
+                    <div className="col-5 no-margin"  >
                         <ButtonGroup className="no-margin" style={{
                             // position: "fixed",
                             // bottom: 0,

@@ -62,9 +62,8 @@ const ColorEdit: React.FC<colorPaletteProps> = ({ colorList, selectColor, setSel
                         {colorList[selectColor].length > 1 && selectedMultiColor === i &&
                             (<img src={addIcon} style={{
                                 // width: '100%',
-                                transform: 'rotate(45deg)',
-                                // border: '2px solid black',
-                                // justifyContent: 'flex-end',
+                                transform: 'rotate(45deg) ',
+
 
                             }}
                                 onClick={() => {
@@ -81,8 +80,9 @@ const ColorEdit: React.FC<colorPaletteProps> = ({ colorList, selectColor, setSel
                 <img src={addIcon} style={{
                     // width: '100%',
                     height: '100%',
-                    border: '2px solid black',
-                    borderRadius: '5px 5px 0 0'
+                    border: '1px solid black',
+                    borderRadius: '5px 5px 0 0',
+                    transform: 'translateY(2px)',
                 }}
                     onClick={() => {
 
@@ -101,7 +101,17 @@ const ColorEdit: React.FC<colorPaletteProps> = ({ colorList, selectColor, setSel
                 </Nav.Item> */}
             </Nav >
 
-            <ChromePicker color={colorList[selectColor][selectedMultiColor]} onChange={(color) => colorChange(color, selectColor, selectedMultiColor)} disableAlpha={true} />
+            <ChromePicker color={colorList[selectColor][selectedMultiColor]}
+                onChange={(color) => colorChange(color, selectColor, selectedMultiColor)}
+                disableAlpha={true}
+                styles={{
+                    default: {
+                        picker: {
+                            width: '100%', // ピッカーの幅を親要素に合わせる
+                        },
+                    },
+                }}
+            />
 
 
             {/* <div style={{
