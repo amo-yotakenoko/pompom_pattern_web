@@ -52,6 +52,7 @@ const BluePrint: React.FC<BluePrintProps> = ({ pattern, colorList, rollWidth, pi
             // 関数の内容
             // ctx.fillStyle = "#FFFFFF";
             ctx.clearRect(0, 0, canvas.width, canvas.height);
+            await new Promise(resolve => setTimeout(resolve, 100));
             await drawPompom(ctx, canvas, pompomCanvas, getR)
             console.log("かきこみ1")
             await drawbluePrint(ctx, canvas, pitchWidth, propsRef, rollWidth, getTheta, getR, colorList, pattern);
@@ -84,17 +85,37 @@ const BluePrint: React.FC<BluePrintProps> = ({ pattern, colorList, rollWidth, pi
                 aspectRatio: '1 / 1',
             }}> */}
             {/* <div style={{ width: '100vw', height: 'auto', position: 'relative' }}> */}
+            <div style={{ position: "relative" }}>
 
-            <canvas id="bluePrint" width="1024" height="1024" style={{
+                <canvas id="bluePrint" width="1024" height="1024" style={{
 
-                border: "2px solid black",
-                width: '100%', height: 'auto',
-                // position: 'absolute', top: 0, left: 0,
-                pointerEvents: 'none'
-                // // display: "block",
-                // margin: "auto"
-            }} />
-            <ImageSave data={{ pattern, colorList, rollWidth, pitchWidth }}></ImageSave>
+                    border: "2px solid black",
+                    width: '100%', height: 'auto',
+                    // position: 'absolute', top: 0, left: 0,
+                    // pointerEvents: 'none',
+                    // // display: "block",
+                    // margin: "auto"
+                    position: "absolute"/* 画像を絶対位置に設定 */
+                    // top: 0;             /* 上からの距離 */
+                    // left: 0;            /* 左からの距離 */
+                    // width: 100 %;        /* コンテナに対して画像の幅を調整 */
+                    // height: 100 %;  
+
+                }} />
+            </div>
+            <div style={{
+                position: "absolute",
+                top: "0",
+                right: "0",
+                // width: "150px",
+                // height: "auto"
+            }}>
+
+                <ImageSave data={{ pattern, colorList, rollWidth, pitchWidth }}></ImageSave>
+            </div>
+
+
+
             {/* ポインタイベント改良版 */}
 
             {/* </div> */}
@@ -121,13 +142,14 @@ async function drawPompom(ctx: any, canvas: HTMLCanvasElement, pompomCanvas: HTM
 
     // pompomCanvas の内容を canvas に描画
     let r = getR(-1)
-    // ctx.lineWidth = 5; // 枠線の太さ
-    // ctx.beginPath(); // パスの開始
-    // ctx.arc(512, 512, 150, 0, 2 * Math.PI); // 円を描く (x座標, y座標, 半径, 開始角度, 終了角度)
-    // ctx.strokeStyle = 'blue'; // 枠線の色
-    // ctx.stroke(); // 枠線を描く
-    // ctx.fillStyle = 'lightblue'; // 塗りつぶしの色
-    // ctx.fill(); // 円を塗りつぶす
+    ctx.lineWidth = 5; // 枠線の太さ
+    ctx.beginPath(); // パスの開始
+    ctx.arc(targetWidth / 2, targetHeight / 2, getR(-1) - 5, 0, 2 * Math.PI); // 円を描く (x座標, y座標, 半径, 開始角度, 終了角度)
+    ctx.fillStyle = '#111111'; // 枠線の色
+    ctx.fill(); // 枠線を描く
+
+    // ctx.imageSmoothingEnabled = true;
+    // ctx.imageSmoothingQuality = 'high';
     ctx.drawImage(pompomCanvas, 0, 0, sourceWidth, sourceHeight, targetWidth / 2 - r, targetHeight / 2 - r, r * 2, r * 2);
 
 }

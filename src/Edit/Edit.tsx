@@ -110,6 +110,7 @@ function Edit() {
           pitchWidth={pitchWidth}
           selectColor={selectColor}
           setPattern={setPattern}
+          activeMenu={activeMenu}
         />
         <ColorPalette
           colorList={colorList}

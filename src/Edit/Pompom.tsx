@@ -10,14 +10,16 @@ type PompomProps = {
     pitchWidth: number;
     selectColor: number;
     setPattern: any;
+    activeMenu: any;
 };
 
-const Pompom: React.FC<PompomProps> = ({ pattern, colorList, rollWidth, pitchWidth, selectColor, setPattern }) => {
+const Pompom: React.FC<PompomProps> = ({ pattern, colorList, rollWidth, pitchWidth, selectColor, setPattern, activeMenu }) => {
     // let tmpSelectId = selectColor;
     // useEffect(() => {
     //     tick();
     // }, [selectColor]);
     const meshList = useRef<THREE.Mesh[]>([]);
+    const wireMeshList = useRef<any>([]);
     const propsRef = useRef({ pattern, colorList, selectColor });
     useEffect(() => {
         propsRef.current = { pattern, colorList, selectColor };
@@ -28,9 +30,21 @@ const Pompom: React.FC<PompomProps> = ({ pattern, colorList, rollWidth, pitchWid
 
         // });
     }, [pattern, colorList]);
+    useEffect(() => {
+        console.log("mesh隠す", camera)
+        // if (renderer !== null) {
+        wireMeshList.current.forEach((m: any) => {
+            m.visible = activeMenu == "pompom"
+            console.log(m.visible)
+        });
+        // renderer.render(scene, camera);
+        // }
+    }, [activeMenu])
 
     let canvas: any = null;
     let renderer: any = null;
+    let scene: any = null;
+    let camera: any = null;
 
     function updateColor() {
         try {
@@ -78,11 +92,11 @@ const Pompom: React.FC<PompomProps> = ({ pattern, colorList, rollWidth, pitchWid
         }
 
         // シーンを作成
-        const scene = new THREE.Scene();
+        scene = new THREE.Scene();
 
         // カメラを作成
 
-        const camera = new THREE.PerspectiveCamera(15, 1 / 1);
+        camera = new THREE.PerspectiveCamera(15, 1 / 1);
         camera.position.set(0, 0, +800);
         let controls = new OrbitControls(camera, canvas);
         controls.enableZoom = false
@@ -185,9 +199,10 @@ const Pompom: React.FC<PompomProps> = ({ pattern, colorList, rollWidth, pitchWid
                 meshGeometry.setAttribute('position', new THREE.BufferAttribute(new Float32Array(Meshvertices), 3));
 
                 // const edgesGeometry = new THREE.EdgesGeometry(geometry);
-                const meshMaterial = new THREE.LineBasicMaterial({ color: "#111111", linewidth: 1 });
+                const meshMaterial = new THREE.LineBasicMaterial({ color: "#111111", linewidth: 0 });
                 const edges = new THREE.LineSegments(meshGeometry, meshMaterial);
                 // if (roll == 5 && pitch == 5)
+                wireMeshList.current.push(edges);
                 scene.add(edges);
 
 

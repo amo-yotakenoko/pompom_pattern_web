@@ -91,14 +91,16 @@ const ImageSave: React.FC<ImageSaveProps> = ({ data }) => {
         ctx.drawImage(bluePrintBaseImage, 0, 0, 900, 900);
 
 
-
+        // ctx.imageSmoothingEnabled = true;
+        // ctx.imageSmoothingQuality = 'high';
 
         // ctx.drawImage(viewCanvas, 0, 0);
         ctx.drawImage(viewCanvas, 0, 0, viewCanvas.width, viewCanvas.height, 0, 0, 900, 900);
+
         drawData(canvas, data);
         let link = document.createElement("a");
         link.href = canvas.toDataURL();
-        link.download = "canvas-002.png";
+        link.download = `pompom_${new Date().toLocaleTimeString()}.png`;
         link.click();
 
     }
@@ -146,7 +148,7 @@ const ImageSave: React.FC<ImageSaveProps> = ({ data }) => {
 
     return (
         <>
-            <img src={downloadImg} onClick={download}></img>
+            <img src={downloadImg} onClick={download} style={{ width: "10vw" }}></img>
             {/* <img src={bluePrintBase}></img> */}
             {/* <img
                 id="bluePrintImg"
