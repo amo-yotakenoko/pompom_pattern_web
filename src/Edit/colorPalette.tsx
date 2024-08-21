@@ -1,11 +1,20 @@
 import React, { useEffect, useState } from 'react';
 import { Slider, Sketch, Material, Colorful, Compact, Circle, Wheel, Block, Github, Chrome, } from '@uiw/react-color';
+import Overlay from 'react-bootstrap/Overlay';
+import Tooltip from 'react-bootstrap/Tooltip';
 // import { Alpha, Hue, ShadeSlider, Saturation, Interactive, hsvaToHslaString } from '@uiw/react-color';
-import { EditableInput, EditableInputRGBA, EditableInputHSLA } from '@uiw/react-color';
+import {
+    AlphaPicker, BlockPicker, ChromePicker, CirclePicker, CompactPicker,
+    GithubPicker, HuePicker, MaterialPicker, PhotoshopPicker, SketchPicker,
+    SliderPicker, SwatchesPicker, TwitterPicker
+} from 'react-color';
 import ButtonGroup from 'react-bootstrap/ButtonGroup';
 import ToggleButton from 'react-bootstrap/ToggleButton';
+import Nav from 'react-bootstrap/Nav';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import '../styles.css';
+import menuIcon from '../img/designsystem-assets/icon/png/menu_fill24.png';
+import ColorEdit from './colorEdit'
 type colorPaletteProps = {
 
     colorList: any;
@@ -17,13 +26,13 @@ type colorPaletteProps = {
 };
 
 const ColorPalette: React.FC<colorPaletteProps> = ({ colorList, selectColor, setSelectColor, setColorList }) => {
-    const colorChange = (color: any, selectColor: any, i: any) => {
-        // console.log(color.hex)
-        let newColorList = [...colorList]
-        newColorList[selectColor][i] = color.hex;
-        setColorList(newColorList);
-    };
-
+    // const colorChange = (color: any, selectColor: any, i: any) => {
+    //     // console.log(color.hex)
+    //     let newColorList = [...colorList]
+    //     newColorList[selectColor][i] = color.hex;
+    //     setColorList(newColorList);
+    // };
+    // const [editingParette, setEditingParette] = useState(0);
     // function setColorId(id: any) {
     //     console.log(id);
     // }
@@ -38,37 +47,62 @@ const ColorPalette: React.FC<colorPaletteProps> = ({ colorList, selectColor, set
         }
         // console.log(cssColor.join(', '))
         colorButtons.push(
-            <>
+
+            <div style={{
+                // position: 'relative',
+                // display: 'inline-block',
+                width: "100%",
+                height: "100%",
+            }}>
+
 
                 <ToggleButton
                     key={idx}
-                    id={`radio-${idx}`}
+                    id={`color-${idx}`}
                     type="radio"
-                    // variant={idx % 2 ? 'outline-success' : 'outline-danger'}
-                    name="radio"
+
+
                     value="color"
                     checked={isSelected}
                     onChange={(e) => setSelectColor(idx)}
                     style={{
                         background: `linear-gradient(150deg,${cssColor})`,
-                        // color: '#000000',
-                        // display: "flex",
+                        // position: 'absolute',
+                        // top: 0,
+                        // left: 0,
                         width: "100%",
                         height: "100%",
-                        // width: "100%",
-                        // height: "100%",
 
                         border: 'none',
-                        borderRadius: isSelected ? '90%' : '100%',
-                        // height: isSelected ? '60px' : '50px',
+                        borderRadius: isSelected ? '80% 80% 80% 80%' : '100%',
+
                         paddingTop: "100%",
                         boxShadow: `0 4px 8px rgba(0, 0, 0, ${isSelected ? 0.75 : 0.2})`,
-                        // padding: 0.2
-
+                        position: "relative"
                     }}
-                >  </ToggleButton >
+                >
+                    {/* <button style={{
+                        position: "absolute",
+                        top: "0px",
+                        right: " 0px",
+                    }}>aa</button> */}
+                    {/* {isSelected &&
+                        <img src={menuIcon} style={{
+                            position: "absolute",
+                            top: "2%",
+                            right: " 2%",
+                        }}
+                            id={`paretteEdit-${idx}`} />} */}
+                    {/* <Overlay target={document.getElementById(`color-${idx}`)} show={editingParette == idx} placement="right">
+                        {(props) => (
+                            <Tooltip id="overlay-example" >
+                                {`color-${idx}`}
+                            </Tooltip>
+                        )}
+                    </Overlay> */}
 
-            </>
+                </ToggleButton >
+            </div >
         );
     }
 
@@ -93,58 +127,15 @@ const ColorPalette: React.FC<colorPaletteProps> = ({ colorList, selectColor, set
                         // border: "1px solid #333333"
                     }}>
 
+                        <ColorEdit colorList={colorList}
+                            selectColor={selectColor}
+                            setSelectColor={setSelectColor}
+                            setColorList={setColorList}
 
-                        {colorList[selectColor].map((color: any, i: any) => (
-                            // <div >{i}_{color}</div>
-
-                            <div style={{
-                                backgroundColor: color,
-                                // border: '2px solid #333',
-                                borderRadius: '10px',
-                                // padding: '1px',
-                                margin: '0.1em 0',
-                                // display: 'flex',
-                                boxShadow: '0 4px 8px rgba(0, 0, 0, 0.2)',
-
-                            }}>
-                                {/* <div>{i}_{color}</div> */}
-
-
-                                <button
-                                    className="btn btn-outline-primary"
-                                    style={{
-                                        visibility: colorList[selectColor].length < 2 ? 'hidden' : 'visible',
-                                        // width: '1ch',
-                                        // height: '1em',
-                                        // lineHeight: '1em',
-                                    }}
-                                    onClick={() => {
-                                        console.log("削除");
-                                        let newColorList = [...colorList]
-                                        colorList[selectColor].splice(i, 1);
-
-                                        setColorList(newColorList);
-                                        // 他の処理をここに追加
-                                    }}
-                                    disabled={colorList[selectColor].length < 2}
-                                >x </button>
-                                {/* {colorList[selectColor].length} */}
-                                <Sketch color={color} onChange={(color) => colorChange(color, selectColor, i)} disableAlpha={true} style={{
-                                    width: "100%",
-                                }} />
-                            </div>
-                        ))}
-                        <button className="btn btn-primary"
-                            style={{
-                                width: "100%"
-                            }}
-                            onClick={() => {
-                                let newColorList = [...colorList]
-                                colorList[selectColor].push(selectColor[0])
-                                setColorList(newColorList);
-                            }}>追加</button>
-
+                        ></ColorEdit>
                     </div>
+
+
                     <div className="col-7 no-margin"  >
                         <ButtonGroup className="no-margin" style={{
                             // position: "fixed",
@@ -168,7 +159,7 @@ const ColorPalette: React.FC<colorPaletteProps> = ({ colorList, selectColor, set
                     </div>
                 </div>
             </div >
-
+            {/* {editingParette} */}
             {/* <br /><br /><br /><br /><br /><br /><br /><br /><br /> */}
         </div >
 

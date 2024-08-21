@@ -23,7 +23,7 @@ function Edit() {
 
   const [colorList, setColorList] = useState([
     ["#FFFFFF"], // white
-    ["#FF5733",], // Red-Orange
+    ["#FF5733"], // Red-Orange
     ["#FFBD33", "#FF0033"], // Orange-Yellow
     ["#FFFF33"], // Yellow
     ["#B6FF33"], // Yellow-Green

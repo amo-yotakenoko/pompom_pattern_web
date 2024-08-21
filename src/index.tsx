@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom/client';
 import './index.css';
 import Edit from "./Edit/Edit"
 import IndexPage from "./Index/IndexPage"
+import TestPage from "./Test/Test"
 import reportWebVitals from './reportWebVitals';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 const root = ReactDOM.createRoot(
@@ -14,6 +15,7 @@ root.render(
     <Routes>
       <Route path={`/`} element={<IndexPage />} />
       <Route path={`/edit`} element={<Edit />} />
+      <Route path={`/test`} element={<TestPage />} />
       <Route path="*" element={<IndexPage />} />
     </Routes>
   </BrowserRouter>
