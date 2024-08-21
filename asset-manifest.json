@@ -1,16 +1,16 @@
 {
   "files": {
     "main.css": "/pompom_pattern_web/static/css/main.411c6d59.css",
-    "main.js": "/pompom_pattern_web/static/js/main.c1b9b13d.js",
-    "static/js/453.6bcba444.chunk.js": "/pompom_pattern_web/static/js/453.6bcba444.chunk.js",
+    "main.js": "/pompom_pattern_web/static/js/main.3fe6bfdc.js",
+    "static/js/453.cc7e82c7.chunk.js": "/pompom_pattern_web/static/js/453.cc7e82c7.chunk.js",
     "static/media/size_guide.jpg": "/pompom_pattern_web/static/media/size_guide.d1a9c3a09c2b8dfe5194.jpg",
     "index.html": "/pompom_pattern_web/index.html",
     "main.411c6d59.css.map": "/pompom_pattern_web/static/css/main.411c6d59.css.map",
-    "main.c1b9b13d.js.map": "/pompom_pattern_web/static/js/main.c1b9b13d.js.map",
-    "453.6bcba444.chunk.js.map": "/pompom_pattern_web/static/js/453.6bcba444.chunk.js.map"
+    "main.3fe6bfdc.js.map": "/pompom_pattern_web/static/js/main.3fe6bfdc.js.map",
+    "453.cc7e82c7.chunk.js.map": "/pompom_pattern_web/static/js/453.cc7e82c7.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.411c6d59.css",
-    "static/js/main.c1b9b13d.js"
+    "static/js/main.3fe6bfdc.js"
   ]
 }
