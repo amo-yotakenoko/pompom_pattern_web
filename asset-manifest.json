@@ -1,18 +1,19 @@
 {
   "files": {
     "main.css": "/pompom_pattern_web/static/css/main.411c6d59.css",
-    "main.js": "/pompom_pattern_web/static/js/main.43526430.js",
+    "main.js": "/pompom_pattern_web/static/js/main.4e62bbd1.js",
     "static/js/453.cc7e82c7.chunk.js": "/pompom_pattern_web/static/js/453.cc7e82c7.chunk.js",
     "static/media/size_guide.jpg": "/pompom_pattern_web/static/media/size_guide.d1a9c3a09c2b8dfe5194.jpg",
+    "service-worker.js": "/pompom_pattern_web/service-worker.js",
     "static/media/bluePrint_base.png": "/pompom_pattern_web/static/media/bluePrint_base.c0d82d72a8e2e7408e99.png",
     "index.html": "/pompom_pattern_web/index.html",
     "static/media/download_fill.svg": "/pompom_pattern_web/static/media/download_fill.0f2f9aa63685b6737bf5335aad459e84.svg",
     "main.411c6d59.css.map": "/pompom_pattern_web/static/css/main.411c6d59.css.map",
-    "main.43526430.js.map": "/pompom_pattern_web/static/js/main.43526430.js.map",
+    "main.4e62bbd1.js.map": "/pompom_pattern_web/static/js/main.4e62bbd1.js.map",
     "453.cc7e82c7.chunk.js.map": "/pompom_pattern_web/static/js/453.cc7e82c7.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.411c6d59.css",
-    "static/js/main.43526430.js"
+    "static/js/main.4e62bbd1.js"
   ]
 }
