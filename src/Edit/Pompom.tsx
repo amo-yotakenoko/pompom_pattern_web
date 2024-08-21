@@ -63,7 +63,7 @@ const Pompom: React.FC<PompomProps> = ({ pattern, colorList, rollWidth, pitchWid
 
         // レンダラーを作成
         canvas = document.querySelector("#edit3d") as HTMLCanvasElement;
-        renderer = new THREE.WebGLRenderer({ canvas });
+        renderer = new THREE.WebGLRenderer({ canvas, alpha: true });
         window.addEventListener('resize', resize);
         resize()
         function resize() {
@@ -118,7 +118,6 @@ const Pompom: React.FC<PompomProps> = ({ pattern, colorList, rollWidth, pitchWid
                 // let radiusMax = 1;
 
 
-                const geometry = new THREE.BufferGeometry();
                 // const vertices = new Float32Array([
                 //     Math.sin(yawMin) * radiusMin * 100, Math.sin(pitchMin) * 100, Math.cos(yawMin) * radiusMin * 100,
                 //     Math.sin(yawMax) * radiusMin * 100, Math.sin(pitchMin) * 100, Math.cos(yawMax) * radiusMin * 100,
@@ -136,29 +135,40 @@ const Pompom: React.FC<PompomProps> = ({ pattern, colorList, rollWidth, pitchWid
                     -Math.sin(pitchMax) * 100, Math.sin(yawMax) * radiusMax * 100, Math.cos(yawMax) * radiusMax * 100,
                     -Math.sin(pitchMax) * 100, Math.sin(yawMin) * radiusMax * 100, Math.cos(yawMin) * radiusMax * 100,
                 ]);
-
-
-                geometry.setAttribute('position', new THREE.BufferAttribute(vertices, 3));
-
                 const indices = new Uint16Array([
                     0, 1, 2, 0, 2, 3,
                     0 + 4, 1 + 4, 2 + 4, 0 + 4, 2 + 4, 3 + 4,
                 ]);
+
+
+                const geometry = new THREE.BufferGeometry();
+                geometry.setAttribute('position', new THREE.BufferAttribute(vertices, 3));
+
                 geometry.setIndex(new THREE.BufferAttribute(indices, 1));
                 geometry.computeVertexNormals();
-                // var randomColor = "rgb(" + (~~(256 * Math.random())) + ", " + (~~(256 * Math.random())) + ", " + (~~(256 * Math.random())) + ")";
-                // const material = new THREE.MeshBasicMaterial({ color: randomColor });
                 const material = new THREE.MeshBasicMaterial({ color: "#ffffff" });
-                // const material = new THREE.MeshToonMaterial({ color: "#ffffff" });
 
                 const mesh = new THREE.Mesh(geometry, material);
                 (mesh as any).patternPos = { r: roll, p: pitch };
-
-
-
                 meshList.current.push(mesh);
-                // シーンに追加
                 scene.add(mesh);
+
+                const edgesGeometry = new THREE.EdgesGeometry(geometry);
+                const edgesMaterial = new THREE.LineBasicMaterial({ color: "#111111", linewidth: 1 });
+                const edges = new THREE.LineSegments(edgesGeometry, edgesMaterial);
+                scene.add(edges);
+
+
+                // const wireframeGeometry = new THREE.WireframeGeometry(geometry);
+                // const wireframeMaterial = new THREE.LineBasicMaterial({ color: "#ffffff", linewidth: 1, });
+                // const wireframe = new THREE.LineSegments(wireframeGeometry, wireframeMaterial);
+                // const wireMesh = new THREE.Mesh(wireframeGeometry, wireframeMaterial);
+                // (wireMesh as any).patternPos = { r: roll, p: pitch };
+                // meshList.current.push(wireMesh);
+                // scene.add(wireframe);
+
+
+
 
             }
         }

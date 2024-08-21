@@ -45,11 +45,14 @@ const BluePrint: React.FC<BluePrintProps> = ({ pattern, colorList, rollWidth, pi
 
         // console.log(propsRef.current.pattern)
         const bluePrintImg = document.getElementById('bluePrintImg') as HTMLImageElement;
-
+        const pompomCanvas = document.getElementById("edit3d") as HTMLCanvasElement;
         // });
         (async function () {
             bluePrintImg.src = "";
             // 関数の内容
+            ctx.fillStyle = "#FFFFFF";
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            await drawPompom(ctx, canvas, pompomCanvas, getR)
             console.log("かきこみ1")
             await drawbluePrint(ctx, canvas, pitchWidth, propsRef, rollWidth, getTheta, getR, colorList, pattern);
             console.log("かきこみ2")
@@ -101,14 +104,40 @@ const BluePrint: React.FC<BluePrintProps> = ({ pattern, colorList, rollWidth, pi
 export default BluePrint;
 
 
+async function drawPompom(ctx: any, canvas: HTMLCanvasElement, pompomCanvas: HTMLCanvasElement, getR: any) {
+    await new Promise(resolve => setTimeout(resolve, 10));
+
+    console.log("pompomかきこみ", pompomCanvas)
+    // const pompomCtx = pompomCanvas.getContext('2d');
+    // console.log({ pompomCtx })
+    // 目標の幅と高さ
+    const targetWidth = canvas.width;
+    const targetHeight = canvas.height;
+
+    // ソースの幅と高さ（pompomCanvas のサイズ）
+    const sourceWidth = pompomCanvas.width;
+    const sourceHeight = pompomCanvas.height;
+
+    // pompomCanvas の内容を canvas に描画
+    let r = getR(-1)
+    // ctx.lineWidth = 5; // 枠線の太さ
+    // ctx.beginPath(); // パスの開始
+    // ctx.arc(512, 512, 150, 0, 2 * Math.PI); // 円を描く (x座標, y座標, 半径, 開始角度, 終了角度)
+    // ctx.strokeStyle = 'blue'; // 枠線の色
+    // ctx.stroke(); // 枠線を描く
+    // ctx.fillStyle = 'lightblue'; // 塗りつぶしの色
+    // ctx.fill(); // 円を塗りつぶす
+    ctx.drawImage(pompomCanvas, 0, 0, sourceWidth, sourceHeight, targetWidth / 2 - r, targetHeight / 2 - r, r * 2, r * 2);
+
+}
 
 
 async function drawbluePrint(ctx: any, canvas: HTMLCanvasElement, pitchWidth: number, propsRef: React.MutableRefObject<{ pattern: any; colorList: any; }>, rollWidth: number, getTheta: (roll: any) => number, getR: (pitch: any) => number, colorList: any, pattern: any) {
 
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
+
     // canvas.width = canvasParent.clientWidth;
     // canvas.height = canvasParent.clientHeight;
-    console.log("draw");
+    // console.log("draw");
 
     // //適当な縁
     // ctx.lineWidth = 5; // 枠線の太さ
@@ -245,13 +274,13 @@ async function drawbluePrint(ctx: any, canvas: HTMLCanvasElement, pitchWidth: nu
                 ctx.moveTo(center.x + Math.cos(getTheta(roll + 1)) * getR(pitch), center.y + Math.sin(getTheta(roll + 1)) * getR(pitch));
                 for (let i = 0; i <= widthCount; i++) {
                     ctx.lineTo(center.x + Math.cos(getTheta(roll + 1 - i)) * getR(pitch), center.y + Math.sin(getTheta(roll + 1 - i)) * getR(pitch));
-                    console.log("up");
+                    // console.log("up");
                     // ctx.arc(center.x + Math.cos(getTheta(roll + 1 - i)) * getR(pitch), center.y + Math.sin(getTheta(roll + 1 - i)) * getR(pitch), 5, 0, Math.PI * 2);
                 }
 
                 for (let i = widthCount; i >= 0; i--) {
                     ctx.lineTo(center.x + Math.cos(getTheta(roll + 1 - i)) * getR(pitch + piled), center.y + Math.sin(getTheta(roll + 1 - i)) * getR(pitch + piled));
-                    console.log("down");
+                    // console.log("down");
                     // ctx.arc(center.x + Math.cos(getTheta(roll + 1 - i)) * getR(pitch + piled), center.y + Math.sin(getTheta(roll + 1 - i)) * getR(pitch + piled), 5, 0, Math.PI * 2);
                 }
                 // ctx.lineTo(center.x + Math.cos(getTheta(roll + 1 - widthCount)) * getR(pitch), center.y + Math.sin(getTheta(roll + 1 - widthCount)) * getR(pitch));
@@ -282,7 +311,7 @@ async function drawbluePrint(ctx: any, canvas: HTMLCanvasElement, pitchWidth: nu
 
 
                 // ctx.fillText(text, center.x + Math.cos(theta + thetaWidth / 2) * (r + rWidth / 2) - (textWidth / 2), center.y + Math.sin(theta + thetaWidth / 2) * (r + rWidth / 2) + (textHeight / 2));
-                console.log("まつ");
+                // console.log("まつ");
 
                 await new Promise(requestAnimationFrame);
                 // await new Promise(resolve => setTimeout(resolve, 1000));

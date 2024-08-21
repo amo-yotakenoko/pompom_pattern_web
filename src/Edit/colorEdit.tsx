@@ -100,10 +100,11 @@ const ColorEdit: React.FC<colorPaletteProps> = ({ colorList, selectColor, setSel
                 {/* <Nav.Item style={{ width: '40px' }}>
                 </Nav.Item> */}
             </Nav >
+            {/* {PhotoshopPicker} */}
 
             <ChromePicker color={colorList[selectColor][selectedMultiColor]}
                 onChange={(color) => colorChange(color, selectColor, selectedMultiColor)}
-                disableAlpha={true}
+                // disableAlpha={true}
                 styles={{
                     default: {
                         picker: {

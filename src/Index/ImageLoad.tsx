@@ -60,15 +60,15 @@ const ImageLoad: React.FC = () => {
                     console.log({ ImageData })
                     let image_i = 0
                     for (let i = 0; i < canvas.width * canvas.height * 4; i += 1) {
-                        if (ImageData.data[image_i + 3] != 255) break;
+                        if (ImageData.data[image_i + 1] != 0) break;
                         bin.push(ImageData.data[image_i])
                         image_i += 4
 
                     }
-                    console.log(bin)
+                    console.log("bin", bin)
                     ctx.putImageData(ImageData, 0, 0);
                     let text = new TextDecoder().decode(new Uint8Array(bin));
-                    console.log(text)
+                    console.log("text", text)
 
                     return JSON.parse(text);
                 }

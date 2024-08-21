@@ -98,9 +98,12 @@ function drawData(data: any) {
     var ImageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
     let image_i = 0
     for (let i = 0; i < bin.length; i += 1) {
-        ImageData.data[image_i] = bin[i]
-        ImageData.data[image_i + 3] = 255
-        image_i += 4
+        ImageData.data[image_i++] = bin[i]
+        ImageData.data[image_i++] = 0
+        ImageData.data[image_i++] = 0
+        ImageData.data[image_i++] = 255
+        // ImageData.data[image_i + 3] = 255
+
         // ImageData.data[i] = 0
         // let color = "#"
         // color += `${hexBin[i++]}`;
@@ -109,6 +112,7 @@ function drawData(data: any) {
         // colors.push(color)
         // const image = ctx.getImageData(x, y, 1, 1).data;
     }
+
     ctx.putImageData(ImageData, 0, 0);
     console.log(bin)
 
