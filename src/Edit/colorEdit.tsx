@@ -50,7 +50,10 @@ const ColorEdit: React.FC<colorPaletteProps> = ({ colorList, selectColor, setSel
                     // <Nav.Item >
                     <Nav.Link eventKey={`${i}`} style={{
                         backgroundColor: color,
-                        border: selectedMultiColor === i ? '1px solid black' : '0.1px solid black',
+                        borderTop: selectedMultiColor === i ? '1px solid black' : '0.5px solid black',
+                        borderRight: selectedMultiColor === i ? '1px solid black' : '0.5px solid black',
+                        borderBottom: 'none', // 下側のボーダーを無効にする
+                        borderLeft: selectedMultiColor === i ? '1px solid black' : '0.5px solid black',
                         transform: selectedMultiColor === i ? 'translateY(1px)' : 'translateY(7px)',
                         padding: 0, // パディングを0に
                         margin: 0, // マージンを0に
@@ -104,7 +107,7 @@ const ColorEdit: React.FC<colorPaletteProps> = ({ colorList, selectColor, setSel
 
             <ChromePicker color={colorList[selectColor][selectedMultiColor]}
                 onChange={(color) => colorChange(color, selectColor, selectedMultiColor)}
-                // disableAlpha={true}
+                disableAlpha={true}
                 styles={{
                     default: {
                         picker: {
