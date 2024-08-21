@@ -124,7 +124,8 @@ const Pompom: React.FC<PompomProps> = ({ pattern, colorList, rollWidth, pitchWid
                 //     Math.sin(yawMax) * radiusMax * 100, Math.sin(pitchMax) * 100, Math.cos(yawMax) * radiusMax * 100,
                 //     Math.sin(yawMin) * radiusMax * 100, Math.sin(pitchMax) * 100, Math.cos(yawMin) * radiusMax * 100,
                 // ]);
-                const vertices = new Float32Array([
+
+                let vertices = [
                     Math.sin(pitchMax) * 100, Math.sin(yawMin) * radiusMax * 100, Math.cos(yawMin) * radiusMax * 100,
                     Math.sin(pitchMax) * 100, Math.sin(yawMax) * radiusMax * 100, Math.cos(yawMax) * radiusMax * 100,
                     Math.sin(pitchMin) * 100, Math.sin(yawMax) * radiusMin * 100, Math.cos(yawMax) * radiusMin * 100,
@@ -134,7 +135,8 @@ const Pompom: React.FC<PompomProps> = ({ pattern, colorList, rollWidth, pitchWid
                     -Math.sin(pitchMin) * 100, Math.sin(yawMax) * radiusMin * 100, Math.cos(yawMax) * radiusMin * 100,
                     -Math.sin(pitchMax) * 100, Math.sin(yawMax) * radiusMax * 100, Math.cos(yawMax) * radiusMax * 100,
                     -Math.sin(pitchMax) * 100, Math.sin(yawMin) * radiusMax * 100, Math.cos(yawMin) * radiusMax * 100,
-                ]);
+                ];
+
                 const indices = new Uint16Array([
                     0, 1, 2, 0, 2, 3,
                     0 + 4, 1 + 4, 2 + 4, 0 + 4, 2 + 4, 3 + 4,
@@ -142,7 +144,7 @@ const Pompom: React.FC<PompomProps> = ({ pattern, colorList, rollWidth, pitchWid
 
 
                 const geometry = new THREE.BufferGeometry();
-                geometry.setAttribute('position', new THREE.BufferAttribute(vertices, 3));
+                geometry.setAttribute('position', new THREE.BufferAttribute(new Float32Array(vertices), 3));
 
                 geometry.setIndex(new THREE.BufferAttribute(indices, 1));
                 geometry.computeVertexNormals();
@@ -153,9 +155,39 @@ const Pompom: React.FC<PompomProps> = ({ pattern, colorList, rollWidth, pitchWid
                 meshList.current.push(mesh);
                 scene.add(mesh);
 
-                const edgesGeometry = new THREE.EdgesGeometry(geometry);
-                const edgesMaterial = new THREE.LineBasicMaterial({ color: "#111111", linewidth: 1 });
-                const edges = new THREE.LineSegments(edgesGeometry, edgesMaterial);
+                const Meshvertices: any = [];
+                const bias = 1.01
+                const pushMeshvertices = function (v: number) {
+
+                    Meshvertices.push(vertices[v * 3] * bias, vertices[v * 3 + 1] * bias, vertices[v * 3 + 2] * bias);
+                };
+                pushMeshvertices(0)
+                pushMeshvertices(1)
+                pushMeshvertices(1)
+                pushMeshvertices(2)
+                pushMeshvertices(2)
+                pushMeshvertices(3)
+                pushMeshvertices(3)
+                pushMeshvertices(0)
+
+                pushMeshvertices(0 + 4)
+                pushMeshvertices(1 + 4)
+                pushMeshvertices(1 + 4)
+                pushMeshvertices(2 + 4)
+                pushMeshvertices(2 + 4)
+                pushMeshvertices(3 + 4)
+                pushMeshvertices(3 + 4)
+                pushMeshvertices(0 + 4)
+                // pushMeshvertices(3)
+                // pushMeshvertices(1)
+
+                const meshGeometry = new THREE.BufferGeometry();
+                meshGeometry.setAttribute('position', new THREE.BufferAttribute(new Float32Array(Meshvertices), 3));
+
+                // const edgesGeometry = new THREE.EdgesGeometry(geometry);
+                const meshMaterial = new THREE.LineBasicMaterial({ color: "#111111", linewidth: 1 });
+                const edges = new THREE.LineSegments(meshGeometry, meshMaterial);
+                // if (roll == 5 && pitch == 5)
                 scene.add(edges);
 
 
