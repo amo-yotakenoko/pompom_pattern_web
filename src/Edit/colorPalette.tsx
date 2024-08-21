@@ -48,12 +48,7 @@ const ColorPalette: React.FC<colorPaletteProps> = ({ colorList, selectColor, set
         // console.log(cssColor.join(', '))
         colorButtons.push(
 
-            <div style={{
-                // position: 'relative',
-                // display: 'inline-block',
-                width: "100%",
-                height: "100%",
-            }}>
+            <div className=' col-4  no-margin' >
 
 
                 <ToggleButton
@@ -78,7 +73,7 @@ const ColorPalette: React.FC<colorPaletteProps> = ({ colorList, selectColor, set
 
                         paddingTop: "100%",
                         boxShadow: `0 4px 8px rgba(0, 0, 0, ${isSelected ? 0.75 : 0.2})`,
-                        position: "relative"
+                        // position: "relative"
                     }}
                 >
                     {/* <button style={{
@@ -109,58 +104,62 @@ const ColorPalette: React.FC<colorPaletteProps> = ({ colorList, selectColor, set
 
     console.log({ color: colorList[selectColor] })
     return (
-        <div >
-            {/* {selectColor} */}
 
 
 
-            <div className="container no-margin" style={{ margin: 0, padding: 0 }}>
-                <div className="row no-margin" style={{ margin: 0, padding: 0 }} >
-                    <div className="col-7 no-margin" style={{
-                        maxHeight: "calc(100vh - 100vw - 2.5em)",
-                        // height: "100%",
-                        // overflow: "auto",
-                        maxWidth: "100%",
-                        margin: "0",
-                        // maxHeight: "30vh",
-                        padding: "0 1em 0 0",
-                        // border: "1px solid #333333"
-                    }}>
 
-                        <ColorEdit colorList={colorList}
-                            selectColor={selectColor}
-                            setSelectColor={setSelectColor}
-                            setColorList={setColorList}
+        < div className="container-fluid no-margin" style={{ margin: 0, padding: 0, width: "100%", }
+        }>
+            <div className="row no-margin" style={{ margin: 0, padding: 0 }} >
+                <div className="col-7 no-margin" style={{
+                    maxHeight: "calc(100vh - 100vw - 2.5em)",
+                    // height: "100%",
+                    // overflow: "auto",
+                    maxWidth: "100%",
+                    margin: "0",
+                    // maxHeight: "30vh",
+                    padding: "0 1em 0 0",
+                    // border: "1px solid #333333"
+                }}>
 
-                        ></ColorEdit>
-                    </div>
+                    <ColorEdit colorList={colorList}
+                        selectColor={selectColor}
+                        setSelectColor={setSelectColor}
+                        setColorList={setColorList}
+
+                    ></ColorEdit>
+                </div>
 
 
-                    <div className="col-5 no-margin"  >
-                        <ButtonGroup className="no-margin" style={{
+                <div className="col-5 no-margin"  >
+                    <div className="container-fluid no-margin">
+                        {/* <div className="row"> */}
+                        <ButtonGroup className="row  no-margin" style={{
                             // position: "fixed",
                             // bottom: 0,
                             // // https://zero-plus.io/media/css-align-items-how-to-use/
                             // display: "flex",
                             // alignItems: "flex-end",
-                            display: "grid",
-                            gridTemplateColumns: 'repeat(auto-fit, minmax(12vw, 1fr))',
+                            // display: "grid",
+                            // gridTemplateColumns: 'repeat(auto-fit, minmax(12vw, 1fr))',
 
+                            width: "100%",
                             maxHeight: "calc(100vh - 100vw - 2.5em)",
                             // height: "100%",
                             overflow: "auto",
-                            padding: "8px",
+                            // backgroundColor: "red",
+                            // padding: "8px",
                             // border: "1px solid #333333"
 
                         }}>
+                            {/* aa */}
                             {colorButtons}
-                            <br></br>
+
                         </ButtonGroup>
+                        {/* </div> */}
                     </div>
                 </div>
-            </div >
-            {/* {editingParette} */}
-            {/* <br /><br /><br /><br /><br /><br /><br /><br /><br /> */}
+            </div>
         </div >
 
 

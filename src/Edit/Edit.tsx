@@ -101,7 +101,7 @@ function Edit() {
     <>
       <div style={{
         display: activeMenu === "pompom" ? "block" : "none",
-        height: "100%"
+        height: "100%", width: "100%",
       }}>
         <Pompom
           pattern={pattern}
@@ -112,12 +112,15 @@ function Edit() {
           setPattern={setPattern}
           activeMenu={activeMenu}
         />
+
+
         <ColorPalette
           colorList={colorList}
           selectColor={selectColor}
           setSelectColor={setSelectColor}
           setColorList={setColorList}
         />
+
       </div>
 
       <div style={{ display: activeMenu === "bluePrint" ? "block" : "none" }}>

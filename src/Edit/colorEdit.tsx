@@ -40,7 +40,7 @@ const ColorEdit: React.FC<colorPaletteProps> = ({ colorList, selectColor, setSel
     }, [selectColor]);
     return (
 
-        <>
+        <div style={{ maxHeight: "calc(100vh - 100vw - 2.5em)", }}>
             <Nav justify variant="tabs" activeKey={selectedMultiColor}
                 onSelect={(e: any) => { setSelectedMultiColor(parseInt(e)) }}>
 
@@ -104,18 +104,30 @@ const ColorEdit: React.FC<colorPaletteProps> = ({ colorList, selectColor, setSel
                 </Nav.Item> */}
             </Nav >
             {/* {PhotoshopPicker} */}
+            <div style={{ height: "10vw", backgroundColor: "red" }}>
+                <ChromePicker color={colorList[selectColor][selectedMultiColor]}
+                    onChange={(color) => colorChange(color, selectColor, selectedMultiColor)}
+                    disableAlpha={true}
+                    styles={{
+                        default: {
+                            picker: {
+                                width: '100%', // ピッカーの幅を親要素に合わせる
+                                height: "100%",
+                            },
+                            body: {
+                                padding: '3px 3px 3px',
 
-            <ChromePicker color={colorList[selectColor][selectedMultiColor]}
-                onChange={(color) => colorChange(color, selectColor, selectedMultiColor)}
-                disableAlpha={true}
-                styles={{
-                    default: {
-                        picker: {
-                            width: '100%', // ピッカーの幅を親要素に合わせる
+                            },
+                            //                             saturation: {
+
+                            //                                 paddingBottom: '55%',
+                            // height
+
+                            //                             },
                         },
-                    },
-                }}
-            />
+                    }}
+                />
+            </div>
 
 
             {/* <div style={{
@@ -165,7 +177,7 @@ const ColorEdit: React.FC<colorPaletteProps> = ({ colorList, selectColor, setSel
                     setColorList(newColorList);
                 }}>追加</button> */}
 
-        </>
+        </div>
     )
 }
 
