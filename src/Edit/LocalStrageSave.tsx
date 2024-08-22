@@ -31,14 +31,18 @@ const LocalStrageSave: React.FC<LocalStrageSaveProps> = ({ data, activeMenu }) =
             event.returnValue = "";
         };
 
-        console.log("警告", isSaved)
+
         if (!isSaved) {
+            console.log("登録", isSaved)
             window.addEventListener("beforeunload", onBeforeUnloadEvent);
         } else {
+            console.log("解除", isSaved)
             window.removeEventListener("beforeunload", onBeforeUnloadEvent);
         }
         // クリーンアップ
         return () => {
+            console.log("解除", isSaved)
+
             window.removeEventListener("beforeunload", onBeforeUnloadEvent);
         };
     }, [isSaved]);
