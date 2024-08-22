@@ -32,10 +32,12 @@ function IndexPage() {
             <div className="container mt-4">
 
                 <div className="row">
-                    <LayoutAlart></LayoutAlart>
+                    <div className="col-12 ">
+                        <LayoutAlart></LayoutAlart>
+                    </div>
 
                     <div className="col-12 col-md-6 mb-4 d-flex">
-                        <div className="card flex-fill">
+                        <div className="card ">
                             <div className="card-body">
                                 <h5 className="card-title">新規作成</h5>
                                 <New />
@@ -43,7 +45,7 @@ function IndexPage() {
                         </div>
                     </div>
                     <div className="col-12 col-md-6 mb-4 d-flex">
-                        <div className="card flex-fill">
+                        <div className="card ">
                             <div className="card-body">
                                 <h5 className="card-title">画像から読み込み</h5>
                                 <ImageLoad />
@@ -51,7 +53,7 @@ function IndexPage() {
                         </div>
                     </div>
 
-                    <div className="col-12 col-md-6 mb-4 d-flex">
+                    {/* <div className="col-12 col-md-6 mb-4 d-flex">
                         <div className="card flex-fill">
                             <div className="card-body">
                                 <h5 className="card-title">テスト用</h5>
@@ -63,7 +65,7 @@ function IndexPage() {
                                 />
                             </div>
                         </div>
-                    </div>
+                    </div> */}
                 </div>
             </div >
 
@@ -76,16 +78,16 @@ function IndexPage() {
 
 function LayoutAlart() {
     return (
-        <div className="col-12 ">
+        <>
             {window.screen.height / window.screen.width < 1 && (
                 <Alert className="d-flex align-items-center justify-content-center " style={{ padding: "0" }} variant='warning'>
                     <div className="d-flex align-items-center justify-content-between w-100" style={{ marginLeft: '15px' }}>
-                        このアプリは現在スマートフォン向けです
+                        このアプリは縦向きのスマートフォン向けです
                         <img src={QRCode} style={{ width: '64px', height: '64px' }} alt="QR Code" />
                     </div>
                 </Alert>
             )}
-        </div>
+        </>
     )
 }
 export default IndexPage;
