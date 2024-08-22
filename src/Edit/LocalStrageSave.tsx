@@ -1,7 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useLocation } from "react-router-dom"
 import { drawData } from "./ImageSave";
 import 'bootstrap/dist/css/bootstrap.min.css';
+import * as Icon from 'react-bootstrap-icons';
+// import addIcon from '../img/designsystem-assets/icon/png/';
 interface LocalStrageSaveProps {
     data: any;
     activeMenu: any
@@ -10,6 +12,37 @@ interface LocalStrageSaveProps {
 
 const LocalStrageSave: React.FC<LocalStrageSaveProps> = ({ data, activeMenu }) => {
     const location = useLocation()
+    const [isSaved, setIsSaved] = useState(true);
+    useEffect(() => {
+        console.log("dataを更新")
+        setIsSaved(false)
+    }, [data])
+    useEffect(() => {
+        saveToLocalStrage()
+    }, [activeMenu])
+
+
+
+
+    useEffect(() => {
+        // ページを離れようとしたときのイベントリスナーを設定
+        const onBeforeUnloadEvent = (event: any) => {
+            event.preventDefault();
+            event.returnValue = "";
+        };
+
+        console.log("警告", isSaved)
+        if (!isSaved) {
+            window.addEventListener("beforeunload", onBeforeUnloadEvent);
+        } else {
+            window.removeEventListener("beforeunload", onBeforeUnloadEvent);
+        }
+        // クリーンアップ
+        return () => {
+            window.removeEventListener("beforeunload", onBeforeUnloadEvent);
+        };
+    }, [isSaved]);
+
 
     // Function to save data to localStorage
     function saveToLocalStrage() {
@@ -34,6 +67,7 @@ const LocalStrageSave: React.FC<LocalStrageSaveProps> = ({ data, activeMenu }) =
         console.log(datas)
 
         localStorage.setItem('pompoms', JSON.stringify(datas));
+        setTimeout(() => setIsSaved(true), 1)
 
         // localStorage.setItem('pompoms', data);
         // alert('Data saved to localStorage!');
@@ -78,7 +112,19 @@ const LocalStrageSave: React.FC<LocalStrageSaveProps> = ({ data, activeMenu }) =
 
     return (
         <>
-            <button onClick={saveToLocalStrage}>Save to localStorage</button>
+            {/* aa{`${isSaved}`} */}
+
+            {/* <i className="bi bi-floppy2" onClick={saveToLocalStrage}></i>
+            <i className="bi bi-123"></i> */}
+            {!isSaved &&
+                <Icon.Floppy2 onClick={saveToLocalStrage} style={{
+
+                    top: "5px", // 画面の上部
+                    left: "5px", // 画面の左端
+                    position: 'fixed',
+                }} />
+                // <img onClick={saveToLocalStrage}>Save to</button>
+            }
             {/* <button onClick={loadFromLocalStrage}>Load from localStorage</button> */}
         </>
 
