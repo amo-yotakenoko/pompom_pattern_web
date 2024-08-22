@@ -9,7 +9,7 @@ import SizeSet from './sizeSet'
 import New from './New'
 import QRCode from '../img/qr.png';
 import Alert from 'react-bootstrap/Alert';
-
+import * as Icon from 'react-bootstrap-icons';
 function testPattern(rollWidth: any, pitchWidth: any) {
     console.log("Pattern書き直し", rollWidth, pitchWidth)
     const _pattern: any = []
@@ -82,7 +82,7 @@ function LayoutAlart() {
             {window.screen.height / window.screen.width < 1 && (
                 <Alert className="d-flex align-items-center justify-content-center " style={{ padding: "0" }} variant='warning'>
                     <div className="d-flex align-items-center justify-content-between w-100" style={{ marginLeft: '15px' }}>
-                        このアプリは縦向きのスマートフォン向けです
+                        <Icon.ExclamationTriangle style={{ width: '32px', height: '32px' }} ></Icon.ExclamationTriangle>このアプリは縦向きのスマートフォン向けです
                         <img src={QRCode} style={{ width: '64px', height: '64px' }} alt="QR Code" />
                     </div>
                 </Alert>

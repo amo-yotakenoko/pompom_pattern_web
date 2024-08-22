@@ -17,9 +17,9 @@ const LocalStrageSave: React.FC<LocalStrageSaveProps> = ({ data, activeMenu }) =
         console.log("dataを更新")
         setIsSaved(false)
     }, [data])
-    useEffect(() => {
-        saveToLocalStrage()
-    }, [activeMenu])
+    // useEffect(() => {
+    //     saveToLocalStrage()
+    // }, [activeMenu])
 
 
 

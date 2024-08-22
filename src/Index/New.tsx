@@ -5,6 +5,7 @@ import Button from 'react-bootstrap/Button';
 import size_guide from '../img/size_guide.jpg';
 import SizeSet from './sizeSet'
 import { useNavigate } from "react-router-dom";
+import * as Icon from 'react-bootstrap-icons';
 type NewProps = {
 
 };
@@ -82,7 +83,10 @@ const New: React.FC<NewProps> = ({ }) => {
             {/* {rollWidth}-{pitchWidth} */}
             <div style={{ display: 'flex', justifyContent: 'flex-end', margin: "5px" }}>
 
-                <Button onClick={newCreate}>新規作成</Button>
+                <Button onClick={newCreate}>新規作成<Icon.PencilSquare style={{
+                    marginLeft: '8px',
+                    fontSize: '20px'
+                }} /></Button>
             </div>
         </>
     )

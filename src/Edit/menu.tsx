@@ -3,6 +3,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import ButtonGroup from 'react-bootstrap/ButtonGroup';
 import ToggleButton from 'react-bootstrap/ToggleButton';
 import UndoRedo from './undoRedu';
+import * as Icon from 'react-bootstrap-icons';
 type MenuProps = {
     activeMenu: any;
     setActiveMenu: any;
@@ -39,8 +40,8 @@ const Menu: React.FC<MenuProps> = ({ activeMenu, setActiveMenu, pattern, colorLi
 
 
 
-            < Item displayName={"編集"} tabId={"pompom"} activeMenu={activeMenu} setActiveMenu={setActiveMenu} ></Item >
-            <Item displayName={"設計図"} tabId={"bluePrint"} activeMenu={activeMenu} setActiveMenu={setActiveMenu}></Item>
+            < Item displayName={<>編集   <Icon.PencilSquare /></>} tabId={"pompom"} activeMenu={activeMenu} setActiveMenu={setActiveMenu} ></Item >
+            <Item displayName={<>設計図   <Icon.FileEarmarkPost /></>} tabId={"bluePrint"} activeMenu={activeMenu} setActiveMenu={setActiveMenu}></Item>
         </ButtonGroup >
     )
 }

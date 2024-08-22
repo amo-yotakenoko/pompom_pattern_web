@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Button } from 'react-bootstrap';
-
+import * as Icon from 'react-bootstrap-icons';
 type UndoRedoProps = {
     enable: any;
     pattern: any;
@@ -134,7 +134,7 @@ const UndoButton: React.FC<UndoButtonProps> = ({ enable, history, current, setPa
                 console.log({ history })
             }}
         >
-            👈
+            <Icon.Arrow90degLeft />
         </Button >
     );
 };
@@ -165,7 +165,7 @@ const RedoButton: React.FC<UndoButtonProps> = ({ enable, history, current, setPa
                 // }, 100);
             }}
         >
-            👉
-        </Button>
+            <Icon.Arrow90degRight />
+        </Button >
     );
 };

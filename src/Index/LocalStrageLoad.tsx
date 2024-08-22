@@ -4,6 +4,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import { Button } from 'react-bootstrap';
 import addIcon from '../img/designsystem-assets/icon/png/add_fill24.png';
 import Modal from 'react-bootstrap/Modal';
+import * as Icon from 'react-bootstrap-icons';
 interface LocalStrageLoadProps { }
 
 const LocalStrageLoad: React.FC<LocalStrageLoadProps> = ({ }) => {
@@ -83,17 +84,18 @@ const LocalStrageLoad: React.FC<LocalStrageLoadProps> = ({ }) => {
                                     alt="Delete Icon"
                                 />
                                 <img src={value.img} style={{ width: '100%' }} alt="Sample" />
-                                <Button
+                                <Icon.Pencil
                                     style={{
                                         position: 'absolute',
                                         bottom: '0px',
                                         right: '0px',
-                                        zIndex: 1
+                                        zIndex: 1,
+                                        fontSize: '32px'
                                     }}
                                     onClick={() => navigeteEdit(key, value.data)}
                                 >
-                                    編集
-                                </Button>
+                                    {/* <Icon.Pencil /> */}
+                                </Icon.Pencil>
                             </div>
                         </div>
                     </div>
