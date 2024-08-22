@@ -17,6 +17,7 @@ const New: React.FC<NewProps> = ({ }) => {
             state: {
                 rollWidth: rollWidth * 2,
                 pitchWidth: pitchWidth,
+                saveKeyName: `new-${new Date().toLocaleTimeString()}`
                 // colorList: [
                 //     ["#FF33FF"], // Magenta
                 //     ["#FFFFFF"], // white
@@ -79,8 +80,10 @@ const New: React.FC<NewProps> = ({ }) => {
                 </div>
             </div>
             {/* {rollWidth}-{pitchWidth} */}
+            <div style={{ display: 'flex', justifyContent: 'flex-end', margin: "5px" }}>
 
-            <Button onClick={newCreate}>新規作成</Button>
+                <Button onClick={newCreate}>新規作成</Button>
+            </div>
         </>
     )
 

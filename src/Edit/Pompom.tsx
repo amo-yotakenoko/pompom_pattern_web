@@ -77,7 +77,7 @@ const Pompom: React.FC<PompomProps> = ({ pattern, colorList, rollWidth, pitchWid
 
         // レンダラーを作成
         canvas = document.querySelector("#edit3d") as HTMLCanvasElement;
-        renderer = new THREE.WebGLRenderer({ canvas, alpha: true, antialias: true });
+        renderer = new THREE.WebGLRenderer({ canvas, alpha: true, antialias: true, preserveDrawingBuffer: true });
         window.addEventListener('resize', resize);
         resize()
         function resize() {

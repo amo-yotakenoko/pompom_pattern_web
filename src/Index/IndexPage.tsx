@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import LocalStrageLoad from './LocalStrageLoad';
 import Button from 'react-bootstrap/Button';
 import ImageLoad from './ImageLoad'
 import { useNavigate } from "react-router-dom";
@@ -8,6 +9,7 @@ import SizeSet from './sizeSet'
 import New from './New'
 import QRCode from '../img/qr.png';
 import Alert from 'react-bootstrap/Alert';
+
 function testPattern(rollWidth: any, pitchWidth: any) {
     console.log("Pattern書き直し", rollWidth, pitchWidth)
     const _pattern: any = []
@@ -28,24 +30,23 @@ function IndexPage() {
     return (
         <>
 
-
-            <div className="container mt-4">
-
+            <div className="container">
                 <div className="row">
-                    <div className="col-12 ">
-                        <LayoutAlart></LayoutAlart>
+                    <div className="col-12">
+                        <LayoutAlart />
                     </div>
 
                     <div className="col-12 col-md-6 mb-4 d-flex">
-                        <div className="card ">
+                        <div className="card flex-fill">
                             <div className="card-body">
                                 <h5 className="card-title">新規作成</h5>
                                 <New />
                             </div>
                         </div>
                     </div>
+
                     <div className="col-12 col-md-6 mb-4 d-flex">
-                        <div className="card ">
+                        <div className="card flex-fill">
                             <div className="card-body">
                                 <h5 className="card-title">画像から読み込み</h5>
                                 <ImageLoad />
@@ -53,21 +54,20 @@ function IndexPage() {
                         </div>
                     </div>
 
+
+                    <LocalStrageLoad></LocalStrageLoad>
+
+
                     {/* <div className="col-12 col-md-6 mb-4 d-flex">
                         <div className="card flex-fill">
                             <div className="card-body">
                                 <h5 className="card-title">テスト用</h5>
-                                <input
-                                    type="color"
-                                    id="colorPicker"
-                                    name="color"
-
-                                />
+                                <input type="color" id="colorPicker" name="color" />
                             </div>
                         </div>
                     </div> */}
                 </div>
-            </div >
+            </div>
 
 
 

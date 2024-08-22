@@ -5,7 +5,7 @@ import { useLocation } from "react-router-dom"
 // import { BufferGeometry, Float32BufferAttribute, Mesh, MeshBasicMaterial } from 'three';
 // import { OrbitControls } from "@react-three/drei";
 import 'bootstrap/dist/css/bootstrap.min.css';
-
+import LocalStrageSave from './LocalStrageSave';
 import Pompom from './Pompom'
 import ColorPalette from './colorPalette'
 import BluePrint from './bluePrint'
@@ -88,6 +88,9 @@ function Edit() {
         console.log({ pattern: location.state.pattern })
         setPattern(location.state.pattern);
       }
+
+
+
     }
   }, [location.state]);
 
@@ -99,6 +102,7 @@ function Edit() {
   return (
 
     <>
+      <LocalStrageSave data={{ pattern, colorList, rollWidth, pitchWidth }} activeMenu={activeMenu}></LocalStrageSave>
       <div style={{
         display: activeMenu === "pompom" ? "block" : "none",
         height: "100%", width: "100%",

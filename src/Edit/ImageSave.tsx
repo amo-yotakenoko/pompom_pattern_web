@@ -10,92 +10,27 @@ interface ImageSaveProps {
 
 // ボタンクリック時にログを表示するコンポーネント
 const ImageSave: React.FC<ImageSaveProps> = ({ data }) => {
+
     // useEffect(() => {
     //     handleClick()
     // }, []);
     // ボタンがクリックされたときに呼ばれる関数
 
-    function drawData(canvas: any, data: any) {
-        let json = JSON.stringify(data)
-        let bin = new TextEncoder().encode(json);
-        // let hexBin = Array.from(bin).map((byte) => {
-        //     return byte.toString(16).padStart(2, '0'); // 2桁の16進数表現にパディング
-        // }); // 16進数の文字列を結合
-        // console.log(hexBin);
-
-
-        // 配列に要素を追加
-        // while (hexBin.length % 3 != 0) {
-        //     hexBin.push("00");
-        // }
-        // let canvas = document.getElementById('bluePrint') as HTMLCanvasElement;
-        let ctx = canvas.getContext('2d');
-        if (!ctx) return
-
-        // let colors = []
-        var ImageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
-        let image_i = 0
-        for (let i = 0; i < bin.length; i += 1) {
-            ImageData.data[image_i++] = bin[i]
-            ImageData.data[image_i++] = 0
-            ImageData.data[image_i++] = 0
-            ImageData.data[image_i++] = 255
-            // ImageData.data[image_i + 3] = 255
-
-            // ImageData.data[i] = 0
-            // let color = "#"
-            // color += `${hexBin[i++]}`;
-            // color += `${hexBin[i++]}`;
-            // color += `${hexBin[i++]}`;
-            // colors.push(color)
-            // const image = ctx.getImageData(x, y, 1, 1).data;
-        }
-
-        ctx.putImageData(ImageData, 0, 0);
-        console.log(bin)
-
-
-        // (() => {
-        //     let i = 0
-        //     for (let y = 0; y < canvas.height; y++) {
-        //         for (let x = 0; x < canvas.width; x++) {
-
-        //             console.log(x, y, colors[i])
-        //             if (colors[i] === undefined) return
-        //             ctx.fillStyle = colors[i++];
-        //             ctx.fillRect(x, y, 2, 2);
-
-        //             // ctx.beginPath();
-        //             // ctx.rect(0, 0, 100, 100); // キャンバス全体の矩形を指定
-        //             // ctx.stroke();                 // 縁を描画
-
-
-        //         }
-
-        //     }
-        // })();
-
-
-    };
 
     const bluePrintBaseImage = new Image();
     bluePrintBaseImage.src = bluePrintBase;
-    function download() {
+    function download(size: any) {
         console.log("ダウンロード")
         let viewCanvas = document.getElementById('bluePrint') as HTMLCanvasElement;
         const canvas = document.createElement('canvas');
-        canvas.width = 900;
-        canvas.height = 900;
+        canvas.width = size;
+        canvas.height = size;
         const ctx = canvas.getContext('2d');
         if (ctx == undefined) return
-        ctx.drawImage(bluePrintBaseImage, 0, 0, 900, 900);
+        ctx.drawImage(bluePrintBaseImage, 0, 0, size, size);
 
 
-        // ctx.imageSmoothingEnabled = true;
-        // ctx.imageSmoothingQuality = 'high';
-
-        // ctx.drawImage(viewCanvas, 0, 0);
-        ctx.drawImage(viewCanvas, 0, 0, viewCanvas.width, viewCanvas.height, 0, 0, 900, 900);
+        ctx.drawImage(viewCanvas, 0, 0, viewCanvas.width, viewCanvas.height, 0, 0, size, size);
 
         drawData(canvas, data);
         let link = document.createElement("a");
@@ -148,7 +83,7 @@ const ImageSave: React.FC<ImageSaveProps> = ({ data }) => {
 
     return (
         <>
-            <img src={downloadImg} onClick={download} style={{ width: "10vw" }}></img>
+            <img src={downloadImg} onClick={() => { download(900) }} style={{ width: "10vw" }}></img>
             {/* <img src={bluePrintBase}></img> */}
             {/* <img
                 id="bluePrintImg"
@@ -209,11 +144,73 @@ const ImageSave: React.FC<ImageSaveProps> = ({ data }) => {
     );
 };
 
+function drawData(canvas: any, data: any) {
+    let json = JSON.stringify(data)
+    let bin = new TextEncoder().encode(json);
+    // let hexBin = Array.from(bin).map((byte) => {
+    //     return byte.toString(16).padStart(2, '0'); // 2桁の16進数表現にパディング
+    // }); // 16進数の文字列を結合
+    // console.log(hexBin);
+
+
+    // 配列に要素を追加
+    // while (hexBin.length % 3 != 0) {
+    //     hexBin.push("00");
+    // }
+    // let canvas = document.getElementById('bluePrint') as HTMLCanvasElement;
+    let ctx = canvas.getContext('2d');
+    if (!ctx) return
+
+    // let colors = []
+    var ImageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+    let image_i = 0
+    for (let i = 0; i < bin.length; i += 1) {
+        ImageData.data[image_i++] = bin[i]
+        ImageData.data[image_i++] = 0
+        ImageData.data[image_i++] = 0
+        ImageData.data[image_i++] = 255
+        // ImageData.data[image_i + 3] = 255
+
+        // ImageData.data[i] = 0
+        // let color = "#"
+        // color += `${hexBin[i++]}`;
+        // color += `${hexBin[i++]}`;
+        // color += `${hexBin[i++]}`;
+        // colors.push(color)
+        // const image = ctx.getImageData(x, y, 1, 1).data;
+    }
+
+    ctx.putImageData(ImageData, 0, 0);
+    console.log(bin)
+
+
+    // (() => {
+    //     let i = 0
+    //     for (let y = 0; y < canvas.height; y++) {
+    //         for (let x = 0; x < canvas.width; x++) {
+
+    //             console.log(x, y, colors[i])
+    //             if (colors[i] === undefined) return
+    //             ctx.fillStyle = colors[i++];
+    //             ctx.fillRect(x, y, 2, 2);
+
+    //             // ctx.beginPath();
+    //             // ctx.rect(0, 0, 100, 100); // キャンバス全体の矩形を指定
+    //             // ctx.stroke();                 // 縁を描画
+
+
+    //         }
+
+    //     }
+    // })();
+
+
+};
 
 
 
 export default ImageSave;
-
+export { drawData };
 // drawData を名前付きエクスポート
 // export { drawData, convartDownloadble };
 // export default drawData;

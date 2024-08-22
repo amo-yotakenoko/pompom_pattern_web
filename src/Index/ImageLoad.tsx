@@ -40,7 +40,7 @@ const ImageLoad: React.FC = () => {
                             try {
                                 let restoredData = binLoad();
                                 console.log(restoredData)
-
+                                restoredData.saveKeyName = `image-${new Date().toLocaleTimeString()}`
                                 navigate('/edit', { state: restoredData });
                             } catch (error) {
                                 // エラーが発生した場合の処理
