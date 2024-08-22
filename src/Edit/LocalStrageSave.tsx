@@ -23,6 +23,28 @@ const LocalStrageSave: React.FC<LocalStrageSaveProps> = ({ data, activeMenu }) =
 
 
 
+    const [timer, setTimer] = useState(0);
+
+    useEffect(() => {
+        const id = setInterval(() => {
+            if (timer >= 0) {
+                setTimer(timer + 1);
+            }
+        }, 1000);
+
+        if (timer > 10) {
+            saveToLocalStrage()
+            setTimer(-1);
+        }
+        return () => clearInterval(id);
+    }, [timer]);
+
+    useEffect(() => {
+        setIsSaved(true)
+    }, []);
+
+
+
 
     useEffect(() => {
         // ページを離れようとしたときのイベントリスナーを設定
@@ -36,6 +58,7 @@ const LocalStrageSave: React.FC<LocalStrageSaveProps> = ({ data, activeMenu }) =
             console.log("登録", isSaved)
             window.addEventListener("beforeunload", onBeforeUnloadEvent);
             window.addEventListener("popstate", onBeforeUnloadEvent);
+            setTimer(0);
         } else {
             console.log("解除", isSaved)
             window.removeEventListener("beforeunload", onBeforeUnloadEvent);
