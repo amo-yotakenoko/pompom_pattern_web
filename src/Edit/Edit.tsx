@@ -103,7 +103,8 @@ function Edit() {
 
   return (
 
-    <>
+    // <div style={{ backgroundColor: "#ccd7ea" }} >
+    <div style={{}} >
       <LocalStrageSave data={{ pattern, colorList, rollWidth, pitchWidth }} activeMenu={activeMenu}></LocalStrageSave>
       <div style={{
         display: activeMenu === "pompom" ? "block" : "none",
@@ -149,7 +150,7 @@ function Edit() {
         pattern={pattern} setPattern={setPattern} colorList={colorList} setColorList={setColorList} selectColor={selectColor} setSelectColor={setSelectColor}
       ></Menu>
 
-    </ >
+    </ div>
   );
 }
 

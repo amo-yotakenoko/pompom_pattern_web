@@ -102,6 +102,11 @@ const Pompom: React.FC<PompomProps> = ({ pattern, colorList, rollWidth, pitchWid
         controls.enableZoom = false
         controls.enablePan = false
 
+
+        controls.autoRotate = true;
+        controls.autoRotateSpeed = 2.0; // 回転速度を設定
+
+
         const directionalLight = new THREE.DirectionalLight(0xffffff, 1);
         directionalLight.position.set(5, 5, 5).normalize();
         scene.add(directionalLight);
@@ -117,6 +122,8 @@ const Pompom: React.FC<PompomProps> = ({ pattern, colorList, rollWidth, pitchWid
 
                 // let pitchMin = Math.PI * (pitch / pitchWidth) / 2;
                 // let pitchMax = Math.PI * ((pitch + 1) / pitchWidth) / 2;
+
+
                 let pitchMin = Math.PI / 2 - Math.acos(1 - ((pitchWidth - pitch) / pitchWidth));
                 let pitchMax = Math.PI / 2 - Math.acos(1 - ((pitchWidth - (pitch + 1)) / pitchWidth));
 
@@ -289,6 +296,7 @@ const Pompom: React.FC<PompomProps> = ({ pattern, colorList, rollWidth, pitchWid
         tick();
 
         function tick() {
+
             // box.rotation.y += 0.01;
             // レイキャスト = マウス位置からまっすぐに伸びる光線ベクトルを生成
             // console.log(propsRef)
@@ -337,7 +345,7 @@ const Pompom: React.FC<PompomProps> = ({ pattern, colorList, rollWidth, pitchWid
 
                 });
             }
-
+            controls.update();
 
             renderer.render(scene, camera); // レンダリング
 
