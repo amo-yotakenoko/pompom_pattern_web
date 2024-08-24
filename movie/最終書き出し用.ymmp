@@ -1,0 +1,311 @@
+﻿{
+  "FilePath": "C:\\Users\\taken\\projects\\pompom_pattern_web\\movie\\最終書き出し用.ymmp",
+  "Timeline": {
+    "VideoInfo": {
+      "FPS": 60,
+      "Hz": 48000,
+      "Width": 1920,
+      "Height": 1080
+    },
+    "VerticalLine": {
+      "IsEnabled": false,
+      "StartFrame": 0,
+      "LineType": "BPM",
+      "Line": {
+        "$type": "YukkuriMovieMaker.Project.VerticalBPMLine, YukkuriMovieMaker.Plugin",
+        "BPM": 100
+      },
+      "Group": 4
+    },
+    "Items": [
+      {
+        "$type": "YukkuriMovieMaker.Project.Items.AudioItem, YukkuriMovieMaker",
+        "IsWaveformEnabled": false,
+        "FilePath": "C:\\Users\\taken\\projects\\pompom_pattern_web\\movie\\魔王魂 ループ BGM アコースティック35.mp3",
+        "AudioTrackIndex": 0,
+        "Volume": {
+          "Values": [
+            {
+              "Value": 0.75
+            }
+          ],
+          "Span": 0.0,
+          "AnimationType": "なし"
+        },
+        "Pan": {
+          "Values": [
+            {
+              "Value": 0.0
+            }
+          ],
+          "Span": 0.0,
+          "AnimationType": "なし"
+        },
+        "PlaybackRate": 100.0,
+        "ContentOffset": "00:00:00",
+        "FadeIn": 1.0,
+        "FadeOut": 0.0,
+        "IsLooped": false,
+        "EchoIsEnabled": false,
+        "EchoInterval": 0.1,
+        "EchoAttenuation": 40.0,
+        "AudioEffects": [],
+        "Group": 0,
+        "Frame": 0,
+        "Layer": 1,
+        "KeyFrames": {
+          "Frames": [],
+          "Count": 0
+        },
+        "Length": 2885,
+        "Remark": "",
+        "IsLocked": false,
+        "IsHidden": false
+      },
+      {
+        "$type": "YukkuriMovieMaker.Project.Items.AudioItem, YukkuriMovieMaker",
+        "IsWaveformEnabled": false,
+        "FilePath": "C:\\Users\\taken\\projects\\pompom_pattern_web\\movie\\魔王魂 ループ BGM アコースティック35.mp3",
+        "AudioTrackIndex": 0,
+        "Volume": {
+          "Values": [
+            {
+              "Value": 0.75
+            }
+          ],
+          "Span": 0.0,
+          "AnimationType": "なし"
+        },
+        "Pan": {
+          "Values": [
+            {
+              "Value": 0.0
+            }
+          ],
+          "Span": 0.0,
+          "AnimationType": "なし"
+        },
+        "PlaybackRate": 100.0,
+        "ContentOffset": "00:00:00",
+        "FadeIn": 0.0,
+        "FadeOut": 0.0,
+        "IsLooped": false,
+        "EchoIsEnabled": false,
+        "EchoInterval": 0.1,
+        "EchoAttenuation": 40.0,
+        "AudioEffects": [],
+        "Group": 0,
+        "Frame": 2885,
+        "Layer": 1,
+        "KeyFrames": {
+          "Frames": [],
+          "Count": 0
+        },
+        "Length": 2885,
+        "Remark": "",
+        "IsLocked": false,
+        "IsHidden": false
+      },
+      {
+        "$type": "YukkuriMovieMaker.Project.Items.AudioItem, YukkuriMovieMaker",
+        "IsWaveformEnabled": false,
+        "FilePath": "C:\\Users\\taken\\projects\\pompom_pattern_web\\movie\\魔王魂 ループ BGM アコースティック35.mp3",
+        "AudioTrackIndex": 0,
+        "Volume": {
+          "Values": [
+            {
+              "Value": 0.75
+            }
+          ],
+          "Span": 0.0,
+          "AnimationType": "なし"
+        },
+        "Pan": {
+          "Values": [
+            {
+              "Value": 0.0
+            }
+          ],
+          "Span": 0.0,
+          "AnimationType": "なし"
+        },
+        "PlaybackRate": 100.0,
+        "ContentOffset": "00:00:00",
+        "FadeIn": 0.0,
+        "FadeOut": 0.0,
+        "IsLooped": false,
+        "EchoIsEnabled": false,
+        "EchoInterval": 0.1,
+        "EchoAttenuation": 40.0,
+        "AudioEffects": [],
+        "Group": 0,
+        "Frame": 5770,
+        "Layer": 1,
+        "KeyFrames": {
+          "Frames": [],
+          "Count": 0
+        },
+        "Length": 2885,
+        "Remark": "",
+        "IsLocked": false,
+        "IsHidden": false
+      },
+      {
+        "$type": "YukkuriMovieMaker.Project.Items.AudioItem, YukkuriMovieMaker",
+        "IsWaveformEnabled": false,
+        "FilePath": "C:\\Users\\taken\\projects\\pompom_pattern_web\\movie\\魔王魂 ループ BGM アコースティック35.mp3",
+        "AudioTrackIndex": 0,
+        "Volume": {
+          "Values": [
+            {
+              "Value": 0.75
+            }
+          ],
+          "Span": 0.0,
+          "AnimationType": "なし"
+        },
+        "Pan": {
+          "Values": [
+            {
+              "Value": 0.0
+            }
+          ],
+          "Span": 0.0,
+          "AnimationType": "なし"
+        },
+        "PlaybackRate": 100.0,
+        "ContentOffset": "00:00:00",
+        "FadeIn": 0.0,
+        "FadeOut": 1.41,
+        "IsLooped": false,
+        "EchoIsEnabled": false,
+        "EchoInterval": 0.1,
+        "EchoAttenuation": 40.0,
+        "AudioEffects": [],
+        "Group": 0,
+        "Frame": 8655,
+        "Layer": 1,
+        "KeyFrames": {
+          "Frames": [],
+          "Count": 0
+        },
+        "Length": 2189,
+        "Remark": "",
+        "IsLocked": false,
+        "IsHidden": false
+      },
+      {
+        "$type": "YukkuriMovieMaker.Project.Items.VideoItem, YukkuriMovieMaker",
+        "IsWaveformEnabled": false,
+        "FilePath": "C:\\Users\\taken\\Downloads\\PomPomPatten紹介.mp4",
+        "AudioTrackIndex": 0,
+        "Volume": {
+          "Values": [
+            {
+              "Value": 100.0
+            }
+          ],
+          "Span": 0.0,
+          "AnimationType": "なし"
+        },
+        "Pan": {
+          "Values": [
+            {
+              "Value": 0.0
+            }
+          ],
+          "Span": 0.0,
+          "AnimationType": "なし"
+        },
+        "PlaybackRate": 107.6,
+        "ContentOffset": "00:00:00",
+        "IsLooped": false,
+        "EchoIsEnabled": false,
+        "EchoInterval": 0.1,
+        "EchoAttenuation": 40.0,
+        "AudioEffects": [],
+        "X": {
+          "Values": [
+            {
+              "Value": 0.0
+            }
+          ],
+          "Span": 0.0,
+          "AnimationType": "なし"
+        },
+        "Y": {
+          "Values": [
+            {
+              "Value": 0.0
+            }
+          ],
+          "Span": 0.0,
+          "AnimationType": "なし"
+        },
+        "Z": {
+          "Values": [
+            {
+              "Value": 0.0
+            }
+          ],
+          "Span": 0.0,
+          "AnimationType": "なし"
+        },
+        "Opacity": {
+          "Values": [
+            {
+              "Value": 100.0
+            }
+          ],
+          "Span": 0.0,
+          "AnimationType": "なし"
+        },
+        "Zoom": {
+          "Values": [
+            {
+              "Value": 100.0
+            }
+          ],
+          "Span": 0.0,
+          "AnimationType": "なし"
+        },
+        "Rotation": {
+          "Values": [
+            {
+              "Value": 0.0
+            }
+          ],
+          "Span": 0.0,
+          "AnimationType": "なし"
+        },
+        "FadeIn": 0.0,
+        "FadeOut": 0.0,
+        "Blend": "Normal",
+        "IsInverted": false,
+        "IsClippingWithObjectAbove": false,
+        "IsAlwaysOnTop": false,
+        "IsZOrderEnabled": false,
+        "VideoEffects": [],
+        "Group": 0,
+        "Frame": 0,
+        "Layer": 0,
+        "KeyFrames": {
+          "Frames": [],
+          "Count": 0
+        },
+        "Length": 10844,
+        "Remark": "",
+        "IsLocked": false,
+        "IsHidden": false
+      }
+    ],
+    "LayerSettings": {
+      "Items": []
+    },
+    "CurrentFrame": 10438,
+    "Length": 10844,
+    "MaxLayer": 1
+  },
+  "Characters": [],
+  "CollapsedGroups": []
+}
