@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from "react-router-dom";
 import 'bootstrap/dist/css/bootstrap.min.css';
-import { Button } from 'react-bootstrap';
+import { Button, ProgressBar } from 'react-bootstrap';
 import addIcon from '../img/designsystem-assets/icon/png/add_fill24.png';
 import Modal from 'react-bootstrap/Modal';
 import * as Icon from 'react-bootstrap-icons';
@@ -9,6 +9,7 @@ interface LocalStrageLoadProps { }
 
 const LocalStrageLoad: React.FC<LocalStrageLoadProps> = ({ }) => {
     const [data, setData] = useState<any>({});
+    const [strageUsed, setStrageUsed] = useState(0);
     const [items, setItems] = useState<any[]>([]);
     const navigate = useNavigate();
     const [deleteConfirmation, setDeleteConfirmation] = useState<any>(undefined);
@@ -57,6 +58,7 @@ const LocalStrageLoad: React.FC<LocalStrageLoadProps> = ({ }) => {
             // }
             // setItems(newItems.reverse());
             setData(datas); // 状態を更新
+
         }
         // };
         // loadData();
@@ -103,6 +105,7 @@ const LocalStrageLoad: React.FC<LocalStrageLoadProps> = ({ }) => {
             );
         }
         setItems(newItems.reverse());
+        setStrageUsed(new TextEncoder().encode(JSON.stringify(data)).length / (1024 * 1024))
     }, [data]);
 
     function navigeteEdit(key: any, data: any) {
@@ -124,6 +127,9 @@ const LocalStrageLoad: React.FC<LocalStrageLoadProps> = ({ }) => {
     return (
         <>
             <div className="row">
+                {strageUsed > 0.1 && <div className="col-12 my-3">
+                    <ProgressBar now={strageUsed / 5 * 100} label={`${strageUsed.toFixed(2)}MB/5MB`} />
+                </div>}
                 {items}
             </div>
             <Modal show={deleteConfirmation != undefined} onHide={() => { setDeleteConfirmation(undefined) }}>

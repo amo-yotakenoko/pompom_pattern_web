@@ -103,8 +103,8 @@ const Pompom: React.FC<PompomProps> = ({ pattern, colorList, rollWidth, pitchWid
         controls.enablePan = false
 
 
-        controls.autoRotate = true;
-        controls.autoRotateSpeed = 2.0; // 回転速度を設定
+        // controls.autoRotate = true;
+        // controls.autoRotateSpeed = 2.0; // 回転速度を設定
 
 
         const directionalLight = new THREE.DirectionalLight(0xffffff, 1);

@@ -95,8 +95,17 @@ const LocalStrageSave: React.FC<LocalStrageSaveProps> = ({ data, activeMenu }) =
         datas[location.state.saveKeyName] = { img: getThumbnail(900), data: data }
         console.log(datas)
 
-        localStorage.setItem('pompoms', JSON.stringify(datas));
-        setTimeout(() => setIsSaved(true), 1)
+        try {
+            localStorage.setItem('pompoms', JSON.stringify(datas));
+            setTimeout(() => setIsSaved(true), 1)
+        } catch (e) {
+            // if (e.name === 'QuotaExceededError') {
+            //     console.error('LocalStorage limit exceeded');
+            //     // 必要に応じて対策を行う
+            // }
+            alert('保存に失敗しました、設計図タブからダウンロードしてください');
+        }
+
 
         // localStorage.setItem('pompoms', data);
         // alert('Data saved to localStorage!');
