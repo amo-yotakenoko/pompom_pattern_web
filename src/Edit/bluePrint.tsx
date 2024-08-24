@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import ImageSave from './ImageSave'
 
 
@@ -15,7 +15,7 @@ let frames: any = []
 let isMemo: any = []
 const BluePrint: React.FC<BluePrintProps> = ({ pattern, colorList, rollWidth, pitchWidth, activeMenu }) => {
 
-
+    const [progress, setProgress] = useState(0);
     const propsRef = useRef({ pattern, colorList });
     useEffect(() => {
         propsRef.current = { pattern, colorList };
@@ -137,7 +137,17 @@ const BluePrint: React.FC<BluePrintProps> = ({ pattern, colorList, rollWidth, pi
 
                     <ImageSave data={{ pattern, colorList, rollWidth, pitchWidth }}></ImageSave>
                 </div>
-            </div>
+                <div style={{
+                    position: "absolute",
+                    top: "5px",
+                    left: "5px",
+                    fontSize: '16px', // 文字のサイズを24pxに設定
+                    fontWeight: 'bold', // 文字を太字に設定（オプション）
+                    pointerEvents: "none"
+                }}>
+                    残り{rollWidth * pitchWidth - progress}巻き　{(progress / (rollWidth * pitchWidth) * 100).toFixed(0)}%
+                </div >
+            </div >
 
 
 
@@ -437,12 +447,16 @@ const BluePrint: React.FC<BluePrintProps> = ({ pattern, colorList, rollWidth, pi
 
     function memoBluePrint(event: any, bluePrintMemo: any) {
         console.log("メモ")
+
         // if (!bluePrintMemo) return
         let memoctx = bluePrintMemo.getContext('2d')
         memoctx.clearRect(0, 0, canvas.width, canvas.height);
         // if (!memoctx) return
         let i = 0
+        let progress = 0
+
         for (const frame of frames) {
+            if (frame == null) continue;
             ctx.fillStyle = 'rgba(255, 0, 0, 0.1)'; // 赤色で50%の透明度
             // ctx.fill();
             // frame(frame.center, frame.roll, frame.pitch, frame.piled, frame.widthCount); // 線を描画
@@ -453,7 +467,7 @@ const BluePrint: React.FC<BluePrintProps> = ({ pattern, colorList, rollWidth, pi
             // スケールを考慮したx, y座標を計算
             const x = (event.clientX - rect.left) * scaleX;
             const y = (event.clientY - rect.top) * scaleY;
-
+            if (frame == undefined) continue
             // memoctx.beginPath();
             // memoctx.arc(x, y, 1, 0, 2 * Math.PI); // 半径10の円を描く
             // memoctx.fillStyle = 'rgba(0, 0, 0, 0.5)'; // 半透明の黒色
@@ -471,20 +485,40 @@ const BluePrint: React.FC<BluePrintProps> = ({ pattern, colorList, rollWidth, pi
             for (let i = frame.widthCount; i >= 0; i--) {
                 memoctx.lineTo(frame.center.x + Math.cos(getTheta(frame.roll + 1 - i)) * getR(frame.pitch + frame.piled), frame.center.y + Math.sin(getTheta(frame.roll + 1 - i)) * getR(frame.pitch + frame.piled));
             }
-
+            console.log(frame)
+            let center_x = frame.center.x + Math.cos(getTheta(frame.roll + 1 - frame.widthCount / 2)) * getR(frame.pitch + frame.piled / 2)
+            let center_y = frame.center.y + Math.sin(getTheta(frame.roll + 1 - frame.widthCount / 2)) * getR(frame.pitch + frame.piled / 2)
             memoctx.closePath(); // 最初の点に戻る
             if (memoctx.isPointInPath(x, y)) {
                 console.log(i, "を反転")
                 isMemo[i] = !isMemo[i]
             }
             if (isMemo[i]) {
+                progress += frame.widthCount * frame.piled
+                let size = 50
                 memoctx.fill();
+                const ctx = canvas.getContext('2d');
+
+                memoctx.beginPath(); // 新しいパスを開始
+                memoctx.arc(center_x, center_y, size, 0, 2 * Math.PI); // 指定した座標 (x, y) を中心に半径 radius の円を描く
+                memoctx.fillStyle = 'rgba(0, 0, 255, 0.5)'; // 円の塗りつぶし色（青色、50%の透明度）
+                // memoctx.fill(); // 円を塗りつぶす
+                memoctx.strokeStyle = '#000'; // 円の輪郭色（黒色）
+                memoctx.lineWidth = 3;
+                memoctx.stroke(); // 円の輪郭を描く
+
+                memoctx.font = `${size}px Arial`; // フォントサイズとフォントファミリーを設定
+                memoctx.fillStyle = "#dddddd"; // テキストの色を設定
+                memoctx.textAlign = 'center'; // テキストを中央揃えにする（必要に応じて調整）
+                memoctx.textBaseline = 'middle'; // テキストのベースラインを中央に設定（必要に応じて調整）
+                memoctx.fillText("済", center_x, center_y); // 指定した位置にテキストを描画
             }
 
             i += 1
             // if (isPointInFrame(frame.center, frame.roll, frame.pitch, frame.piled, frame.widthCount, x, y)) console.log("当たった")
             // await new Promise(resolve => setTimeout(resolve, 100));
         }
+        setProgress(progress)
         console.log(isMemo)
 
 
