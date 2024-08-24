@@ -14,3 +14,6 @@ npm run deploy
 
 
 https://amo-yotakenoko.github.io/pompom_pattern_web/
+
+
+find . -size +100M -ls
