@@ -2,19 +2,14 @@
 import React, { useEffect, useRef } from 'react';
 import downloadImg from "../img/designsystem-assets/icon/svg/download_fill.svg"
 import bluePrintBase from "../img/bluePrint_base.png"
-// 型定義
+
 interface ImageSaveProps {
     data: any;
     // canvas: any;
 }
 
-// ボタンクリック時にログを表示するコンポーネント
 const ImageSave: React.FC<ImageSaveProps> = ({ data }) => {
 
-    // useEffect(() => {
-    //     handleClick()
-    // }, []);
-    // ボタンがクリックされたときに呼ばれる関数
 
 
     const bluePrintBaseImage = new Image();
@@ -124,7 +119,7 @@ const ImageSave: React.FC<ImageSaveProps> = ({ data }) => {
         //     transform: translate(-50%, -50%);
         //     color: white;
         //     font-size: 2em;
-        //     z-index: 2; /* 画像の上に表示されるようにする */
+        //     z-index: 2;
         // ">
         //                 ここ長押しまたは右クリックして画像を保存してください
         //             </p>
@@ -136,7 +131,7 @@ const ImageSave: React.FC<ImageSaveProps> = ({ data }) => {
         //         position: absolute;
         //         right: 0;
         //         top: 0;
-        //         z-index: 1; /* テキストの下に配置されるようにする */
+        //         z-index: 1;
         //      "
         //             />
         //         </div>
@@ -148,12 +143,12 @@ function drawData(canvas: any, data: any) {
     let json = JSON.stringify(data)
     let bin = new TextEncoder().encode(json);
     // let hexBin = Array.from(bin).map((byte) => {
-    //     return byte.toString(16).padStart(2, '0'); // 2桁の16進数表現にパディング
-    // }); // 16進数の文字列を結合
+    //     return byte.toString(16).padStart(2, '0'); 
+    // });
     // console.log(hexBin);
 
 
-    // 配列に要素を追加
+
     // while (hexBin.length % 3 != 0) {
     //     hexBin.push("00");
     // }
@@ -195,8 +190,8 @@ function drawData(canvas: any, data: any) {
     //             ctx.fillRect(x, y, 2, 2);
 
     //             // ctx.beginPath();
-    //             // ctx.rect(0, 0, 100, 100); // キャンバス全体の矩形を指定
-    //             // ctx.stroke();                 // 縁を描画
+    //             // ctx.rect(0, 0, 100, 100); 
+    //             // ctx.stroke();               
 
 
     //         }
@@ -211,8 +206,6 @@ function drawData(canvas: any, data: any) {
 
 export default ImageSave;
 export { drawData };
-// drawData を名前付きエクスポート
-// export { drawData, convartDownloadble };
-// export default drawData;
+
 
 // Uint8Array(2131) [123, 34, 112, 97, 116, 116, 101, 114, 110, 34, 58, 91, 91, 48, 44, 48, 44, 48, 44, 48, 44, 48, 44, 48, 44, 48, 44, 48, 44, 48, 93, 44, 91, 48, 44, 48, 44, 48, 44, 48, 44, 48, 44, 48, 44, 48, 44, 48, 44, 48, 93, 44, 91, 48, 44, 48, 44, 48, 44, 48, 44, 48, 44, 48, 44, 48, 44, 48, 44, 48, 93, 44, 91, 48, 44, 48, 44, 48, 44, 48, 44, 48, 44, 48, 44, 48, 44, 48, 44, 48, 93, 44, 91, 48, 44, 48, 44, 48, 44, 48, …]

@@ -73,9 +73,6 @@ const Pompom: React.FC<PompomProps> = ({ pattern, colorList, rollWidth, pitchWid
         // console.log(name,  rollWidth, pitchWidth);
 
 
-        // サイズを指定
-
-        // レンダラーを作成
         canvas = document.querySelector("#edit3d") as HTMLCanvasElement;
         renderer = new THREE.WebGLRenderer({ canvas, alpha: true, antialias: true, preserveDrawingBuffer: true });
         window.addEventListener('resize', resize);
@@ -87,14 +84,12 @@ const Pompom: React.FC<PompomProps> = ({ pattern, colorList, rollWidth, pitchWid
             renderer.setPixelRatio(window.devicePixelRatio);
             renderer.setSize(width, height);
             console.log("resize")
-            // ここにウィンドウサイズ変更時の処理を追加します
-            // 例えば、Three.jsのカメラやレンダラーのサイズを更新するなど
+
         }
 
-        // シーンを作成
+
         scene = new THREE.Scene();
 
-        // カメラを作成
 
         camera = new THREE.PerspectiveCamera(15, 1 / 1);
         camera.position.set(0, 0, +800);
@@ -104,7 +99,7 @@ const Pompom: React.FC<PompomProps> = ({ pattern, colorList, rollWidth, pitchWid
 
 
         // controls.autoRotate = true;
-        // controls.autoRotateSpeed = 2.0; // 回転速度を設定
+        // controls.autoRotateSpeed = 2.0; 
 
 
         const directionalLight = new THREE.DirectionalLight(0xffffff, 1);
@@ -249,21 +244,7 @@ const Pompom: React.FC<PompomProps> = ({ pattern, colorList, rollWidth, pitchWid
             mouse.y = -(y / h) * 2 + 1;
         }
 
-        // function cameraControlEnableSet() {
-        //     raycaster.setFromCamera(mouse, camera);
 
-        //     // レイキャスターがシーン内のオブジェクトと交差しているかをチェックする
-        //     const intersects = raycaster.intersectObjects(scene.children);
-        //     // console.log(intersects.length)
-        //     if (intersects.length > 0) {
-        //         // 交差があった場合、OrbitControlsを無効化する
-        //         controls.enabled = false;
-        //     } else {
-        //         // 交差がなかった場合、OrbitControlsを有効化する
-        //         controls.enabled = true;
-        //     }
-        // }
-        // let isMouseDowning = false
         let isDrwaing = false
 
 
@@ -292,27 +273,26 @@ const Pompom: React.FC<PompomProps> = ({ pattern, colorList, rollWidth, pitchWid
         window.addEventListener('pointerdown', handlePointerDown);
         window.addEventListener('pointerup', handlePointerUp);
 
-        // 毎フレーム時に実行されるループイベントです
+
         tick();
 
         function tick() {
 
             // box.rotation.y += 0.01;
-            // レイキャスト = マウス位置からまっすぐに伸びる光線ベクトルを生成
+
             // console.log(propsRef)
             if (isDrwaing) {
 
                 raycaster.setFromCamera(mouse, camera);
 
-                // その光線とぶつかったオブジェクトを得る
+
                 const intersects = raycaster.intersectObjects(scene.children);
 
                 meshList.current.map((mesh: any) => {
-                    // 交差しているオブジェクトが1つ以上存在し、
-                    // 交差しているオブジェクトの1番目(最前面)のものだったら
+
                     // console.log(intersects.length)
                     if (intersects.length > 0 && mesh === intersects[0].object) {
-                        // 色を赤くする
+
                         // console.log((mesh as any).patternPos)
                         let patternPos = (mesh as any).patternPos;
 
@@ -347,27 +327,27 @@ const Pompom: React.FC<PompomProps> = ({ pattern, colorList, rollWidth, pitchWid
             }
             controls.update();
 
-            renderer.render(scene, camera); // レンダリング
+            renderer.render(scene, camera);
 
             requestAnimationFrame(tick);
         }
 
 
         return () => {
-            // イベントリスナーの削除
+
             window.removeEventListener('resize', resize);
             canvas.removeEventListener('pointermove', mouseUpdate);
             window.removeEventListener('pointerdown', handlePointerDown);
             window.removeEventListener('pointerup', handlePointerUp);
 
-            // メッシュの削除
+
             meshList.current.forEach(mesh => {
                 scene.remove(mesh);
                 mesh.geometry.dispose();
                 // mesh.material.dispose();
             });
 
-            // その他のリソースのクリーンアップ
+
             renderer.dispose();
         };
 

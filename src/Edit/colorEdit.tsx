@@ -52,11 +52,11 @@ const ColorEdit: React.FC<colorPaletteProps> = ({ colorList, selectColor, setSel
                         backgroundColor: color,
                         borderTop: selectedMultiColor === i ? '1px solid black' : '0.5px solid black',
                         borderRight: selectedMultiColor === i ? '1px solid black' : '0.5px solid black',
-                        borderBottom: 'none', // 下側のボーダーを無効にする
+                        borderBottom: 'none',
                         borderLeft: selectedMultiColor === i ? '1px solid black' : '0.5px solid black',
                         transform: selectedMultiColor === i ? 'translateY(1px)' : 'translateY(7px)',
-                        padding: 0, // パディングを0に
-                        margin: 0, // マージンを0に
+                        padding: 0,
+                        margin: 0,
                         display: 'flex',
                         justifyContent: 'flex-end',
 
@@ -111,7 +111,7 @@ const ColorEdit: React.FC<colorPaletteProps> = ({ colorList, selectColor, setSel
                     styles={{
                         default: {
                             picker: {
-                                width: '100%', // ピッカーの幅を親要素に合わせる
+                                width: '100%',
                                 height: "100%",
                             },
                             body: {
@@ -157,7 +157,7 @@ const ColorEdit: React.FC<colorPaletteProps> = ({ colorList, selectColor, setSel
                     colorList[selectColor].splice(i, 1);
 
                     setColorList(newColorList);
-                    // 他の処理をここに追加
+               
                 }}
                 disabled={colorList[selectColor].length < 2}
             >x </button> */}

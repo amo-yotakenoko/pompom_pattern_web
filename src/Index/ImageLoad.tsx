@@ -18,7 +18,7 @@ const ImageLoad: React.FC = () => {
 
                 const file = target.files[0];
                 if (!file) {
-                    console.error("No file selected or file is not valid.");
+                    console.error("ファイルがない", file);
                     return;
                 }
 

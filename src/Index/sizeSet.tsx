@@ -13,32 +13,32 @@ type SizeSetProps = {
     valueSet: any;
 };
 const SizeSet: React.FC<SizeSetProps> = ({ value, valueSet }) => {
-    const [fontSize, setFontSize] = useState<string>('16px'); // デフォルトのフォントサイズ
+    const [fontSize, setFontSize] = useState<string>('16px');
 
     useEffect(() => {
         const updateFontSize = () => {
-            // コンポーネントの初期レンダリング時にフォントサイズを設定
+
             const inputElement = document.querySelector('input');
             if (inputElement) {
                 console.log("大きさ計算");
                 const inputWidth = inputElement.offsetWidth;
-                setFontSize(`${inputWidth / 5}px`); // 幅に基づくフォントサイズの計算
+                setFontSize(`${inputWidth / 5}px`);
             }
         };
 
-        // 1フレーム待ってから実行
+
         const handleResize = () => {
             requestAnimationFrame(updateFontSize);
         };
 
         window.addEventListener('resize', handleResize);
-        // 初回レンダリング時にもフォントサイズを設定
+
         requestAnimationFrame(updateFontSize);
 
         return () => {
             window.removeEventListener('resize', handleResize);
         };
-    }, [value]); // `value` が変更されたときにも再計算
+    }, [value]);
 
     return (
         <>
@@ -78,7 +78,6 @@ const SizeSet: React.FC<SizeSetProps> = ({ value, valueSet }) => {
                     const value = parseFloat(event.target.value);
 
 
-                    // 数値が5未満の場合は5に、100を超える場合は100に制限
                     valueSet(value);
                 }}
                 onBlur={(event: any) => {

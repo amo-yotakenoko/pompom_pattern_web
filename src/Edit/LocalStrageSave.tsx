@@ -17,9 +17,10 @@ const LocalStrageSave: React.FC<LocalStrageSaveProps> = ({ data, activeMenu }) =
         console.log("dataを更新")
         setIsSaved(false)
     }, [data])
-    // useEffect(() => {
-    //     saveToLocalStrage()
-    // }, [activeMenu])
+    useEffect(() => {
+        if (activeMenu == "bluePrint")
+            saveToLocalStrage()
+    }, [activeMenu])
 
 
 
@@ -47,7 +48,7 @@ const LocalStrageSave: React.FC<LocalStrageSaveProps> = ({ data, activeMenu }) =
 
 
     useEffect(() => {
-        // ページを離れようとしたときのイベントリスナーを設定
+
         const onBeforeUnloadEvent = (event: any) => {
             event.preventDefault();
             event.returnValue = "";
@@ -64,7 +65,7 @@ const LocalStrageSave: React.FC<LocalStrageSaveProps> = ({ data, activeMenu }) =
             window.removeEventListener("beforeunload", onBeforeUnloadEvent);
             window.addEventListener("popstate", onBeforeUnloadEvent);
         }
-        // クリーンアップ
+
         return () => {
             console.log("解除", isSaved)
 
@@ -99,10 +100,7 @@ const LocalStrageSave: React.FC<LocalStrageSaveProps> = ({ data, activeMenu }) =
             localStorage.setItem('pompoms', JSON.stringify(datas));
             setTimeout(() => setIsSaved(true), 1)
         } catch (e) {
-            // if (e.name === 'QuotaExceededError') {
-            //     console.error('LocalStorage limit exceeded');
-            //     // 必要に応じて対策を行う
-            // }
+
             alert('保存に失敗しました、設計図タブからダウンロードしてください');
         }
 
@@ -135,7 +133,7 @@ const LocalStrageSave: React.FC<LocalStrageSaveProps> = ({ data, activeMenu }) =
 
         }
         // drawData(canvas, data);
-        const base64Image = canvas.toDataURL('image/png'); // 'image/png' は画像フォーマットを指定
+        const base64Image = canvas.toDataURL('image/png');
         console.log(base64Image)
         // console.log(base64Image);
         return base64Image
@@ -157,8 +155,8 @@ const LocalStrageSave: React.FC<LocalStrageSaveProps> = ({ data, activeMenu }) =
             {!isSaved &&
                 <Icon.Floppy2 onClick={saveToLocalStrage} style={{
 
-                    top: "5px", // 画面の上部
-                    left: "5px", // 画面の左端
+                    top: "5px",
+                    left: "5px",
                     position: 'fixed',
                 }} />
                 // <img onClick={saveToLocalStrage}>Save to</button>

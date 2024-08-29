@@ -56,7 +56,7 @@ const BluePrint: React.FC<BluePrintProps> = ({ pattern, colorList, rollWidth, pi
         // });
         (async function () {
             // bluePrintImg.src = "";
-            // 関数の内容
+
             // ctx.fillStyle = "#FFFFFF";
             ctx.clearRect(0, 0, canvas.width, canvas.height);
             await new Promise(resolve => setTimeout(resolve, 100));
@@ -103,10 +103,10 @@ const BluePrint: React.FC<BluePrintProps> = ({ pattern, colorList, rollWidth, pi
                     // pointerEvents: 'none',
                     // // display: "block",
                     // margin: "auto"
-                    position: "absolute"/* 画像を絶対位置に設定 */
-                    // top: 0;             /* 上からの距離 */
-                    // left: 0;            /* 左からの距離 */
-                    // width: 100 %;        /* コンテナに対して画像の幅を調整 */
+                    position: "absolute"
+                    // top: 0;           
+                    // left: 0;           
+                    // width: 100 %;        
                     // height: 100 %;  
 
                 }} />
@@ -119,10 +119,10 @@ const BluePrint: React.FC<BluePrintProps> = ({ pattern, colorList, rollWidth, pi
                     // pointerEvents: 'none',
                     // // display: "block",
                     // margin: "auto"
-                    position: "absolute"/* 画像を絶対位置に設定 */
-                    // top: 0;             /* 上からの距離 */
-                    // left: 0;            /* 左からの距離 */
-                    // width: 100 %;        /* コンテナに対して画像の幅を調整 */
+                    position: "absolute"
+                    // top: 0;            
+                    // left: 0;           
+                    // width: 100 %;      
                     // height: 100 %;  
 
                 }} />
@@ -141,8 +141,8 @@ const BluePrint: React.FC<BluePrintProps> = ({ pattern, colorList, rollWidth, pi
                     position: "absolute",
                     top: "5px",
                     left: "5px",
-                    fontSize: '16px', // 文字のサイズを24pxに設定
-                    fontWeight: 'bold', // 文字を太字に設定（オプション）
+                    fontSize: '16px',
+                    fontWeight: 'bold',
                     pointerEvents: "none"
                 }}>
                     残り{rollWidth * pitchWidth - progress}巻き　{(progress / (rollWidth * pitchWidth) * 100).toFixed(0)}%
@@ -153,7 +153,6 @@ const BluePrint: React.FC<BluePrintProps> = ({ pattern, colorList, rollWidth, pi
 
             {/* ポインタイベント改良版 */}
 
-            {/* </div> */}
 
         </>
     )
@@ -167,21 +166,20 @@ const BluePrint: React.FC<BluePrintProps> = ({ pattern, colorList, rollWidth, pi
         console.log("pompomかきこみ", pompomCanvas)
         // const pompomCtx = pompomCanvas.getContext('2d');
         // console.log({ pompomCtx })
-        // 目標の幅と高さ
+
         const targetWidth = canvas.width;
         const targetHeight = canvas.height;
 
-        // ソースの幅と高さ（pompomCanvas のサイズ）
+
         const sourceWidth = pompomCanvas.width;
         const sourceHeight = pompomCanvas.height;
 
-        // pompomCanvas の内容を canvas に描画
         let r = getR(-1)
-        ctx.lineWidth = 5; // 枠線の太さ
-        ctx.beginPath(); // パスの開始
-        ctx.arc(targetWidth / 2, targetHeight / 2, getR(-1) - 5, 0, 2 * Math.PI); // 円を描く (x座標, y座標, 半径, 開始角度, 終了角度)
-        ctx.fillStyle = '#111111'; // 枠線の色
-        ctx.fill(); // 枠線を描く
+        ctx.lineWidth = 5;
+        ctx.beginPath();
+        ctx.arc(targetWidth / 2, targetHeight / 2, getR(-1) - 5, 0, 2 * Math.PI);
+        ctx.fillStyle = '#111111';
+        ctx.fill();
 
         // ctx.imageSmoothingEnabled = true;
         // ctx.imageSmoothingQuality = 'high';
@@ -197,23 +195,12 @@ const BluePrint: React.FC<BluePrintProps> = ({ pattern, colorList, rollWidth, pi
         // canvas.height = canvasParent.clientHeight;
         // console.log("draw");
 
-        // //適当な縁
-        // ctx.lineWidth = 5; // 枠線の太さ
-        // ctx.beginPath(); // パスの開始
-        // ctx.arc(512, 512, 150, 0, 2 * Math.PI); // 円を描く (x座標, y座標, 半径, 開始角度, 終了角度)
-        // ctx.strokeStyle = 'blue'; // 枠線の色
-        // ctx.stroke(); // 枠線を描く
-        // ctx.fillStyle = 'lightblue'; // 塗りつぶしの色
-        // ctx.fill(); // 円を塗りつぶす
 
 
 
 
 
 
-
-        // ctx.font = '20px Arial';       // フォントとサイズを設定
-        // ctx.fillStyle = 'black';        // 塗りつぶしの色を設定
         // ctx.fillText("aa", 100, 100);
         function countPiled(pitch: any, roll: any, i: any, center: any, color: any) {
             let piled = 0;
@@ -297,7 +284,7 @@ const BluePrint: React.FC<BluePrintProps> = ({ pattern, colorList, rollWidth, pi
             for (let roll = 0; roll < rollWidth; roll++) {
                 // ctx.clearRect(0, 0, canvas.width, canvas.height);
                 const color = propsRef.current.pattern[roll][pitch];
-                let frameColor = isNearBlack(propsRef.current.colorList[color][0]) ? 'white' : 'black'; // 塗りつぶしの色を設定
+                let frameColor = isNearBlack(propsRef.current.colorList[color][0]) ? 'white' : 'black';
                 let theta = getTheta(roll);
                 let thetaWidth = (2 * Math.PI) * (1 / rollWidth);
                 let r = getR(pitch);
@@ -331,7 +318,7 @@ const BluePrint: React.FC<BluePrintProps> = ({ pattern, colorList, rollWidth, pi
                     frames.push({ center: center, roll: roll, pitch: pitch, widthCount: widthCount, piled: piled, frameColor, thetaWidth, theta })
                     isMemo.push(false)
                     // await new Promise(resolve => setTimeout(resolve, 1000));
-                    // drawFrame(center, roll, pitch, piled); // 線を描画
+                    // drawFrame(center, roll, pitch, piled);
 
                     // drawCountNumber(piled, center, theta, pitch, roll, thetaWidth);
 
@@ -345,7 +332,7 @@ const BluePrint: React.FC<BluePrintProps> = ({ pattern, colorList, rollWidth, pi
         }
 
         for (const frame of frames) {
-            drawFrame(frame.center, frame.roll, frame.pitch, frame.piled, frame.widthCount); // 線を描画
+            drawFrame(frame.center, frame.roll, frame.pitch, frame.piled, frame.widthCount);
             await new Promise(resolve => setTimeout(resolve, 100));
             console.log("かきこみ")
         }
@@ -359,7 +346,7 @@ const BluePrint: React.FC<BluePrintProps> = ({ pattern, colorList, rollWidth, pi
 
         function drawCountNumber(piled: number, center: { x: number; y: number; }, theta: number, pitch: number, roll: number, thetaWidth: number, widthCount: any, frameColor: any) {
             let fontsize = 20;
-            ctx.font = `${fontsize}px Arial`; // フォントとサイズを設定
+            ctx.font = `${fontsize}px Arial`;
             let textHeight = fontsize / 2;
             ctx.fillStyle = frameColor;
             console.log({ thetaWidth })
@@ -426,21 +413,19 @@ const BluePrint: React.FC<BluePrintProps> = ({ pattern, colorList, rollWidth, pi
                 ctx.lineTo(center.x + Math.cos(getTheta(roll + 1 - i)) * getR(pitch + piled), center.y + Math.sin(getTheta(roll + 1 - i)) * getR(pitch + piled));
             }
 
-            ctx.closePath(); // 最初の点に戻る
+            ctx.closePath();
             ctx.lineWidth = 1;
             ctx.stroke();
         }
 
         function isNearBlack(color: string): boolean {
-            // カラーコードをR, G, Bに分解
+
             let r = parseInt(color.substring(1, 3), 16);
             let g = parseInt(color.substring(3, 5), 16);
             let b = parseInt(color.substring(5, 7), 16);
 
-            // 明るさを計算
             let brightness = 0.2126 * r + 0.7152 * g + 0.0722 * b;
 
-            // しきい値128で判定
             return brightness > 256 / 2 ? false : true;
         }
     }
@@ -448,7 +433,6 @@ const BluePrint: React.FC<BluePrintProps> = ({ pattern, colorList, rollWidth, pi
     function memoBluePrint(event: any, bluePrintMemo: any) {
         console.log("メモ")
 
-        // if (!bluePrintMemo) return
         let memoctx = bluePrintMemo.getContext('2d')
         memoctx.clearRect(0, 0, canvas.width, canvas.height);
         // if (!memoctx) return
@@ -457,9 +441,9 @@ const BluePrint: React.FC<BluePrintProps> = ({ pattern, colorList, rollWidth, pi
 
         for (const frame of frames) {
             if (frame == null) continue;
-            ctx.fillStyle = 'rgba(255, 0, 0, 0.1)'; // 赤色で50%の透明度
+            ctx.fillStyle = 'rgba(255, 0, 0, 0.1)';
             // ctx.fill();
-            // frame(frame.center, frame.roll, frame.pitch, frame.piled, frame.widthCount); // 線を描画
+            // frame(frame.center, frame.roll, frame.pitch, frame.piled, frame.widthCount);
             const rect = canvas.getBoundingClientRect();
             const scaleX = canvas.width / rect.width;
             const scaleY = canvas.height / rect.height;
@@ -469,8 +453,8 @@ const BluePrint: React.FC<BluePrintProps> = ({ pattern, colorList, rollWidth, pi
             const y = (event.clientY - rect.top) * scaleY;
             if (frame == undefined) continue
             // memoctx.beginPath();
-            // memoctx.arc(x, y, 1, 0, 2 * Math.PI); // 半径10の円を描く
-            // memoctx.fillStyle = 'rgba(0, 0, 0, 0.5)'; // 半透明の黒色
+            // memoctx.arc(x, y, 1, 0, 2 * Math.PI);
+            // memoctx.fillStyle = 'rgba(0, 0, 0, 0.5)'; 
             // memoctx.fill();
             // // memoctx.strokeStyle = '#000'; // 黒色の線
             // memoctx.stroke();
@@ -499,19 +483,19 @@ const BluePrint: React.FC<BluePrintProps> = ({ pattern, colorList, rollWidth, pi
                 memoctx.fill();
                 const ctx = canvas.getContext('2d');
 
-                memoctx.beginPath(); // 新しいパスを開始
-                memoctx.arc(center_x, center_y, size, 0, 2 * Math.PI); // 指定した座標 (x, y) を中心に半径 radius の円を描く
-                memoctx.fillStyle = 'rgba(0, 0, 255, 0.5)'; // 円の塗りつぶし色（青色、50%の透明度）
-                // memoctx.fill(); // 円を塗りつぶす
-                memoctx.strokeStyle = '#000'; // 円の輪郭色（黒色）
+                memoctx.beginPath();
+                memoctx.arc(center_x, center_y, size, 0, 2 * Math.PI);
+                memoctx.fillStyle = 'rgba(0, 0, 255, 0.5)';
+                // memoctx.fill(); 
+                memoctx.strokeStyle = '#000';
                 memoctx.lineWidth = 3;
-                memoctx.stroke(); // 円の輪郭を描く
+                memoctx.stroke();
 
-                memoctx.font = `${size}px Arial`; // フォントサイズとフォントファミリーを設定
-                memoctx.fillStyle = "#dddddd"; // テキストの色を設定
-                memoctx.textAlign = 'center'; // テキストを中央揃えにする（必要に応じて調整）
-                memoctx.textBaseline = 'middle'; // テキストのベースラインを中央に設定（必要に応じて調整）
-                memoctx.fillText("済", center_x, center_y); // 指定した位置にテキストを描画
+                memoctx.font = `${size}px Arial`;
+                memoctx.fillStyle = "#dddddd";
+                memoctx.textAlign = 'center';
+                memoctx.textBaseline = 'middle';
+                memoctx.fillText("済", center_x, center_y);
             }
 
             i += 1
@@ -535,7 +519,7 @@ const BluePrint: React.FC<BluePrintProps> = ({ pattern, colorList, rollWidth, pi
                 memoctx.lineTo(center.x + Math.cos(getTheta(roll + 1 - i)) * getR(pitch + piled), center.y + Math.sin(getTheta(roll + 1 - i)) * getR(pitch + piled));
             }
 
-            memoctx.closePath(); // 最初の点に戻る
+            memoctx.closePath();
             // if (memoctx.isPointInPath(x, y)) {
 
             //     console.log(memoctx.getImageData(x, y, 1, 1).data[3])

@@ -40,16 +40,15 @@ const New: React.FC<NewProps> = ({ }) => {
 
     return (
         <>
-            {/* 新規作成 */}
-            {/* <SizeSet></SizeSet> */}
+
 
 
             <div style={{
                 display: "grid",
                 gridTemplateColumns: "1.5fr 1fr",
                 gridTemplateRows: "1fr 1fr",
-                width: "100%",      // 親要素の幅に合わせる
-                maxWidth: "100vw",  // 最大幅を画面幅に制限
+                width: "100%",
+                maxWidth: "100vw",
                 boxSizing: "border-box",
             }}>
                 <div style={{

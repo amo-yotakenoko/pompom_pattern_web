@@ -57,7 +57,7 @@ const LocalStrageLoad: React.FC<LocalStrageLoadProps> = ({ }) => {
             //     );
             // }
             // setItems(newItems.reverse());
-            setData(datas); // 状態を更新
+            setData(datas);
 
         }
         // };
@@ -121,7 +121,7 @@ const LocalStrageLoad: React.FC<LocalStrageLoadProps> = ({ }) => {
         let datas = JSON.parse(value);
         delete datas[key];
         localStorage.setItem('pompoms', JSON.stringify(datas));
-        setData(datas); // 状態を更新して再レンダリング
+        setData(datas);
     }
 
     return (
