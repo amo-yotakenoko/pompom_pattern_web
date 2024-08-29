@@ -479,7 +479,7 @@ const BluePrint: React.FC<BluePrintProps> = ({ pattern, colorList, rollWidth, pi
             }
             if (isMemo[i]) {
                 progress += frame.widthCount * frame.piled
-                let size = 50
+                let size = 30
                 memoctx.fill();
                 const ctx = canvas.getContext('2d');
 

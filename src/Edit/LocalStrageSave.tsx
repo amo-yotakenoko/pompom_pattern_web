@@ -15,12 +15,15 @@ const LocalStrageSave: React.FC<LocalStrageSaveProps> = ({ data, activeMenu }) =
     const [isSaved, setIsSaved] = useState(true);
     useEffect(() => {
         console.log("dataを更新")
+
+
         setIsSaved(false)
     }, [data])
-    useEffect(() => {
-        if (activeMenu == "bluePrint")
-            saveToLocalStrage()
-    }, [activeMenu])
+
+    // useEffect(() => {
+    //     if (activeMenu == "bluePrint")
+    //         saveToLocalStrage()
+    // }, [activeMenu])
 
 
 
@@ -152,7 +155,7 @@ const LocalStrageSave: React.FC<LocalStrageSaveProps> = ({ data, activeMenu }) =
 
             {/* <i className="bi bi-floppy2" onClick={saveToLocalStrage}></i>
             <i className="bi bi-123"></i> */}
-            {!isSaved &&
+            {(!isSaved && activeMenu == "pompom") &&
                 <Icon.Floppy2 onClick={saveToLocalStrage} style={{
 
                     top: "5px",
