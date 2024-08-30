@@ -75,15 +75,16 @@ const Pompom: React.FC<PompomProps> = ({ pattern, colorList, rollWidth, pitchWid
 
         canvas = document.querySelector("#edit3d") as HTMLCanvasElement;
         renderer = new THREE.WebGLRenderer({ canvas, alpha: true, antialias: true, preserveDrawingBuffer: true });
-        window.addEventListener('resize', resize);
-        resize()
+        // window.addEventListener('resize', resize);
+        // resize()
         function resize() {
-            const size = Math.min(window.innerWidth, window.innerHeight);
+
+            const size = Math.min(canvas.clientWidth, canvas.clientHeight);
             const width = size;
             const height = size;
             renderer.setPixelRatio(window.devicePixelRatio);
             renderer.setSize(width, height);
-            console.log("resize")
+            console.log("resize", document.body.clientWidth)
 
         }
 
@@ -353,9 +354,13 @@ const Pompom: React.FC<PompomProps> = ({ pattern, colorList, rollWidth, pitchWid
 
     }, [rollWidth, pitchWidth]);
 
-
+    // const size = Math.min(canvas.clientWidth, canvas.clientHeight);
     return (
-        <canvas id="edit3d" className="no-margin" />
+        <canvas id="edit3d" className="no-margin" width="1024" height="1024" style={{
+            border: "1px solid black", width: "100%",
+            aspectRatio: "1"
+        }
+        } />
     )
 };
 

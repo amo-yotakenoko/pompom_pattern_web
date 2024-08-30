@@ -82,7 +82,6 @@ const BluePrint: React.FC<BluePrintProps> = ({ pattern, colorList, rollWidth, pi
     }, [activeMenu]);
 
 
-
     return (
         <>
             {/* {`${colorList}`} */}
@@ -93,65 +92,67 @@ const BluePrint: React.FC<BluePrintProps> = ({ pattern, colorList, rollWidth, pi
                 aspectRatio: '1 / 1',
             }}> */}
             {/* <div style={{ width: '100vw', height: 'auto', position: 'relative' }}> */}
-            <div style={{ position: "relative" }}>
 
-                <canvas id="bluePrint" width="1024" height="1024" style={{
+            <div className="col-12 col-lg-6">
+                <div style={{ position: "relative" }}>
 
-                    border: "2px solid black",
-                    width: '100%', height: 'auto',
-                    // position: 'absolute', top: 0, left: 0,
-                    // pointerEvents: 'none',
-                    // // display: "block",
-                    // margin: "auto"
-                    position: "absolute"
-                    // top: 0;           
-                    // left: 0;           
-                    // width: 100 %;        
-                    // height: 100 %;  
+                    <canvas id="bluePrint" width="1024" height="1024" style={{
 
-                }} />
+                        // border: "2px solid black",
+                        width: '100%',
+                        // position: 'absolute', top: 0, left: 0,
+                        // pointerEvents: 'none',
+                        // // display: "block",
+                        // margin: "auto"
+                        position: "absolute"
+                        // top: 0;           
+                        // left: 0;           
+                        // width: 100 %;        
+                        // height: 100 %;  
 
-                <canvas id="bluePrintMemo" width="1024" height="1024" style={{
+                    }} />
 
-                    border: "2px solid black",
-                    width: '100%', height: 'auto',
-                    // position: 'absolute', top: 0, left: 0,
-                    // pointerEvents: 'none',
-                    // // display: "block",
-                    // margin: "auto"
-                    position: "absolute"
-                    // top: 0;            
-                    // left: 0;           
-                    // width: 100 %;      
-                    // height: 100 %;  
+                    <canvas id="bluePrintMemo" width="1024" height="1024" style={{
 
-                }} />
+                        // border: "2px solid black",
+                        width: '100%',
+                        // position: 'absolute', top: 0, left: 0,
+                        // pointerEvents: 'none',
+                        // // display: "block",
+                        // margin: "auto"
+                        position: "absolute"
+                        // top: 0;            
+                        // left: 0;           
+                        // width: 100 %;      
+                        // height: 100 %;  
 
-                <div style={{
-                    position: "absolute",
-                    top: "0",
-                    right: "0",
-                    // width: "150px",
-                    // height: "auto"
-                }}>
+                    }} />
+
+                    {/* <div style={{
+                            position: "absolute",
+                            top: "0",
+                            right: "0",
+                            // width: "5%",
+                            // height: "5%"
+                        }}> */}
 
                     <ImageSave data={{ pattern, colorList, rollWidth, pitchWidth }}></ImageSave>
-                </div>
-                <div style={{
-                    position: "absolute",
-                    top: "5px",
-                    left: "5px",
-                    fontSize: '16px',
-                    fontWeight: 'bold',
-                    pointerEvents: "none"
-                }}>
-                    残り{rollWidth * pitchWidth - progress}巻き　{(progress / (rollWidth * pitchWidth) * 100).toFixed(0)}%
+                    {/* </div> */}
+
+                    <div style={{
+                        position: "absolute",
+                        top: "5px",
+                        left: "5px",
+                        fontSize: '16px',
+                        fontWeight: 'bold',
+                        pointerEvents: "none"
+                    }}>
+                        残り{rollWidth * pitchWidth - progress}巻き　{(progress / (rollWidth * pitchWidth) * 100).toFixed(0)}%
+                    </div >
                 </div >
-            </div >
 
+            </div>
 
-
-            {/* ポインタイベント改良版 */}
 
 
         </>

@@ -40,7 +40,7 @@ const ColorEdit: React.FC<colorPaletteProps> = ({ colorList, selectColor, setSel
     }, [selectColor]);
     return (
 
-        <div style={{ maxHeight: "calc(100vh - 100vw - 2.5em)", }}>
+        <div >
             <Nav justify variant="tabs" activeKey={selectedMultiColor}
                 onSelect={(e: any) => { setSelectedMultiColor(parseInt(e)) }}>
 
@@ -130,52 +130,6 @@ const ColorEdit: React.FC<colorPaletteProps> = ({ colorList, selectColor, setSel
             </div>
 
 
-            {/* <div style={{
-                backgroundColor: color,
-                // border: '2px solid #333',
-                borderRadius: '10px',
-                // padding: '1px',
-                margin: '0.1em 0',
-                // display: 'flex',
-                boxShadow: '0 4px 8px rgba(0, 0, 0, 0.2)',
-
-            }}>
-                {/* <div>{i}_{color}</div> */}
-
-
-            {/* <button
-                className="btn btn-outline-primary"
-                style={{
-                    visibility: colorList[selectColor].length < 2 ? 'hidden' : 'visible',
-                    // width: '1ch',
-                    // height: '1em',
-                    // lineHeight: '1em',
-                }}
-                onClick={() => {
-                    console.log("削除");
-                    let newColorList = [...colorList]
-                    colorList[selectColor].splice(i, 1);
-
-                    setColorList(newColorList);
-               
-                }}
-                disabled={colorList[selectColor].length < 2}
-            >x </button> */}
-            {/* {colorList[selectColor].length} */}
-            {/* <ChromePicker color={color} onChange={(color) => colorChange(color, selectColor, i)} disableAlpha={true} /> */}
-
-
-            {/* 
-
-            <button className="btn btn-primary"
-                style={{
-                    width: "100%"
-                }}
-                onClick={() => {
-                    let newColorList = [...colorList]
-                    colorList[selectColor].push(selectColor[0])
-                    setColorList(newColorList);
-                }}>追加</button> */}
 
         </div>
     )

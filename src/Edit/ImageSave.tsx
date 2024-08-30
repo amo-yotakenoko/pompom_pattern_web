@@ -78,7 +78,12 @@ const ImageSave: React.FC<ImageSaveProps> = ({ data }) => {
 
     return (
         <>
-            <img src={downloadImg} onClick={() => { download(900) }} style={{ width: "10vw" }}></img>
+            <img src={downloadImg} onClick={() => { download(900) }} style={{
+                position: "absolute",
+                width: "10%",
+                top: "0",
+                right: "0",
+            }}></img>
             {/* <img src={bluePrintBase}></img> */}
             {/* <img
                 id="bluePrintImg"

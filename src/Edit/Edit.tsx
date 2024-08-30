@@ -11,8 +11,9 @@ import ColorPalette from './colorPalette'
 import BluePrint from './bluePrint'
 import Menu from './menu'
 import UndoRedo from './undoRedu'
+import ColorEdit from './colorEdit'
 // import Button from 'react-bootstrap/Button';
-
+// import '../index.css';
 
 
 function Edit() {
@@ -22,18 +23,18 @@ function Edit() {
 
 
   const [colorList, setColorList] = useState([
-    ["#FFFFFF"], // white
-    ["#FF5733"], // Red-Orange
-    ["#FFBD33", "#FF0033"], // Orange-Yellow
-    ["#FFFF33"], // Yellow
-    ["#B6FF33"], // Yellow-Green
-    ["#33FF57"], // Green
-    ["#33FFBD"], // Green-Cyan
-    ["#33FFFF"], // Cyan
-    ["#33B6FF"], // Cyan-Blue
-    ["#3357FF"], // Blue
-    ["#BD33FF"], // Purple
-    ["#FF33FF"], // Magenta
+    ["#FFFFFF"],
+    ["#FF5733"],
+    ["#FFBD33", "#FF0033"],
+    ["#FFFF33"],
+    ["#B6FF33"],
+    ["#33FF57"],
+    ["#33FFBD"],
+    ["#33FFFF"],
+    ["#33B6FF"],
+    ["#3357FF"],
+    ["#BD33FF"],
+    ["#FF33FF"],
 
   ]);
 
@@ -100,57 +101,65 @@ function Edit() {
   // useEffect(() => {
   //   setPattern(brankPattern(rollWidth, pitchWidth))
   // }, [rollWidth, pitchWidth]);
-
+  // <div className="row">
+  //   <div className="col-12 col-md-6">
   return (
+    <>
+      <LocalStrageSave data={{ pattern, colorList, rollWidth, pitchWidth }} activeMenu={activeMenu} />
 
-    // <div style={{ backgroundColor: "#ccd7ea" }} >
-    <div style={{}} >
-      <LocalStrageSave data={{ pattern, colorList, rollWidth, pitchWidth }} activeMenu={activeMenu}></LocalStrageSave>
-      <div style={{
-        display: activeMenu === "pompom" ? "block" : "none",
-        height: "100%", width: "100%",
-      }}>
-        <Pompom
-          pattern={pattern}
-          colorList={colorList}
-          rollWidth={rollWidth}
-          pitchWidth={pitchWidth}
-          selectColor={selectColor}
-          setPattern={setPattern}
-          activeMenu={activeMenu}
-        />
+      <div className="container-fluid" style={{ padding: 0, margin: 0 }}>
+        <div className="row no-margin" style={{ display: activeMenu === "pompom" ? "flex" : "none" }}>
+          <div className="col-12 col-xl-4 no-margin">
+            <Pompom
+              pattern={pattern}
+              colorList={colorList}
+              rollWidth={rollWidth}
+              pitchWidth={pitchWidth}
+              selectColor={selectColor}
+              setPattern={setPattern}
+              activeMenu={activeMenu}
+            />
+          </div>
+          <div className="col-6 col-xl-4 no-margin">
+            <ColorEdit
+              colorList={colorList}
+              selectColor={selectColor}
+              setSelectColor={setSelectColor}
+              setColorList={setColorList}
+            />
+          </div>
+          <div className="col-6 col-xl-4 no-margin">
+            <ColorPalette
+              colorList={colorList}
+              selectColor={selectColor}
+              setSelectColor={setSelectColor}
+              setColorList={setColorList}
+            />
+          </div>
+        </div>
 
-
-        <ColorPalette
-          colorList={colorList}
-          selectColor={selectColor}
-          setSelectColor={setSelectColor}
-          setColorList={setColorList}
-        />
+        <div style={{ display: activeMenu === "bluePrint" ? "block" : "none" }}>
+          <BluePrint
+            pattern={pattern}
+            colorList={colorList}
+            rollWidth={rollWidth}
+            pitchWidth={pitchWidth}
+            activeMenu={activeMenu}
+          />
+        </div>
 
       </div>
-
-      <div style={{ display: activeMenu === "bluePrint" ? "block" : "none" }}>
-
-        <BluePrint
-          pattern={pattern}
-          colorList={colorList}
-          rollWidth={rollWidth}
-          pitchWidth={pitchWidth}
-          activeMenu={activeMenu}
-        ></BluePrint>
-      </div>
-
-      {/* {`${pattern}`}
-      {`${selectColor}`} */}
-
       <Menu
         activeMenu={activeMenu}
         setActiveMenu={setActiveMenu}
-        pattern={pattern} setPattern={setPattern} colorList={colorList} setColorList={setColorList} selectColor={selectColor} setSelectColor={setSelectColor}
-      ></Menu>
-
-    </ div>
+        pattern={pattern}
+        setPattern={setPattern}
+        colorList={colorList}
+        setColorList={setColorList}
+        selectColor={selectColor}
+        setSelectColor={setSelectColor}
+      />
+    </>
   );
 }
 
