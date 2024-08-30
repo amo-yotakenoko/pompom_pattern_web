@@ -11,7 +11,7 @@ type NewProps = {
 };
 const New: React.FC<NewProps> = ({ }) => {
     const [rollWidth, setRollWidth] = useState(20);
-    const [pitchWidth, setPitchWidth] = useState(20);
+    const [pitchWidth, setPitchWidth] = useState(8);
     const navigate = useNavigate();
     const newCreate = () => {
         navigate('/edit', {
