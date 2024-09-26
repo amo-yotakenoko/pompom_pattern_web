@@ -12,8 +12,13 @@ type BluePrintProps = {
 };
 var cancel = false;
 let frames: any = []
-let isMemo: any = []
+
+
 const BluePrint: React.FC<BluePrintProps> = ({ pattern, colorList, rollWidth, pitchWidth, activeMenu }) => {
+
+    const [rollProgress, setRollProgress] = useState<any[]>([]);
+
+
 
     const [progress, setProgress] = useState(0);
     const propsRef = useRef({ pattern, colorList });
@@ -28,7 +33,8 @@ const BluePrint: React.FC<BluePrintProps> = ({ pattern, colorList, rollWidth, pi
         activeMenuRef.current = activeMenuRef;
     }, [activeMenu]);
     function getR(pitch: any) {
-        return (canvas.width / 2 * 0.3) + (pitch / pitchWidth) * (canvas.width / 2 * 0.65)
+        // return (canvas.width / 2 * 0.3) + (pitch / pitchWidth) * (canvas.width / 2 * 0.65)
+        return (1024 / 2 * 0.3) + (pitch / pitchWidth) * (1024 / 2 * 0.65)
     }
 
 
@@ -36,13 +42,14 @@ const BluePrint: React.FC<BluePrintProps> = ({ pattern, colorList, rollWidth, pi
         return (2 * Math.PI) * (roll / rollWidth)
     }
     var ctx: any;
+    const [selectingFrame, setSelectingFrame] = useState(0);
     useEffect(() => {
         cancel = false;
         console.log(activeMenu)
         if (activeMenu != "bluePrint") return;
         canvas = document.getElementById('bluePrint') as HTMLCanvasElement;
         bluePrintMemo = document.getElementById('bluePrintMemo') as HTMLCanvasElement;
-        bluePrintMemo.addEventListener('mousedown', (event: any) => { memoBluePrint(event, bluePrintMemo) });
+        bluePrintMemo.addEventListener('mousedown', (event: any) => { selectFrame(event) });
         bluePrintMemo.getContext('2d').clearRect(0, 0, canvas.width, canvas.height);
         // if (!canvas || !canvas.getContext || !canvasParent) return;
 
@@ -74,91 +81,13 @@ const BluePrint: React.FC<BluePrintProps> = ({ pattern, colorList, rollWidth, pi
 
         // window.addEventListener('resize', () => draw());
         return () => {
-            bluePrintMemo.removeEventListener('mousedown', (event: any) => { memoBluePrint(event, bluePrintMemo) });
+
+            bluePrintMemo.removeEventListener('mousedown', (event: any) => { selectFrame(event) });
             console.log("おわり")
             cancel = true;
         };
 
     }, [activeMenu]);
-
-
-    return (
-        <>
-            {/* {`${colorList}`} */}
-            {/* <div id="canvasParent" style={{
-                border: '1px solid black',
-                width: '100vw',
-                height: '100vw',
-                aspectRatio: '1 / 1',
-            }}> */}
-            {/* <div style={{ width: '100vw', height: 'auto', position: 'relative' }}> */}
-
-            <div className="col-12 col-lg-6">
-                <div style={{ position: "relative" }}>
-
-                    <canvas id="bluePrint" width="1024" height="1024" style={{
-
-                        // border: "2px solid black",
-                        width: '100%',
-                        // position: 'absolute', top: 0, left: 0,
-                        // pointerEvents: 'none',
-                        // // display: "block",
-                        // margin: "auto"
-                        position: "absolute"
-                        // top: 0;           
-                        // left: 0;           
-                        // width: 100 %;        
-                        // height: 100 %;  
-
-                    }} />
-
-                    <canvas id="bluePrintMemo" width="1024" height="1024" style={{
-
-                        // border: "2px solid black",
-                        width: '100%',
-                        // position: 'absolute', top: 0, left: 0,
-                        // pointerEvents: 'none',
-                        // // display: "block",
-                        // margin: "auto"
-                        position: "absolute"
-                        // top: 0;            
-                        // left: 0;           
-                        // width: 100 %;      
-                        // height: 100 %;  
-
-                    }} />
-
-                    {/* <div style={{
-                            position: "absolute",
-                            top: "0",
-                            right: "0",
-                            // width: "5%",
-                            // height: "5%"
-                        }}> */}
-
-                    <ImageSave data={{ pattern, colorList, rollWidth, pitchWidth }}></ImageSave>
-                    {/* </div> */}
-
-                    <div style={{
-                        position: "absolute",
-                        top: "5px",
-                        left: "5px",
-                        fontSize: '16px',
-                        fontWeight: 'bold',
-                        pointerEvents: "none"
-                    }}>
-                        残り{rollWidth * pitchWidth - progress}巻き　{(progress / (rollWidth * pitchWidth) * 100).toFixed(0)}%
-                    </div >
-                </div >
-
-            </div>
-
-            <RollCounter></RollCounter>
-
-        </>
-    )
-
-
 
 
     async function drawPompom(ctx: any, canvas: HTMLCanvasElement, pompomCanvas: HTMLCanvasElement) {
@@ -280,7 +209,7 @@ const BluePrint: React.FC<BluePrintProps> = ({ pattern, colorList, rollWidth, pi
         ctx.moveTo(0, 0);
         let widthCount = 0;
         frames = []
-        isMemo = []
+
         for (let pitch = 0; pitch < pitchWidth; pitch++) {
             for (let roll = 0; roll < rollWidth; roll++) {
                 // ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -317,7 +246,8 @@ const BluePrint: React.FC<BluePrintProps> = ({ pattern, colorList, rollWidth, pi
                     }
                     console.log({ widthCount })
                     frames.push({ center: center, roll: roll, pitch: pitch, widthCount: widthCount, piled: piled, frameColor, thetaWidth, theta })
-                    isMemo.push(false)
+
+
                     // await new Promise(resolve => setTimeout(resolve, 1000));
                     // drawFrame(center, roll, pitch, piled);
 
@@ -330,10 +260,14 @@ const BluePrint: React.FC<BluePrintProps> = ({ pattern, colorList, rollWidth, pi
 
                 if (isChange) widthCount = 0;
             }
+            setRollProgress(Array.from({ length: frames.length }, () => 0))
+
         }
 
         for (const frame of frames) {
-            drawFrame(frame.center, frame.roll, frame.pitch, frame.piled, frame.widthCount);
+            drawFrame(ctx, frame.center, frame.roll, frame.pitch, frame.piled, frame.widthCount);
+            ctx.lineWidth = 1;
+            ctx.stroke();
             await new Promise(resolve => setTimeout(resolve, 100));
             console.log("かきこみ")
         }
@@ -402,22 +336,7 @@ const BluePrint: React.FC<BluePrintProps> = ({ pattern, colorList, rollWidth, pi
             }
         }
 
-        function drawFrame(center: { x: number; y: number; }, roll: number, pitch: number, piled: number, widthCount: number) {
-            ctx.beginPath();
 
-            ctx.moveTo(center.x + Math.cos(getTheta(roll + 1)) * getR(pitch), center.y + Math.sin(getTheta(roll + 1)) * getR(pitch));
-            for (let i = 0; i <= widthCount; i++) {
-                ctx.lineTo(center.x + Math.cos(getTheta(roll + 1 - i)) * getR(pitch), center.y + Math.sin(getTheta(roll + 1 - i)) * getR(pitch));
-                // ctx.arc(center.x + Math.cos(getTheta(roll + 1 - i)) * getR(pitch), center.y + Math.sin(getTheta(roll + 1 - i)) * getR(pitch), 10, 0, 2 * Math.PI);
-            }
-            for (let i = widthCount; i >= 0; i--) {
-                ctx.lineTo(center.x + Math.cos(getTheta(roll + 1 - i)) * getR(pitch + piled), center.y + Math.sin(getTheta(roll + 1 - i)) * getR(pitch + piled));
-            }
-
-            ctx.closePath();
-            ctx.lineWidth = 1;
-            ctx.stroke();
-        }
 
         function isNearBlack(color: string): boolean {
 
@@ -430,105 +349,393 @@ const BluePrint: React.FC<BluePrintProps> = ({ pattern, colorList, rollWidth, pi
             return brightness > 256 / 2 ? false : true;
         }
     }
+    function drawFrame(ctx: any, center: { x: number; y: number; }, roll: number, pitch: number, piled: number, widthCount: number) {
+        ctx.beginPath();
+        // console.log(center)
+        ctx.moveTo(center.x + Math.cos(getTheta(roll + 1)) * getR(pitch), center.y + Math.sin(getTheta(roll + 1)) * getR(pitch));
+        for (let i = 0; i <= widthCount; i++) {
+            ctx.lineTo(center.x + Math.cos(getTheta(roll + 1 - i)) * getR(pitch), center.y + Math.sin(getTheta(roll + 1 - i)) * getR(pitch));
+            // ctx.arc(center.x + Math.cos(getTheta(roll + 1 - i)) * getR(pitch), center.y + Math.sin(getTheta(roll + 1 - i)) * getR(pitch), 10, 0, 2 * Math.PI);
+        }
+        for (let i = widthCount; i >= 0; i--) {
+            ctx.lineTo(center.x + Math.cos(getTheta(roll + 1 - i)) * getR(pitch + piled), center.y + Math.sin(getTheta(roll + 1 - i)) * getR(pitch + piled));
+        }
 
-    function memoBluePrint(event: any, bluePrintMemo: any) {
-        console.log("メモ")
+        ctx.closePath();
 
-        let memoctx = bluePrintMemo.getContext('2d')
-        memoctx.clearRect(0, 0, canvas.width, canvas.height);
-        // if (!memoctx) return
-        let i = 0
-        let progress = 0
+    }
 
-        for (const frame of frames) {
+    function frameShapeEx(ctx: any, frame: any, progress: number) {
+        ctx.beginPath();
+        // if (progress == undefined) {
+        //     progress = frame.piled * frame.widthCount
+        // }
+        let piled = Math.floor(progress / frame.widthCount)
+        let roll = frame.roll
+        // ctx.moveTo(frame.center.x + Math.cos(getTheta(roll + 1)) * getR(frame.pitch), frame.center.y + Math.sin(getTheta(roll + 1)) * getR(frame.pitch));
+        drawFrame(ctx, frame.center, roll, frame.pitch, piled, frame.widthCount);
+        ctx.closePath();
+        ctx.fillStyle = 'rgba(10, 10, 10, 0.5)';
+        ctx.fill()
+
+        let restroll = progress - frame.widthCount * piled
+        console.log("pitch", frame.pitch + piled, frame.pitch + piled % 2 == 0)
+        if ((frame.pitch + piled) % 2 == 0) {
+
+            drawFrame(ctx, frame.center, roll, frame.pitch + piled, 1, restroll);
+        } else {
+            drawFrame(ctx, frame.center, roll + restroll - frame.widthCount, frame.pitch + piled, 1, restroll);
+        }
+        ctx.closePath();
+        ctx.fillStyle = 'rgba(10, 10, 10, 0.5)';
+        ctx.fill()
+
+    }
+
+
+
+    function selectFrame(event: any) {
+        for (let i = 0; i < frames.length; i++) {
+            const frame = frames[i];
             if (frame == null) continue;
-            ctx.fillStyle = 'rgba(255, 0, 0, 0.1)';
-            // ctx.fill();
-            // frame(frame.center, frame.roll, frame.pitch, frame.piled, frame.widthCount);
+
             const rect = canvas.getBoundingClientRect();
             const scaleX = canvas.width / rect.width;
             const scaleY = canvas.height / rect.height;
 
-            // スケールを考慮したx, y座標を計算
+
             const x = (event.clientX - rect.left) * scaleX;
             const y = (event.clientY - rect.top) * scaleY;
-            if (frame == undefined) continue
-            // memoctx.beginPath();
-            // memoctx.arc(x, y, 1, 0, 2 * Math.PI);
-            // memoctx.fillStyle = 'rgba(0, 0, 0, 0.5)'; 
-            // memoctx.fill();
-            // // memoctx.strokeStyle = '#000'; // 黒色の線
-            // memoctx.stroke();
 
-            memoctx.beginPath();
-            memoctx.fillStyle = 'rgba(10, 10, 10, 0.5)';
-            memoctx.moveTo(frame.center.x + Math.cos(getTheta(frame.roll + 1)) * getR(frame.pitch), frame.center.y + Math.sin(getTheta(frame.roll + 1)) * getR(frame.pitch));
-            for (let i = 0; i <= frame.widthCount; i++) {
-                memoctx.lineTo(frame.center.x + Math.cos(getTheta(frame.roll + 1 - i)) * getR(frame.pitch), frame.center.y + Math.sin(getTheta(frame.roll + 1 - i)) * getR(frame.pitch));
-                // ctx.arc(center.x + Math.cos(getTheta(roll + 1 - i)) * getR(pitch), center.y + Math.sin(getTheta(roll + 1 - i)) * getR(pitch), 10, 0, 2 * Math.PI);
+            if (frame === undefined) continue;
+
+            let center_x = frame.center.x + Math.cos(getTheta(frame.roll + 1 - frame.widthCount / 2)) * getR(frame.pitch + frame.piled / 2);
+            let center_y = frame.center.y + Math.sin(getTheta(frame.roll + 1 - frame.widthCount / 2)) * getR(frame.pitch + frame.piled / 2);
+
+            if (isPointInFrame(frame, x, y)) {
+                console.log(`Frame Index: ${i}`, frame);
+                setSelectingFrame(i);
             }
-            for (let i = frame.widthCount; i >= 0; i--) {
-                memoctx.lineTo(frame.center.x + Math.cos(getTheta(frame.roll + 1 - i)) * getR(frame.pitch + frame.piled), frame.center.y + Math.sin(getTheta(frame.roll + 1 - i)) * getR(frame.pitch + frame.piled));
-            }
-            console.log(frame)
-            let center_x = frame.center.x + Math.cos(getTheta(frame.roll + 1 - frame.widthCount / 2)) * getR(frame.pitch + frame.piled / 2)
-            let center_y = frame.center.y + Math.sin(getTheta(frame.roll + 1 - frame.widthCount / 2)) * getR(frame.pitch + frame.piled / 2)
-            memoctx.closePath(); // 最初の点に戻る
-            if (memoctx.isPointInPath(x, y)) {
-                console.log(i, "を反転")
-                isMemo[i] = !isMemo[i]
-            }
-            if (isMemo[i]) {
-                progress += frame.widthCount * frame.piled
-                let size = 30
-                memoctx.fill();
-                const ctx = canvas.getContext('2d');
-
-                memoctx.beginPath();
-                memoctx.arc(center_x, center_y, size, 0, 2 * Math.PI);
-                memoctx.fillStyle = 'rgba(0, 0, 255, 0.5)';
-                // memoctx.fill(); 
-                memoctx.strokeStyle = '#000';
-                memoctx.lineWidth = 3;
-                memoctx.stroke();
-
-                memoctx.font = `${size}px Arial`;
-                memoctx.fillStyle = "#dddddd";
-                memoctx.textAlign = 'center';
-                memoctx.textBaseline = 'middle';
-                memoctx.fillText("済", center_x, center_y);
-            }
-
-            i += 1
-            // if (isPointInFrame(frame.center, frame.roll, frame.pitch, frame.piled, frame.widthCount, x, y)) console.log("当たった")
-            // await new Promise(resolve => setTimeout(resolve, 100));
-        }
-        setProgress(progress)
-        console.log(isMemo)
-
-
-
-        function isPointInFrame(center: { x: number; y: number; }, roll: number, pitch: number, piled: number, widthCount: number, x: any, y: any) {
-            memoctx.beginPath();
-            memoctx.fillStyle = 'rgba(255, 0, 0, 0.1)';
-            memoctx.moveTo(center.x + Math.cos(getTheta(roll + 1)) * getR(pitch), center.y + Math.sin(getTheta(roll + 1)) * getR(pitch));
-            for (let i = 0; i <= widthCount; i++) {
-                memoctx.lineTo(center.x + Math.cos(getTheta(roll + 1 - i)) * getR(pitch), center.y + Math.sin(getTheta(roll + 1 - i)) * getR(pitch));
-                // ctx.arc(center.x + Math.cos(getTheta(roll + 1 - i)) * getR(pitch), center.y + Math.sin(getTheta(roll + 1 - i)) * getR(pitch), 10, 0, 2 * Math.PI);
-            }
-            for (let i = widthCount; i >= 0; i--) {
-                memoctx.lineTo(center.x + Math.cos(getTheta(roll + 1 - i)) * getR(pitch + piled), center.y + Math.sin(getTheta(roll + 1 - i)) * getR(pitch + piled));
-            }
-
-            memoctx.closePath();
-            // if (memoctx.isPointInPath(x, y)) {
-
-            //     console.log(memoctx.getImageData(x, y, 1, 1).data[3])
-            //     memoctx.fill();
-            // }
-            return ctx.isPointInPath(x, y);
         }
     }
+
+    const [blinkCount, setBlinkCount] = useState(0);
+
+    useEffect(() => {
+
+        let selectingFramecanvas = document.getElementById('selectingFrame') as HTMLCanvasElement;
+
+        let selectingFramectx = selectingFramecanvas.getContext('2d');
+        const width = selectingFramecanvas.width;
+        const height = selectingFramecanvas.height;
+
+        // console.log("selectingFrame変更", selectingFramectx, selectingFrame, frames[selectingFrame])
+        if (selectingFramectx == null) return;
+        // console.log("selectingFrame変更2")
+        selectingFramectx.clearRect(0, 0, width, height);
+        const frame = frames[selectingFrame]
+        if (frame) {
+            // console.log("selectingFrame変更3")
+            // console.log("表示")
+            selectingFramectx.lineWidth = 5;
+            drawFrame(selectingFramectx, frame.center, frame.roll, frame.pitch, frame.piled, frame.widthCount);
+
+            selectingFramectx.closePath();
+            selectingFramectx.strokeStyle = `rgba(255, 0, 0, ${Math.sin(blinkCount / 10) + 1})`;
+            selectingFramectx.stroke()
+        }
+        // console.log({ blinkCount })
+
+        const blinkCountFunction = setTimeout(() => {
+            setBlinkCount(prevCount => prevCount + 1);
+        }, 10); // 1秒後に実行
+
+        // クリーンアップ関数
+        return () => clearTimeout(blinkCountFunction);
+
+
+    }, [selectingFrame, blinkCount]);
+
+    useEffect(() => {
+        console.log("メモ")
+        let bluePrintMemo = document.getElementById('bluePrintMemo') as HTMLCanvasElement;
+        let memoctx = bluePrintMemo.getContext('2d')
+        if (memoctx) {
+            // console.log("メモ2")
+
+            memoctx.clearRect(0, 0, bluePrintMemo.width, bluePrintMemo.height);
+            // if (!memoctx) return
+            let i = 0
+            let progress = 0
+
+            for (const frame of frames) {
+                if (frame == null) continue;
+                // console.log("メモ3")
+                memoctx.fillStyle = 'rgba(255, 0, 0, 0.1)';
+                // ctx.fill();
+                // frame(frame.center, frame.roll, frame.pitch, frame.piled, frame.widthCount);
+                const rect = bluePrintMemo.getBoundingClientRect();
+                const scaleX = bluePrintMemo.width / rect.width;
+                const scaleY = bluePrintMemo.height / rect.height;
+
+                // スケールを考慮したx, y座標を計算
+
+                if (frame == undefined) continue
+                // console.log("メモ4")
+                // memoctx.beginPath();
+                // memoctx.arc(x, y, 1, 0, 2 * Math.PI);
+                // memoctx.fillStyle = 'rgba(0, 0, 0, 0.5)'; 
+                // memoctx.fill();
+                // // memoctx.strokeStyle = '#000'; // 黒色の線
+                // memoctx.stroke();
+
+                // memoctx.beginPath();
+                // memoctx.fillStyle = 'rgba(10, 10, 10, 0.5)';
+                // frameShapeEx(memoctx, frame);
+
+
+                // console.log(frame)
+                let center_x = frame.center.x + Math.cos(getTheta(frame.roll + 1 - frame.widthCount / 2)) * getR(frame.pitch + frame.piled / 2)
+                let center_y = frame.center.y + Math.sin(getTheta(frame.roll + 1 - frame.widthCount / 2)) * getR(frame.pitch + frame.piled / 2)
+                // memoctx.closePath(); // 最初の点に戻る
+
+                // if (isPointInFrame(frame, x, y)) {
+                //     // console.log(i, "を反転")
+                //     rollProgress[i] += 1
+                // }
+
+
+
+                if (rollProgress[i] > 0 && bluePrintMemo) {
+                    console.log("メモだ")
+                    progress += frame.widthCount * frame.piled
+                    let size = 30
+                    // memoctx.fill();
+                    const ctx = bluePrintMemo.getContext('2d');
+
+                    frameShapeEx(memoctx, frame, rollProgress[i])
+
+
+
+                    memoctx.beginPath();
+                    memoctx.arc(center_x, center_y, size, 0, 2 * Math.PI);
+                    memoctx.fillStyle = 'rgba(0, 0, 255, 0.5)';
+                    // memoctx.fill(); 
+                    memoctx.strokeStyle = '#000';
+                    memoctx.lineWidth = 3;
+                    memoctx.stroke();
+
+                    memoctx.font = `${size}px Arial`;
+                    memoctx.fillStyle = "#dddddd";
+                    memoctx.textAlign = 'center';
+                    memoctx.textBaseline = 'middle';
+                    memoctx.fillText(rollProgress[i], center_x, center_y);
+                }
+
+                i += 1
+                // if (isPointInFrame(frame.center, frame.roll, frame.pitch, frame.piled, frame.widthCount, x, y)) console.log("当たった")
+                // await new Promise(resolve => setTimeout(resolve, 100));
+            }
+            setProgress(progress)
+            console.log(rollProgress)
+        }
+    }, [rollProgress]);
+
+
+    // function Drawprogress(event: any, bluePrintMemo: any) {
+    //     console.log("メモ")
+
+    //     let memoctx = bluePrintMemo.getContext('2d')
+    //     memoctx.clearRect(0, 0, canvas.width, canvas.height);
+    //     // if (!memoctx) return
+    //     let i = 0
+    //     let progress = 0
+
+    //     for (const frame of frames) {
+    //         if (frame == null) continue;
+    //         ctx.fillStyle = 'rgba(255, 0, 0, 0.1)';
+    //         // ctx.fill();
+    //         // frame(frame.center, frame.roll, frame.pitch, frame.piled, frame.widthCount);
+    //         const rect = canvas.getBoundingClientRect();
+    //         const scaleX = canvas.width / rect.width;
+    //         const scaleY = canvas.height / rect.height;
+
+    //         // スケールを考慮したx, y座標を計算
+    //         const x = (event.clientX - rect.left) * scaleX;
+    //         const y = (event.clientY - rect.top) * scaleY;
+    //         if (frame == undefined) continue
+    //         // memoctx.beginPath();
+    //         // memoctx.arc(x, y, 1, 0, 2 * Math.PI);
+    //         // memoctx.fillStyle = 'rgba(0, 0, 0, 0.5)'; 
+    //         // memoctx.fill();
+    //         // // memoctx.strokeStyle = '#000'; // 黒色の線
+    //         // memoctx.stroke();
+
+    //         // memoctx.beginPath();
+    //         // memoctx.fillStyle = 'rgba(10, 10, 10, 0.5)';
+    //         // frameShapeEx(memoctx, frame);
+
+
+    //         // console.log(frame)
+    //         let center_x = frame.center.x + Math.cos(getTheta(frame.roll + 1 - frame.widthCount / 2)) * getR(frame.pitch + frame.piled / 2)
+    //         let center_y = frame.center.y + Math.sin(getTheta(frame.roll + 1 - frame.widthCount / 2)) * getR(frame.pitch + frame.piled / 2)
+    //         // memoctx.closePath(); // 最初の点に戻る
+
+    //         // if (isPointInFrame(frame, x, y)) {
+    //         //     // console.log(i, "を反転")
+    //         //     rollProgress[i] += 1
+    //         // }
+
+
+
+    //         if (rollProgress[i] > 0) {
+    //             progress += frame.widthCount * frame.piled
+    //             let size = 30
+    //             // memoctx.fill();
+    //             const ctx = canvas.getContext('2d');
+
+    //             frameShapeEx(memoctx, frame, rollProgress[i])
+
+
+
+    //             memoctx.beginPath();
+    //             memoctx.arc(center_x, center_y, size, 0, 2 * Math.PI);
+    //             memoctx.fillStyle = 'rgba(0, 0, 255, 0.5)';
+    //             // memoctx.fill(); 
+    //             memoctx.strokeStyle = '#000';
+    //             memoctx.lineWidth = 3;
+    //             memoctx.stroke();
+
+    //             memoctx.font = `${size}px Arial`;
+    //             memoctx.fillStyle = "#dddddd";
+    //             memoctx.textAlign = 'center';
+    //             memoctx.textBaseline = 'middle';
+    //             memoctx.fillText(rollProgress[i], center_x, center_y);
+    //         }
+
+    //         i += 1
+    //         // if (isPointInFrame(frame.center, frame.roll, frame.pitch, frame.piled, frame.widthCount, x, y)) console.log("当たった")
+    //         // await new Promise(resolve => setTimeout(resolve, 100));
+    //     }
+    //     setProgress(progress)
+    //     console.log(rollProgress)
+
+
+    //     // drawFrameに追加で巻き数を指定できる
+
+
+
+
+    // }
+
+
+
+
+
+    function isPointInFrame(frame: any, x: any, y: any) {
+        drawFrame(ctx, frame.center, frame.roll, frame.pitch, frame.piled, frame.widthCount);
+        // if (memoctx.isPointInPath(x, y)) {
+
+        //     console.log(memoctx.getImageData(x, y, 1, 1).data[3])
+        //     memoctx.fill();
+        // }
+        return ctx.isPointInPath(x, y);
+    }
+
+
+    return (
+        <>
+            {/* {`${colorList}`} */}
+            {/* <div id="canvasParent" style={{
+                border: '1px solid black',
+                width: '100vw',
+                height: '100vw',
+                aspectRatio: '1 / 1',
+            }}> */}
+            {/* <div style={{ width: '100vw', height: 'auto', position: 'relative' }}> */}
+
+            <div className="col-12 col-lg-6" style={{
+                position: "relative",
+                width: '100%',
+                paddingBottom: "100%",
+                // background: "#FFF000"
+            }}>
+                <div>
+
+                    <canvas id="bluePrint" width="1024" height="1024" style={{
+
+                        // border: "2px solid black",
+                        width: '100%',
+                        // position: 'absolute', top: 0, left: 0,
+                        // pointerEvents: 'none',
+                        // // display: "block",
+                        // margin: "auto"
+                        position: "absolute"
+                        // top: 0;           
+                        // left: 0;           
+                        // width: 100 %;        
+                        // height: 100 %;  
+
+                    }} />
+
+                    <canvas id="bluePrintMemo" width="1024" height="1024" style={{
+
+                        // border: "2px solid black",
+                        width: '100%',
+                        // position: 'absolute', top: 0, left: 0,
+                        // pointerEvents: 'none',
+                        // // display: "block",
+                        // margin: "auto"
+                        position: "absolute"
+                        // top: 0;            
+                        // left: 0;           
+                        // width: 100 %;      
+                        // height: 100 %;  
+
+                    }} />
+
+
+                    <canvas id="selectingFrame" width="1024" height="1024" style={{
+                        width: '100%',
+                        position: "absolute",
+                        pointerEvents: "none"
+                    }} />
+
+
+                    {/* <div style={{
+                            position: "absolute",
+                            top: "0",
+                            right: "0",
+                            // width: "5%",
+                            // height: "5%"
+                        }}> */}
+
+                    <ImageSave data={{ pattern, colorList, rollWidth, pitchWidth }}></ImageSave>
+                    {/* </div> */}
+
+                    <div style={{
+                        position: "absolute",
+                        top: "5px",
+                        left: "5px",
+                        fontSize: '16px',
+                        fontWeight: 'bold',
+                        pointerEvents: "none"
+                    }}>
+                        残り{rollWidth * pitchWidth - progress}巻き　{(progress / (rollWidth * pitchWidth) * 100).toFixed(0)}%
+                    </div >
+                </div >
+
+            </div>
+
+            <div className="col-12 col-lg-6">
+                <RollCounter frames={frames} selectingFrame={selectingFrame} rollProgress={rollProgress} setRollProgress={setRollProgress}></RollCounter>
+
+            </div>
+
+        </>
+    )
+
+
 
 
 
