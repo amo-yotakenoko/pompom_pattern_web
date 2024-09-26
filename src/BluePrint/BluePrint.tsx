@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
-import ImageSave from './ImageSave'
-
+import ImageSave from '../Edit/ImageSave'
+import RollCounter from './RollCounter';
 
 type BluePrintProps = {
     pattern: any;
@@ -153,7 +153,7 @@ const BluePrint: React.FC<BluePrintProps> = ({ pattern, colorList, rollWidth, pi
 
             </div>
 
-
+            <RollCounter></RollCounter>
 
         </>
     )
@@ -529,6 +529,9 @@ const BluePrint: React.FC<BluePrintProps> = ({ pattern, colorList, rollWidth, pi
             return ctx.isPointInPath(x, y);
         }
     }
+
+
+
 }
 export default BluePrint;
 

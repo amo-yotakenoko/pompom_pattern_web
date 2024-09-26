@@ -1,0 +1,7 @@
+実行方法
+npm startを実行しLocalかOn Your Networkのアドレスを開いてください。
+同じネットワーク内ならOn Your Networkのアドレスをスマートフォンで開くこともできます
+実行できない場合は以下からアクセスしてください
+https://amo-yotakenoko.github.io/pompom_pattern_web/
+
+またソースコードはsrc内にまとまってます

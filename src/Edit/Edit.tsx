@@ -8,7 +8,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import LocalStrageSave from './LocalStrageSave';
 import Pompom from './Pompom'
 import ColorPalette from './colorPalette'
-import BluePrint from './bluePrint'
+import BluePrint from '../BluePrint/BluePrint'
 import Menu from './menu'
 import UndoRedo from './undoRedu'
 import ColorEdit from './colorEdit'
