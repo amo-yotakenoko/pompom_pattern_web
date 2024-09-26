@@ -6,7 +6,13 @@ import { Button, ProgressBar } from 'react-bootstrap';
 // };
 
 const RollCounter = ({ selectingFrame, rollProgress, setRollProgress, frames }: any) => {
-
+    console.log("frames", frames)
+    if (frames.length <= 0) {
+        console.log("ない")
+        return (
+            <div>準備中</div>
+        )
+    }
     const widthCount = frames[selectingFrame].widthCount
     const progress = rollProgress[selectingFrame]
     const completeNumber = frames[selectingFrame].piled * frames[selectingFrame].widthCount

@@ -641,7 +641,7 @@ const BluePrint: React.FC<BluePrintProps> = ({ pattern, colorList, rollWidth, pi
         // }
         return ctx.isPointInPath(x, y);
     }
-
+    const rollCountSum = rollProgress.reduce((accumulator: any, currentValue: any) => accumulator + currentValue, 0);
 
     return (
         <>
@@ -721,7 +721,7 @@ const BluePrint: React.FC<BluePrintProps> = ({ pattern, colorList, rollWidth, pi
                         fontWeight: 'bold',
                         pointerEvents: "none"
                     }}>
-                        残り{rollWidth * pitchWidth - progress}巻き　{(progress / (rollWidth * pitchWidth) * 100).toFixed(0)}%
+                        残り{rollWidth * pitchWidth - rollCountSum}巻き　{(rollCountSum / (rollWidth * pitchWidth) * 100).toFixed(0)}%
                     </div >
                 </div >
 
