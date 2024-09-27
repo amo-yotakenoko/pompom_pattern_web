@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Button, ProgressBar } from 'react-bootstrap';
+import CameraCounter from './CameraCounter';
 // type SelectRollingHandProps = {
 //     rollingHand: string;
 //     setRollingHand: React.Dispatch<React.SetStateAction<string>>;
@@ -34,6 +35,8 @@ const RollCounter = ({ selectingFrame, rollProgress, setRollProgress, frames }: 
 
 
         console.log(frames[selectingFrame])
+
+
         return (
             <div>
                 {completeNumber}
@@ -43,6 +46,9 @@ const RollCounter = ({ selectingFrame, rollProgress, setRollProgress, frames }: 
 
                 <Button onClick={() => addCounter(- widthCount)} disabled={progress <= 0}>-1段</Button>
                 <Button onClick={() => addCounter(widthCount)} disabled={progress >= completeNumber}>+1段</Button>
+
+
+                <CameraCounter></CameraCounter>
             </div >
         );
     } catch {
