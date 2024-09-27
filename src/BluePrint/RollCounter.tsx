@@ -16,10 +16,12 @@ const RollCounter = ({ selectingFrame, rollProgress, setRollProgress, frames }: 
         added = Math.max(0, Math.min(completeNumber, added));
         setRollProgress(rollProgress.map((progress: any, i: any) => (i === selectingFrame ? added : progress)))
     };
+
+
     try {
 
 
-        console.log("frames", frames)
+        // console.log("frames", frames)
         if (frames.length < selectingFrame) {
             console.log("ない")
             return (
@@ -48,6 +50,9 @@ const RollCounter = ({ selectingFrame, rollProgress, setRollProgress, frames }: 
             <div>エラー!!</div>
         )
     }
+
+
+
 };
 
 export default RollCounter;

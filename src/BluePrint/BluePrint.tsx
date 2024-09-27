@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import ImageSave from '../Edit/ImageSave'
 import RollCounter from './RollCounter';
-
+import SelectedHighlight from './SelectedHighlight';
 type BluePrintProps = {
     pattern: any;
     colorList: any;
@@ -419,42 +419,6 @@ const BluePrint: React.FC<BluePrintProps> = ({ pattern, colorList, rollWidth, pi
         }
     }
 
-    const [blinkCount, setBlinkCount] = useState(0);
-
-    useEffect(() => {
-
-        let selectingFramecanvas = document.getElementById('selectingFrame') as HTMLCanvasElement;
-
-        let selectingFramectx = selectingFramecanvas.getContext('2d');
-        const width = selectingFramecanvas.width;
-        const height = selectingFramecanvas.height;
-
-        // console.log("selectingFrame変更", selectingFramectx, selectingFrame, frames[selectingFrame])
-        if (selectingFramectx == null) return;
-        // console.log("selectingFrame変更2")
-        selectingFramectx.clearRect(0, 0, width, height);
-        const frame = frames[selectingFrame]
-        if (frame) {
-            // console.log("selectingFrame変更3")
-            // console.log("表示")
-            selectingFramectx.lineWidth = 5;
-            drawFrame(selectingFramectx, frame.center, frame.roll, frame.pitch, frame.piled, frame.widthCount);
-
-            selectingFramectx.closePath();
-            selectingFramectx.strokeStyle = `rgba(255, 0, 0, ${Math.sin(blinkCount / 10) + 1})`;
-            selectingFramectx.stroke()
-        }
-        // console.log({ blinkCount })
-
-        const blinkCountFunction = setTimeout(() => {
-            setBlinkCount(prevCount => prevCount + 1);
-        }, 10); // 1秒後に実行
-
-        // クリーンアップ関数
-        return () => clearTimeout(blinkCountFunction);
-
-
-    }, [selectingFrame, blinkCount]);
 
     useEffect(() => {
         console.log("メモ")
@@ -642,7 +606,7 @@ const BluePrint: React.FC<BluePrintProps> = ({ pattern, colorList, rollWidth, pi
         return ctx.isPointInPath(x, y);
     }
     const rollCountSum = rollProgress.reduce((accumulator: any, currentValue: any) => accumulator + currentValue, 0);
-
+    console.log("aaa2")
     return (
         <>
             {/* {`${colorList}`} */}
@@ -695,11 +659,7 @@ const BluePrint: React.FC<BluePrintProps> = ({ pattern, colorList, rollWidth, pi
                     }} />
 
 
-                    <canvas id="selectingFrame" width="1024" height="1024" style={{
-                        width: '100%',
-                        position: "absolute",
-                        pointerEvents: "none"
-                    }} />
+                    <SelectedHighlight drawFrame={drawFrame} selectingFrame={selectingFrame} frames={frames} ></SelectedHighlight>
 
 
                     {/* <div style={{
