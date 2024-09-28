@@ -48,7 +48,7 @@ const RollCounter = ({ selectingFrame, rollProgress, setRollProgress, frames }: 
                 <Button onClick={() => addCounter(widthCount)} disabled={progress >= completeNumber}>+1段</Button>
 
 
-                <CameraCounter></CameraCounter>
+                <CameraCounter addCounter={addCounter}></CameraCounter>
             </div >
         );
     } catch {

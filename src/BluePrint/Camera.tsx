@@ -4,7 +4,7 @@ import { Button, ProgressBar } from 'react-bootstrap';
 
 const Camera = ({ videoRef, devices, setDevices, setSelectedDeviceId, selectedDeviceId, setVideoOk }: any) => {
 
-    const canvasRef = useRef<HTMLCanvasElement>(null)
+    // const canvasRef = useRef<HTMLCanvasElement>(null)
     useEffect(() => {
         const fetchVideoDevices = async () => {
             const devices = await navigator.mediaDevices.enumerateDevices();
@@ -46,7 +46,9 @@ const Camera = ({ videoRef, devices, setDevices, setSelectedDeviceId, selectedDe
         console.log("open")
     }, [selectedDeviceId]);
     return (
-        <canvas ref={canvasRef} style={{ position: 'absolute', border: '2px solid black', width: '100%' }} />
+        <>
+        </>
+        // <canvas ref={canvasRef} style={{ position: 'absolute', border: '2px solid black', width: '100%' }} />
     )
 
 };
