@@ -92,19 +92,19 @@ const LocalStrageSave: React.FC<LocalStrageSaveProps> = ({ data, activeMenu }) =
         console.log({ datas })
 
         // datas.push(1)
-        if (location.state.saveKeyName == undefined)
-            location.state.saveKeyName = `unknown-${new Date().toLocaleTimeString()}`
-        console.log(location.state.saveKeyName)
-        delete datas[location.state.saveKeyName];
-        datas[location.state.saveKeyName] = { img: getThumbnail(900), data: data }
-        console.log(datas)
-
         try {
+            if (location.state.saveKeyName == undefined)
+                location.state.saveKeyName = `unknown-${new Date().toLocaleTimeString()}`
+            console.log(location.state.saveKeyName)
+            delete datas[location.state.saveKeyName];
+            datas[location.state.saveKeyName] = { img: getThumbnail(900), data: data }
+            console.log(datas)
+
             localStorage.setItem('pompoms', JSON.stringify(datas));
             setTimeout(() => setIsSaved(true), 1)
         } catch (e) {
 
-            alert('保存に失敗しました、設計図タブからダウンロードしてください');
+            alert('保存に失敗しました、設計図タブからダウンロードしてください' + e);
         }
 
 

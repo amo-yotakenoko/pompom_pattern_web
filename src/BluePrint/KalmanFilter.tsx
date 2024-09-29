@@ -6,6 +6,7 @@ const KalmanFilter = ({ fingerHistory, addCounter }: any) => {
 
 
     useEffect(() => {
+        console.log(fingerHistory)
         if (fingerHistory[fingerHistory.length - 1]) {
 
             kalmanFilterUpdate(fingerHistory[fingerHistory.length - 1].y)
@@ -140,7 +141,7 @@ const KalmanFilter = ({ fingerHistory, addCounter }: any) => {
         context.strokeStyle = "#000000";
         //測定点
         for (let i = 0; i < fingerHistory.length; i++) {
-
+            // console.log(fingerHistory)
             const x = canvas.width / 100 * i
             context.beginPath();
             context.arc(x, fingerHistory[i].y * canvas.height, 3, 0, 2 * Math.PI);

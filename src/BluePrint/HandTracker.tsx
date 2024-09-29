@@ -2,7 +2,7 @@ import React, { useState, useRef, useEffect } from 'react';
 import { FilesetResolver, HandLandmarker } from "@mediapipe/tasks-vision";
 // import { drawConnectors, drawLandmarks } from '@mediapipe/drawing_utils';
 import { Hands, HAND_CONNECTIONS, NormalizedLandmarkListList, Results } from '@mediapipe/hands';
-const HandTracker = ({ selectedDeviceId, videoRef, fingerHistory, setsingerHistory }: any) => {
+const HandTracker = ({ selectedDeviceId, videoRef, fingerHistory, setsingerHistory, rollingHand, trackerSettings }: any) => {
     const handLandmarkerRef = useRef<any>(null);
 
     const canvasRef = useRef<HTMLCanvasElement>(null)
@@ -22,8 +22,9 @@ const HandTracker = ({ selectedDeviceId, videoRef, fingerHistory, setsingerHisto
                     delegate: "GPU", // CPU or GPUで処理するかを指定する
                 },
                 numHands: 2, // 認識できる手の数
-                minHandDetectionConfidence: 0.5,  // 検出の精度を上げる
-                minTrackingConfidence: 1,    // 追跡の精度を上げる
+                minHandDetectionConfidence: trackerSettings.minHandDetectionConfidence,  // 検出の精度を上げる
+                minHandPresenceConfidence: trackerSettings.minHandPresenceConfidence,
+                minTrackingConfidence: trackerSettings.minTrackingConfidence,    // 追跡の精度を上げる
                 runningMode: "VIDEO", // ここでビデオモードを指定
             });
 
@@ -34,11 +35,24 @@ const HandTracker = ({ selectedDeviceId, videoRef, fingerHistory, setsingerHisto
         }
     }
 
+    useEffect(() => {
+        if (!handLandmarkerRef.current) initializeHandLandmarker()
+    }, []);
 
 
     useEffect(() => {
-        initializeHandLandmarker()
-    }, []);
+        console.log("HandLandmarker更更新", trackerSettings);
+        console.log(trackerSettings)
+        if (handLandmarkerRef.current) {
+            handLandmarkerRef.current.setOptions({
+                minHandDetectionConfidence: trackerSettings.minHandDetectionConfidence,
+                minHandPresenceConfidence: trackerSettings.minHandPresenceConfidence,
+                minTrackingConfidence: trackerSettings.minTrackingConfidence,
+            });
+            console.log("HandLandmarkerの設定を更新しました", trackerSettings);
+        }
+    }, [trackerSettings]);
+
 
 
 
@@ -73,7 +87,9 @@ const HandTracker = ({ selectedDeviceId, videoRef, fingerHistory, setsingerHisto
 
         // クリーンアップ関数
         return () => cancelAnimationFrame(frameId);
-    }, []); // [] でマウント時に一度だけ実行
+    }, [rollingHand]); // [] でマウント時に一度だけ実行
+
+
 
 
 
@@ -91,13 +107,13 @@ const HandTracker = ({ selectedDeviceId, videoRef, fingerHistory, setsingerHisto
             console.log("画面がない")
             return
         }
-        if (!handLandmarkerRef.current) initializeHandLandmarker()
+        // if (!handLandmarkerRef.current) initializeHandLandmarker()
         if (handLandmarkerRef.current == null) return
         // console.log(videoRef.current.videoWidth)
         try {
             // if (handLandmarkerRef.current == null)
             // console.log(handLandmarkerRef.current, videoRef.current, performance.now())
-            console.log(handLandmarkerRef, videoRef.current)
+            // console.log(handLandmarkerRef, videoRef.current)
             const results = await handLandmarkerRef.current.detectForVideo(videoRef.current, performance.now());
 
             handDraw(results)
@@ -113,7 +129,7 @@ const HandTracker = ({ selectedDeviceId, videoRef, fingerHistory, setsingerHisto
 
 
 
-    const rollingHand = "Right";
+
 
 
     function handDraw(results: any) {
@@ -127,7 +143,7 @@ const HandTracker = ({ selectedDeviceId, videoRef, fingerHistory, setsingerHisto
 
 
             const landmarks = results.landmarks[i]
-            console.log({ rollingHand })
+            console.log(handednes[0].categoryName, { rollingHand }, handednes[0].categoryName === rollingHand)
             context.lineWidth = handednes[0].categoryName === rollingHand ? 2 : 0.5; // 線の幅を設定
 
             landmarks.forEach((landmark: any) => {
@@ -162,7 +178,19 @@ const HandTracker = ({ selectedDeviceId, videoRef, fingerHistory, setsingerHisto
             if (handednes[0].categoryName === rollingHand && landmarks[8]) {
                 console.log(landmarks[8])
                 // setsingerHistory((fingerHistory: any) => [...fingerHistory, landmarks[8]]);
-                addsingerHistory(landmarks[8])
+
+
+                setsingerHistory((fingerHistory: any) => {
+                    const updatedHistory = [...fingerHistory, landmarks[8]];
+                    if (updatedHistory.length > 100) {
+                        updatedHistory.shift(); // 100件を超えたら古いアイテムを削除
+                    }
+                    return updatedHistory;
+                });
+
+
+
+                // addsingerHistory(landmarks[8])
 
                 console.log(fingerHistory)
             }
@@ -173,16 +201,16 @@ const HandTracker = ({ selectedDeviceId, videoRef, fingerHistory, setsingerHisto
     }
 
 
-    function addsingerHistory(landmark: any[]) {
-        const updatedHistory = [...fingerHistory, landmark]; // 新しい要素を追加
+    // function addsingerHistory(landmark: any[]) {
+    //     const updatedHistory = [...fingerHistory, landmark]; // 新しい要素を追加
 
-        // 配列の長さが100を超えた場合、先頭から要素を削除（古い要素を消す）
-        if (updatedHistory.length > 100) {
-            updatedHistory.shift();
-        }
+    //     // 配列の長さが100を超えた場合、先頭から要素を削除（古い要素を消す）
+    //     if (updatedHistory.length > 100) {
+    //         updatedHistory.shift();
+    //     }
 
-        setsingerHistory(updatedHistory)
-    }
+    //     setsingerHistory(updatedHistory)
+    // }
 
 
 
@@ -223,8 +251,8 @@ const HandTracker = ({ selectedDeviceId, videoRef, fingerHistory, setsingerHisto
 
     return (
         <>
-
             <canvas ref={canvasRef} style={{ position: 'absolute', border: '2px solid black', width: '100%' }} />
+            {/* {rollingHand} */}
         </>
     )
 }
