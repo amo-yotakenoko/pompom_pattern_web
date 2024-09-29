@@ -81,6 +81,7 @@ const HandTracker = ({ selectedDeviceId, videoRef, fingerHistory, setsingerHisto
         const frameCountFunc = () => {
             // setFrameCount(prevCount => prevCount + 1);
             detecthand()
+            console.log("判定")
             frameId = requestAnimationFrame(frameCountFunc); // 次のフレームで実行
         };
         frameId = requestAnimationFrame(frameCountFunc); // 初回の呼び出し

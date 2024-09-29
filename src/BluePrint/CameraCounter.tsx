@@ -54,94 +54,94 @@ const CameraCounter = ({ addCounter }: any) => {
             )}
 
 
+            {enableCameraCounter == "1" && (
+                <Accordion activeKey={enableCameraCounter}>
 
-            <Accordion activeKey={enableCameraCounter}>
-
-                <Accordion.Collapse eventKey="1">
-                    <div>
-                        <Card >
-
-
-
-                            <div className="row  g-0">
+                    <Accordion.Collapse eventKey="1">
+                        <div>
+                            <Card >
 
 
-                                <div className="col-6">
-                                    <div style={{ position: 'relative', width: '100%', height: '500px' }}>
-                                        <video autoPlay playsInline={true} ref={videoRef} style={{ position: 'absolute', width: '100%' }} />
-                                        <Camera
-                                            videoRef={videoRef}
-                                            devices={devices}
-                                            setDevices={setDevices}
-                                            setSelectedDeviceId={setSelectedDeviceId}
-                                            selectedDeviceId={selectedDeviceId}
-                                            setVideoOk={setVideoOk}
-                                        />
-                                        <HandTracker
-                                            rollingHand={rollingHand}
-                                            selectedDeviceId={selectedDeviceId}
-                                            videoRef={videoRef}
-                                            trackerSettings={trackerSettings}
+
+                                <div className="row  g-0">
+
+
+                                    <div className="col-6">
+                                        <div style={{ position: 'relative', width: '100%', height: '500px' }}>
+                                            <video autoPlay playsInline={true} ref={videoRef} style={{ position: 'absolute', width: '100%' }} />
+                                            <Camera
+                                                videoRef={videoRef}
+                                                devices={devices}
+                                                setDevices={setDevices}
+                                                setSelectedDeviceId={setSelectedDeviceId}
+                                                selectedDeviceId={selectedDeviceId}
+                                                setVideoOk={setVideoOk}
+                                            />
+                                            <HandTracker
+                                                rollingHand={rollingHand}
+                                                selectedDeviceId={selectedDeviceId}
+                                                videoRef={videoRef}
+                                                trackerSettings={trackerSettings}
+                                                fingerHistory={fingerHistory}
+                                                setsingerHistory={setsingerHistory}
+                                            />
+                                        </div>
+                                    </div>
+                                    <div className="col-6" style={{ position: "relative", overflow: "hidden" }}>
+                                        <KalmanFilter
                                             fingerHistory={fingerHistory}
-                                            setsingerHistory={setsingerHistory}
+                                            addCounter={addCounter}
+                                            kalmanSettings={kalmanSettings}
+                                        />
+                                        <Icon.Sliders
+                                            onClick={() => setSettingShow(true)}
+                                            style={{ position: "absolute", top: "1px", right: "11px", fontSize: "2rem" }} // アイコンを大きくして位置を調整
                                         />
                                     </div>
                                 </div>
-                                <div className="col-6" style={{ position: "relative", overflow: "hidden" }}>
-                                    <KalmanFilter
-                                        fingerHistory={fingerHistory}
-                                        addCounter={addCounter}
-                                        kalmanSettings={kalmanSettings}
-                                    />
-                                    <Icon.Sliders
-                                        onClick={() => setSettingShow(true)}
-                                        style={{ position: "absolute", top: "1px", right: "11px", fontSize: "2rem" }} // アイコンを大きくして位置を調整
-                                    />
-                                </div>
-                            </div>
 
 
 
 
-                        </Card>
-                    </div >
-                </Accordion.Collapse >
+                            </Card>
+                        </div >
+                    </Accordion.Collapse >
 
-                <Modal
-                    show={setttingShow}
-                    onHide={() => setSettingShow(false)}
-                >
-                    <Modal.Header closeButton>
-                        <Modal.Title>設定</Modal.Title>
-                    </Modal.Header>
-                    <Modal.Body>
+                    <Modal
+                        show={setttingShow}
+                        onHide={() => setSettingShow(false)}
+                    >
+                        <Modal.Header closeButton>
+                            <Modal.Title>設定</Modal.Title>
+                        </Modal.Header>
+                        <Modal.Body>
 
-                        < RollHandSelect rollingHand={rollingHand} setRollingHand={setRollingHand}></RollHandSelect>
-                        <CameraSelect devices={devices} setSelectedDeviceId={setSelectedDeviceId} selectedDeviceId={selectedDeviceId}></CameraSelect>
+                            < RollHandSelect rollingHand={rollingHand} setRollingHand={setRollingHand}></RollHandSelect>
+                            <CameraSelect devices={devices} setSelectedDeviceId={setSelectedDeviceId} selectedDeviceId={selectedDeviceId}></CameraSelect>
 
 
-                        <TrakerConfig
-                            // minHandDetectionConfidence={minHandDetectionConfidence}
-                            // setMinHandDetectionConfidence={setMinHandDetectionConfidence}
-                            // minHandPresenceConfidence={minHandPresenceConfidence}
-                            // setMinHandPresenceConfidence={setMinHandPresenceConfidence}
-                            // minTrackingConfidence={minTrackingConfidence}
-                            // setMinTrackingConfidence={setMinTrackingConfidence}
-                            trackerSettings={trackerSettings} setTrackerSettings={setTrackerSettings}
-                        ></TrakerConfig>
-                        <KalmanConfig
-                            kalmanSettings={kalmanSettings} setKalmanSettings={setKalmanSettings}>
-                        </KalmanConfig>
+                            <TrakerConfig
+                                // minHandDetectionConfidence={minHandDetectionConfidence}
+                                // setMinHandDetectionConfidence={setMinHandDetectionConfidence}
+                                // minHandPresenceConfidence={minHandPresenceConfidence}
+                                // setMinHandPresenceConfidence={setMinHandPresenceConfidence}
+                                // minTrackingConfidence={minTrackingConfidence}
+                                // setMinTrackingConfidence={setMinTrackingConfidence}
+                                trackerSettings={trackerSettings} setTrackerSettings={setTrackerSettings}
+                            ></TrakerConfig>
+                            <KalmanConfig
+                                kalmanSettings={kalmanSettings} setKalmanSettings={setKalmanSettings}>
+                            </KalmanConfig>
 
-                        <Button variant="danger" onClick={() => {
-                            setEnableCameraCounter("0");
-                            setSettingShow(false);
-                        }
-                        }>AI巻きカウンタを無効化</Button>
-                    </Modal.Body>
-                </Modal>
-            </Accordion >
-
+                            <Button variant="danger" onClick={() => {
+                                setEnableCameraCounter("0");
+                                setSettingShow(false);
+                            }
+                            }>AI巻きカウンタを無効化</Button>
+                        </Modal.Body>
+                    </Modal>
+                </Accordion >
+            )}
         </>
     )
 

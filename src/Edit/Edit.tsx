@@ -138,7 +138,9 @@ function Edit() {
           </div>
         </div>
 
-        <div style={{ display: activeMenu === "bluePrint" ? "block" : "none" }}>
+        {/* <div style={{ display: activeMenu === "bluePrint" ? "block" : "none" }}> */}
+        {activeMenu === "bluePrint" && (
+
           <BluePrint
             pattern={pattern}
             colorList={colorList}
@@ -146,8 +148,9 @@ function Edit() {
             pitchWidth={pitchWidth}
             activeMenu={activeMenu}
           />
-        </div>
 
+
+        )}
       </div>
       <Menu
         activeMenu={activeMenu}
