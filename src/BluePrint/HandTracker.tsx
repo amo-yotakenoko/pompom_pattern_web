@@ -42,18 +42,40 @@ const HandTracker = ({ selectedDeviceId, videoRef, fingerHistory, setsingerHisto
 
 
 
-    const [frameCount, setFrameCount] = useState(0);
+    // const [frameCount, setFrameCount] = useState(0);
+    // useEffect(() => {
+    //     console.log("loop")
+    //     detecthand()
+    //     // const frameCountFunc = setTimeout(() => {
+    //     //     setFrameCount(prevCount => prevCount + 1);
+    //     // }, 1000); // 1秒後に実行
+    //     const frameCountFunc = (() => {
+    //         setFrameCount(prevCount => prevCount + 1);
+
+    //     })
+
+
+    //     // クリーンアップ関数
+    //     // return () => clearTimeout(frameCountFunc);
+    //     return () => cancelAnimationFrame(frameCountFunc);
+
+    // }, [frameCount]);
+
     useEffect(() => {
-        console.log("loop")
-        detecthand()
-        const frameCountFunc = setTimeout(() => {
-            setFrameCount(prevCount => prevCount + 1);
-        }, 1); // 1秒後に実行
+        let frameId: number;
+
+        const frameCountFunc = () => {
+            // setFrameCount(prevCount => prevCount + 1);
+            detecthand()
+            frameId = requestAnimationFrame(frameCountFunc); // 次のフレームで実行
+        };
+        frameId = requestAnimationFrame(frameCountFunc); // 初回の呼び出し
 
         // クリーンアップ関数
-        return () => clearTimeout(frameCountFunc);
+        return () => cancelAnimationFrame(frameId);
+    }, []); // [] でマウント時に一度だけ実行
 
-    }, [frameCount]);
+
 
     async function detecthand() {
 
@@ -70,10 +92,12 @@ const HandTracker = ({ selectedDeviceId, videoRef, fingerHistory, setsingerHisto
             return
         }
         if (!handLandmarkerRef.current) initializeHandLandmarker()
+        if (handLandmarkerRef.current == null) return
         // console.log(videoRef.current.videoWidth)
         try {
             // if (handLandmarkerRef.current == null)
             // console.log(handLandmarkerRef.current, videoRef.current, performance.now())
+            console.log(handLandmarkerRef, videoRef.current)
             const results = await handLandmarkerRef.current.detectForVideo(videoRef.current, performance.now());
 
             handDraw(results)

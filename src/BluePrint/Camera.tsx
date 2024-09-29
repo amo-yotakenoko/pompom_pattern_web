@@ -38,6 +38,7 @@ const Camera = ({ videoRef, devices, setDevices, setSelectedDeviceId, selectedDe
                     video.srcObject = stream;
 
                 } catch (error) {
+                    alert("カメラが起動できませんでした" + error)
                     console.error("Error accessing the camera: ", error);
                 }
             }
@@ -45,6 +46,8 @@ const Camera = ({ videoRef, devices, setDevices, setSelectedDeviceId, selectedDe
         openCamera();
         console.log("open")
     }, [selectedDeviceId]);
+
+
     return (
         <>
         </>
