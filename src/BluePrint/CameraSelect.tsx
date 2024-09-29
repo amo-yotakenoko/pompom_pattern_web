@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Button, ProgressBar } from 'react-bootstrap';
 import NavDropdown from 'react-bootstrap/NavDropdown';
-
+import Card from 'react-bootstrap/Card';
 import ButtonGroup from 'react-bootstrap/ButtonGroup';
 // type SelectRollingHandProps = {
 //     rollingHand: string;
@@ -14,7 +14,8 @@ const CameraSelect = ({ devices, setSelectedDeviceId, selectedDeviceId }: any) =
         <>
 
             {/* <NavDropdown title="カメラ" id="basic-nav-dropdown"> */}
-            カメラの設定<br></br>
+            <Card.Title>カメラの設定</Card.Title>
+            {/* カメラの設定<br></br> */}
             <ButtonGroup vertical>
                 {
                     devices.map((device: any) => (

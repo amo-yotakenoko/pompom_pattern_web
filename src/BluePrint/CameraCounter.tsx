@@ -7,6 +7,7 @@ import HandTracker from './HandTracker';
 import KalmanFilter from './KalmanFilter';
 import RollHandSelect from './RollHandSelect';
 import TrakerConfig from './TrackerConfig';
+import KalmanConfig from './KalmanConfig';
 const CameraCounter = ({ addCounter }: any) => {
 
 
@@ -33,6 +34,10 @@ const CameraCounter = ({ addCounter }: any) => {
         minHandPresenceConfidence: 0.5,
         minTrackingConfidence: 0.5,
     });
+    const [kalmanSettings, setKalmanSettings] = useState({
+        process_var: 0.2,
+        sensor_var: 0.2,
+    });
 
     const [enableCameraCounter, setEnableCameraCounter] = useState("0")
 
@@ -53,52 +58,72 @@ const CameraCounter = ({ addCounter }: any) => {
 
                 <Accordion.Collapse eventKey="1">
                     <div>
-                        <Card>
-                            <Card.Body>
-                                <Dropdown>
-                                    <Dropdown.Toggle variant="success" id="dropdown-basic">
-                                        設定
-                                    </Dropdown.Toggle>
-
-                                    <Dropdown.Menu>
-                                        {/* <Dropdown.Item > */}
-                                        <CameraSelect devices={devices} setSelectedDeviceId={setSelectedDeviceId} selectedDeviceId={selectedDeviceId}></CameraSelect>
-                                        <br></br>
-                                        < RollHandSelect rollingHand={rollingHand} setRollingHand={setRollingHand}></RollHandSelect>
-                                        <br></br>
-                                        <TrakerConfig
-                                            // minHandDetectionConfidence={minHandDetectionConfidence}
-                                            // setMinHandDetectionConfidence={setMinHandDetectionConfidence}
-                                            // minHandPresenceConfidence={minHandPresenceConfidence}
-                                            // setMinHandPresenceConfidence={setMinHandPresenceConfidence}
-                                            // minTrackingConfidence={minTrackingConfidence}
-                                            // setMinTrackingConfidence={setMinTrackingConfidence}
-                                            trackerSettings={trackerSettings} setTrackerSettings={setTrackerSettings}
-                                        ></TrakerConfig>
-                                    </Dropdown.Menu>
-                                </Dropdown>
+                        <Card >
 
 
-                                < KalmanFilter fingerHistory={fingerHistory} addCounter={addCounter}></KalmanFilter>
-                                <div style={{ position: 'relative', width: '90%', height: '500px' }}>
-                                    <video autoPlay playsInline={true} ref={videoRef} style={{ position: 'absolute', width: '100%' }} />
-                                    <Camera videoRef={videoRef}
-                                        devices={devices}
-                                        setDevices={setDevices}
-                                        setSelectedDeviceId={setSelectedDeviceId}
-                                        selectedDeviceId={selectedDeviceId}
-                                        setVideoOk={setVideoOk}></Camera>
-                                    <HandTracker rollingHand={rollingHand}
-                                        selectedDeviceId={selectedDeviceId}
-                                        videoRef={videoRef}
-                                        trackerSettings={trackerSettings}
 
+                            <div className="row">
+                                <div className="col-12">
+                                    <KalmanFilter
                                         fingerHistory={fingerHistory}
-                                        setsingerHistory={setsingerHistory}
-                                    ></HandTracker>
-                                    {/* <canvas ref={trajectoryCanvasRef} style={{ position: 'absolute', border: '2px solid black', width: '100%' }} /> */}
+                                        addCounter={addCounter}
+                                        kalmanSettings={kalmanSettings}
+                                    />
                                 </div>
-                            </Card.Body>
+
+
+                                <div className="col-6">
+                                    <Dropdown>
+                                        <Dropdown.Toggle variant="success" id="dropdown-basic">
+                                            設定
+                                        </Dropdown.Toggle>
+
+                                        <Dropdown.Menu style={{ padding: '0 5px' }}>
+                                            {/* <Dropdown.Item > */}
+                                            < RollHandSelect rollingHand={rollingHand} setRollingHand={setRollingHand}></RollHandSelect>
+                                            <CameraSelect devices={devices} setSelectedDeviceId={setSelectedDeviceId} selectedDeviceId={selectedDeviceId}></CameraSelect>
+
+
+                                            <TrakerConfig
+                                                // minHandDetectionConfidence={minHandDetectionConfidence}
+                                                // setMinHandDetectionConfidence={setMinHandDetectionConfidence}
+                                                // minHandPresenceConfidence={minHandPresenceConfidence}
+                                                // setMinHandPresenceConfidence={setMinHandPresenceConfidence}
+                                                // minTrackingConfidence={minTrackingConfidence}
+                                                // setMinTrackingConfidence={setMinTrackingConfidence}
+                                                trackerSettings={trackerSettings} setTrackerSettings={setTrackerSettings}
+                                            ></TrakerConfig>
+                                            <KalmanConfig
+                                                kalmanSettings={kalmanSettings} setKalmanSettings={setKalmanSettings}>
+                                            </KalmanConfig>
+                                        </Dropdown.Menu>
+                                    </Dropdown>
+
+                                </div>
+                                <div className="col-6">
+                                    <div style={{ position: 'relative', width: '100%', height: '500px' }}>
+                                        <video autoPlay playsInline={true} ref={videoRef} style={{ position: 'absolute', width: '100%' }} />
+                                        <Camera
+                                            videoRef={videoRef}
+                                            devices={devices}
+                                            setDevices={setDevices}
+                                            setSelectedDeviceId={setSelectedDeviceId}
+                                            selectedDeviceId={selectedDeviceId}
+                                            setVideoOk={setVideoOk}
+                                        />
+                                        <HandTracker
+                                            rollingHand={rollingHand}
+                                            selectedDeviceId={selectedDeviceId}
+                                            videoRef={videoRef}
+                                            trackerSettings={trackerSettings}
+                                            fingerHistory={fingerHistory}
+                                            setsingerHistory={setsingerHistory}
+                                        />
+                                    </div>
+                                </div>
+                            </div>
+
+
                         </Card>
                     </div>
                 </Accordion.Collapse>

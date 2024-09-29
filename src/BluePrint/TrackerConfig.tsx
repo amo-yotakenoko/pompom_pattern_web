@@ -4,7 +4,7 @@ import NavDropdown from 'react-bootstrap/NavDropdown';
 
 import ButtonGroup from 'react-bootstrap/ButtonGroup';
 import ValueSlider from './ValueSlider';
-
+import Card from 'react-bootstrap/Card';
 // const TrakerConfig = ({ minHandDetectionConfidence, setMinHandDetectionConfidence, minHandPresenceConfidence, setMinHandPresenceConfidence, minTrackingConfidence, setMinTrackingConfidence }: any) => {
 const TrakerConfig = ({ trackerSettings, setTrackerSettings }: any) => {
     if (!trackerSettings) {
@@ -12,7 +12,8 @@ const TrakerConfig = ({ trackerSettings, setTrackerSettings }: any) => {
     }
     return (
         <>
-            手の検出<br />
+            <Card.Title>  手の検出の設定 </Card.Title>
+            {/* 手の検出<br /> */}
             <ValueSlider
                 value={trackerSettings.minHandDetectionConfidence}
                 setValue={(value: any) => setTrackerSettings((prev: any) => ({ ...prev, minHandDetectionConfidence: value }))}

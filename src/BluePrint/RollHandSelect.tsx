@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Button, ProgressBar } from 'react-bootstrap';
 import NavDropdown from 'react-bootstrap/NavDropdown';
-
+import Card from 'react-bootstrap/Card';
 import ButtonGroup from 'react-bootstrap/ButtonGroup';
 
 const RollHandSelect = ({ rollingHand, setRollingHand }: any) => {
@@ -10,7 +10,8 @@ const RollHandSelect = ({ rollingHand, setRollingHand }: any) => {
         <>
 
             {/* <NavDropdown title="カメラ" id="basic-nav-dropdown"> */}
-            巻く際に使う手<br></br>
+            {/* 巻く際に使う手<br></br> */}
+            <Card.Title>     巻く際に使う手 </Card.Title>
             <ButtonGroup >
 
 

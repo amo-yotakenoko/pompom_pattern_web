@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState, useCallback } from 'react';
 
 
 
-const KalmanFilter = ({ fingerHistory, addCounter }: any) => {
+const KalmanFilter = ({ fingerHistory, addCounter, kalmanSettings }: any) => {
 
 
     useEffect(() => {
@@ -25,15 +25,30 @@ const KalmanFilter = ({ fingerHistory, addCounter }: any) => {
 
     const [kalmanFilterResult, setKalmanFilterResult] = useState<any[]>([]);
     const [criterion, setCriterion] = useState<any[]>([]);
-    const process_var = 0.2;
-    const sensor_var = 0.2;
-    const [x, setX] = useState<{ mean: number; var: number }>({ mean: 0, var: 1000 });
-    const process_model = { mean: 0, var: process_var };
+    // const process_var = 0.2;
+    // const sensor_var = 0.2;
+    const [x, setX] = useState<{ mean: number; var: number }>({ mean: 0, var: 10000 });
+    const [process_model, setProcessModel] = useState({
+        mean: 0,
+        var: kalmanSettings.process_var
+    });
+
+    useEffect(() => {
+        setProcessModel({
+            mean: 0,
+            var: kalmanSettings.process_var
+        })
+        setX({ mean: 0, var: 10000 })
+
+
+
+    }, [kalmanSettings])
+
 
     function kalmanFilterUpdate(z: any) {
         console.log("z", z)
         const prior = predict(x, process_model);
-        const newX = update(prior, { mean: z, var: sensor_var });
+        const newX = update(prior, { mean: z, var: kalmanSettings.sensor_var });
         setX(newX); // xを更新
 
         console.log(newX);
@@ -52,7 +67,7 @@ const KalmanFilter = ({ fingerHistory, addCounter }: any) => {
 
     function predict(pos: any, movement: any) {
 
-        console.log({ "mean": pos.mean + movement.mean, "var": pos.var + movement.var })
+        // console.log({ "mean": pos.mean + movement.mean, "var": pos.var + movement.var })
         return { "mean": pos.mean + movement.mean, "var": pos.var + movement.var }
     }
 
@@ -235,7 +250,7 @@ const KalmanFilter = ({ fingerHistory, addCounter }: any) => {
     return (
         <div>
             <canvas ref={graphCanvasRef} width={1000} // 解像度（内部サイズ）
-                height={150} style={{ border: '2px solid black', width: '90%' }} />
+                height={150} style={{ border: '2px solid black', width: '100%' }} />
         </div>
     );
 };
