@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { Button, ProgressBar, Dropdown, Accordion, Card, Form, Modal } from 'react-bootstrap';
+import { Button, ProgressBar, Dropdown, Accordion, Card, Form, Modal, Spinner } from 'react-bootstrap';
 import * as Icon from 'react-bootstrap-icons';
 import Camera from './Camera';
 import CameraSelect from './CameraSelect';
@@ -41,8 +41,10 @@ const CameraCounter = ({ addCounter }: any) => {
 
     const [enableCameraCounter, setEnableCameraCounter] = useState("0")
     const [setttingShow, setSettingShow] = useState(false);
+    const [trackerOk, setTrackerOk] = useState(false);
     return (
         <>
+            {/* aaa {`${trackerOk}`}{`${videoOk}`} */}
             {/* <Button onClick={() => setEnableCameraCounter(enableCameraCounter == "0" ? "1" : "0")}>AI巻きカウンタ{enableCameraCounter}</Button> */}
             {enableCameraCounter != "1" && (
                 <Form.Check
@@ -52,7 +54,6 @@ const CameraCounter = ({ addCounter }: any) => {
                     label="AI巻きカウンタ"
                 />
             )}
-
 
             {enableCameraCounter == "1" && (
                 <Accordion activeKey={enableCameraCounter}>
@@ -67,7 +68,15 @@ const CameraCounter = ({ addCounter }: any) => {
 
 
                                     <div className="col-6">
-                                        <div style={{ position: 'relative', width: '100%', height: '500px' }}>
+                                        <div style={{
+                                            position: 'relative', width: '100%', height: '500px', justifyContent: 'center',
+                                            alignItems: 'center',
+                                        }}>
+
+                                            {!(trackerOk && videoOk) && (<Spinner animation="border" role="status" style={{ position: 'absolute', width: '100px', height: '100px' }}>
+
+                                            </Spinner>)}
+
                                             <video autoPlay playsInline={true} ref={videoRef} style={{ position: 'absolute', width: '100%' }} />
                                             <Camera
                                                 videoRef={videoRef}
@@ -77,6 +86,7 @@ const CameraCounter = ({ addCounter }: any) => {
                                                 selectedDeviceId={selectedDeviceId}
                                                 setVideoOk={setVideoOk}
                                             />
+
                                             <HandTracker
                                                 rollingHand={rollingHand}
                                                 selectedDeviceId={selectedDeviceId}
@@ -84,6 +94,7 @@ const CameraCounter = ({ addCounter }: any) => {
                                                 trackerSettings={trackerSettings}
                                                 fingerHistory={fingerHistory}
                                                 setsingerHistory={setsingerHistory}
+                                                setTrackerOk={setTrackerOk}
                                             />
                                         </div>
                                     </div>

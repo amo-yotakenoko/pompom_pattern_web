@@ -2,7 +2,7 @@ import React, { useState, useRef, useEffect } from 'react';
 import { FilesetResolver, HandLandmarker } from "@mediapipe/tasks-vision";
 // import { drawConnectors, drawLandmarks } from '@mediapipe/drawing_utils';
 import { Hands, HAND_CONNECTIONS, NormalizedLandmarkListList, Results } from '@mediapipe/hands';
-const HandTracker = ({ selectedDeviceId, videoRef, fingerHistory, setsingerHistory, rollingHand, trackerSettings }: any) => {
+const HandTracker = ({ selectedDeviceId, videoRef, fingerHistory, setsingerHistory, rollingHand, trackerSettings, setTrackerOk }: any) => {
     const handLandmarkerRef = useRef<any>(null);
 
     const canvasRef = useRef<HTMLCanvasElement>(null)
@@ -29,6 +29,8 @@ const HandTracker = ({ selectedDeviceId, videoRef, fingerHistory, setsingerHisto
             });
 
             console.log("initializeHandLandmarker初期化2", { handLandmarkerRef: handLandmarkerRef.current });
+            console.log("trackerok")
+            setTrackerOk(true)
 
         } catch (error) {
             console.error("Error initializing HandLandmarker: ", error);
@@ -110,6 +112,7 @@ const HandTracker = ({ selectedDeviceId, videoRef, fingerHistory, setsingerHisto
         }
         // if (!handLandmarkerRef.current) initializeHandLandmarker()
         if (handLandmarkerRef.current == null) return
+
         // console.log(videoRef.current.videoWidth)
         try {
             // if (handLandmarkerRef.current == null)
@@ -252,7 +255,11 @@ const HandTracker = ({ selectedDeviceId, videoRef, fingerHistory, setsingerHisto
 
     return (
         <>
-            <canvas ref={canvasRef} style={{ position: 'absolute', border: '2px solid black', width: '100%' }} />
+            <canvas ref={canvasRef} style={{
+                position: 'absolute',
+                // border: '2px solid black',
+                width: '100%'
+            }} />
             {/* {rollingHand} */}
         </>
     )

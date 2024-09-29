@@ -247,7 +247,10 @@ const KalmanFilter = ({ fingerHistory, addCounter, kalmanSettings }: any) => {
     return (
         <div>
             <canvas ref={graphCanvasRef} width={500} // 解像度（内部サイズ）
-                height={500} style={{ border: '2px solid black', width: '100%' }} />
+                height={500} style={{
+                    // border: '2px solid black',
+                    width: '100%'
+                }} />
         </div>
     );
 };
