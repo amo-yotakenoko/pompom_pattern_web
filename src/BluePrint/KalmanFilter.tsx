@@ -9,18 +9,19 @@ const KalmanFilter = ({ fingerHistory, addCounter, kalmanSettings }: any) => {
         console.log(fingerHistory)
         if (fingerHistory[fingerHistory.length - 1]) {
 
-            kalmanFilterUpdate(fingerHistory[fingerHistory.length - 1].y)
             movementDetection()
+            kalmanFilterUpdate(fingerHistory[fingerHistory.length - 1].y)
         }
         // console.log("fingerhistory", fingerHistory[fingerHistory.length - 1])
         // console.log("fingerhistory", fingerHistory[fingerHistory.length - 1])
         drowGraph()
     }, [fingerHistory]);
 
+    const viewPointWidth = 50
 
     const graphCanvasRef = useRef<HTMLCanvasElement>(null)
 
-
+    const [canvasWidth, setCanvasWidth] = useState(500);
 
 
     const [kalmanFilterResult, setKalmanFilterResult] = useState<any[]>([]);
@@ -56,7 +57,7 @@ const KalmanFilter = ({ fingerHistory, addCounter, kalmanSettings }: any) => {
         setKalmanFilterResult((prevResults) => {
             const updatedResults = [...prevResults, newX];
             // 配列が100を超えたら古い要素を削除
-            if (updatedResults.length > 100) {
+            if (updatedResults.length > viewPointWidth) {
                 updatedResults.shift();
             }
             return updatedResults;
@@ -102,17 +103,15 @@ const KalmanFilter = ({ fingerHistory, addCounter, kalmanSettings }: any) => {
         // console.log({ x })
         const max = x.mean + x.var
         const min = x.mean - x.var
-        const nweCritertion = Math.max(min, Math.min(lastCriterion, max))
-        criterion.push(nweCritertion)
-
+        const newCriterion = Math.max(min, Math.min(lastCriterion, max));
 
         setCriterion((prevResults) => {
-            const updatedResults = [...prevResults, nweCritertion];
+            const updatedResults = [...prevResults, newCriterion];
 
-            if (criterion.length > 100) {
-                criterion.shift();
+            if (updatedResults.length > viewPointWidth) {
+                updatedResults.shift(); // ここで更新された配列を使う
             }
-            return criterion;
+            return updatedResults; // 更新された配列を返す
         });
 
 
@@ -143,7 +142,6 @@ const KalmanFilter = ({ fingerHistory, addCounter, kalmanSettings }: any) => {
 
 
 
-
     function drowGraph() {
         const canvas = graphCanvasRef.current;
         const context = canvas?.getContext("2d");
@@ -155,9 +153,9 @@ const KalmanFilter = ({ fingerHistory, addCounter, kalmanSettings }: any) => {
         // canvas.height = 100;
         context.strokeStyle = "#000000";
         //測定点
-        for (let i = 0; i < fingerHistory.length; i++) {
+        for (let i = fingerHistory.length - 1; i >= 0; i--) {
             // console.log(fingerHistory)
-            const x = canvas.width / 100 * i
+            const x = canvas.width / viewPointWidth * i
             context.beginPath();
             context.arc(x, fingerHistory[i].y * canvas.height, 3, 0, 2 * Math.PI);
             context.stroke(); // 円の輪郭を描画
@@ -172,7 +170,7 @@ const KalmanFilter = ({ fingerHistory, addCounter, kalmanSettings }: any) => {
         console.log(" kalmanFilterResult", kalmanFilterResult)
 
         for (let i = 0; i < kalmanFilterResult.length; i++) {
-            const x = canvas.width / 100 * i
+            const x = canvas.width / viewPointWidth * i
             const y = kalmanFilterResult[i].mean * canvas.height;
             console.log("線")
             if (i == 0) {
@@ -187,8 +185,8 @@ const KalmanFilter = ({ fingerHistory, addCounter, kalmanSettings }: any) => {
 
         //分散
         context.strokeStyle = "#000000";
-        for (let i = 0; i < kalmanFilterResult.length; i++) {
-            const x = canvas.width / 100 * i
+        for (let i = kalmanFilterResult.length - 1; i >= 0; i--) {
+            const x = canvas.width / viewPointWidth * i
             const y = kalmanFilterResult[i].mean * canvas.height;
             context.beginPath();
             context.lineTo(x, y - kalmanFilterResult[i].var * canvas.height);
@@ -204,9 +202,9 @@ const KalmanFilter = ({ fingerHistory, addCounter, kalmanSettings }: any) => {
         // console.log("criterion", criterion)
         context.strokeStyle = "#FF0000";
         context.beginPath();
-        for (let i = 0; i < criterion.length; i++) {
-            const x = canvas.width / 100 * i
-            const y = criterion[i] * canvas.height;
+        for (let i = criterion.length - 1; i >= 0; i--) {
+            const x = canvas.width / viewPointWidth * i
+            const y = criterion[i + 1] * canvas.height;
             // console.log("線")
 
             if (i > 0) {
@@ -223,7 +221,6 @@ const KalmanFilter = ({ fingerHistory, addCounter, kalmanSettings }: any) => {
             } else {
                 context.strokeStyle = plotMoveDirection === "up" ? "#FF0000" : "#0000FF"; // 青色に変更
             }
-
 
             if (i == 0) {
                 context.moveTo(x, y);
@@ -249,8 +246,8 @@ const KalmanFilter = ({ fingerHistory, addCounter, kalmanSettings }: any) => {
 
     return (
         <div>
-            <canvas ref={graphCanvasRef} width={1000} // 解像度（内部サイズ）
-                height={150} style={{ border: '2px solid black', width: '100%' }} />
+            <canvas ref={graphCanvasRef} width={500} // 解像度（内部サイズ）
+                height={500} style={{ border: '2px solid black', width: '100%' }} />
         </div>
     );
 };

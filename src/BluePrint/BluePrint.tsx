@@ -351,13 +351,15 @@ const BluePrint: React.FC<BluePrintProps> = ({ pattern, colorList, rollWidth, pi
     }
     function drawFrame(ctx: any, center: { x: number; y: number; }, roll: number, pitch: number, piled: number, widthCount: number) {
         ctx.beginPath();
+        widthCount = Math.floor(widthCount);
+        roll = Math.floor(roll);
         // console.log(center)
         ctx.moveTo(center.x + Math.cos(getTheta(roll + 1)) * getR(pitch), center.y + Math.sin(getTheta(roll + 1)) * getR(pitch));
-        for (let i = 0; i <= widthCount; i++) {
+        for (let i = 0; i <= widthCount; i += 1) {
             ctx.lineTo(center.x + Math.cos(getTheta(roll + 1 - i)) * getR(pitch), center.y + Math.sin(getTheta(roll + 1 - i)) * getR(pitch));
             // ctx.arc(center.x + Math.cos(getTheta(roll + 1 - i)) * getR(pitch), center.y + Math.sin(getTheta(roll + 1 - i)) * getR(pitch), 10, 0, 2 * Math.PI);
         }
-        for (let i = widthCount; i >= 0; i--) {
+        for (let i = widthCount; i >= 0; i -= 1) {
             ctx.lineTo(center.x + Math.cos(getTheta(roll + 1 - i)) * getR(pitch + piled), center.y + Math.sin(getTheta(roll + 1 - i)) * getR(pitch + piled));
         }
 

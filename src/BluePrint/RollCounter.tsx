@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Button, ProgressBar } from 'react-bootstrap';
+import { Button, ProgressBar, ButtonGroup } from 'react-bootstrap';
 import CameraCounter from './CameraCounter';
 // type SelectRollingHandProps = {
 //     rollingHand: string;
@@ -39,13 +39,26 @@ const RollCounter = ({ selectingFrame, rollProgress, setRollProgress, frames }: 
 
         return (
             <div>
-                {completeNumber}
-                <Button onClick={() => addCounter(-1)} disabled={progress <= 0}>-1</Button>
-                <Button onClick={() => addCounter(1)} disabled={progress >= completeNumber}>+1</Button>
+                {/* {completeNumber} */}
+                <div className="d-flex w-100">
+                    <ButtonGroup className="w-100">
+                        <Button onClick={() => addCounter(-widthCount)} disabled={progress <= 0} className="flex-grow-1">
+                            -1段
+                        </Button>
+                        <Button onClick={() => addCounter(widthCount)} disabled={progress >= completeNumber} className="flex-grow-1">
+                            +1段
+                        </Button>
+                    </ButtonGroup>
 
-
-                <Button onClick={() => addCounter(- widthCount)} disabled={progress <= 0}>-1段</Button>
-                <Button onClick={() => addCounter(widthCount)} disabled={progress >= completeNumber}>+1段</Button>
+                    <ButtonGroup className="w-100">
+                        <Button onClick={() => addCounter(-1)} disabled={progress <= 0} className="flex-grow-1">
+                            -1
+                        </Button>
+                        <Button onClick={() => addCounter(1)} disabled={progress >= completeNumber} className="flex-grow-1">
+                            +1
+                        </Button>
+                    </ButtonGroup>
+                </div>
 
 
                 <CameraCounter addCounter={addCounter}></CameraCounter>

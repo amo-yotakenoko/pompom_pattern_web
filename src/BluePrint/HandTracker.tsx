@@ -182,7 +182,7 @@ const HandTracker = ({ selectedDeviceId, videoRef, fingerHistory, setsingerHisto
 
                 setsingerHistory((fingerHistory: any) => {
                     const updatedHistory = [...fingerHistory, landmarks[8]];
-                    if (updatedHistory.length > 100) {
+                    if (updatedHistory.length > 50) {
                         updatedHistory.shift(); // 100件を超えたら古いアイテムを削除
                     }
                     return updatedHistory;
