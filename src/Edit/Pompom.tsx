@@ -2,7 +2,7 @@ import React, { useEffect, useRef } from 'react';
 import * as THREE from 'three';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
 import '../styles.css';
-
+import * as Icon from 'react-bootstrap-icons';
 type PompomProps = {
     pattern: any;
     colorList: any;
@@ -356,11 +356,33 @@ const Pompom: React.FC<PompomProps> = ({ pattern, colorList, rollWidth, pitchWid
 
     // const size = Math.min(canvas.clientWidth, canvas.clientHeight);
     return (
-        <canvas id="edit3d" className="no-margin" width="1024" height="1024" style={{
-            border: "1px solid black", width: "100%",
-            aspectRatio: "1"
-        }
-        } />
+        <div
+            style={{
+                position: "relative",
+                width: "100%",
+                aspectRatio: "1",
+                border: "1px solid black",
+            }}
+        >
+            <canvas
+                id="edit3d"
+                className="no-margin"
+                width="1024"
+                height="1024"
+                style={{ width: "100%", height: "100%" }}
+            />
+            <Icon.ArrowsMove
+                className="position-absolute"
+                style={{
+                    bottom: "2%",
+                    right: "2%",
+                    position: "absolute",
+                    width: "15%",
+                    height: "15%"
+
+                }}
+            />
+        </div >
     )
 };
 

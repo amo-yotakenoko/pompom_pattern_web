@@ -108,8 +108,8 @@ function Edit() {
       <LocalStrageSave data={{ pattern, colorList, rollWidth, pitchWidth }} activeMenu={activeMenu} />
 
       <div className="container-fluid" style={{ padding: 0, margin: 0 }}>
-        <div className="row no-margin" style={{ display: activeMenu === "pompom" ? "flex" : "none" }}>
-          <div className="col-12 col-xl-4 no-margin">
+        <div className="row " style={{ display: activeMenu === "pompom" ? "flex" : "none" }}>
+          <div className="col-12 col-xl-4">
             <Pompom
               pattern={pattern}
               colorList={colorList}
@@ -120,7 +120,7 @@ function Edit() {
               activeMenu={activeMenu}
             />
           </div>
-          <div className="col-6 col-xl-4 no-margin">
+          <div className="col-6 col-xl-4 ">
             <ColorEdit
               colorList={colorList}
               selectColor={selectColor}
@@ -128,7 +128,7 @@ function Edit() {
               setColorList={setColorList}
             />
           </div>
-          <div className="col-6 col-xl-4 no-margin">
+          <div className="col-6 col-xl-4">
             <ColorPalette
               colorList={colorList}
               selectColor={selectColor}
