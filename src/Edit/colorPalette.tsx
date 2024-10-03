@@ -140,10 +140,11 @@ const ColorPalette: React.FC<colorPaletteProps> = ({ colorList, selectColor, set
                 // alignItems: "flex-end",
                 // display: "grid",
                 // gridTemplateColumns: 'repeat(auto-fit, minmax(12vw, 1fr))',
-
+                marginTop: "1em",
+                marginBottom: "1em",
                 width: "100%",
                 // maxHeight: "calc(100vh - 100vw - 2.5em)",
-                height: "100%",
+                // height: "100%",
                 overflow: "auto",
                 // backgroundColor: "red",
                 // padding: "8px",
@@ -152,7 +153,7 @@ const ColorPalette: React.FC<colorPaletteProps> = ({ colorList, selectColor, set
             }}>
                 {/* aa */}
                 {colorButtons}
-
+                <br></br>
             </ButtonGroup>
             {/* </div> */}
 

@@ -690,7 +690,10 @@ const BluePrint: React.FC<BluePrintProps> = ({ pattern, colorList, rollWidth, pi
             </div>
 
             <div className="col-12 col-lg-6">
-                <RollCounter frames={frames} selectingFrame={selectingFrame} rollProgress={rollProgress} setRollProgress={setRollProgress}></RollCounter>
+                <div className="row no-margin" style={{ overflowY: "auto", maxHeight: "calc(100vh - 100vw - 1em)" }}>
+
+                    <RollCounter frames={frames} selectingFrame={selectingFrame} rollProgress={rollProgress} setRollProgress={setRollProgress}></RollCounter>
+                </div>
 
             </div>
 

@@ -2,7 +2,7 @@
 import React, { useEffect, useRef } from 'react';
 import downloadImg from "../img/designsystem-assets/icon/svg/download_fill.svg"
 import bluePrintBase from "../img/bluePrint_base.png"
-
+import * as Icon from 'react-bootstrap-icons';
 interface ImageSaveProps {
     data: any;
     // canvas: any;
@@ -34,6 +34,11 @@ const ImageSave: React.FC<ImageSaveProps> = ({ data }) => {
         link.click();
 
     }
+
+
+
+
+
 
     // https://mclab.uunyan.com/lab/html/canvas004.htm
     function convartDownloadble(bluePrintImg: any) {

@@ -378,7 +378,8 @@ const Pompom: React.FC<PompomProps> = ({ pattern, colorList, rollWidth, pitchWid
                     right: "2%",
                     position: "absolute",
                     width: "15%",
-                    height: "15%"
+                    height: "15%",
+                    pointerEvents: "none"
 
                 }}
             />
