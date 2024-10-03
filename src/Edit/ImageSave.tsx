@@ -81,14 +81,49 @@ const ImageSave: React.FC<ImageSaveProps> = ({ data }) => {
     }
 
 
+    function share(size: any) {
+
+        console.log("ダウンロード")
+        let viewCanvas = document.getElementById('bluePrint') as HTMLCanvasElement;
+        const canvas = document.createElement('canvas');
+        canvas.width = size;
+        canvas.height = size;
+        const ctx = canvas.getContext('2d');
+        if (ctx == undefined) return
+        ctx.drawImage(bluePrintBaseImage, 0, 0, size, size);
+
+
+        ctx.drawImage(viewCanvas, 0, 0, viewCanvas.width, viewCanvas.height, 0, 0, size, size);
+
+        drawData(canvas, data);
+        const blob = Base64toBlob(canvas.toDataURL());
+        console.log("blob", blob)
+        const image = new File([blob], 'tmp.png', { type: 'image/png' })
+        const image2 = new File([blob], 'tmp2.png', { type: 'image/png' })
+        navigator.share({
+            text: '#POMPOM模様',
+            url: 'https://amo-yotakenoko.github.io/pompom_pattern_web/',
+            files: [image]
+        }).then(() => {
+            console.log('Share was successful.')
+        }).catch((error) => {
+            console.log('Sharing failed', error)
+        })
+    }
+
     return (
         <>
-            <img src={downloadImg} onClick={() => { download(900) }} style={{
-                position: "absolute",
-                width: "10%",
-                top: "0",
-                right: "0",
-            }}></img>
+            <div style={{ position: "absolute", top: "10px", right: "10px", display: "flex", alignItems: "center" }}>
+                <Icon.Download onClick={() => { download(900) }} style={{
+                    fontSize: "2rem",
+                    marginRight: "10px" // アイコンの間隔を調整
+
+                }} />
+                <Icon.Share
+                    onClick={() => share(900)}
+                    style={{ fontSize: "2rem" }} // アイコンを大きくして位置を調整
+                />
+            </div>
             {/* <img src={bluePrintBase}></img> */}
             {/* <img
                 id="bluePrintImg"
