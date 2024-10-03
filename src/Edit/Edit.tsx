@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, createContext, useContext } from 'react';
 import { useLocation } from "react-router-dom"
 
 // import { Canvas, useFrame } from '@react-three/fiber';
@@ -12,10 +12,11 @@ import BluePrint from '../BluePrint/BluePrint'
 import Menu from './menu'
 import UndoRedo from './undoRedu'
 import ColorEdit from './colorEdit'
+import HelpButton from './HelpButton';
 // import Button from 'react-bootstrap/Button';
 // import '../index.css';
 
-
+const enableHelpContext = createContext<any>(null);
 function Edit() {
   const location = useLocation()
 
@@ -49,7 +50,7 @@ function Edit() {
 
   const [activeMenu, setActiveMenu] = useState("pompom");
 
-
+  const [enableHelp, setEnableHelp] = useState(false);
 
 
   const [pattern, setPattern] = useState(brankPattern(rollWidth, pitchWidth));
@@ -105,77 +106,81 @@ function Edit() {
   //   <div className="col-12 col-md-6">
   return (
     <>
-      <LocalStrageSave data={{ pattern, colorList, rollWidth, pitchWidth }} activeMenu={activeMenu} />
+      <enableHelpContext.Provider value={{ enableHelp, setEnableHelp }}>
+        <LocalStrageSave data={{ pattern, colorList, rollWidth, pitchWidth }} activeMenu={activeMenu} />
+        <HelpButton></HelpButton>
 
-      <div className="container-fluid" style={{ padding: 0, margin: 0 }}>
-        <div className="row no-margin" style={{
-          display: activeMenu === "pompom" ? "flex" : "none",
-          // backgroundColor: "#f0f0ff",
-        }}>
-          <div className="col-12 col-xl-4 no-margin">
-            <Pompom
+        <div className="container-fluid" style={{ padding: 0, margin: 0 }}>
+          <div className="row no-margin" style={{
+            display: activeMenu === "pompom" ? "flex" : "none",
+            // backgroundColor: "#f0f0ff",
+          }}>
+            <div className="col-12 col-xl-4 no-margin">
+              <Pompom
+                pattern={pattern}
+                colorList={colorList}
+                rollWidth={rollWidth}
+                pitchWidth={pitchWidth}
+                selectColor={selectColor}
+                setPattern={setPattern}
+                activeMenu={activeMenu}
+              />
+            </div>
+
+            <div className="row no-margin" style={{
+              overflowY: "auto", height: "calc(100vh - 100vw - 1em)",
+              // backgroundColor: "#f0f0f0",
+            }}>
+
+              <div className="col-6 col-xl-4 no-margin ">
+                <ColorEdit
+                  colorList={colorList}
+                  selectColor={selectColor}
+                  setSelectColor={setSelectColor}
+                  setColorList={setColorList}
+                />
+              </div>
+
+              <div className="col-6 col-xl-4 no-margin">
+                <ColorPalette
+                  colorList={colorList}
+                  selectColor={selectColor}
+                  setSelectColor={setSelectColor}
+                  setColorList={setColorList}
+                />
+              </div>
+            </div>
+          </div>
+
+
+          {/* <div style={{ display: activeMenu === "bluePrint" ? "block" : "none" }}> */}
+          {activeMenu === "bluePrint" && (
+
+            <BluePrint
               pattern={pattern}
               colorList={colorList}
               rollWidth={rollWidth}
               pitchWidth={pitchWidth}
-              selectColor={selectColor}
-              setPattern={setPattern}
               activeMenu={activeMenu}
             />
-          </div>
 
-          <div className="row no-margin" style={{
-            overflowY: "auto", height: "calc(100vh - 100vw - 1em)",
-            // backgroundColor: "#f0f0f0",
-          }}>
 
-            <div className="col-6 col-xl-4 no-margin ">
-              <ColorEdit
-                colorList={colorList}
-                selectColor={selectColor}
-                setSelectColor={setSelectColor}
-                setColorList={setColorList}
-              />
-            </div>
-
-            <div className="col-6 col-xl-4 no-margin">
-              <ColorPalette
-                colorList={colorList}
-                selectColor={selectColor}
-                setSelectColor={setSelectColor}
-                setColorList={setColorList}
-              />
-            </div>
-          </div>
+          )}
         </div>
-
-
-        {/* <div style={{ display: activeMenu === "bluePrint" ? "block" : "none" }}> */}
-        {activeMenu === "bluePrint" && (
-
-          <BluePrint
-            pattern={pattern}
-            colorList={colorList}
-            rollWidth={rollWidth}
-            pitchWidth={pitchWidth}
-            activeMenu={activeMenu}
-          />
-
-
-        )}
-      </div>
-      <Menu
-        activeMenu={activeMenu}
-        setActiveMenu={setActiveMenu}
-        pattern={pattern}
-        setPattern={setPattern}
-        colorList={colorList}
-        setColorList={setColorList}
-        selectColor={selectColor}
-        setSelectColor={setSelectColor}
-      />
+        <Menu
+          activeMenu={activeMenu}
+          setActiveMenu={setActiveMenu}
+          pattern={pattern}
+          setPattern={setPattern}
+          colorList={colorList}
+          setColorList={setColorList}
+          selectColor={selectColor}
+          setSelectColor={setSelectColor}
+        />
+      </enableHelpContext.Provider>
     </>
   );
 }
 
 export default Edit;
+export { enableHelpContext };

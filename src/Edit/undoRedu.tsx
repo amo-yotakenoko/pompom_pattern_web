@@ -2,6 +2,8 @@ import React, { useEffect, useRef, useState } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Button } from 'react-bootstrap';
 import * as Icon from 'react-bootstrap-icons';
+import { enableHelpContext } from './Edit';
+import Help from "./Help"
 type UndoRedoProps = {
     enable: any;
     pattern: any;
@@ -111,10 +113,11 @@ type UndoButtonProps = {
     setSelectColor: (color: number) => void;
     setCurrent: (current: number) => void;
 };
-
 const UndoButton: React.FC<UndoButtonProps> = ({ enable, history, current, setPattern, setColorList, setSelectColor, setCurrent }) => {
+    const undoRef = useRef(null);
     return (
         <Button
+            ref={undoRef}
             variant="primary"
             style={{
                 height: '2em',
@@ -135,6 +138,7 @@ const UndoButton: React.FC<UndoButtonProps> = ({ enable, history, current, setPa
             }}
         >
             <Icon.Arrow90degLeft />
+            <Help target={undoRef} >戻る</Help>
         </Button >
     );
 };
@@ -144,8 +148,10 @@ const UndoButton: React.FC<UndoButtonProps> = ({ enable, history, current, setPa
 
 
 const RedoButton: React.FC<UndoButtonProps> = ({ enable, history, current, setPattern, setColorList, setSelectColor, setCurrent }) => {
+    const redoRef = useRef(null);
     return (
         <Button
+            ref={redoRef}
             variant="primary"
             style={{
                 height: '2em',
@@ -166,6 +172,7 @@ const RedoButton: React.FC<UndoButtonProps> = ({ enable, history, current, setPa
             }}
         >
             <Icon.Arrow90degRight />
+            <Help target={redoRef} >戻る</Help>
         </Button >
     );
 };

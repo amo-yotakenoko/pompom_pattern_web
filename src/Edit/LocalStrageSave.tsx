@@ -157,7 +157,7 @@ const LocalStrageSave: React.FC<LocalStrageSaveProps> = ({ data, activeMenu }) =
             <i className="bi bi-123"></i> */}
             {(!isSaved && activeMenu == "pompom") &&
                 <Icon.Floppy2 onClick={saveToLocalStrage} style={{
-
+                    zIndex: 1000,
                     top: "5px",
                     left: "5px",
                     position: 'fixed',
