@@ -114,10 +114,11 @@ type UndoButtonProps = {
     setCurrent: (current: number) => void;
 };
 const UndoButton: React.FC<UndoButtonProps> = ({ enable, history, current, setPattern, setColorList, setSelectColor, setCurrent }) => {
-    const undoRef = useRef(null);
+    // const undoRef = useRef(null);
     return (
         <Button
-            ref={undoRef}
+            // ref={undoRef}
+            id="undoButton"
             variant="primary"
             style={{
                 height: '2em',
@@ -138,7 +139,7 @@ const UndoButton: React.FC<UndoButtonProps> = ({ enable, history, current, setPa
             }}
         >
             <Icon.Arrow90degLeft />
-            <Help target={undoRef} >戻る</Help>
+            <Help id="undoButton" >戻る</Help>
         </Button >
     );
 };
@@ -148,10 +149,11 @@ const UndoButton: React.FC<UndoButtonProps> = ({ enable, history, current, setPa
 
 
 const RedoButton: React.FC<UndoButtonProps> = ({ enable, history, current, setPattern, setColorList, setSelectColor, setCurrent }) => {
-    const redoRef = useRef(null);
+    // const redoRef = useRef(null);
     return (
         <Button
-            ref={redoRef}
+            id="redoButton"
+            // ref={redoRef}
             variant="primary"
             style={{
                 height: '2em',
@@ -172,7 +174,8 @@ const RedoButton: React.FC<UndoButtonProps> = ({ enable, history, current, setPa
             }}
         >
             <Icon.Arrow90degRight />
-            <Help target={redoRef} >戻る</Help>
+            <Help id="redoButton" >進む
+            </Help>
         </Button >
     );
 };

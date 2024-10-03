@@ -113,7 +113,7 @@ const ImageSave: React.FC<ImageSaveProps> = ({ data }) => {
 
     return (
         <>
-            <div style={{ position: "absolute", top: "10px", right: "10px", display: "flex", alignItems: "center" }}>
+            <div style={{ position: "absolute", bottom: "10px", right: "10px", display: "flex", alignItems: "center" }}>
                 <Icon.Download onClick={() => { download(900) }} style={{
                     fontSize: "2rem",
                     marginRight: "10px" // アイコンの間隔を調整

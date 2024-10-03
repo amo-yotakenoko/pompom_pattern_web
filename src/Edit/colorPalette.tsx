@@ -15,6 +15,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import '../styles.css';
 import menuIcon from '../img/designsystem-assets/icon/png/menu_fill24.png';
 import ColorEdit from './colorEdit'
+import Help from "./Help"
 type colorPaletteProps = {
 
     colorList: any;
@@ -154,6 +155,7 @@ const ColorPalette: React.FC<colorPaletteProps> = ({ colorList, selectColor, set
                 {/* aa */}
                 {colorButtons}
                 <br></br>
+                <Help id={`color-${2}`} >色を選択</Help>
             </ButtonGroup>
             {/* </div> */}
 

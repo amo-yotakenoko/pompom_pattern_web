@@ -15,7 +15,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import '../styles.css';
 import menuIcon from '../img/designsystem-assets/icon/png/menu_fill24.png';
 import addIcon from '../img/designsystem-assets/icon/png/add_fill24.png';
-
+import Help from "./Help"
 
 type colorPaletteProps = {
 
@@ -87,6 +87,7 @@ const ColorEdit: React.FC<colorPaletteProps> = ({ colorList, selectColor, setSel
                     borderRadius: '5px 5px 0 0',
                     transform: 'translateY(2px)',
                 }}
+                    id="coloradd"
                     onClick={() => {
 
                         let newColorList = [...colorList]
@@ -96,6 +97,7 @@ const ColorEdit: React.FC<colorPaletteProps> = ({ colorList, selectColor, setSel
                     }
                     }
                 ></img>
+                <Help id="coloradd">{colorList[selectColor].length + 1}本取り用の糸を追加</Help>
 
 
 
@@ -104,7 +106,7 @@ const ColorEdit: React.FC<colorPaletteProps> = ({ colorList, selectColor, setSel
                 </Nav.Item> */}
             </Nav >
             {/* {PhotoshopPicker} */}
-            <div style={{ height: "10vw", backgroundColor: "red" }}>
+            <div style={{ height: "10vw", backgroundColor: "red" }} id="picker">
                 <ChromePicker color={colorList[selectColor][selectedMultiColor]}
                     onChange={(color) => colorChange(color, selectColor, selectedMultiColor)}
                     disableAlpha={true}
@@ -127,6 +129,7 @@ const ColorEdit: React.FC<colorPaletteProps> = ({ colorList, selectColor, setSel
                         },
                     }}
                 />
+                <Help id="picker" placement="right">色を編集</Help>
             </div>
 
 

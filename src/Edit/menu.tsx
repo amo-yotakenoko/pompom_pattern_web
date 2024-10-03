@@ -4,6 +4,7 @@ import ButtonGroup from 'react-bootstrap/ButtonGroup';
 import ToggleButton from 'react-bootstrap/ToggleButton';
 import UndoRedo from './undoRedu';
 import * as Icon from 'react-bootstrap-icons';
+import Help from "./Help"
 type MenuProps = {
     activeMenu: any;
     setActiveMenu: any;
@@ -40,8 +41,11 @@ const Menu: React.FC<MenuProps> = ({ activeMenu, setActiveMenu, pattern, colorLi
 
 
 
-            < Item displayName={<>編集   <Icon.PencilSquare /></>} tabId={"pompom"} activeMenu={activeMenu} setActiveMenu={setActiveMenu} ></Item >
-            <Item displayName={<>設計図   <Icon.FileEarmarkPost /></>} tabId={"bluePrint"} activeMenu={activeMenu} setActiveMenu={setActiveMenu}></Item>
+            < Item displayName={<div id={"editMenu"}>編集   <Icon.PencilSquare /></div>} tabId={"pompom"} activeMenu={activeMenu} setActiveMenu={setActiveMenu} ></Item >
+            <Item displayName={<div id={"blueprintMenu"}>設計図    <Icon.FileEarmarkPost /></div>} tabId={"bluePrint"} activeMenu={activeMenu} setActiveMenu={setActiveMenu}></Item>
+
+            {activeMenu != "bluePrint" && <Help id="blueprintMenu">完成したらこちら</Help>}
+            {activeMenu != "pompom" && <Help id="editMenu">編集に戻る(進捗状況が削除されます)</Help>}
         </ButtonGroup >
     )
 }
@@ -53,7 +57,7 @@ type ItemProps = {
 
 };
 
-const Item: React.FC<ItemProps> = ({ displayName, tabId, activeMenu, setActiveMenu }) => {
+const Item = ({ id, displayName, tabId, activeMenu, setActiveMenu }: any) => {
 
     function tabSet(tabId: any) {
         setActiveMenu(tabId);

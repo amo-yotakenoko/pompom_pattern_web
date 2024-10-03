@@ -7,12 +7,12 @@ import { enableHelpContext } from './Edit';
 // };
 import { Overlay, Tooltip } from 'react-bootstrap';
 // import Tooltip from 'react-bootstrap/Tooltip';
-const HelpButton = ({ target, placement, children }: any) => {
+const HelpButton = ({ id, placement, children }: any) => {
     const { enableHelp, setEnableHelp } = useContext(enableHelpContext);
     console.log({ enableHelp })
     return (
         <>
-            <Overlay target={target} show={enableHelp} placement={placement} >
+            <Overlay target={() => document.getElementById(id)} show={enableHelp} placement={placement} >
                 {(props) => (
                     <Tooltip  {...props}>
                         {children}

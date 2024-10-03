@@ -127,7 +127,7 @@ function Edit() {
               />
             </div>
 
-            <div className="row no-margin" style={{
+            {activeMenu === "pompom" && <div className="row no-margin" style={{
               overflowY: "auto", height: "calc(100vh - 100vw - 1em)",
               // backgroundColor: "#f0f0f0",
             }}>
@@ -149,7 +149,7 @@ function Edit() {
                   setColorList={setColorList}
                 />
               </div>
-            </div>
+            </div>}
           </div>
 
 
