@@ -487,17 +487,19 @@ const BluePrint: React.FC<BluePrintProps> = ({ pattern, colorList, rollWidth, pi
 
                     memoctx.beginPath();
                     memoctx.arc(center_x, center_y, size, 0, 2 * Math.PI);
-                    memoctx.fillStyle = 'rgba(0, 0, 255, 0.5)';
+                    memoctx.fillStyle = 'rgba(5, 5, 5, 0.5)';
                     // memoctx.fill(); 
                     memoctx.strokeStyle = '#000';
                     memoctx.lineWidth = 3;
                     memoctx.stroke();
+                    memoctx.fill();
 
                     memoctx.font = `${size}px Arial`;
                     memoctx.fillStyle = "#dddddd";
                     memoctx.textAlign = 'center';
                     memoctx.textBaseline = 'middle';
-                    memoctx.fillText(rollProgress[i], center_x, center_y);
+                    const iscomplete = frame.widthCount * frame.piled <= rollProgress[i]
+                    memoctx.fillText(iscomplete ? "済" : rollProgress[i], center_x, center_y);
                 }
 
                 i += 1
