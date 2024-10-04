@@ -1,4 +1,4 @@
-import React, { useState, createContext, useContext } from 'react';
+import React, { useState, createContext, useContext,useEffect } from 'react';
 import * as Icon from 'react-bootstrap-icons';
 import { enableHelpContext } from './Edit';
 // type SelectRollingHandProps = {
@@ -6,9 +6,13 @@ import { enableHelpContext } from './Edit';
 //     setRollingHand: React.Dispatch<React.SetStateAction<string>>;
 // };
 
-const HelpButton = ({ }: any) => {
+const HelpButton = ({  activeMenu}: any) => {
     const { enableHelp, setEnableHelp } = useContext(enableHelpContext);
 
+    useEffect(()=>{
+        setEnableHelp(false);
+    }, [activeMenu])
+    
     return (
         <>
             {/* help{`${useContext(enableHelpContext)}`} */}

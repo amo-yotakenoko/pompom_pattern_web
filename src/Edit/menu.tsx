@@ -4,7 +4,7 @@ import ButtonGroup from 'react-bootstrap/ButtonGroup';
 import ToggleButton from 'react-bootstrap/ToggleButton';
 import UndoRedo from './undoRedu';
 import * as Icon from 'react-bootstrap-icons';
-import Help from "./Help"
+import Help from "../Help"
 type MenuProps = {
     activeMenu: any;
     setActiveMenu: any;

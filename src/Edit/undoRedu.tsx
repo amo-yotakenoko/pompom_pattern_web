@@ -3,7 +3,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import { Button } from 'react-bootstrap';
 import * as Icon from 'react-bootstrap-icons';
 import { enableHelpContext } from './Edit';
-import Help from "./Help"
+import Help from "../Help"
 type UndoRedoProps = {
     enable: any;
     pattern: any;

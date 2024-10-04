@@ -108,7 +108,7 @@ function Edit() {
     <>
       <enableHelpContext.Provider value={{ enableHelp, setEnableHelp }}>
         <LocalStrageSave data={{ pattern, colorList, rollWidth, pitchWidth }} activeMenu={activeMenu} />
-        <HelpButton></HelpButton>
+        <HelpButton  activeMenu={ activeMenu}></HelpButton>
 
         <div className="container-fluid" style={{ padding: 0, margin: 0 }}>
           <div className="row no-margin" style={{

@@ -5,7 +5,7 @@ import CameraCounter from './CameraCounter';
 //     rollingHand: string;
 //     setRollingHand: React.Dispatch<React.SetStateAction<string>>;
 // };
-
+import Help from "../Help"
 const RollCounter = ({ selectingFrame, rollProgress, setRollProgress, frames }: any) => {
 
     let widthCount = 0
@@ -38,9 +38,9 @@ const RollCounter = ({ selectingFrame, rollProgress, setRollProgress, frames }: 
 
 
         return (
-            <div>
+            <div  id="rollCounter">
                 {/* {completeNumber} */}
-                <div className="d-flex w-100">
+                <div className="d-flex w-100" >
                     <ButtonGroup className="w-100">
                         <Button onClick={() => addCounter(-widthCount)} disabled={progress <= 0} className="flex-grow-1">
                             -1段
@@ -59,6 +59,7 @@ const RollCounter = ({ selectingFrame, rollProgress, setRollProgress, frames }: 
                         </Button>
                     </ButtonGroup>
                 </div>
+                      <Help id="rollCounter"  placement="bottom">巻き数メモ</Help>
 
 
                 <CameraCounter addCounter={addCounter}></CameraCounter>

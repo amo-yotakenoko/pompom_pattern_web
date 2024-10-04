@@ -3,6 +3,7 @@ import React, { useEffect, useRef } from 'react';
 import downloadImg from "../img/designsystem-assets/icon/svg/download_fill.svg"
 import bluePrintBase from "../img/bluePrint_base.png"
 import * as Icon from 'react-bootstrap-icons';
+import Help from "../Help"
 interface ImageSaveProps {
     data: any;
     // canvas: any;
@@ -114,15 +115,18 @@ const ImageSave: React.FC<ImageSaveProps> = ({ data }) => {
     return (
         <>
             <div style={{ position: "absolute", bottom: "10px", right: "10px", display: "flex", alignItems: "center" }}>
-                <Icon.Download onClick={() => { download(900) }} style={{
+                <Icon.Download id="download"  onClick={() => { download(900) }} style={{
                     fontSize: "2rem",
                     marginRight: "10px" // アイコンの間隔を調整
 
                 }} />
-                <Icon.Share
+
+                <Icon.Share id="share"
                     onClick={() => share(900)}
                     style={{ fontSize: "2rem" }} // アイコンを大きくして位置を調整
                 />
+                <Help id="download" placement="left">図案をダウンロード</Help>
+                      <Help id="share" >図案を共有</Help>
             </div>
             {/* <img src={bluePrintBase}></img> */}
             {/* <img

@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import ImageSave from '../Edit/ImageSave'
 import RollCounter from './RollCounter';
 import SelectedHighlight from './SelectedHighlight';
+import Help from "../Help"
 type BluePrintProps = {
     pattern: any;
     colorList: any;
@@ -682,9 +683,10 @@ const BluePrint: React.FC<BluePrintProps> = ({ pattern, colorList, rollWidth, pi
                         fontSize: '16px',
                         fontWeight: 'bold',
                         pointerEvents: "none"
-                    }}>
+                    }} id="allProgress">
                         残り{rollWidth * pitchWidth - rollCountSum}巻き　{(rollCountSum / (rollWidth * pitchWidth) * 100).toFixed(0)}%
                     </div >
+<Help id="allProgress" placement="bottom">全体の進捗</Help>
                 </div >
 
             </div>

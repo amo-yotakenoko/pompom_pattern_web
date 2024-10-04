@@ -15,7 +15,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import '../styles.css';
 import menuIcon from '../img/designsystem-assets/icon/png/menu_fill24.png';
 import ColorEdit from './colorEdit'
-import Help from "./Help"
+import Help from "../Help"
 type colorPaletteProps = {
 
     colorList: any;

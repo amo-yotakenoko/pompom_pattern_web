@@ -3,7 +3,7 @@ import * as THREE from 'three';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
 import '../styles.css';
 import * as Icon from 'react-bootstrap-icons';
-import Help from "./Help"
+import Help from "../Help"
 type PompomProps = {
     pattern: any;
     colorList: any;
