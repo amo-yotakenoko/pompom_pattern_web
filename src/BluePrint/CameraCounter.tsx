@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef ,createContext, useContext,useEffect } from 'react';
 import { Button, ProgressBar, Dropdown, Accordion, Card, Form, Modal, Spinner } from 'react-bootstrap';
 import * as Icon from 'react-bootstrap-icons';
 import Camera from './Camera';
@@ -8,8 +8,9 @@ import KalmanFilter from './KalmanFilter';
 import RollHandSelect from './RollHandSelect';
 import TrakerConfig from './TrackerConfig';
 import KalmanConfig from './KalmanConfig';
+import { enableHelpContext } from '../Edit/Edit';
 const CameraCounter = ({ addCounter }: any) => {
-
+  const { enableHelp, setEnableHelp } = useContext(enableHelpContext);
 
     const [devices, setDevices] = useState<{ label: string; deviceId: string }[]>([]);
 
@@ -41,6 +42,10 @@ const CameraCounter = ({ addCounter }: any) => {
 
     const [enableCameraCounter, setEnableCameraCounter] = useState("0")
     const [setttingShow, setSettingShow] = useState(false);
+
+    useEffect(() => {
+         setEnableHelp (false)
+    },[setttingShow])
     const [trackerOk, setTrackerOk] = useState(false);
     return (
         <>
