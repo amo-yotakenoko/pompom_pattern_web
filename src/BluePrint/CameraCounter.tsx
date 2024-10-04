@@ -9,6 +9,7 @@ import RollHandSelect from './RollHandSelect';
 import TrakerConfig from './TrackerConfig';
 import KalmanConfig from './KalmanConfig';
 import { enableHelpContext } from '../Edit/Edit';
+import Alert from 'react-bootstrap/Alert';
 
 const CameraCounter = ({ addCounter }: any) => {
     const { enableHelp, setEnableHelp } = useContext(enableHelpContext);
@@ -99,6 +100,8 @@ const CameraCounter = ({ addCounter }: any) => {
                                                 selectedDeviceId={selectedDeviceId}
                                                 setVideoOk={setVideoOk}
                                             />
+
+
 
                                             <HandTracker
                                                 setIsTracked={setIsTracked}

@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState, useCallback } from 'react';
-
+import Alert from 'react-bootstrap/Alert';
 
 
 const KalmanFilter = ({ fingerHistory, addCounter, kalmanSettings }: any) => {
@@ -260,6 +260,7 @@ const KalmanFilter = ({ fingerHistory, addCounter, kalmanSettings }: any) => {
 
     return (
         <div>
+
             {/* <button onClick={playsound}>
                 音を鳴らす
             </button> */}
@@ -268,6 +269,42 @@ const KalmanFilter = ({ fingerHistory, addCounter, kalmanSettings }: any) => {
                     // border: '2px solid black',
                     width: '100%'
                 }} />
+
+
+            <style>
+                {`@keyframes toLeft {
+                0% {
+                    transform: translateY(-100%);
+                    opacity: 0;
+                }
+                25% {
+                    transform: translateY(0%);
+                    opacity: 1;
+                }
+                75% {
+                    transform: translateY(0%);
+                    opacity: 1;
+                }
+                100% {
+                    transform: translateY(-100%);
+                    opacity: 0;
+                }
+      }`}
+            </style>
+
+            <Alert style={{
+                position: 'fixed',
+                top: "5px",
+                left: "5px",
+                right: "5px",
+                transform: "translateY(-100%)",
+                opacity: 0,
+                zIndex: 1000,
+                animation: `toLeft 5s`,
+                pointerEvents: 'none',
+            }} key="soundAlert" variant="info">
+                音が出ます
+            </Alert>
         </div>
     );
 };
