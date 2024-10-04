@@ -11,11 +11,11 @@ const HelpButton = ({ id, placement, children }: any) => {
     const { enableHelp, setEnableHelp } = useContext(enableHelpContext);
     console.log({ enableHelp })
     const [target, setTarget] = useState<HTMLElement | null>(null);
-      useEffect(() => {
+    useEffect(() => {
 
-            setTarget(document.getElementById(id) as HTMLElement);
-        
-    }, [id]); 
+        setTarget(document.getElementById(id) as HTMLElement);
+
+    }, [id]);
 
     return (
         <>
@@ -25,7 +25,7 @@ const HelpButton = ({ id, placement, children }: any) => {
                         {children}
                     </Tooltip>
                 )}
-            </Overlay>
+            </Overlay >
         </>
     )
 }

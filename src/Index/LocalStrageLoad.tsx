@@ -127,7 +127,7 @@ const LocalStrageLoad: React.FC<LocalStrageLoadProps> = ({ }) => {
     return (
         <>
             <div className="row">
-                {strageUsed > 0.1 && <div className="col-12 my-3">
+                {strageUsed / 5 * 100 > 50 && <div className="col-12 my-3">
                     <ProgressBar now={strageUsed / 5 * 100} label={`${strageUsed.toFixed(2)}MB/5MB`} />
                 </div>}
                 {items}
