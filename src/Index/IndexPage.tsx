@@ -8,7 +8,11 @@ import { useNavigate } from "react-router-dom";
 import SizeSet from './sizeSet'
 import New from './New'
 import QRCode from '../img/qr.png';
+import importImageSaple from '../img/importImageSaple.png';
 import Alert from 'react-bootstrap/Alert';
+import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
+import Popover from 'react-bootstrap/Popover';
+// import * as Icon from 'react-bootstrap-icons';
 import * as Icon from 'react-bootstrap-icons';
 function testPattern(rollWidth: any, pitchWidth: any) {
     console.log("Pattern書き直し", rollWidth, pitchWidth)
@@ -48,7 +52,28 @@ function IndexPage() {
                     <div className="col-12 col-md-6 mb-4 d-flex">
                         <div className="card flex-fill">
                             <div className="card-body">
-                                <h5 className="card-title">画像から読み込み</h5>
+                                <h5 className="card-title" style={{ display: 'flex', alignItems: 'center' }}>画像から読み込み
+
+                                      <OverlayTrigger
+                                        trigger="click"
+                                        key="imageToLoadHelp"
+                                         rootClose={true} 
+                                        // placement={placement}
+                                        overlay={
+                                            <Popover id={`popover-positioned-${"imageToLoadHelp"}`}>
+                                            <Popover.Header as="h3">このタイプの画像が読み込めます</Popover.Header>
+                                            <Popover.Body>
+                                                <img src={importImageSaple} style={{  maxWidth: "90%"}}></img>
+                                            </Popover.Body>
+                                            </Popover>
+                                        }
+                                        >
+                                      <Icon.QuestionCircle onClick={() => {}} style={{ marginLeft: '8px' }} />
+                                        {/* <Button variant="secondary">Popover on</Button> */}
+                                    </OverlayTrigger>
+                                    
+                                    
+                                </h5>
                                 <ImageLoad />
                             </div>
                         </div>

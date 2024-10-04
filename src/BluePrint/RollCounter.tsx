@@ -38,10 +38,10 @@ const RollCounter = ({ selectingFrame, rollProgress, setRollProgress, frames }: 
 
 
         return (
-            <div  id="rollCounter">
+            <div >
                 {/* {completeNumber} */}
                 <div className="d-flex w-100" >
-                    <ButtonGroup className="w-100">
+                    <ButtonGroup className="w-100"  id="rollCounter">
                         <Button onClick={() => addCounter(-widthCount)} disabled={progress <= 0} className="flex-grow-1">
                             -1段
                         </Button>
@@ -58,8 +58,8 @@ const RollCounter = ({ selectingFrame, rollProgress, setRollProgress, frames }: 
                             +1
                         </Button>
                     </ButtonGroup>
+                      <Help id="rollCounter"  placement="right">巻き数メモ</Help>
                 </div>
-                      <Help id="rollCounter"  placement="bottom">巻き数メモ</Help>
 
 
                 <CameraCounter addCounter={addCounter}></CameraCounter>
