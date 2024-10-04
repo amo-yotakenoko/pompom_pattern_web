@@ -10,6 +10,7 @@ import TrakerConfig from './TrackerConfig';
 import KalmanConfig from './KalmanConfig';
 import { enableHelpContext } from '../Edit/Edit';
 import Alert from 'react-bootstrap/Alert';
+import Help from "../Help"
 
 const CameraCounter = ({ addCounter }: any) => {
     const { enableHelp, setEnableHelp } = useContext(enableHelpContext);
@@ -62,8 +63,17 @@ const CameraCounter = ({ addCounter }: any) => {
                         onChange={() => setEnableCameraCounter(enableCameraCounter == "0" ? "1" : "0")}
                         label="AI巻きカウンタ"
                     /> */}
-                    <div onClick={() => setEnableCameraCounter(enableCameraCounter == "0" ? "1" : "0")}>
-                        <Icon.Power style={{ fontSize: '24px' }} />AI巻きカウンタ
+                    <div
+                        className="fs-2 mb-3"
+                        onClick={() => setEnableCameraCounter(enableCameraCounter === "0" ? "1" : "0")}
+                        style={{
+                            padding: '10px',
+                            display: 'flex',
+                            alignItems: 'center'
+                        }}
+                    >
+                        <Icon.Power style={{ fontSize: '24px' }} />
+                        <div style={{ fontSize: '20px', marginLeft: '2px' }}>AI巻きカウンタ</div>
                     </div>
                 </>
             )}
@@ -121,10 +131,11 @@ const CameraCounter = ({ addCounter }: any) => {
                                             addCounter={addCounter}
                                             kalmanSettings={kalmanSettings}
                                         />
-                                        <Icon.Sliders
+                                        <Icon.Sliders id="AIparameters"
                                             onClick={() => setSettingShow(true)}
                                             style={{ position: "absolute", top: "1px", right: "11px", fontSize: "2rem" }} // アイコンを大きくして位置を調整
                                         />
+                                        <Help id="AIparameters" placement="bottom">パラメータ調整<br></br>うまく判定されないときはここをチェック</Help>
                                     </div>
                                 </div>
 

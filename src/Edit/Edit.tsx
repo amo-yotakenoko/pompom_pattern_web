@@ -1,6 +1,6 @@
 import React, { useEffect, useState, createContext, useContext } from 'react';
 import { useLocation } from "react-router-dom"
-
+import { Overlay, Tooltip } from 'react-bootstrap';
 // import { Canvas, useFrame } from '@react-three/fiber';
 // import { BufferGeometry, Float32BufferAttribute, Mesh, MeshBasicMaterial } from 'three';
 // import { OrbitControls } from "@react-three/drei";
@@ -108,7 +108,7 @@ function Edit() {
     <>
       <enableHelpContext.Provider value={{ enableHelp, setEnableHelp }}>
         <LocalStrageSave data={{ pattern, colorList, rollWidth, pitchWidth }} activeMenu={activeMenu} />
-        <HelpButton  activeMenu={ activeMenu}></HelpButton>
+        <HelpButton activeMenu={activeMenu}></HelpButton>
 
         <div className="container-fluid" style={{ padding: 0, margin: 0 }}>
           <div className="row no-margin" style={{
@@ -178,6 +178,7 @@ function Edit() {
           setSelectColor={setSelectColor}
         />
       </enableHelpContext.Provider>
+
     </>
   );
 }

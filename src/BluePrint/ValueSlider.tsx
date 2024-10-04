@@ -4,7 +4,7 @@ import { Button, ProgressBar, Form } from 'react-bootstrap';
 import NavDropdown from 'react-bootstrap/NavDropdown';
 
 import ButtonGroup from 'react-bootstrap/ButtonGroup';
-function ValueSlider({ value, setValue, label }: any) {
+function ValueSlider({ value, setValue, label, min, max }: any) {
     // スライダーの内部状態を作成
     const [internalValue, setInternalValue] = useState(value);
 
@@ -37,8 +37,8 @@ function ValueSlider({ value, setValue, label }: any) {
                     onChange={handleRangeChange}
                     onMouseUp={handleRangeMouseUp}
                     onTouchEnd={handleRangeMouseUp}
-                    min={0.01}    // 最小値を0に設定
-                    max={1}    // 最大値を1に設定
+                    min={min || 0.01}    // 最小値を0に設定
+                    max={max || 1}    // 最大値を1に設定
                     step={0.01} // ステップを0.01に設定
                 />
                 <Form.Control

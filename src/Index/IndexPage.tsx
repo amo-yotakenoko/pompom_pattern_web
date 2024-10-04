@@ -54,25 +54,25 @@ function IndexPage() {
                             <div className="card-body">
                                 <h5 className="card-title" style={{ display: 'flex', alignItems: 'center' }}>画像から読み込み
 
-                                      <OverlayTrigger
+                                    <OverlayTrigger
                                         trigger="click"
                                         key="imageToLoadHelp"
-                                         rootClose={true} 
+                                        rootClose={true}
                                         placement="bottom"
                                         overlay={
                                             <Popover id={`popover-positioned-${"imageToLoadHelp"}`}>
-                                            <Popover.Header as="h3">このタイプの画像が読み込めます</Popover.Header>
-                                            <Popover.Body>
-                                                <img src={importImageSaple} style={{  maxWidth: "90%"}}></img>
-                                            </Popover.Body>
+                                                <Popover.Header as="h3">このタイプの画像が読み込めます</Popover.Header>
+                                                <Popover.Body>
+                                                    <img src={importImageSaple} style={{ maxWidth: "90%" }}></img>
+                                                </Popover.Body>
                                             </Popover>
                                         }
-                                        >
-                                      <Icon.QuestionCircle onClick={() => {}} style={{ marginLeft: '8px' }} />
+                                    >
+                                        <Icon.QuestionCircle onClick={() => { }} style={{ marginLeft: '8px' }} />
                                         {/* <Button variant="secondary">Popover on</Button> */}
                                     </OverlayTrigger>
-                                    
-                                    
+
+
                                 </h5>
                                 <ImageLoad />
                             </div>
