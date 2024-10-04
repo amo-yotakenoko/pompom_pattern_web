@@ -119,11 +119,12 @@ const KalmanFilter = ({ fingerHistory, addCounter, kalmanSettings }: any) => {
         const move = criterion[criterion.length - 1] - criterion[criterion.length - 2];
         console.log(criterion[criterion.length - 1] - criterion[criterion.length - 2])
         if (criterion.length > 0) {
+            let progress = null;
             if (moveDirection != "up" && move < 0) {
 
                 // setRollCount(prevRollCount => prevRollCount + 0.5);
                 console.log("巻いた")
-                addCounter(0.5)
+                progress = addCounter(0.5)
 
                 setMoveDirection("up")
                 //   setMoveDirection "up"
@@ -131,14 +132,27 @@ const KalmanFilter = ({ fingerHistory, addCounter, kalmanSettings }: any) => {
 
                 // setRollCount(prevRollCount => prevRollCount + 0.5);
                 console.log("巻いた")
-                addCounter(0.5)
+                progress = addCounter(0.5)
                 // moveDirection = "down"
                 setMoveDirection("down")
+            }
+            if (progress && progress.rolled % 1 == 0) {
+                playsound(progress.isComplete)
             }
         }
     }
 
+    function playsound(isComplete: boolean) {
+        let audio;
 
+        if (isComplete) {
+            audio = new Audio('電子ルーレット停止ボタンを押す.mp3')
+        } else {
+            audio = new Audio('決定ボタンを押す40.mp3')
+        }
+        if (audio)
+            audio.play(); // 音を鳴らす
+    }
 
 
 
@@ -246,6 +260,9 @@ const KalmanFilter = ({ fingerHistory, addCounter, kalmanSettings }: any) => {
 
     return (
         <div>
+            {/* <button onClick={playsound}>
+                音を鳴らす
+            </button> */}
             <canvas ref={graphCanvasRef} width={500} // 解像度（内部サイズ）
                 height={500} style={{
                     // border: '2px solid black',

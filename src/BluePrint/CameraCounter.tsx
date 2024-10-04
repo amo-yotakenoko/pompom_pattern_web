@@ -1,4 +1,4 @@
-import React, { useState, useRef ,createContext, useContext,useEffect } from 'react';
+import React, { useState, useRef, createContext, useContext, useEffect } from 'react';
 import { Button, ProgressBar, Dropdown, Accordion, Card, Form, Modal, Spinner } from 'react-bootstrap';
 import * as Icon from 'react-bootstrap-icons';
 import Camera from './Camera';
@@ -9,8 +9,9 @@ import RollHandSelect from './RollHandSelect';
 import TrakerConfig from './TrackerConfig';
 import KalmanConfig from './KalmanConfig';
 import { enableHelpContext } from '../Edit/Edit';
+
 const CameraCounter = ({ addCounter }: any) => {
-  const { enableHelp, setEnableHelp } = useContext(enableHelpContext);
+    const { enableHelp, setEnableHelp } = useContext(enableHelpContext);
 
     const [devices, setDevices] = useState<{ label: string; deviceId: string }[]>([]);
 
@@ -42,22 +43,28 @@ const CameraCounter = ({ addCounter }: any) => {
 
     const [enableCameraCounter, setEnableCameraCounter] = useState("0")
     const [setttingShow, setSettingShow] = useState(false);
+    const [isTracked, setIsTracked] = useState(false);
 
     useEffect(() => {
-         setEnableHelp (false)
-    },[setttingShow])
+        setEnableHelp(false)
+    }, [setttingShow])
     const [trackerOk, setTrackerOk] = useState(false);
     return (
         <>
             {/* aaa {`${trackerOk}`}{`${videoOk}`} */}
             {/* <Button onClick={() => setEnableCameraCounter(enableCameraCounter == "0" ? "1" : "0")}>AI巻きカウンタ{enableCameraCounter}</Button> */}
             {enableCameraCounter != "1" && (
-                <Form.Check
-                    type="switch"
-                    checked={enableCameraCounter == "1"}
-                    onChange={() => setEnableCameraCounter(enableCameraCounter == "0" ? "1" : "0")}
-                    label="AI巻きカウンタ"
-                />
+                <>
+                    {/* <Form.Check
+                        type="switch"
+                        checked={enableCameraCounter == "1"}
+                        onChange={() => setEnableCameraCounter(enableCameraCounter == "0" ? "1" : "0")}
+                        label="AI巻きカウンタ"
+                    /> */}
+                    <div onClick={() => setEnableCameraCounter(enableCameraCounter == "0" ? "1" : "0")}>
+                        <Icon.Power style={{ fontSize: '24px' }} />AI巻きカウンタ
+                    </div>
+                </>
             )}
 
             {enableCameraCounter == "1" && (
@@ -83,6 +90,7 @@ const CameraCounter = ({ addCounter }: any) => {
                                             </Spinner>)}
 
                                             <video autoPlay playsInline={true} ref={videoRef} style={{ position: 'absolute', width: '100%' }} />
+                                            {(trackerOk && videoOk) && !isTracked && <div style={{ position: 'absolute', width: '100%', color: "#00FF00" }} >  {rollingHand == "Right" ? "右" : "左"}手を画面に映してください</div>}
                                             <Camera
                                                 videoRef={videoRef}
                                                 devices={devices}
@@ -93,6 +101,7 @@ const CameraCounter = ({ addCounter }: any) => {
                                             />
 
                                             <HandTracker
+                                                setIsTracked={setIsTracked}
                                                 rollingHand={rollingHand}
                                                 selectedDeviceId={selectedDeviceId}
                                                 videoRef={videoRef}

@@ -2,7 +2,7 @@ import React, { useState, useRef, useEffect } from 'react';
 import { FilesetResolver, HandLandmarker } from "@mediapipe/tasks-vision";
 // import { drawConnectors, drawLandmarks } from '@mediapipe/drawing_utils';
 import { Hands, HAND_CONNECTIONS, NormalizedLandmarkListList, Results } from '@mediapipe/hands';
-const HandTracker = ({ selectedDeviceId, videoRef, fingerHistory, setsingerHistory, rollingHand, trackerSettings, setTrackerOk }: any) => {
+const HandTracker = ({ setIsTracked, selectedDeviceId, videoRef, fingerHistory, setsingerHistory, rollingHand, trackerSettings, setTrackerOk }: any) => {
     const handLandmarkerRef = useRef<any>(null);
 
     const canvasRef = useRef<HTMLCanvasElement>(null)
@@ -140,6 +140,7 @@ const HandTracker = ({ selectedDeviceId, videoRef, fingerHistory, setsingerHisto
         const canvas = canvasRef.current;
         const context = canvas?.getContext("2d");
         if (!canvas || !context) return;
+        setIsTracked(false)
 
 
         results.handedness.forEach((handednes: any, i: number) => {
@@ -182,7 +183,7 @@ const HandTracker = ({ selectedDeviceId, videoRef, fingerHistory, setsingerHisto
             if (handednes[0].categoryName === rollingHand && landmarks[8]) {
                 console.log(landmarks[8])
                 // setsingerHistory((fingerHistory: any) => [...fingerHistory, landmarks[8]]);
-
+                setIsTracked(true)
 
                 setsingerHistory((fingerHistory: any) => {
                     const updatedHistory = [...fingerHistory, landmarks[8]];

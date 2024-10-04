@@ -16,6 +16,7 @@ const RollCounter = ({ selectingFrame, rollProgress, setRollProgress, frames }: 
         let added = progress + value
         added = Math.max(0, Math.min(completeNumber, added));
         setRollProgress(rollProgress.map((progress: any, i: any) => (i === selectingFrame ? added : progress)))
+        return { rolled: added, isComplete: completeNumber == added }
     };
 
 
@@ -41,7 +42,7 @@ const RollCounter = ({ selectingFrame, rollProgress, setRollProgress, frames }: 
             <div >
                 {/* {completeNumber} */}
                 <div className="d-flex w-100" >
-                    <ButtonGroup className="w-100"  id="rollCounter">
+                    <ButtonGroup className="w-100" id="rollCounter">
                         <Button onClick={() => addCounter(-widthCount)} disabled={progress <= 0} className="flex-grow-1">
                             -1段
                         </Button>
@@ -58,7 +59,7 @@ const RollCounter = ({ selectingFrame, rollProgress, setRollProgress, frames }: 
                             +1
                         </Button>
                     </ButtonGroup>
-                      <Help id="rollCounter"  placement="right">巻き数メモ</Help>
+                    <Help id="rollCounter" placement="right">巻き数メモ</Help>
                 </div>
 
 
