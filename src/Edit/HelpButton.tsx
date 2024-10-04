@@ -1,4 +1,4 @@
-import React, { useState, createContext, useContext,useEffect } from 'react';
+import React, { useState, createContext, useContext, useRef, useEffect } from 'react';
 import * as Icon from 'react-bootstrap-icons';
 import { enableHelpContext } from './Edit';
 // type SelectRollingHandProps = {
@@ -6,25 +6,46 @@ import { enableHelpContext } from './Edit';
 //     setRollingHand: React.Dispatch<React.SetStateAction<string>>;
 // };
 
-const HelpButton = ({  activeMenu}: any) => {
+const HelpButton = ({ activeMenu }: any) => {
     const { enableHelp, setEnableHelp } = useContext(enableHelpContext);
 
-    useEffect(()=>{
+    useEffect(() => {
         setEnableHelp(false);
     }, [activeMenu])
-    
+
+
+
+    useEffect(() => {
+        const mousedown = (event: any) => {
+            console.log("id", (event.target as HTMLElement), (event.target as HTMLElement).id)
+            if (enableHelp && (event.target as HTMLElement).id != "QuestionCircle") {
+                console.log("隠す")
+                setEnableHelp(false); // ヘルプを非表示にする
+            }
+        };
+
+        document.addEventListener('mousedown', mousedown);
+        document.addEventListener('touchstart', mousedown);
+
+
+        return () => {
+            document.removeEventListener('mousedown', mousedown);
+            document.removeEventListener('touchstart', mousedown);
+        };
+    }, [setEnableHelp]);
+
+
     return (
-        <>
+        <div id="QuestionCircle">
             {/* help{`${useContext(enableHelpContext)}`} */}
             {/* <Icon.QuestionCircle /> */}
-            <Icon.QuestionCircle onClick={() => setEnableHelp((prev: any) => !prev)} style={{
-                zIndex: 1000,
-                top: "5px",
-                right: "5px",
-                position: 'fixed',
-                fontSize: "2em"
-            }} />
-        </>
+
+            <Icon.QuestionCircle id="QuestionCircle" style={{ fontSize: "2em", position: 'fixed', top: "5px", right: "5px", zIndex: 1000 }}
+                onClick={() => setEnableHelp((prev: any) => !prev)}
+
+            />
+
+        </div>
     )
 }
 export default HelpButton;
