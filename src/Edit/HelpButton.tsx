@@ -18,7 +18,8 @@ const HelpButton = ({ activeMenu }: any) => {
     useEffect(() => {
         const mousedown = (event: any) => {
             console.log("id", (event.target as HTMLElement), (event.target as HTMLElement).id)
-            if (enableHelp && (event.target as HTMLElement).id != "QuestionCircle") {
+            const id = (event.target as HTMLElement).id
+            if (enableHelp && (id != "QuestionCircle" && id != "hint")) {
                 console.log("隠す")
                 setEnableHelp(false); // ヘルプを非表示にする
             }

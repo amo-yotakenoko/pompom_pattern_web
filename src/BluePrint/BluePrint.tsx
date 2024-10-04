@@ -3,6 +3,7 @@ import ImageSave from '../Edit/ImageSave'
 import RollCounter from './RollCounter';
 import SelectedHighlight from './SelectedHighlight';
 import Help from "../Help"
+import { Overlay, Tooltip } from 'react-bootstrap';
 type BluePrintProps = {
     pattern: any;
     colorList: any;
@@ -595,6 +596,22 @@ const BluePrint: React.FC<BluePrintProps> = ({ pattern, colorList, rollWidth, pi
 
     // }
 
+    const rollCountSum = rollProgress.reduce((accumulator: any, currentValue: any) => accumulator + currentValue, 0);
+
+    const [completeTextEnable, setCompleteTextEnable] = useState(false);
+    useEffect(() => {
+        if (rollWidth * pitchWidth - rollCountSum <= 0) {
+            setCompleteTextEnable(true);
+
+
+            setTimeout(() => {
+                setCompleteTextEnable(false);
+            }, 5000);
+
+            // return () => clearTimeout(timer);
+        }
+    }, [rollWidth, pitchWidth, rollCountSum]);
+
 
 
 
@@ -608,7 +625,6 @@ const BluePrint: React.FC<BluePrintProps> = ({ pattern, colorList, rollWidth, pi
         // }
         return ctx.isPointInPath(x, y);
     }
-    const rollCountSum = rollProgress.reduce((accumulator: any, currentValue: any) => accumulator + currentValue, 0);
     console.log("aaa2")
     return (
         <>
@@ -686,7 +702,7 @@ const BluePrint: React.FC<BluePrintProps> = ({ pattern, colorList, rollWidth, pi
                     }} id="allProgress">
                         残り{rollWidth * pitchWidth - rollCountSum}巻き　{(rollCountSum / (rollWidth * pitchWidth) * 100).toFixed(0)}%
                     </div >
-<Help id="allProgress" placement="bottom">全体の進捗</Help>
+                    <Help id="allProgress" placement="bottom">全体の進捗</Help>
                 </div >
 
             </div>
@@ -695,9 +711,19 @@ const BluePrint: React.FC<BluePrintProps> = ({ pattern, colorList, rollWidth, pi
                 <div className="row no-margin" style={{ overflowY: "auto", maxHeight: "calc(100vh - 100vw - 1em)" }}>
 
                     <RollCounter frames={frames} selectingFrame={selectingFrame} rollProgress={rollProgress} setRollProgress={setRollProgress}></RollCounter>
+
+                    <Overlay target={() => document.getElementById("share")} show={completeTextEnable} >
+                        {(props) => (
+                            <Tooltip  {...props}>
+                                おめでとうございます!
+                                SNS等でシェアしていただけると励みになります!
+                            </Tooltip>
+                        )}
+                    </Overlay >
+
                 </div>
 
-            </div>
+            </div >
 
         </>
     )
