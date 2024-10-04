@@ -58,7 +58,7 @@ function IndexPage() {
                                         trigger="click"
                                         key="imageToLoadHelp"
                                          rootClose={true} 
-                                        // placement={placement}
+                                        placement="bottom"
                                         overlay={
                                             <Popover id={`popover-positioned-${"imageToLoadHelp"}`}>
                                             <Popover.Header as="h3">このタイプの画像が読み込めます</Popover.Header>
