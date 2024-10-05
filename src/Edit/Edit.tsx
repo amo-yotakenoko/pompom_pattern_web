@@ -13,6 +13,8 @@ import Menu from './menu'
 import UndoRedo from './undoRedu'
 import ColorEdit from './colorEdit'
 import HelpButton from './HelpButton';
+import CameraScan from '../CameraScaan/CameraScan';
+import { Camera } from 'react-bootstrap-icons';
 // import Button from 'react-bootstrap/Button';
 // import '../index.css';
 
@@ -112,7 +114,7 @@ function Edit() {
 
         <div className="container-fluid" style={{ padding: 0, margin: 0 }}>
           <div className="row no-margin" style={{
-            display: activeMenu === "pompom" ? "flex" : "none",
+            display: activeMenu === "pompom" || activeMenu === "cameraScan" ? "flex" : "none",
             // backgroundColor: "#f0f0ff",
           }}>
             <div className="col-12 col-xl-4 no-margin">

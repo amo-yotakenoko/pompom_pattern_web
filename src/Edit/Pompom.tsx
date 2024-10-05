@@ -1,9 +1,10 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import * as THREE from 'three';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
 import '../styles.css';
 import * as Icon from 'react-bootstrap-icons';
 import Help from "../Help"
+import CameraScan from '../CameraScaan/CameraScan';
 type PompomProps = {
     pattern: any;
     colorList: any;
@@ -35,7 +36,7 @@ const Pompom: React.FC<PompomProps> = ({ pattern, colorList, rollWidth, pitchWid
         console.log("mesh隠す", camera)
         // if (renderer !== null) {
         wireMeshList.current.forEach((m: any) => {
-            m.visible = activeMenu == "pompom"
+            m.visible = activeMenu == "pompom" || activeMenu == "cameraScan"
             console.log(m.visible)
         });
         // renderer.render(scene, camera);
@@ -46,6 +47,9 @@ const Pompom: React.FC<PompomProps> = ({ pattern, colorList, rollWidth, pitchWid
     let renderer: any = null;
     let scene: any = null;
     let camera: any = null;
+    let controls: any;
+    const [sceneProps, setSceneProps] = useState({ canvas, renderer, scene, camera, controls });
+    const cameraDistanceRef = useRef(800);
 
     function updateColor() {
         try {
@@ -94,8 +98,8 @@ const Pompom: React.FC<PompomProps> = ({ pattern, colorList, rollWidth, pitchWid
 
 
         camera = new THREE.PerspectiveCamera(15, 1 / 1);
-        camera.position.set(0, 0, +800);
-        let controls = new OrbitControls(camera, canvas);
+        camera.position.set(0, 0, cameraDistanceRef.current);
+        controls = new OrbitControls(camera, canvas);
         controls.enableZoom = false
         controls.enablePan = false
 
@@ -272,10 +276,16 @@ const Pompom: React.FC<PompomProps> = ({ pattern, colorList, rollWidth, pitchWid
             isDrwaing = false
         };
 
-        window.addEventListener('pointerdown', handlePointerDown);
-        window.addEventListener('pointerup', handlePointerUp);
+        if (activeMenu == "pompom") {
 
+            window.addEventListener('pointerdown', handlePointerDown);
+            window.addEventListener('pointerup', handlePointerUp);
+        }
 
+        console.log("set", { canvas, renderer, scene, camera, controls })
+        setSceneProps({ canvas, renderer, scene, camera, controls });
+
+        let animationId: number;
         tick();
 
         function tick() {
@@ -327,21 +337,36 @@ const Pompom: React.FC<PompomProps> = ({ pattern, colorList, rollWidth, pitchWid
 
                 });
             }
+
+            if (activeMenu == "pompom") {
+
+                cameraDistanceRef.current -= Math.abs(cameraDistanceRef.current - 800) / 10 + 1
+            } else {
+                cameraDistanceRef.current += Math.abs(cameraDistanceRef.current - 1500) / 10 + 1
+                console.log("他の画面")
+            }
+            cameraDistanceRef.current = Math.max(800, Math.min(1500, cameraDistanceRef.current));
+
+
+            const newPosition = camera.position.clone().normalize().multiplyScalar(cameraDistanceRef.current);
+            camera.position.set(newPosition.x, newPosition.y, newPosition.z);
+
+
             controls.update();
 
             renderer.render(scene, camera);
 
-            requestAnimationFrame(tick);
+            animationId = requestAnimationFrame(tick);
         }
 
 
         return () => {
-
+            cancelAnimationFrame(animationId);
             window.removeEventListener('resize', resize);
             canvas.removeEventListener('pointermove', mouseUpdate);
             window.removeEventListener('pointerdown', handlePointerDown);
             window.removeEventListener('pointerup', handlePointerUp);
-
+            console.log("ぽんぽん初期化")
 
             meshList.current.forEach(mesh => {
                 scene.remove(mesh);
@@ -353,7 +378,7 @@ const Pompom: React.FC<PompomProps> = ({ pattern, colorList, rollWidth, pitchWid
             renderer.dispose();
         };
 
-    }, [rollWidth, pitchWidth]);
+    }, [rollWidth, pitchWidth, activeMenu]);
 
     // const size = Math.min(canvas.clientWidth, canvas.clientHeight);
     // const moveRef = useRef(null);
@@ -388,6 +413,13 @@ const Pompom: React.FC<PompomProps> = ({ pattern, colorList, rollWidth, pitchWid
                 }}
             />
             <Help id="ArrowsMove">スワイプして回転</Help>
+
+
+            {activeMenu == "cameraScan" && (
+
+                <CameraScan camera={camera} sceneProps={sceneProps}></CameraScan>
+            )}
+
         </div >
     )
 };
