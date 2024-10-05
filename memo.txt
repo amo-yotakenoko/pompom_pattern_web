@@ -19,7 +19,6 @@ https://amo-yotakenoko.github.io/pompom_pattern_web/
 find . -size +100M -ls
 
 
-
 システム構成
 ・主にReact,Typescriptを使用して実装
 使用したライブラリ
