@@ -50,6 +50,7 @@ const Pompom: React.FC<PompomProps> = ({ pattern, colorList, rollWidth, pitchWid
     let controls: any;
     const [sceneProps, setSceneProps] = useState({ canvas, renderer, scene, camera, controls });
     const cameraDistanceRef = useRef(800);
+    const cameraPotitioinRef = useRef<any>(null);
 
     function updateColor() {
         try {
@@ -98,7 +99,12 @@ const Pompom: React.FC<PompomProps> = ({ pattern, colorList, rollWidth, pitchWid
 
 
         camera = new THREE.PerspectiveCamera(15, 1 / 1);
-        camera.position.set(0, 0, cameraDistanceRef.current);
+        if (cameraPotitioinRef.current) {
+            camera.position.set(cameraPotitioinRef.current.x, cameraPotitioinRef.current.y, cameraPotitioinRef.current.z);
+        } else {
+
+            camera.position.set(0, 0, cameraDistanceRef.current);
+        }
         controls = new OrbitControls(camera, canvas);
         controls.enableZoom = false
         controls.enablePan = false
@@ -346,7 +352,7 @@ const Pompom: React.FC<PompomProps> = ({ pattern, colorList, rollWidth, pitchWid
                 console.log("他の画面")
             }
             cameraDistanceRef.current = Math.max(800, Math.min(1500, cameraDistanceRef.current));
-
+            cameraPotitioinRef.current = camera.position
 
             const newPosition = camera.position.clone().normalize().multiplyScalar(cameraDistanceRef.current);
             camera.position.set(newPosition.x, newPosition.y, newPosition.z);
