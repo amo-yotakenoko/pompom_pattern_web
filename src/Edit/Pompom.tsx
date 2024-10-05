@@ -347,9 +347,11 @@ const Pompom: React.FC<PompomProps> = ({ pattern, colorList, rollWidth, pitchWid
             if (activeMenu == "pompom") {
 
                 cameraDistanceRef.current -= Math.abs(cameraDistanceRef.current - 800) / 10 + 1
-            } else {
+            } else if(activeMenu == "cameraScan") {
                 cameraDistanceRef.current += Math.abs(cameraDistanceRef.current - 1500) / 10 + 1
                 console.log("他の画面")
+            }else if(activeMenu == "bluePrint"){
+                 cameraDistanceRef.current=800
             }
             cameraDistanceRef.current = Math.max(800, Math.min(1500, cameraDistanceRef.current));
             cameraPotitioinRef.current = camera.position
