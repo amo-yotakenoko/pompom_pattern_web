@@ -17,7 +17,7 @@ import { TextGeometry } from 'three/examples/jsm/geometries/TextGeometry';
 // };
 import { Overlay, Tooltip } from 'react-bootstrap';
 // import Tooltip from 'react-bootstrap/Tooltip';
-const CameraScan = ({ sceneProps, activeMenu, drawDot, meshList, colorList }: any) => {
+const CameraScan = ({ sceneProps, activeMenu, drawDot, meshList, colorList, multiColorSelect }: any) => {
 
 
 	// メッシュを追加する関数を外に定義
@@ -131,7 +131,7 @@ const CameraScan = ({ sceneProps, activeMenu, drawDot, meshList, colorList }: an
 
 		// クリーンアップ関数
 		return () => clearInterval(timerId);
-	}, [videoOk, clipSize, selectingPlate, activeMenu]); // 依存配列
+	}, [videoOk, clipSize, selectingPlate, activeMenu, multiColorSelect]); // 依存配列
 
 	useEffect(() => {
 		let timerId: NodeJS.Timeout;
@@ -433,17 +433,20 @@ const CameraScan = ({ sceneProps, activeMenu, drawDot, meshList, colorList }: an
 					let minDistance = Infinity; // 初期値は無限大
 
 					RepresentativeColors.forEach((repColor: any, i: number) => {
-						// RGB間のユークリッド距離を計算
-						const distance = Math.sqrt(
-							Math.pow(repColor.r - color.r, 2) +
-							Math.pow(repColor.g - color.g, 2) +
-							Math.pow(repColor.b - color.b, 2)
-						);
+						if (multiColorSelect[i]) {
 
-						// 現在の最小距離と比較
-						if (distance < minDistance) {
-							minDistance = distance;
-							nearestColorId = i;
+							// RGB間のユークリッド距離を計算
+							const distance = Math.sqrt(
+								Math.pow(repColor.r - color.r, 2) +
+								Math.pow(repColor.g - color.g, 2) +
+								Math.pow(repColor.b - color.b, 2)
+							);
+
+							// 現在の最小距離と比較
+							if (distance < minDistance) {
+								minDistance = distance;
+								nearestColorId = i;
+							}
 						}
 					});
 

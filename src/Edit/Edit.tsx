@@ -43,6 +43,22 @@ function Edit() {
 
   ]);
 
+  const [multiColorSelect, setMultiColorSelect] = useState([
+    true,
+    true,
+    true,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+
+  ]);
+
 
 
   const [rollWidth, setRollWidth] = useState(0);
@@ -155,12 +171,13 @@ function Edit() {
               />
             </div>
 
-            {activeMenu === "pompom" && <div className="row no-margin" style={{
+            <div className="row no-margin" style={{
               overflowY: "auto", height: "calc(100vh - 100vw - 1em)",
               // backgroundColor: "#f0f0f0",
+              display: (activeMenu === "pompom" || activeMenu === "cameraScan") ? "flex" : "none",
             }}>
 
-              <div className="col-6 col-xl-4 no-margin ">
+              <div className="col-6 col-xl-4 no-margin " style={{ backgroundColor: "#0Fffff", display: activeMenu === "pompom" ? "flex" : "none", }}>
                 <ColorEdit
                   colorList={colorList}
                   selectColor={selectColor}
@@ -169,17 +186,34 @@ function Edit() {
                 />
               </div>
 
-              <div className="col-6 col-xl-4 no-margin">
+              <div className="col-6 col-xl-4 no-margin " style={{ display: activeMenu === "cameraScan" ? "flex" : "none", }}>
+                <CameraScan
+                  sceneProps={sceneProps}
+                  activeMenu={activeMenu}
+                  drawDot={drawDot}
+                  meshList={meshList}
+                  colorList={colorList}
+                  multiColorSelect={multiColorSelect}
+                ></CameraScan>
+              </div>
+
+              <div className="col-6 col-xl-4 no-margin" >
                 <ColorPalette
                   colorList={colorList}
                   selectColor={selectColor}
                   setSelectColor={setSelectColor}
                   setColorList={setColorList}
+                  multiColorSelect={multiColorSelect}
+                  setMultiColorSelect={setMultiColorSelect}
+                  enableMultiColorSelect={activeMenu === "cameraScan"}
                 />
               </div>
-            </div>}
 
 
+
+            </div>
+
+            {/* 
             <div className="row no-margin" style={{
               overflowY: "auto", height: "calc(100vh - 100vw - 1em)",
               // backgroundColor: "#f0f0f0",
@@ -196,7 +230,7 @@ function Edit() {
                 ></CameraScan>
               </div>
 
-            </div>
+            </div> */}
 
 
 

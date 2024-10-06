@@ -16,17 +16,9 @@ import '../styles.css';
 import menuIcon from '../img/designsystem-assets/icon/png/menu_fill24.png';
 import ColorEdit from './colorEdit'
 import Help from "../Help"
-type colorPaletteProps = {
-
-    colorList: any;
-    selectColor: any;
-    setSelectColor: any;
-    setColorList: any;
-
-
-};
-
-const ColorPalette: React.FC<colorPaletteProps> = ({ colorList, selectColor, setSelectColor, setColorList }) => {
+import { Check } from 'react-bootstrap-icons';
+import Form from 'react-bootstrap/Form';
+const ColorPalette = ({ colorList, selectColor, setSelectColor, setMultiColorSelect, multiColorSelect, enableMultiColorSelect }: any) => {
     // const colorChange = (color: any, selectColor: any, i: any) => {
     //     // console.log(color.hex)
     //     let newColorList = [...colorList]
@@ -37,6 +29,17 @@ const ColorPalette: React.FC<colorPaletteProps> = ({ colorList, selectColor, set
     // function setColorId(id: any) {
     //     console.log(id);
     // }
+
+
+    const MultiColorSelectChange = (i: any) => {
+        setMultiColorSelect((prev: any) => {
+            const newSelect = [...prev]; // 以前の選択状態をコピー
+            newSelect[i] = !newSelect[i]; // 指定したインデックスの状態をトグル
+            return newSelect; // 更新した選択状態を返す
+        });
+    };
+
+
     let colorButtons = [];
     for (let idx = 0; idx < colorList.length; idx++) {
         // let color = colorList[idx][0];
@@ -74,9 +77,25 @@ const ColorPalette: React.FC<colorPaletteProps> = ({ colorList, selectColor, set
 
                         paddingTop: "100%",
                         boxShadow: `0 4px 8px rgba(0, 0, 0, ${isSelected ? 0.75 : 0.2})`,
-                        // position: "relative"
+                        position: "relative"
                     }}
                 >
+                    {enableMultiColorSelect && (
+
+                        <Form.Check
+                            checked={multiColorSelect[idx]}
+                            onChange={() => MultiColorSelectChange(idx)}
+                            style={{
+                                position: "absolute",
+                                top: "0%",
+                                right: "5%",
+                                color: "white", // チェックマークの色を設定
+                                fontSize: "1.5em", // チェックマークのサイズを設定
+
+
+                            }}
+                        />
+                    )}
                     {/* <button style={{
                         position: "absolute",
                         top: "0px",

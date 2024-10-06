@@ -24,8 +24,10 @@ const Pompom = ({ meshList, sceneProps, setSceneProps, pattern, colorList, rollW
 
         // });
     }, [pattern, colorList]);
+    const activeMenuRef = useRef("");
     useEffect(() => {
         console.log("mesh隠す", camera)
+        activeMenuRef.current = activeMenu;
         // if (renderer !== null) {
         wireMeshList.current.forEach((m: any) => {
             m.visible = activeMenu == "pompom" || activeMenu == "cameraScan"
@@ -315,6 +317,9 @@ const Pompom = ({ meshList, sceneProps, setSceneProps, pattern, colorList, rollW
             // console.log({ isDrwaing, controls });
 
             controls.rotateSpeed = isDrwaing ? 0 : 1;
+            if (activeMenuRef.current != "pompom")
+                controls.rotateSpeed = 1;
+
             // controls = new OrbitControls(camera, canvas);
             // controls.enableZoom = false
             // controls.enablePan = false
@@ -326,7 +331,7 @@ const Pompom = ({ meshList, sceneProps, setSceneProps, pattern, colorList, rollW
             isDrwaing = false
         };
 
-        if (activeMenu == "pompom") {
+        if (activeMenuRef.current == "pompom") {
 
             window.addEventListener('pointerdown', handlePointerDown);
             window.addEventListener('pointerup', handlePointerUp);
@@ -340,13 +345,10 @@ const Pompom = ({ meshList, sceneProps, setSceneProps, pattern, colorList, rollW
 
         function tick() {
 
-
-
-
             // box.rotation.y += 0.01;
 
             // console.log(propsRef)
-            if (isDrwaing) {
+            if (activeMenuRef.current == "pompom" && isDrwaing) {
 
                 raycaster.setFromCamera(mouse, camera);
 
@@ -424,6 +426,7 @@ const Pompom = ({ meshList, sceneProps, setSceneProps, pattern, colorList, rollW
         };
 
     }, [rollWidth, pitchWidth]);
+
 
     useEffect(() => {
         if (!sceneProps.camera) return
