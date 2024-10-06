@@ -7,12 +7,12 @@ import Help from "../Help"
 import CameraScan from '../CameraScaan/CameraScan';
 
 
-const Pompom = ({ sceneProps, setSceneProps, pattern, colorList, rollWidth, pitchWidth, selectColor, setPattern, activeMenu, drawDot }: any) => {
+const Pompom = ({ meshList, sceneProps, setSceneProps, pattern, colorList, rollWidth, pitchWidth, selectColor, setPattern, activeMenu, drawDot }: any) => {
     // let tmpSelectId = selectColor;
     // useEffect(() => {
     //     tick();
     // }, [selectColor]);
-    const meshList = useRef<THREE.Mesh[]>([]);
+    // const meshList = useRef<THREE.Mesh[]>([]);
     const wireMeshList = useRef<any>([]);
     const propsRef = useRef({ pattern, colorList, selectColor });
     useEffect(() => {
@@ -192,6 +192,11 @@ const Pompom = ({ sceneProps, setSceneProps, pattern, colorList, rollWidth, pitc
                     -Math.sin(pitchMax) * 100, Math.sin(yawMax) * radiusMax * 100, Math.cos(yawMax) * radiusMax * 100,
                     -Math.sin(pitchMax) * 100, Math.sin(yawMin) * radiusMax * 100, Math.cos(yawMin) * radiusMax * 100,
                 ];
+                let radiusCenter = Math.cos((pitchMin + pitchMax) / 2);
+
+                let yawCenter = 2 * Math.PI * ((roll + 0.5) / rollWidth);
+                let pitchCenter = Math.PI / 2 - Math.acos(1 - ((pitchWidth - (pitch + 0.5)) / pitchWidth));
+                const centerPos = new THREE.Vector3(Math.sin(pitchCenter) * 100, Math.sin(yawCenter) * radiusCenter * 100, Math.cos(yawCenter) * radiusCenter * 100,);
 
                 const indices = new Uint16Array([
                     0, 1, 2, 0, 2, 3,
@@ -208,8 +213,10 @@ const Pompom = ({ sceneProps, setSceneProps, pattern, colorList, rollWidth, pitc
 
                 const mesh = new THREE.Mesh(geometry, material);
                 (mesh as any).patternPos = { r: roll, p: pitch };
+                (mesh as any).centerPos = centerPos;
                 meshList.current.push(mesh);
                 console.log("mesh追加")
+                mesh.name = "mesh" + `${{ r: roll, p: pitch }}`
                 scene.add(mesh);
 
                 const Meshvertices: any = [];
@@ -345,7 +352,7 @@ const Pompom = ({ sceneProps, setSceneProps, pattern, colorList, rollWidth, pitc
 
 
                 const intersects = raycaster.intersectObjects(scene.children);
-
+                console.log(intersects)
                 meshList.current.map((mesh: any) => {
 
                     // console.log(intersects.length)
@@ -406,7 +413,7 @@ const Pompom = ({ sceneProps, setSceneProps, pattern, colorList, rollWidth, pitc
             window.removeEventListener('pointerup', handlePointerUp);
             console.log("ぽんぽん初期化")
 
-            meshList.current.forEach(mesh => {
+            meshList.current.forEach((mesh: any) => {
                 scene.remove(mesh);
                 mesh.geometry.dispose();
                 // mesh.material.dispose();

@@ -1,5 +1,6 @@
-import React, { useEffect, useState, createContext, useContext } from 'react';
+import React, { useEffect, useState, createContext, useContext, useRef } from 'react';
 import { useLocation } from "react-router-dom"
+import * as THREE from 'three';
 import { Overlay, Tooltip } from 'react-bootstrap';
 // import { Canvas, useFrame } from '@react-three/fiber';
 // import { BufferGeometry, Float32BufferAttribute, Mesh, MeshBasicMaterial } from 'three';
@@ -54,7 +55,7 @@ function Edit() {
   const [activeMenu, setActiveMenu] = useState("pompom");
 
   const [enableHelp, setEnableHelp] = useState(false);
-
+  const meshList = useRef<THREE.Mesh[]>([]);
   const [sceneProps, setSceneProps] = useState({});
   const [pattern, setPattern] = useState(brankPattern(rollWidth, pitchWidth));
   function brankPattern(rollWidth: any, pitchWidth: any) {
@@ -150,6 +151,7 @@ function Edit() {
                 setPattern={setPattern}
                 activeMenu={activeMenu}
                 drawDot={drawDot}
+                meshList={meshList}
               />
             </div>
 
@@ -185,7 +187,13 @@ function Edit() {
             }}>
 
               <div className="col-6 col-xl-4 no-margin ">
-                <CameraScan sceneProps={sceneProps} activeMenu={activeMenu}></CameraScan>
+                <CameraScan
+                  sceneProps={sceneProps}
+                  activeMenu={activeMenu}
+                  drawDot={drawDot}
+                  meshList={meshList}
+                  colorList={colorList}
+                ></CameraScan>
               </div>
 
             </div>
