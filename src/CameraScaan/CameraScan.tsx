@@ -684,8 +684,8 @@ const CameraScan = ({ sceneProps, activeMenu, drawDot, meshList, colorList, mult
 						autoPlay
 						style={{ width: '100%', border: '2px solid black', display: "none" }}
 					/>
-					{!videoOk && <p>カメラを開いています...</p>}
-					{videoOk && <p>カメラが開きました！</p>}
+					{/* {!videoOk && <p>カメラを開いています...</p>}
+					{videoOk && <p>カメラが開きました！</p>} */}
 
 
 
@@ -707,7 +707,7 @@ const CameraScan = ({ sceneProps, activeMenu, drawDot, meshList, colorList, mult
 
 					/>
 
-
+					<Form.Label>ズーム</Form.Label>
 					<Form.Range
 						// value={clipSizeRef.current} // 内部状態を使用
 						onChange={(e) => {
@@ -717,7 +717,7 @@ const CameraScan = ({ sceneProps, activeMenu, drawDot, meshList, colorList, mult
 						min={0.1}    // 最小値を0に設定
 						max={1}    // 最大値を1に設定
 						step={0.01}
-
+						style={{ direction: "rtl" }}
 
 					/>
 					{selectingPlate}
