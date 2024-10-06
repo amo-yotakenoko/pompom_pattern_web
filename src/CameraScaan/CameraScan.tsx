@@ -304,6 +304,7 @@ const CameraScan = ({ sceneProps, activeMenu, drawDot, meshList, colorList, mult
 		let centerY = videoRef.current.videoHeight / 2
 		const xOffset = centerX - squareSize / 2; // X方向のオフセット
 		const yOffset = centerY - squareSize / 2; // Y方向のオフセット
+		ctx.clearRect(0, 0, canvasRef.current.width, canvasRef.current.height);
 		ctx.drawImage(
 			videoRef.current, // 描画元の画像（ビデオなど）
 			xOffset, yOffset, // 描画元の開始位置
@@ -676,7 +677,7 @@ const CameraScan = ({ sceneProps, activeMenu, drawDot, meshList, colorList, mult
 		<>
 			{activeMenu == "cameraScan" && (
 
-				<div style={{ background: "#F2356F" }}>
+				<div style={{}}>
 					{/* カメラスキャン */}
 
 					<video
