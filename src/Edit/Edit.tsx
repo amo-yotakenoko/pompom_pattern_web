@@ -177,7 +177,7 @@ function Edit() {
               display: (activeMenu === "pompom" || activeMenu === "cameraScan") ? "flex" : "none",
             }}>
 
-              <div className="col-6 col-xl-4 no-margin " style={{ backgroundColor: "#0Fffff", display: activeMenu === "pompom" ? "flex" : "none", }}>
+              <div className="col-6 col-xl-4 no-margin " style={{ display: activeMenu === "pompom" ? "flex" : "none", }}>
                 <ColorEdit
                   colorList={colorList}
                   selectColor={selectColor}

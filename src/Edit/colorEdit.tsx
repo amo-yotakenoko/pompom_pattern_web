@@ -40,7 +40,7 @@ const ColorEdit: React.FC<colorPaletteProps> = ({ colorList, selectColor, setSel
     }, [selectColor]);
     return (
 
-        <div >
+        <div style={{ width: "100%" }}>
             <Nav justify variant="tabs" activeKey={selectedMultiColor}
                 onSelect={(e: any) => { setSelectedMultiColor(parseInt(e)) }}>
 
@@ -134,7 +134,7 @@ const ColorEdit: React.FC<colorPaletteProps> = ({ colorList, selectColor, setSel
 
 
 
-        </div>
+        </div >
     )
 }
 
