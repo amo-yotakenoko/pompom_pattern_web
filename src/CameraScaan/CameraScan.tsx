@@ -389,7 +389,7 @@ const CameraScan = ({ sceneProps, activeMenu, drawDot, meshList, colorList }: an
 							// if (patternPos.r != 1)
 							let patternPos = (mesh as any).patternPos;
 							const meshPos = mesh.centerPos;
-							console.log(patternPos)
+							console.log(patternPos, meshPos)
 							// addTextToScene(`${patternPos.r},${patternPos.p}`, meshPos, sceneProps.scene)
 							drawDot(patternPos, getNearestColor(color))
 							// if (color.r > 128) {

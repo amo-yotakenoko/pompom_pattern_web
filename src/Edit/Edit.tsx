@@ -45,8 +45,8 @@ function Edit() {
 
 
 
-  const [rollWidth, setRollWidth] = useState(3);
-  const [pitchWidth, setPitchWidth] = useState(3);
+  const [rollWidth, setRollWidth] = useState(0);
+  const [pitchWidth, setPitchWidth] = useState(0);
 
   // const rollWidth = 10
   // const pitchWidth = 9
