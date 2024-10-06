@@ -5,17 +5,9 @@ import '../styles.css';
 import * as Icon from 'react-bootstrap-icons';
 import Help from "../Help"
 import CameraScan from '../CameraScaan/CameraScan';
-type PompomProps = {
-    pattern: any;
-    colorList: any;
-    rollWidth: number;
-    pitchWidth: number;
-    selectColor: number;
-    setPattern: any;
-    activeMenu: any;
-};
 
-const Pompom: React.FC<PompomProps> = ({ pattern, colorList, rollWidth, pitchWidth, selectColor, setPattern, activeMenu }) => {
+
+const Pompom = ({ sceneProps, setSceneProps, pattern, colorList, rollWidth, pitchWidth, selectColor, setPattern, activeMenu }: any) => {
     // let tmpSelectId = selectColor;
     // useEffect(() => {
     //     tick();
@@ -48,7 +40,7 @@ const Pompom: React.FC<PompomProps> = ({ pattern, colorList, rollWidth, pitchWid
     let scene: any = null;
     let camera: any = null;
     let controls: any;
-    const [sceneProps, setSceneProps] = useState({ canvas, renderer, scene, camera, controls });
+    // const [sceneProps, setSceneProps] = useState({ canvas, renderer, scene, camera, controls });
     const cameraDistanceRef = useRef(800);
     const cameraPotitioinRef = useRef<any>(null);
 
@@ -181,6 +173,7 @@ const Pompom: React.FC<PompomProps> = ({ pattern, colorList, rollWidth, pitchWid
                 const mesh = new THREE.Mesh(geometry, material);
                 (mesh as any).patternPos = { r: roll, p: pitch };
                 meshList.current.push(mesh);
+                console.log("mesh追加")
                 scene.add(mesh);
 
                 const Meshvertices: any = [];
@@ -220,6 +213,9 @@ const Pompom: React.FC<PompomProps> = ({ pattern, colorList, rollWidth, pitchWid
                 scene.add(edges);
 
 
+
+
+
                 // const wireframeGeometry = new THREE.WireframeGeometry(geometry);
                 // const wireframeMaterial = new THREE.LineBasicMaterial({ color: "#ffffff", linewidth: 1, });
                 // const wireframe = new THREE.LineSegments(wireframeGeometry, wireframeMaterial);
@@ -233,6 +229,11 @@ const Pompom: React.FC<PompomProps> = ({ pattern, colorList, rollWidth, pitchWid
 
             }
         }
+
+
+
+
+
         updateColor()
         // https://ics.media/tutorial-three/raycast/
         const raycaster = new THREE.Raycaster();
@@ -296,6 +297,9 @@ const Pompom: React.FC<PompomProps> = ({ pattern, colorList, rollWidth, pitchWid
 
         function tick() {
 
+
+
+
             // box.rotation.y += 0.01;
 
             // console.log(propsRef)
@@ -344,20 +348,7 @@ const Pompom: React.FC<PompomProps> = ({ pattern, colorList, rollWidth, pitchWid
                 });
             }
 
-            if (activeMenu == "pompom") {
 
-                cameraDistanceRef.current -= Math.abs(cameraDistanceRef.current - 800) / 10 + 1
-            } else if(activeMenu == "cameraScan") {
-                cameraDistanceRef.current += Math.abs(cameraDistanceRef.current - 1500) / 10 + 1
-                console.log("他の画面")
-            }else if(activeMenu == "bluePrint"){
-                 cameraDistanceRef.current=800
-            }
-            cameraDistanceRef.current = Math.max(800, Math.min(1500, cameraDistanceRef.current));
-            cameraPotitioinRef.current = camera.position
-
-            const newPosition = camera.position.clone().normalize().multiplyScalar(cameraDistanceRef.current);
-            camera.position.set(newPosition.x, newPosition.y, newPosition.z);
 
 
             controls.update();
@@ -386,7 +377,41 @@ const Pompom: React.FC<PompomProps> = ({ pattern, colorList, rollWidth, pitchWid
             renderer.dispose();
         };
 
-    }, [rollWidth, pitchWidth, activeMenu]);
+    }, [rollWidth, pitchWidth]);
+
+    useEffect(() => {
+        if (!sceneProps.camera) return
+        let counter = 0; // カウンターを初期化
+        const intervalId = setInterval(() => {
+            // 繰り返す処理
+            const camera = sceneProps.camera;
+            if (activeMenu == "pompom") {
+                cameraDistanceRef.current -= Math.abs(cameraDistanceRef.current - 800) / 10 + 1;
+            } else if (activeMenu == "cameraScan") {
+                cameraDistanceRef.current += Math.abs(cameraDistanceRef.current - 2000) / 10 + 1;
+                console.log("他の画面");
+            } else if (activeMenu == "bluePrint") {
+                cameraDistanceRef.current = 800;
+            }
+
+            cameraDistanceRef.current = Math.max(800, Math.min(2000, cameraDistanceRef.current));
+            cameraPotitioinRef.current = camera.position;
+
+            const newPosition = camera.position.clone().normalize().multiplyScalar(cameraDistanceRef.current);
+            camera.position.set(newPosition.x, newPosition.y, newPosition.z);
+
+            // カウンターを増やし、100回実行したらインターバルをクリア
+            counter++;
+            if (counter >= 100) {
+                clearInterval(intervalId);
+            }
+        }, 16); // 約60fpsのタイミングで繰り返す
+
+        // クリーンアップとしてインターバルをクリア
+        return () => clearInterval(intervalId);
+    }, [activeMenu]);
+
+
 
     // const size = Math.min(canvas.clientWidth, canvas.clientHeight);
     // const moveRef = useRef(null);
@@ -423,10 +448,7 @@ const Pompom: React.FC<PompomProps> = ({ pattern, colorList, rollWidth, pitchWid
             <Help id="ArrowsMove">スワイプして回転</Help>
 
 
-            {activeMenu == "cameraScan" && (
 
-                <CameraScan camera={camera} sceneProps={sceneProps}></CameraScan>
-            )}
 
         </div >
     )

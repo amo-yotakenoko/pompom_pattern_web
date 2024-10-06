@@ -15,6 +15,7 @@ import ColorEdit from './colorEdit'
 import HelpButton from './HelpButton';
 import CameraScan from '../CameraScaan/CameraScan';
 import { Camera } from 'react-bootstrap-icons';
+// import CameraScan from '../CameraScaan/CameraScan';
 // import Button from 'react-bootstrap/Button';
 // import '../index.css';
 
@@ -54,7 +55,7 @@ function Edit() {
 
   const [enableHelp, setEnableHelp] = useState(false);
 
-
+  const [sceneProps, setSceneProps] = useState({});
   const [pattern, setPattern] = useState(brankPattern(rollWidth, pitchWidth));
   function brankPattern(rollWidth: any, pitchWidth: any) {
     console.log("Pattern書き直し", rollWidth, pitchWidth)
@@ -119,6 +120,8 @@ function Edit() {
           }}>
             <div className="col-12 col-xl-4 no-margin">
               <Pompom
+                sceneProps={sceneProps}
+                setSceneProps={setSceneProps}
                 pattern={pattern}
                 colorList={colorList}
                 rollWidth={rollWidth}
@@ -152,6 +155,25 @@ function Edit() {
                 />
               </div>
             </div>}
+
+            {activeMenu == "cameraScan" && (
+              <div className="row no-margin" style={{
+                overflowY: "auto", height: "calc(100vh - 100vw - 1em)",
+                // backgroundColor: "#f0f0f0",
+              }}>
+
+                <div className="col-6 col-xl-4 no-margin ">
+                  <CameraScan sceneProps={sceneProps}></CameraScan>
+                </div>
+
+              </div>
+
+            )}
+
+
+
+
+
           </div>
 
 
