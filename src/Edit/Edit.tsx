@@ -156,19 +156,20 @@ function Edit() {
               </div>
             </div>}
 
-            {activeMenu == "cameraScan" && (
-              <div className="row no-margin" style={{
-                overflowY: "auto", height: "calc(100vh - 100vw - 1em)",
-                // backgroundColor: "#f0f0f0",
-              }}>
 
-                <div className="col-6 col-xl-4 no-margin ">
-                  <CameraScan sceneProps={sceneProps}></CameraScan>
-                </div>
+            <div className="row no-margin" style={{
+              overflowY: "auto", height: "calc(100vh - 100vw - 1em)",
+              // backgroundColor: "#f0f0f0",
+              display: activeMenu === "cameraScan" ? "flex" : "none",
+            }}>
 
+              <div className="col-6 col-xl-4 no-margin ">
+                <CameraScan sceneProps={sceneProps} activeMenu={activeMenu}></CameraScan>
               </div>
 
-            )}
+            </div>
+
+
 
 
 

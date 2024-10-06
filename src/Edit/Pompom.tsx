@@ -35,6 +35,42 @@ const Pompom = ({ sceneProps, setSceneProps, pattern, colorList, rollWidth, pitc
         // }
     }, [activeMenu])
 
+
+    // カメラプレート隠す奴没
+    // useEffect(() => {
+
+    //     // if (activeMenu != "cameraScan") {
+    //     console.log("オブジェクト")
+    //     let cameraScanPlates: any = []
+    //     if (sceneProps.scene) {
+    //         console.log("オブジェクト2")
+    //         sceneProps.scene.children.forEach((object: any) => {
+    //             // console.log("オブジェクト", object)
+    //             if (object.isCameraScanPlate) {
+    //                 cameraScanPlates.push(object)
+    //             }
+    //         });
+    //     }
+    //     console.log(" cameraScanPlates ", cameraScanPlates);
+    //     (async function () {
+    //         for (let i = 0; i < 100; i++) {
+
+    //             cameraScanPlates.forEach((obj: any) => {
+    //                 let scale = obj.scale.x;
+    //                 scale *= 0.9
+    //                 obj.scale.set(scale, scale, scale)
+    //                 obj.rotation.z += 0.1;
+    //             });
+    //             await new Promise(resolve => setTimeout(resolve, 1))
+
+    //         }
+
+    //     })();
+    //     // }
+
+    // }, [activeMenu])
+
+
     let canvas: any = null;
     let renderer: any = null;
     let scene: any = null;
@@ -90,7 +126,7 @@ const Pompom = ({ sceneProps, setSceneProps, pattern, colorList, rollWidth, pitc
         scene = new THREE.Scene();
 
 
-        camera = new THREE.PerspectiveCamera(15, 1 / 1);
+        camera = new THREE.PerspectiveCamera(15, 1 / 1, 0.1, 10000);
         if (cameraPotitioinRef.current) {
             camera.position.set(cameraPotitioinRef.current.x, cameraPotitioinRef.current.y, cameraPotitioinRef.current.z);
         } else {
@@ -416,6 +452,7 @@ const Pompom = ({ sceneProps, setSceneProps, pattern, colorList, rollWidth, pitc
     // const size = Math.min(canvas.clientWidth, canvas.clientHeight);
     // const moveRef = useRef(null);
     return (
+
         <div
             style={{
                 position: "relative",
