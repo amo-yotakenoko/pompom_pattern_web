@@ -7,7 +7,7 @@ import Help from "../Help"
 import CameraScan from '../CameraScaan/CameraScan';
 
 
-const Pompom = ({ sceneProps, setSceneProps, pattern, colorList, rollWidth, pitchWidth, selectColor, setPattern, activeMenu }: any) => {
+const Pompom = ({ sceneProps, setSceneProps, pattern, colorList, rollWidth, pitchWidth, selectColor, setPattern, activeMenu, drawDot }: any) => {
     // let tmpSelectId = selectColor;
     // useEffect(() => {
     //     tick();
@@ -353,22 +353,9 @@ const Pompom = ({ sceneProps, setSceneProps, pattern, colorList, rollWidth, pitc
 
                         // console.log((mesh as any).patternPos)
                         let patternPos = (mesh as any).patternPos;
-
+                        drawDot(patternPos, propsRef.current.selectColor)
                         // pattern[patternPos.r, patternPos.p] = propsRef.current.selectColor
-                        try {
-
-                            if (propsRef.current.pattern[patternPos.r][patternPos.p] !== propsRef.current.selectColor) {
-                                console.log("ぬる", isDrwaing)
-                                console.log(propsRef.current.pattern[patternPos.r][patternPos.p], propsRef.current.selectColor, propsRef.current.pattern[patternPos.r][patternPos.p] !== propsRef.current.selectColor)
-
-                                let newPatternList = [...propsRef.current.pattern]
-                                newPatternList[patternPos.r][patternPos.p] = propsRef.current.selectColor;
-                                setPattern(newPatternList);
-                            }
-                        } catch (e) {
-                            console.log(e)
-                        }
-
+                        // let patternPos = (mesh as any).patternPos;
 
                         // meshList.current.map((mesh: any) => {
                         //     let patternPos = (mesh as any).patternPos;
@@ -393,6 +380,22 @@ const Pompom = ({ sceneProps, setSceneProps, pattern, colorList, rollWidth, pitc
 
             animationId = requestAnimationFrame(tick);
         }
+
+        // function drawDot(patternPos: any, selectColor: any) {
+
+        //     try {
+        //         if (propsRef.current.pattern[patternPos.r][patternPos.p] !== propsRef.current.selectColor) {
+        //             console.log("ぬる", isDrwaing)
+        //             console.log(propsRef.current.pattern[patternPos.r][patternPos.p], propsRef.current.selectColor, propsRef.current.pattern[patternPos.r][patternPos.p] !== propsRef.current.selectColor)
+
+        //             let newPatternList = [...propsRef.current.pattern]
+        //             newPatternList[patternPos.r][patternPos.p] = selectColor;
+        //             setPattern(newPatternList);
+        //         }
+        //     } catch (e) {
+        //         console.log(e)
+        //     }
+        // }
 
 
         return () => {

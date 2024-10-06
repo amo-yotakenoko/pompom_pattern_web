@@ -28,7 +28,10 @@ const CameraScan = ({ sceneProps, activeMenu }: any) => {
 
 
 
-		const material2 = new THREE.MeshBasicMaterial({ color: 0xffffff, transparent: true, side: THREE.DoubleSide }); // 赤色に設定
+		const material2 = new THREE.MeshBasicMaterial({
+			color: 0xffffff, transparent: true
+			// , side: THREE.DoubleSide
+		}); // 赤色に設定
 
 		// Planeのメッシュを作成
 		const plane = new THREE.Mesh(geometry2, material2);
@@ -41,7 +44,7 @@ const CameraScan = ({ sceneProps, activeMenu }: any) => {
 		const quaternion = new THREE.Quaternion().setFromUnitVectors(new THREE.Vector3(0, 0, 1), lookAtDirection);
 		plane.quaternion.copy(quaternion);
 
-
+		plane.rotation.y += 180 / 360 * (2 * Math.PI);
 		plane.rotation.z += rotate / 360 * (2 * Math.PI);
 		// シーンに追加
 		sceneProps.scene.add(plane);
@@ -153,7 +156,7 @@ const CameraScan = ({ sceneProps, activeMenu }: any) => {
 		return () => {
 			sceneProps.canvas.removeEventListener('click', onMouseClick, false);
 		};
-	}, [clipSize]); // plates に依存する useEffect
+	}, [clipSize, activeMenu]); // plates に依存する useEffect
 
 
 	function onMouseClick(event: any) {
@@ -211,8 +214,27 @@ const CameraScan = ({ sceneProps, activeMenu }: any) => {
 		try {
 
 			const texture = new THREE.CanvasTexture(canvasRef.current as any);
-			platesRef.current[selectingPlate].obj.material.map = texture; // マテリアルのテクスチャを更新
-			platesRef.current[selectingPlate].obj.material.needsUpdate = true; // マテリアルの更新を促す
+			const plate = platesRef.current[selectingPlate].obj
+			plate.material.map = texture; // マテリアルのテクスチャを更新
+			plate.material.needsUpdate = true; // マテリアルの更新を促す
+
+			const raycaster = new THREE.Raycaster();
+			const origin = plate.position.clone();
+			// オブジェクトの前方向を取得（ローカル空間からワールド空間に変換）
+			const direction = plate.quaternion.normalize();
+			raycaster.set(origin, direction);
+			const intersects = raycaster.intersectObjects(sceneProps.scene.children);
+
+			// 交差しているオブジェクトを表示
+			const patternPos = (intersects[0] as any).patternPos;
+			if (intersects.length > 0) {
+				if (patternPos) {
+					// intersects[0].object
+
+				}
+			}
+
+
 		} catch (e) {
 			console.log(e)
 		}
@@ -221,6 +243,10 @@ const CameraScan = ({ sceneProps, activeMenu }: any) => {
 
 
 	}
+
+
+
+
 	function plateAnimation() {
 		// console.log("plateanimation", activeMenuRef.current)
 		platesRef.current.forEach((plate: any, i: number) => {

@@ -102,6 +102,26 @@ function Edit() {
   }, [location.state]);
 
 
+
+
+
+  function drawDot(patternPos: any, selectColor: any) {
+
+    try {
+      if (pattern[patternPos.r][patternPos.p] !== selectColor) {
+        // console.log("ぬる", isDrwaing)
+        console.log(pattern[patternPos.r][patternPos.p], selectColor, pattern[patternPos.r][patternPos.p] !== selectColor)
+
+        let newPatternList = [...pattern]
+        newPatternList[patternPos.r][patternPos.p] = selectColor;
+        setPattern(newPatternList);
+      }
+    } catch (e) {
+      console.log(e)
+    }
+  }
+
+
   // useEffect(() => {
   //   setPattern(brankPattern(rollWidth, pitchWidth))
   // }, [rollWidth, pitchWidth]);
@@ -129,6 +149,7 @@ function Edit() {
                 selectColor={selectColor}
                 setPattern={setPattern}
                 activeMenu={activeMenu}
+                drawDot={drawDot}
               />
             </div>
 
