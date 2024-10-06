@@ -80,22 +80,22 @@ const ColorPalette = ({ colorList, selectColor, setSelectColor, setMultiColorSel
                         position: "relative"
                     }}
                 >
-                    {enableMultiColorSelect && (
 
-                        <Form.Check
-                            checked={multiColorSelect[idx]}
-                            onChange={() => MultiColorSelectChange(idx)}
-                            style={{
-                                position: "absolute",
-                                top: "0%",
-                                right: "5%",
-                                color: "white", // チェックマークの色を設定
-                                fontSize: "1.5em", // チェックマークのサイズを設定
+                    <Form.Check
+                        checked={multiColorSelect[idx]}
+                        onChange={() => MultiColorSelectChange(idx)}
+                        style={{
+                            position: "absolute",
+                            top: "0%",
+                            right: "5%",
+                            color: "white", // チェックマークの色を設定
+                            fontSize: "1.5em", // チェックマークのサイズを設定
+                            transform: enableMultiColorSelect ? "scale(1)" : "scale(0)", // チェックされていない場合は縮小
+                            transition: "transform 0.3s ease", // 0.3秒かけてスムーズに大きさを変える
 
+                        }}
+                    />
 
-                            }}
-                        />
-                    )}
                     {/* <button style={{
                         position: "absolute",
                         top: "0px",
