@@ -49,7 +49,7 @@ const UndoRedo: React.FC<UndoRedoProps> = ({ enable, pattern, colorList, selectC
                 // console.log("更新チャック\n", JSON.stringify(history[current - 1]), "\n", JSON.stringify(stateRef.current), JSON.stringify(history[current - 1]) != JSON.stringify(stateRef.current))
                 if (JSON.stringify(history[current - 1]) != JSON.stringify(stateRef.current)) {
                     // const newHistory = copy(history);
-                    console.log("登録")
+                    // console.log("登録")
                     let newHistory = copy(history)
                     newHistory = newHistory.splice(0, current);
                     let nextCurrent = current + 1
@@ -118,7 +118,7 @@ const UndoButton: React.FC<UndoButtonProps> = ({ enable, history, current, setPa
     return (
         <Button
             // ref={undoRef}
-            id="undoButton"//camerascanのundoで使ってる
+            id="undoButton"
             variant="primary"
             style={{
                 height: '2em',
@@ -129,7 +129,7 @@ const UndoButton: React.FC<UndoButtonProps> = ({ enable, history, current, setPa
             }}
             disabled={current === 1}
             onClick={() => {
-                console.log("UNDOする")
+
                 setPattern(history[current - 2]?.pattern);
                 setColorList(history[current - 2]?.colorList);
                 setSelectColor(history[current - 2]?.selectColor);

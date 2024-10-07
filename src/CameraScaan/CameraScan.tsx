@@ -704,7 +704,7 @@ const CameraScan = ({ sceneProps, activeMenu, drawDot, meshList, colorList, mult
 			let target = (i === selectingPlate) ? 1 : 0.5;
 			if (activeMenu != "cameraScan") target = 0;
 
-			scale += (target - scale) * 0.1;
+			scale += (target - scale) * 0.05;
 			plate.obj.scale.set(scale, scale, scale);
 		});
 	}
