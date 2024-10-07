@@ -9,7 +9,7 @@ import { Overlay, Tooltip } from 'react-bootstrap';
 // import Tooltip from 'react-bootstrap/Tooltip';
 const HelpButton = ({ id, placement, children, alwaysShow }: any) => {
     const { enableHelp, setEnableHelp } = useContext(enableHelpContext);
-    console.log({ enableHelp })
+    // console.log({ enableHelp })
     const [target, setTarget] = useState<HTMLElement | null>(null);
     useEffect(() => {
 

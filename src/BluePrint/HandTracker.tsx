@@ -83,7 +83,7 @@ const HandTracker = ({ setIsTracked, selectedDeviceId, videoRef, fingerHistory, 
         const frameCountFunc = () => {
             // setFrameCount(prevCount => prevCount + 1);
             detecthand()
-            console.log("判定")
+            // console.log("判定")
             frameId = requestAnimationFrame(frameCountFunc); // 次のフレームで実行
         };
         frameId = requestAnimationFrame(frameCountFunc); // 初回の呼び出し
@@ -144,11 +144,11 @@ const HandTracker = ({ setIsTracked, selectedDeviceId, videoRef, fingerHistory, 
 
 
         results.handedness.forEach((handednes: any, i: number) => {
-            console.log(handednes[0])
+            // console.log(handednes[0])
 
 
             const landmarks = results.landmarks[i]
-            console.log(handednes[0].categoryName, { rollingHand }, handednes[0].categoryName === rollingHand)
+            // console.log(handednes[0].categoryName, { rollingHand }, handednes[0].categoryName === rollingHand)
             context.lineWidth = handednes[0].categoryName === rollingHand ? 2 : 0.5; // 線の幅を設定
 
             landmarks.forEach((landmark: any) => {
@@ -181,7 +181,7 @@ const HandTracker = ({ setIsTracked, selectedDeviceId, videoRef, fingerHistory, 
 
 
             if (handednes[0].categoryName === rollingHand && landmarks[8]) {
-                console.log(landmarks[8])
+                // console.log(landmarks[8])
                 // setsingerHistory((fingerHistory: any) => [...fingerHistory, landmarks[8]]);
                 setIsTracked(true)
 
@@ -197,7 +197,7 @@ const HandTracker = ({ setIsTracked, selectedDeviceId, videoRef, fingerHistory, 
 
                 // addsingerHistory(landmarks[8])
 
-                console.log(fingerHistory)
+                // console.log(fingerHistory)
             }
 
 
