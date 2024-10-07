@@ -143,7 +143,7 @@ function Edit() {
 
   const [selectingPlate, setSelectingPlate] = useState<any>(-1);
 
-
+  // const cameraScanRef = useRef(null);
   // useEffect(() => {
   //   setPattern(brankPattern(rollWidth, pitchWidth))
   // }, [rollWidth, pitchWidth]);
@@ -192,11 +192,37 @@ function Edit() {
                     position: "absolute",
                     width: "15%",
                     height: "15%",
-                    pointerEvents: "none"
-
+                    pointerEvents: "none",
+                    transform: selectingPlate < 0 ? "scale(1)" : "scale(0)", // チェックされていない場合は縮小
+                    transition: "transform 0.3s ease", // 0.3秒かけてスムーズに大きさを変える
                   }}
                 />
                 <Help id="ArrowsMove">スワイプして回転</Help>
+
+
+                <Icon.RecordCircle
+                  // ref={moveRef}
+                  id="ArrowsMove"
+                  className="position-absolute"
+                  style={{
+                    bottom: "2%",
+                    right: "2%",
+                    position: "absolute",
+                    width: "15%",
+                    height: "15%",
+                    // pointerEvents: "none",
+                    transform: selectingPlate >= 0 ? "scale(1)" : "scale(0)", // チェックされていない場合は縮小
+                    transition: "transform 0.3s ease", // 0.3秒かけてスムーズに大きさを変える
+                  }}
+                  onClick={() => {
+                    // console.log("スキャン", cameraScanRef.current)
+                    // if (cameraScanRef.current)
+                    //   (cameraScanRef.current as any).takeScan();
+                    setSelectingPlate(-1)
+                  }}
+                />
+                {/* {selectingPlate} */}
+                <Help id="RecordCircle">撮影</Help>
 
               </div >
             </div>
@@ -225,6 +251,7 @@ function Edit() {
                   colorList={colorList}
                   multiColorSelect={multiColorSelect}
                   selectingPlate={selectingPlate} setSelectingPlate={setSelectingPlate}
+                // ref={cameraScanRef}
                 ></CameraScan>
               </div>
 

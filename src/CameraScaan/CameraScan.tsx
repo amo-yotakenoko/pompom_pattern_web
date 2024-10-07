@@ -168,7 +168,7 @@ const CameraScan = ({ sceneProps, activeMenu, drawDot, meshList, colorList, mult
 		return () => {
 			sceneProps.canvas.removeEventListener('click', onMouseClick, false);
 		};
-	}, [clipSize, activeMenu]);
+	}, [clipSize, activeMenu, selectingPlate]);
 
 
 
@@ -206,7 +206,12 @@ const CameraScan = ({ sceneProps, activeMenu, drawDot, meshList, colorList, mult
 
 	}
 
-
+	useEffect(() => {
+		if (activeMenu != "cameraScan") {
+			// setSelectingPlate(-1)
+			cancelSelectingPlate()
+		}
+	}, [activeMenu])
 
 	function onMouseClick(event: any) {
 		const raycaster = new THREE.Raycaster();
@@ -222,6 +227,7 @@ const CameraScan = ({ sceneProps, activeMenu, drawDot, meshList, colorList, mult
 		const intersects = raycaster.intersectObjects(sceneProps.scene.children);
 
 		// console.log("plate判定", intersects)
+		let isCancel = true;
 		if (intersects.length > 0) {
 			// オブジェクトがタップされた場合
 			// console.log(intersects[0].object)
@@ -229,10 +235,31 @@ const CameraScan = ({ sceneProps, activeMenu, drawDot, meshList, colorList, mult
 				// console.log("判定", intersects[0].object, plate.obj)
 				if (intersects[0].object == plate.obj) {
 					setSelectingPlate(i)
+					isCancel = false
 				}
 			});
 			// ここでタップされたオブジェクトに対して何か処理を行う
 		}
+		if (isCancel) cancelSelectingPlate();
+	}
+
+	function cancelSelectingPlate() {
+		try {
+
+			const texture = new THREE.TextureLoader().load("cameraIcon.png");
+			const selectingPlateobj: any = platesRef.current[selectingPlate].obj
+			console.log(selectingPlate, selectingPlateobj)
+			selectingPlateobj.material.map = texture; // 各 plate にテクスチャを適用
+			selectingPlateobj.material.needsUpdate = true;  // マテリアルを更新
+		} catch {
+
+		}
+
+		setSelectingPlate(-1)
+	}
+
+	function takeScan() {
+		setSelectingPlate(-1)
 	}
 
 
@@ -395,7 +422,7 @@ const CameraScan = ({ sceneProps, activeMenu, drawDot, meshList, colorList, mult
 							// if (patternPos.r != 1)
 							let patternPos = (mesh as any).patternPos;
 							const meshPos = mesh.centerPos;
-							console.log(patternPos, meshPos)
+							// console.log(patternPos, meshPos)
 							// addTextToScene(`${patternPos.r},${patternPos.p}`, meshPos, sceneProps.scene)
 							drawDot(patternPos, getNearestColor(color))
 							// if (color.r > 128) {
