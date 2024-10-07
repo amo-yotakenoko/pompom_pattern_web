@@ -251,6 +251,13 @@ const CameraScan = ({ sceneProps, activeMenu, drawDot, meshList, colorList, mult
 			console.log(selectingPlate, selectingPlateobj)
 			selectingPlateobj.material.map = texture; // 各 plate にテクスチャを適用
 			selectingPlateobj.material.needsUpdate = true;  // マテリアルを更新
+
+			const undoButton = document.getElementById('undoButton');
+			console.log(undoButton)
+			if (undoButton)
+				undoButton.click();
+
+
 		} catch {
 
 		}
