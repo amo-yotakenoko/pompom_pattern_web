@@ -466,41 +466,26 @@ const Pompom = ({ meshList, sceneProps, setSceneProps, pattern, colorList, rollW
     // const moveRef = useRef(null);
     return (
 
-        <div
-            style={{
-                position: "relative",
-                width: "100%",
-                aspectRatio: "1",
-                border: "1px solid black",
-            }}
-        >
-            <canvas
-                id="edit3d"
-                className="no-margin"
-                width="1024"
-                height="1024"
-                style={{ width: "100%", height: "100%" }}
-            />
-            <Icon.ArrowsMove
-                // ref={moveRef}
-                id="ArrowsMove"
-                className="position-absolute"
-                style={{
-                    bottom: "2%",
-                    right: "2%",
-                    position: "absolute",
-                    width: "15%",
-                    height: "15%",
-                    pointerEvents: "none"
-
-                }}
-            />
-            <Help id="ArrowsMove">スワイプして回転</Help>
+        // <div
+        //     style={{
+        //         position: "relative",
+        //         width: "100%",
+        //         aspectRatio: "1",
+        //         border: "1px solid black",
+        //     }}
+        // >
+        <canvas
+            id="edit3d"
+            className="no-margin"
+            width="1024"
+            height="1024"
+            style={{ width: "100%", height: "100%" }}
+        />
 
 
 
 
-        </div >
+
     )
 };
 

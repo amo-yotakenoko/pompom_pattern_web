@@ -16,6 +16,8 @@ import ColorEdit from './colorEdit'
 import HelpButton from './HelpButton';
 import CameraScan from '../CameraScaan/CameraScan';
 import { Camera } from 'react-bootstrap-icons';
+import * as Icon from 'react-bootstrap-icons';
+import Help from "../Help"
 // import CameraScan from '../CameraScaan/CameraScan';
 // import Button from 'react-bootstrap/Button';
 // import '../index.css';
@@ -159,19 +161,44 @@ function Edit() {
             // backgroundColor: "#f0f0ff",
           }}>
             <div className="col-12 col-xl-4 no-margin">
-              <Pompom
-                sceneProps={sceneProps}
-                setSceneProps={setSceneProps}
-                pattern={pattern}
-                colorList={colorList}
-                rollWidth={rollWidth}
-                pitchWidth={pitchWidth}
-                selectColor={selectColor}
-                setPattern={setPattern}
-                activeMenu={activeMenu}
-                drawDot={drawDot}
-                meshList={meshList}
-              />
+              <div
+                style={{
+                  position: "relative",
+                  width: "100%",
+                  aspectRatio: "1",
+                  border: "1px solid black",
+                }}
+              >
+                <Pompom
+                  sceneProps={sceneProps}
+                  setSceneProps={setSceneProps}
+                  pattern={pattern}
+                  colorList={colorList}
+                  rollWidth={rollWidth}
+                  pitchWidth={pitchWidth}
+                  selectColor={selectColor}
+                  setPattern={setPattern}
+                  activeMenu={activeMenu}
+                  drawDot={drawDot}
+                  meshList={meshList}
+                />
+                <Icon.ArrowsMove
+                  // ref={moveRef}
+                  id="ArrowsMove"
+                  className="position-absolute"
+                  style={{
+                    bottom: "2%",
+                    right: "2%",
+                    position: "absolute",
+                    width: "15%",
+                    height: "15%",
+                    pointerEvents: "none"
+
+                  }}
+                />
+                <Help id="ArrowsMove">スワイプして回転</Help>
+
+              </div >
             </div>
 
             <div className="row no-margin" style={{
