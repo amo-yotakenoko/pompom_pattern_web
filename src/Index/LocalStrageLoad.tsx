@@ -92,11 +92,11 @@ const LocalStrageLoad: React.FC<LocalStrageLoadProps> = ({ }) => {
                                         bottom: '0px',
                                         right: '0px',
                                         zIndex: 1,
-                                        fontSize: '32px'
+                                        fontSize: '64px'
                                     }}
                                     onClick={() => navigeteEdit(key, value.data)}
                                 >
-                                    {/* <Icon.Pencil /> */}
+                                   
                                 </Icon.Pencil>
                             </div>
                         </div>
