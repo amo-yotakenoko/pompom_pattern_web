@@ -15,11 +15,13 @@ import Help from "../Help"
 const SoundVolume = ({ audiosRef, soundVolume, setSoundVolume }: any) => {
     useEffect(() => {
         audiosRef.current = {
+
             rolls: [
                 new Audio('電子ルーレット停止ボタンを押す.mp3'),
                 new Audio('電子ルーレット停止ボタンを押す.mp3'),
                 new Audio('電子ルーレット停止ボタンを押す.mp3')
             ],
+
             ends: [
                 new Audio('決定ボタンを押す40.mp3'),
                 new Audio('決定ボタンを押す40.mp3'),
@@ -46,7 +48,7 @@ const SoundVolume = ({ audiosRef, soundVolume, setSoundVolume }: any) => {
         audioList.forEach((audio: any) => {
             audio.volume = 0;
             audio.play()
-            audio.volume = nextvolume;
+
 
         });
     }

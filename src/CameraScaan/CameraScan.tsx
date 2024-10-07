@@ -119,15 +119,15 @@ const CameraScan = ({ sceneProps, activeMenu, drawDot, meshList, colorList, mult
 	useEffect(() => {
 		let timerId: NodeJS.Timeout;
 
-		const intervalFunc = () => {
-			if (activeMenu === "cameraScan") {
+		if (activeMenu === "cameraScan") {
+			const intervalFunc = () => {
 				camera();
-			}
-			// plateAnimation();
-		};
+				// plateAnimation();
+			};
 
-		// 0.5秒ごとに関数を呼び出す
-		timerId = setInterval(intervalFunc, 100); // 500ミリ秒
+			// 0.5秒ごとに関数を呼び出す
+			timerId = setInterval(intervalFunc, 100); // 500ミリ秒
+		}
 
 		// クリーンアップ関数
 		return () => clearInterval(timerId);
@@ -136,9 +136,6 @@ const CameraScan = ({ sceneProps, activeMenu, drawDot, meshList, colorList, mult
 	useEffect(() => {
 		let timerId: NodeJS.Timeout;
 		const intervalFunc = () => {
-			// if (activeMenu === "cameraScan") {
-			// 	camera();
-			// }
 			plateAnimation();
 		};
 
@@ -248,6 +245,8 @@ const CameraScan = ({ sceneProps, activeMenu, drawDot, meshList, colorList, mult
 			mouseUpdate(event)
 		});
 	}
+
+
 	function mouseUpdate(event: any) {
 		// console.log(event.clientX)
 		// const element = event.currentTarget;
@@ -304,6 +303,10 @@ const CameraScan = ({ sceneProps, activeMenu, drawDot, meshList, colorList, mult
 		let centerY = videoRef.current.videoHeight / 2
 		const xOffset = centerX - squareSize / 2; // X方向のオフセット
 		const yOffset = centerY - squareSize / 2; // Y方向のオフセット
+		// ctx.fillStyle = 'red'; // 塗りつぶす色を赤に設定
+		// ctx.fillRect(0, 0, canvasRef.current.width, canvasRef.current.height);
+		// canvasRef.current.width = 256;
+		// canvasRef.current.height = 256;
 		ctx.clearRect(0, 0, canvasRef.current.width, canvasRef.current.height);
 		ctx.drawImage(
 			videoRef.current, // 描画元の画像（ビデオなど）
@@ -312,10 +315,12 @@ const CameraScan = ({ sceneProps, activeMenu, drawDot, meshList, colorList, mult
 			0, 0, // キャンバス上の描画開始位置
 			canvasRef.current.width, canvasRef.current.height // キャンバス上に描画するサイズ
 		);
+
 		ctx.beginPath();
 		ctx.arc(canvasRef.current.width / 2, canvasRef.current.height / 2, canvasRef.current.width / 2, 0, Math.PI * 2, false);
 		ctx.closePath();
 		ctx.clip(); // クリッピングを適用
+
 		if (0 > selectingPlate) return;
 		const texture = new THREE.CanvasTexture(canvasRef.current as any);
 		const selectingPlateobj = platesRef.current[selectingPlate].obj
@@ -675,65 +680,71 @@ const CameraScan = ({ sceneProps, activeMenu, drawDot, meshList, colorList, mult
 	// }
 	return (
 		<>
-			{activeMenu == "cameraScan" && (
+			{/* {activeMenu == "cameraScan" && ( */}
 
-				<div style={{}}>
-					{/* カメラスキャン */}
+			<div style={{}}>
+				{/* カメラスキャン */}
 
-					<video
-						ref={videoRef}
-						autoPlay
-						style={{ width: '100%', border: '2px solid black', display: "none" }}
-					/>
-					{/* {!videoOk && <p>カメラを開いています...</p>}
+				<video
+					ref={videoRef}
+					autoPlay
+					style={{ width: '100%', border: '2px solid black', display: "none" }}
+				/>
+				{/* {!videoOk && <p>カメラを開いています...</p>}
 					{videoOk && <p>カメラが開きました！</p>} */}
 
 
 
 
-					<Camera
-						videoRef={videoRef}
-						devices={devices}
-						setDevices={setDevices}
-						setSelectedDeviceId={setSelectedDeviceId}
-						selectedDeviceId={selectedDeviceId}
-						setVideoOk={setVideoOk}
-					/>
+				<Camera
+					videoRef={videoRef}
+					devices={devices}
+					setDevices={setDevices}
+					setSelectedDeviceId={setSelectedDeviceId}
+					selectedDeviceId={selectedDeviceId}
+					setVideoOk={setVideoOk}
+				/>
+				{/* {activeMenu === "cameraScan" &&
+						( */}
 
-					<canvas
-						ref={canvasRef}
-						width={256} // キャンバスの幅を指定
-						height={256} // キャンバスの高さを指定
-						style={{ border: '2px solid black', width: '100%', height: 'auto', display: "none" }}
+				<canvas
+					ref={canvasRef}
+					width={256} // キャンバスの幅を指定
+					height={256} // キャンバスの高さを指定
+					style={{
+						border: '2px solid black', width: '100%', height: 'auto',
+						// display: "none"
+					}}
 
-					/>
+				/>
+				{/* )} */}
 
-					<Form.Label>ズーム</Form.Label>
-					<Form.Range
-						// value={clipSizeRef.current} // 内部状態を使用
-						onChange={(e) => {
-							setClipSize(parseFloat(e.target.value));
-						}}
-						value={clipSize}
-						min={0.1}    // 最小値を0に設定
-						max={1}    // 最大値を1に設定
-						step={0.01}
-						style={{ direction: "rtl" }}
+				<Form.Label>ズーム</Form.Label>
+				<Form.Range
+					// value={clipSizeRef.current} // 内部状態を使用
+					onChange={(e) => {
+						setClipSize(parseFloat(e.target.value));
+					}}
+					value={clipSize}
+					min={0.1}    // 最小値を0に設定
+					max={1}    // 最大値を1に設定
+					step={0.01}
+					style={{ direction: "rtl" }}
 
-					/>
-					{selectingPlate}
-					<CameraSelect devices={devices} setSelectedDeviceId={setSelectedDeviceId} selectedDeviceId={selectedDeviceId}></CameraSelect>
-					<br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br />
+				/>
+				{selectingPlate}
+				<CameraSelect devices={devices} setSelectedDeviceId={setSelectedDeviceId} selectedDeviceId={selectedDeviceId}></CameraSelect>
+				<br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br />
 
-					{/* <h2>カメラの回転</h2>
+				{/* <h2>カメラの回転</h2>
 			{/* {`{${JSON.stringify(deviceQt)}}`} */}
-					{/* {`${sceneProps}`} */}
-					{/* <button onClick={() => addMeshToScene()}>aa</button> */}
-					{/* <p>Alpha (Z軸): {orientation.alpha.toFixed(2)}°</p>
+				{/* {`${sceneProps}`} */}
+				{/* <button onClick={() => addMeshToScene()}>aa</button> */}
+				{/* <p>Alpha (Z軸): {orientation.alpha.toFixed(2)}°</p>
             <p>Beta (X軸): {orientation.beta.toFixed(2)}°</p>
             <p>Gamma (Y軸): {orientation.gamma.toFixed(2)}°</p> */}
-				</div>
-			)}
+			</div>
+			{/* )} */}
 		</>
 	);
 }

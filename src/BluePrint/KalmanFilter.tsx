@@ -162,6 +162,7 @@ const KalmanFilter = ({ soundVolume, fingerHistory, addCounter, kalmanSettings, 
         }, null);
         lestAudio.pause();
         lestAudio.currentTime = 0;
+        lestAudio.volume = soundVolume / 2;
         lestAudio.play();
 
 
@@ -277,13 +278,13 @@ const KalmanFilter = ({ soundVolume, fingerHistory, addCounter, kalmanSettings, 
 
     return (
         <div>
-            <button onClick={() => {
+            {/* <button onClick={() => {
 
                 audiosRef.current.roll.play();
                 // } else {
                 audiosRef.current.end.play();
             }
-            }>aaa</button>
+            }>aaa</button> */}
 
             {/* <button onClick={playsound}>
                 音を鳴らす
