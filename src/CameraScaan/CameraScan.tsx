@@ -17,7 +17,7 @@ import { TextGeometry } from 'three/examples/jsm/geometries/TextGeometry';
 // };
 import { Overlay, Tooltip } from 'react-bootstrap';
 // import Tooltip from 'react-bootstrap/Tooltip';
-const CameraScan = ({ sceneProps, activeMenu, drawDot, meshList, colorList, multiColorSelect }: any) => {
+const CameraScan = ({ sceneProps, activeMenu, drawDot, meshList, colorList, multiColorSelect, selectingPlate, setSelectingPlate }: any) => {
 
 
 	// メッシュを追加する関数を外に定義
@@ -100,7 +100,7 @@ const CameraScan = ({ sceneProps, activeMenu, drawDot, meshList, colorList, mult
 	const canvasRef = useRef<HTMLCanvasElement>(null);
 
 	const [clipSize, setClipSize] = useState<any>(1);
-	const [selectingPlate, setSelectingPlate] = useState<any>(-1);
+	// const [selectingPlate, setSelectingPlate] = useState<any>(-1);
 
 	// const activeMenuRef = useRef<any>("");
 	// useEffect(() => {

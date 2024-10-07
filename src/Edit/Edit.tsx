@@ -139,6 +139,9 @@ function Edit() {
   }
 
 
+  const [selectingPlate, setSelectingPlate] = useState<any>(-1);
+
+
   // useEffect(() => {
   //   setPattern(brankPattern(rollWidth, pitchWidth))
   // }, [rollWidth, pitchWidth]);
@@ -194,6 +197,7 @@ function Edit() {
                   meshList={meshList}
                   colorList={colorList}
                   multiColorSelect={multiColorSelect}
+                  selectingPlate={selectingPlate} setSelectingPlate={setSelectingPlate}
                 ></CameraScan>
               </div>
 
