@@ -163,7 +163,7 @@ const CameraScan = ({ sceneProps, activeMenu, drawDot, meshList, colorList, mult
 	// }
 
 	useEffect(() => {
-		if (!sceneProps.canvas) return
+		if (!sceneProps || !sceneProps.canvas) return
 		sceneProps.canvas.addEventListener('click', onMouseClick, false);
 		return () => {
 			sceneProps.canvas.removeEventListener('click', onMouseClick, false);
@@ -273,7 +273,7 @@ const CameraScan = ({ sceneProps, activeMenu, drawDot, meshList, colorList, mult
 
 
 	const mouse = new THREE.Vector2();
-	if (sceneProps.canvas) {
+	if (sceneProps && sceneProps.canvas) {
 
 		sceneProps.canvas.addEventListener('pointermove', (event: any) => {
 			mouseUpdate(event)

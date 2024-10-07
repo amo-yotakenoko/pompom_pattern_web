@@ -74,7 +74,7 @@ function Edit() {
 
   const [enableHelp, setEnableHelp] = useState(false);
   const meshList = useRef<THREE.Mesh[]>([]);
-  const [sceneProps, setSceneProps] = useState({});
+  const [sceneProps, setSceneProps] = useState(undefined);
   const [pattern, setPattern] = useState(brankPattern(rollWidth, pitchWidth));
   function brankPattern(rollWidth: any, pitchWidth: any) {
     console.log("Pattern書き直し", rollWidth, pitchWidth)
