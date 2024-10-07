@@ -713,7 +713,7 @@ const CameraScan = ({ sceneProps, activeMenu, drawDot, meshList, colorList, mult
 					height={256} // キャンバスの高さを指定
 					style={{
 						border: '2px solid black', width: '100%', height: 'auto',
-						// display: "none"
+						display: "none"
 					}}
 
 				/>
