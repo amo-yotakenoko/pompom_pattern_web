@@ -806,7 +806,7 @@ const CameraScan = ({ sceneProps, activeMenu, drawDot, meshList, colorList, mult
 					style={{ direction: "rtl" }}
 
 				/>
-				{selectingPlate}
+				{/* {selectingPlate} */}
 				<CameraSelect devices={devices} setSelectedDeviceId={setSelectedDeviceId} selectedDeviceId={selectedDeviceId}></CameraSelect>
 				<br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br />
 
