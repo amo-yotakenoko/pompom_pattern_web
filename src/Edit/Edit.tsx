@@ -16,6 +16,8 @@ import ColorEdit from './colorEdit'
 import HelpButton from './HelpButton';
 import CameraScan from '../CameraScaan/CameraScan';
 import { Camera } from 'react-bootstrap-icons';
+import * as Icon from 'react-bootstrap-icons';
+import Help from "../Help"
 // import CameraScan from '../CameraScaan/CameraScan';
 // import Button from 'react-bootstrap/Button';
 // import '../index.css';
@@ -72,7 +74,7 @@ function Edit() {
 
   const [enableHelp, setEnableHelp] = useState(false);
   const meshList = useRef<THREE.Mesh[]>([]);
-  const [sceneProps, setSceneProps] = useState({});
+  const [sceneProps, setSceneProps] = useState(undefined);
   const [pattern, setPattern] = useState(brankPattern(rollWidth, pitchWidth));
   function brankPattern(rollWidth: any, pitchWidth: any) {
     console.log("Pattern書き直し", rollWidth, pitchWidth)
@@ -139,6 +141,9 @@ function Edit() {
   }
 
 
+  const [selectingPlate, setSelectingPlate] = useState<any>(-1);
+
+  // const cameraScanRef = useRef(null);
   // useEffect(() => {
   //   setPattern(brankPattern(rollWidth, pitchWidth))
   // }, [rollWidth, pitchWidth]);
@@ -156,19 +161,70 @@ function Edit() {
             // backgroundColor: "#f0f0ff",
           }}>
             <div className="col-12 col-xl-4 no-margin">
-              <Pompom
-                sceneProps={sceneProps}
-                setSceneProps={setSceneProps}
-                pattern={pattern}
-                colorList={colorList}
-                rollWidth={rollWidth}
-                pitchWidth={pitchWidth}
-                selectColor={selectColor}
-                setPattern={setPattern}
-                activeMenu={activeMenu}
-                drawDot={drawDot}
-                meshList={meshList}
-              />
+              <div
+                style={{
+                  position: "relative",
+                  width: "100%",
+                  aspectRatio: "1",
+                  border: "1px solid black",
+                }}
+              >
+                <Pompom
+                  sceneProps={sceneProps}
+                  setSceneProps={setSceneProps}
+                  pattern={pattern}
+                  colorList={colorList}
+                  rollWidth={rollWidth}
+                  pitchWidth={pitchWidth}
+                  selectColor={selectColor}
+                  setPattern={setPattern}
+                  activeMenu={activeMenu}
+                  drawDot={drawDot}
+                  meshList={meshList}
+                />
+                <Icon.ArrowsMove
+                  // ref={moveRef}
+                  id="ArrowsMove"
+                  className="position-absolute"
+                  style={{
+                    bottom: "2%",
+                    right: "2%",
+                    position: "absolute",
+                    width: "15%",
+                    height: "15%",
+                    pointerEvents: "none",
+                    transform: selectingPlate < 0 ? "scale(1)" : "scale(0)", // チェックされていない場合は縮小
+                    transition: "transform 0.3s ease", // 0.3秒かけてスムーズに大きさを変える
+                  }}
+                />
+                <Help id="ArrowsMove">スワイプして回転</Help>
+
+
+                <Icon.RecordCircle
+                  // ref={moveRef}
+                  id="ArrowsMove"
+                  className="position-absolute"
+                  style={{
+                    bottom: "2%",
+                    right: "2%",
+                    position: "absolute",
+                    width: "15%",
+                    height: "15%",
+                    // pointerEvents: "none",
+                    transform: selectingPlate >= 0 ? "scale(1)" : "scale(0)", // チェックされていない場合は縮小
+                    transition: "transform 0.3s ease", // 0.3秒かけてスムーズに大きさを変える
+                  }}
+                  onClick={() => {
+                    // console.log("スキャン", cameraScanRef.current)
+                    // if (cameraScanRef.current)
+                    //   (cameraScanRef.current as any).takeScan();
+                    setSelectingPlate(-1)
+                  }}
+                />
+                {/* {selectingPlate} */}
+                <Help id="RecordCircle">撮影</Help>
+
+              </div >
             </div>
 
             <div className="row no-margin" style={{
@@ -194,6 +250,8 @@ function Edit() {
                   meshList={meshList}
                   colorList={colorList}
                   multiColorSelect={multiColorSelect}
+                  selectingPlate={selectingPlate} setSelectingPlate={setSelectingPlate}
+                // ref={cameraScanRef}
                 ></CameraScan>
               </div>
 

@@ -11,6 +11,7 @@ import KalmanConfig from './KalmanConfig';
 import { enableHelpContext } from '../Edit/Edit';
 import Alert from 'react-bootstrap/Alert';
 import Help from "../Help"
+import SoundVolume from './SoundVolume';
 
 const CameraCounter = ({ addCounter }: any) => {
     const { enableHelp, setEnableHelp } = useContext(enableHelpContext);
@@ -46,6 +47,10 @@ const CameraCounter = ({ addCounter }: any) => {
     const [enableCameraCounter, setEnableCameraCounter] = useState("0")
     const [setttingShow, setSettingShow] = useState(false);
     const [isTracked, setIsTracked] = useState(false);
+    const [soundVolume, setSoundVolume] = useState(0);
+    const audiosRef = useRef<any>({ roll: undefined, end: undefined });
+
+
 
     useEffect(() => {
         setEnableHelp(false)
@@ -130,11 +135,19 @@ const CameraCounter = ({ addCounter }: any) => {
                                             fingerHistory={fingerHistory}
                                             addCounter={addCounter}
                                             kalmanSettings={kalmanSettings}
+                                            audiosRef={audiosRef}
+                                            soundVolume={soundVolume}
                                         />
-                                        <Icon.Sliders id="AIparameters"
-                                            onClick={() => setSettingShow(true)}
-                                            style={{ position: "absolute", top: "1px", right: "11px", fontSize: "2rem" }} // アイコンを大きくして位置を調整
-                                        />
+                                        <div style={{ position: "absolute", top: "1px", right: "11px", display: "flex", alignItems: "center" }}>
+                                            <SoundVolume audiosRef={audiosRef} soundVolume={soundVolume} setSoundVolume={setSoundVolume} />
+                                            <Icon.Sliders
+                                                id="AIparameters"
+                                                onClick={() => setSettingShow(true)}
+                                                style={{ fontSize: "2rem", marginRight: "10px" }} // アイコンを大きくし、スライダーとの間に余白を追加
+                                            />
+                                            {/* {soundVolume} */}
+                                        </div>
+
                                         <Help id="AIparameters" placement="bottom">パラメータ調整<br></br>うまく判定されないときはここをチェック</Help>
                                     </div>
                                 </div>

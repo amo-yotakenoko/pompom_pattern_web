@@ -2,11 +2,11 @@ import React, { useEffect, useRef, useState, useCallback } from 'react';
 import Alert from 'react-bootstrap/Alert';
 
 
-const KalmanFilter = ({ fingerHistory, addCounter, kalmanSettings }: any) => {
+const KalmanFilter = ({ soundVolume, fingerHistory, addCounter, kalmanSettings, audiosRef }: any) => {
 
 
     useEffect(() => {
-        console.log(fingerHistory)
+        // console.log(fingerHistory)
         if (fingerHistory[fingerHistory.length - 1]) {
 
             movementDetection()
@@ -47,12 +47,12 @@ const KalmanFilter = ({ fingerHistory, addCounter, kalmanSettings }: any) => {
 
 
     function kalmanFilterUpdate(z: any) {
-        console.log("z", z)
+        // console.log("z", z)
         const prior = predict(x, process_model);
         const newX = update(prior, { mean: z, var: kalmanSettings.sensor_var });
         setX(newX); // xを更新
 
-        console.log(newX);
+        // console.log(newX);
 
         setKalmanFilterResult((prevResults) => {
             const updatedResults = [...prevResults, newX];
@@ -117,7 +117,7 @@ const KalmanFilter = ({ fingerHistory, addCounter, kalmanSettings }: any) => {
 
 
         const move = criterion[criterion.length - 1] - criterion[criterion.length - 2];
-        console.log(criterion[criterion.length - 1] - criterion[criterion.length - 2])
+        // console.log(criterion[criterion.length - 1] - criterion[criterion.length - 2])
         if (criterion.length > 0) {
             let progress = null;
             if (moveDirection != "up" && move < 0) {
@@ -136,23 +136,41 @@ const KalmanFilter = ({ fingerHistory, addCounter, kalmanSettings }: any) => {
                 // moveDirection = "down"
                 setMoveDirection("down")
             }
-            if (progress && progress.rolled % 1 == 0) {
+            if (progress && progress.rolled % 1 == 0 && soundVolume > 0) {
                 playsound(progress.isComplete)
             }
         }
     }
 
-    function playsound(isComplete: boolean) {
-        let audio;
 
-        if (isComplete) {
-            audio = new Audio('電子ルーレット停止ボタンを押す.mp3')
-        } else {
-            audio = new Audio('決定ボタンを押す40.mp3')
-        }
-        if (audio)
-            audio.play(); // 音を鳴らす
+    function playsound(isComplete: boolean) {
+
+        const audios = !isComplete ? audiosRef.current.ends : audiosRef.current.rolls
+        console.log(audios)
+
+
+        // for (const audio of audios) {
+        //     if (audio.currentTime >= audio.duration) {
+        //         audio.pause();
+        //         audio.currentTime = 0;
+        //         audio.play();
+        //         break; // ループを中断
+        //     }
+        // }
+        const lestAudio = audios.reduce((max: any, audio: any) => {
+            return audio.currentTime > (max ? max.currentTime : -1) ? audio : max;
+        }, null);
+        lestAudio.pause();
+        lestAudio.currentTime = 0;
+        lestAudio.volume = soundVolume / 2;
+        lestAudio.play();
+
+
     }
+
+    // document.body.addEventListener('click', () => {
+    //     playsound(true)
+    // });
 
 
 
@@ -181,12 +199,12 @@ const KalmanFilter = ({ fingerHistory, addCounter, kalmanSettings }: any) => {
         context.strokeStyle = "#000000";
         context.beginPath();
         // kalmanFilterResult
-        console.log(" kalmanFilterResult", kalmanFilterResult)
+        // console.log(" kalmanFilterResult", kalmanFilterResult)
 
         for (let i = 0; i < kalmanFilterResult.length; i++) {
             const x = canvas.width / viewPointWidth * i
             const y = kalmanFilterResult[i].mean * canvas.height;
-            console.log("線")
+            // console.log("線")
             if (i == 0) {
                 context.moveTo(x, y);
             } else {
@@ -260,6 +278,13 @@ const KalmanFilter = ({ fingerHistory, addCounter, kalmanSettings }: any) => {
 
     return (
         <div>
+            {/* <button onClick={() => {
+
+                audiosRef.current.roll.play();
+                // } else {
+                audiosRef.current.end.play();
+            }
+            }>aaa</button> */}
 
             {/* <button onClick={playsound}>
                 音を鳴らす
@@ -305,7 +330,7 @@ const KalmanFilter = ({ fingerHistory, addCounter, kalmanSettings }: any) => {
             }} key="soundAlert" variant="info">
                 カメラの映像が外部に送信されることは構造上ありません<br />    音が出ます
             </Alert>
-        </div>
+        </div >
     );
 };
 

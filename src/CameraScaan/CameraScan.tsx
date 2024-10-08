@@ -17,7 +17,7 @@ import { TextGeometry } from 'three/examples/jsm/geometries/TextGeometry';
 // };
 import { Overlay, Tooltip } from 'react-bootstrap';
 // import Tooltip from 'react-bootstrap/Tooltip';
-const CameraScan = ({ sceneProps, activeMenu, drawDot, meshList, colorList, multiColorSelect }: any) => {
+const CameraScan = ({ sceneProps, activeMenu, drawDot, meshList, colorList, multiColorSelect, selectingPlate, setSelectingPlate }: any) => {
 
 
 	// メッシュを追加する関数を外に定義
@@ -100,7 +100,7 @@ const CameraScan = ({ sceneProps, activeMenu, drawDot, meshList, colorList, mult
 	const canvasRef = useRef<HTMLCanvasElement>(null);
 
 	const [clipSize, setClipSize] = useState<any>(1);
-	const [selectingPlate, setSelectingPlate] = useState<any>(-1);
+	// const [selectingPlate, setSelectingPlate] = useState<any>(-1);
 
 	// const activeMenuRef = useRef<any>("");
 	// useEffect(() => {
@@ -119,15 +119,15 @@ const CameraScan = ({ sceneProps, activeMenu, drawDot, meshList, colorList, mult
 	useEffect(() => {
 		let timerId: NodeJS.Timeout;
 
-		const intervalFunc = () => {
-			if (activeMenu === "cameraScan") {
+		if (activeMenu === "cameraScan") {
+			const intervalFunc = () => {
 				camera();
-			}
-			// plateAnimation();
-		};
+				// plateAnimation();
+			};
 
-		// 0.5秒ごとに関数を呼び出す
-		timerId = setInterval(intervalFunc, 100); // 500ミリ秒
+			// 0.5秒ごとに関数を呼び出す
+			timerId = setInterval(intervalFunc, 100); // 500ミリ秒
+		}
 
 		// クリーンアップ関数
 		return () => clearInterval(timerId);
@@ -136,9 +136,6 @@ const CameraScan = ({ sceneProps, activeMenu, drawDot, meshList, colorList, mult
 	useEffect(() => {
 		let timerId: NodeJS.Timeout;
 		const intervalFunc = () => {
-			// if (activeMenu === "cameraScan") {
-			// 	camera();
-			// }
 			plateAnimation();
 		};
 
@@ -166,12 +163,12 @@ const CameraScan = ({ sceneProps, activeMenu, drawDot, meshList, colorList, mult
 	// }
 
 	useEffect(() => {
-		if (!sceneProps.canvas) return
+		if (!sceneProps || !sceneProps.canvas) return
 		sceneProps.canvas.addEventListener('click', onMouseClick, false);
 		return () => {
 			sceneProps.canvas.removeEventListener('click', onMouseClick, false);
 		};
-	}, [clipSize, activeMenu]);
+	}, [clipSize, activeMenu, selectingPlate]);
 
 
 
@@ -209,7 +206,12 @@ const CameraScan = ({ sceneProps, activeMenu, drawDot, meshList, colorList, mult
 
 	}
 
-
+	useEffect(() => {
+		if (activeMenu != "cameraScan") {
+			// setSelectingPlate(-1)
+			cancelSelectingPlate()
+		}
+	}, [activeMenu])
 
 	function onMouseClick(event: any) {
 		const raycaster = new THREE.Raycaster();
@@ -225,6 +227,7 @@ const CameraScan = ({ sceneProps, activeMenu, drawDot, meshList, colorList, mult
 		const intersects = raycaster.intersectObjects(sceneProps.scene.children);
 
 		// console.log("plate判定", intersects)
+		let isCancel = true;
 		if (intersects.length > 0) {
 			// オブジェクトがタップされた場合
 			// console.log(intersects[0].object)
@@ -232,22 +235,52 @@ const CameraScan = ({ sceneProps, activeMenu, drawDot, meshList, colorList, mult
 				// console.log("判定", intersects[0].object, plate.obj)
 				if (intersects[0].object == plate.obj) {
 					setSelectingPlate(i)
+					isCancel = false
 				}
 			});
 			// ここでタップされたオブジェクトに対して何か処理を行う
 		}
+		if (isCancel) cancelSelectingPlate();
+	}
+
+	function cancelSelectingPlate() {
+		try {
+
+			const texture = new THREE.TextureLoader().load("cameraIcon.png");
+			const selectingPlateobj: any = platesRef.current[selectingPlate].obj
+			console.log(selectingPlate, selectingPlateobj)
+			selectingPlateobj.material.map = texture; // 各 plate にテクスチャを適用
+			selectingPlateobj.material.needsUpdate = true;  // マテリアルを更新
+
+			const undoButton = document.getElementById('undoButton');
+			console.log(undoButton)
+			if (undoButton)
+				undoButton.click();
+
+
+		} catch {
+
+		}
+
+		setSelectingPlate(-1)
+	}
+
+	function takeScan() {
+		setSelectingPlate(-1)
 	}
 
 
 
 
 	const mouse = new THREE.Vector2();
-	if (sceneProps.canvas) {
+	if (sceneProps && sceneProps.canvas) {
 
 		sceneProps.canvas.addEventListener('pointermove', (event: any) => {
 			mouseUpdate(event)
 		});
 	}
+
+
 	function mouseUpdate(event: any) {
 		// console.log(event.clientX)
 		// const element = event.currentTarget;
@@ -304,6 +337,10 @@ const CameraScan = ({ sceneProps, activeMenu, drawDot, meshList, colorList, mult
 		let centerY = videoRef.current.videoHeight / 2
 		const xOffset = centerX - squareSize / 2; // X方向のオフセット
 		const yOffset = centerY - squareSize / 2; // Y方向のオフセット
+		// ctx.fillStyle = 'red'; // 塗りつぶす色を赤に設定
+		// ctx.fillRect(0, 0, canvasRef.current.width, canvasRef.current.height);
+		// canvasRef.current.width = 256;
+		// canvasRef.current.height = 256;
 		ctx.clearRect(0, 0, canvasRef.current.width, canvasRef.current.height);
 		ctx.drawImage(
 			videoRef.current, // 描画元の画像（ビデオなど）
@@ -312,10 +349,12 @@ const CameraScan = ({ sceneProps, activeMenu, drawDot, meshList, colorList, mult
 			0, 0, // キャンバス上の描画開始位置
 			canvasRef.current.width, canvasRef.current.height // キャンバス上に描画するサイズ
 		);
+
 		ctx.beginPath();
 		ctx.arc(canvasRef.current.width / 2, canvasRef.current.height / 2, canvasRef.current.width / 2, 0, Math.PI * 2, false);
 		ctx.closePath();
 		ctx.clip(); // クリッピングを適用
+
 		if (0 > selectingPlate) return;
 		const texture = new THREE.CanvasTexture(canvasRef.current as any);
 		const selectingPlateobj = platesRef.current[selectingPlate].obj
@@ -390,7 +429,7 @@ const CameraScan = ({ sceneProps, activeMenu, drawDot, meshList, colorList, mult
 							// if (patternPos.r != 1)
 							let patternPos = (mesh as any).patternPos;
 							const meshPos = mesh.centerPos;
-							console.log(patternPos, meshPos)
+							// console.log(patternPos, meshPos)
 							// addTextToScene(`${patternPos.r},${patternPos.p}`, meshPos, sceneProps.scene)
 							drawDot(patternPos, getNearestColor(color))
 							// if (color.r > 128) {
@@ -665,7 +704,7 @@ const CameraScan = ({ sceneProps, activeMenu, drawDot, meshList, colorList, mult
 			let target = (i === selectingPlate) ? 1 : 0.5;
 			if (activeMenu != "cameraScan") target = 0;
 
-			scale += (target - scale) * 0.1;
+			scale += (target - scale) * 0.05;
 			plate.obj.scale.set(scale, scale, scale);
 		});
 	}
@@ -675,65 +714,71 @@ const CameraScan = ({ sceneProps, activeMenu, drawDot, meshList, colorList, mult
 	// }
 	return (
 		<>
-			{activeMenu == "cameraScan" && (
+			{/* {activeMenu == "cameraScan" && ( */}
 
-				<div style={{}}>
-					{/* カメラスキャン */}
+			<div style={{}}>
+				{/* カメラスキャン */}
 
-					<video
-						ref={videoRef}
-						autoPlay
-						style={{ width: '100%', border: '2px solid black', display: "none" }}
-					/>
-					{/* {!videoOk && <p>カメラを開いています...</p>}
+				<video
+					ref={videoRef}
+					autoPlay
+					style={{ width: '100%', border: '2px solid black', display: "none" }}
+				/>
+				{/* {!videoOk && <p>カメラを開いています...</p>}
 					{videoOk && <p>カメラが開きました！</p>} */}
 
 
 
 
-					<Camera
-						videoRef={videoRef}
-						devices={devices}
-						setDevices={setDevices}
-						setSelectedDeviceId={setSelectedDeviceId}
-						selectedDeviceId={selectedDeviceId}
-						setVideoOk={setVideoOk}
-					/>
+				<Camera
+					videoRef={videoRef}
+					devices={devices}
+					setDevices={setDevices}
+					setSelectedDeviceId={setSelectedDeviceId}
+					selectedDeviceId={selectedDeviceId}
+					setVideoOk={setVideoOk}
+				/>
+				{/* {activeMenu === "cameraScan" &&
+						( */}
 
-					<canvas
-						ref={canvasRef}
-						width={256} // キャンバスの幅を指定
-						height={256} // キャンバスの高さを指定
-						style={{ border: '2px solid black', width: '100%', height: 'auto', display: "none" }}
+				<canvas
+					ref={canvasRef}
+					width={256} // キャンバスの幅を指定
+					height={256} // キャンバスの高さを指定
+					style={{
+						border: '2px solid black', width: '100%', height: 'auto',
+						display: "none"
+					}}
 
-					/>
+				/>
+				{/* )} */}
 
-					<Form.Label>ズーム</Form.Label>
-					<Form.Range
-						// value={clipSizeRef.current} // 内部状態を使用
-						onChange={(e) => {
-							setClipSize(parseFloat(e.target.value));
-						}}
-						value={clipSize}
-						min={0.1}    // 最小値を0に設定
-						max={1}    // 最大値を1に設定
-						step={0.01}
-						style={{ direction: "rtl" }}
+				<Form.Label>ズーム</Form.Label>
+				<Form.Range
+					// value={clipSizeRef.current} // 内部状態を使用
+					onChange={(e) => {
+						setClipSize(parseFloat(e.target.value));
+					}}
+					value={clipSize}
+					min={0.1}    // 最小値を0に設定
+					max={1}    // 最大値を1に設定
+					step={0.01}
+					style={{ direction: "rtl" }}
 
-					/>
-					{selectingPlate}
-					<CameraSelect devices={devices} setSelectedDeviceId={setSelectedDeviceId} selectedDeviceId={selectedDeviceId}></CameraSelect>
-					<br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br />
+				/>
+				{selectingPlate}
+				<CameraSelect devices={devices} setSelectedDeviceId={setSelectedDeviceId} selectedDeviceId={selectedDeviceId}></CameraSelect>
+				<br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br />
 
-					{/* <h2>カメラの回転</h2>
+				{/* <h2>カメラの回転</h2>
 			{/* {`{${JSON.stringify(deviceQt)}}`} */}
-					{/* {`${sceneProps}`} */}
-					{/* <button onClick={() => addMeshToScene()}>aa</button> */}
-					{/* <p>Alpha (Z軸): {orientation.alpha.toFixed(2)}°</p>
+				{/* {`${sceneProps}`} */}
+				{/* <button onClick={() => addMeshToScene()}>aa</button> */}
+				{/* <p>Alpha (Z軸): {orientation.alpha.toFixed(2)}°</p>
             <p>Beta (X軸): {orientation.beta.toFixed(2)}°</p>
             <p>Gamma (Y軸): {orientation.gamma.toFixed(2)}°</p> */}
-				</div>
-			)}
+			</div>
+			{/* )} */}
 		</>
 	);
 }

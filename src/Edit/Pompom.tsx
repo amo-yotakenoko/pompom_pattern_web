@@ -24,10 +24,10 @@ const Pompom = ({ meshList, sceneProps, setSceneProps, pattern, colorList, rollW
 
         // });
     }, [pattern, colorList]);
-    const activeMenuRef = useRef("");
+    // const activeMenuRef = useRef("");
     useEffect(() => {
         console.log("mesh隠す", camera)
-        activeMenuRef.current = activeMenu;
+        // activeMenuRef.current = activeMenu;
         // if (renderer !== null) {
         wireMeshList.current.forEach((m: any) => {
             m.visible = activeMenu == "pompom" || activeMenu == "cameraScan"
@@ -280,115 +280,19 @@ const Pompom = ({ meshList, sceneProps, setSceneProps, pattern, colorList, rollW
 
 
         updateColor()
-        // https://ics.media/tutorial-three/raycast/
-        const raycaster = new THREE.Raycaster();
-        const mouse = new THREE.Vector2();
-        canvas.addEventListener('pointermove', (event: any) => {
-            mouseUpdate(event)
-        });
-        function mouseUpdate(event: any) {
-            // console.log(event.clientX)
-            // const element = event.currentTarget;
-            const element = canvas;
-            // canvas要素上のXY座標
-            const x = event.clientX - element.offsetLeft;
-            const y = event.clientY - element.offsetTop;
-            // canvas要素の幅・高さ
-            const w = element.offsetWidth;
-            const h = element.offsetHeight;
 
-            // -1〜+1の範囲で現在のマウス座標を登録する
-            mouse.x = (x / w) * 2 - 1;
-            mouse.y = -(y / h) * 2 + 1;
-        }
-
-
-        let isDrwaing = false
-
-
-
-
-        const handlePointerDown = (event: MouseEvent) => {
-            mouseUpdate(event)
-            raycaster.setFromCamera(mouse, camera);
-            const intersects = raycaster.intersectObjects(scene.children);
-
-            isDrwaing = intersects.length > 0
-            // console.log({ isDrwaing, controls });
-
-            controls.rotateSpeed = isDrwaing ? 0 : 1;
-            if (activeMenuRef.current != "pompom")
-                controls.rotateSpeed = 1;
-
-            // controls = new OrbitControls(camera, canvas);
-            // controls.enableZoom = false
-            // controls.enablePan = false
-        };
-
-        const handlePointerUp = () => {
-            // controls.dispose();
-            // console.log("pointerup")
-            isDrwaing = false
-        };
-
-        if (activeMenuRef.current == "pompom") {
-
-            window.addEventListener('pointerdown', handlePointerDown);
-            window.addEventListener('pointerup', handlePointerUp);
-        }
 
         console.log("set", { canvas, renderer, scene, camera, controls })
         setSceneProps({ canvas, renderer, scene, camera, controls });
 
-        let animationId: number;
-        tick();
 
-        function tick() {
-
-            // box.rotation.y += 0.01;
-
-            // console.log(propsRef)
-            if (activeMenuRef.current == "pompom" && isDrwaing) {
-
-                raycaster.setFromCamera(mouse, camera);
+        const geometry = new THREE.BoxGeometry(10, 10, 10); // 1x1x1サイズの立方体
+        const material = new THREE.MeshBasicMaterial({ color: 0x00ff00 }); // 緑色のマテリアル
+        const cube = new THREE.Mesh(geometry, material); // ジオメトリとマテリアルを組み合わせたメッシュ（立方体）
+        scene.add(cube);
 
 
-                const intersects = raycaster.intersectObjects(scene.children);
-                console.log(intersects)
-                meshList.current.map((mesh: any) => {
-
-                    // console.log(intersects.length)
-                    if (intersects.length > 0 && mesh === intersects[0].object) {
-
-                        // console.log((mesh as any).patternPos)
-                        let patternPos = (mesh as any).patternPos;
-                        drawDot(patternPos, propsRef.current.selectColor)
-                        // pattern[patternPos.r, patternPos.p] = propsRef.current.selectColor
-                        // let patternPos = (mesh as any).patternPos;
-
-                        // meshList.current.map((mesh: any) => {
-                        //     let patternPos = (mesh as any).patternPos;
-                        //     console.log(patternPos)
-                        //     let color = propsRef.current.colorList[pattern[patternPos.r][patternPos.p]];
-                        //     mesh.material.color.set(color);
-                        // });
-
-                        // let color = propsRef.current.colorList[pattern[patternPos.r][patternPos.p]];
-                        // mesh.material.color.set(color);
-                    }
-
-                });
-            }
-
-
-
-
-            controls.update();
-
-            renderer.render(scene, camera);
-
-            animationId = requestAnimationFrame(tick);
-        }
+        renderer.render(scene, camera);
 
         // function drawDot(patternPos: any, selectColor: any) {
 
@@ -408,11 +312,11 @@ const Pompom = ({ meshList, sceneProps, setSceneProps, pattern, colorList, rollW
 
 
         return () => {
-            cancelAnimationFrame(animationId);
+            // cancelAnimationFrame(animationId);
             window.removeEventListener('resize', resize);
-            canvas.removeEventListener('pointermove', mouseUpdate);
-            window.removeEventListener('pointerdown', handlePointerDown);
-            window.removeEventListener('pointerup', handlePointerUp);
+            // canvas.removeEventListener('pointermove', mouseUpdate);
+            // window.removeEventListener('pointerdown', handlePointerDown);
+            // window.removeEventListener('pointerup', handlePointerUp);
             console.log("ぽんぽん初期化")
 
             meshList.current.forEach((mesh: any) => {
@@ -422,14 +326,144 @@ const Pompom = ({ meshList, sceneProps, setSceneProps, pattern, colorList, rollW
             });
 
 
-            renderer.dispose();
+            // renderer.dispose();
         };
 
     }, [rollWidth, pitchWidth]);
 
 
+    const isDrwaing = useRef(false);
     useEffect(() => {
-        if (!sceneProps.camera) return
+
+        let animationId: number;
+
+        // isDrwaing.current = false
+
+        // https://ics.media/tutorial-three/raycast/
+        const raycaster = new THREE.Raycaster();
+
+        console.log("sceneProps", sceneProps)
+        if (!sceneProps) return
+
+
+
+        // let isDrwaing = false
+
+
+
+
+        // let mouse: any = new THREE.Vector2();
+        function getMouse(event: any) {
+            // console.log(event.clientX)
+            // const element = event.currentTarget;
+            const element = sceneProps.canvas;
+            // canvas要素上のXY座標
+            const x = event.clientX - element.offsetLeft;
+            const y = event.clientY - element.offsetTop;
+            // canvas要素の幅・高さ
+            const w = element.offsetWidth;
+            const h = element.offsetHeight;
+            let _mouse = new THREE.Vector2();
+            // -1〜+1の範囲で現在のマウス座標を登録する
+            _mouse.x = (x / w) * 2 - 1;
+            _mouse.y = -(y / h) * 2 + 1;
+            return _mouse
+        }
+        let intersects: any = []
+        const handlePointerDown = (event: MouseEvent) => {
+            console.log("event", event)
+            const mouse = getMouse(event)
+            raycaster.setFromCamera(mouse, sceneProps.camera);
+            intersects = raycaster.intersectObjects(sceneProps.scene.children);
+
+            isDrwaing.current = intersects.length > 0
+            // console.log({ isDrwaing, controls });
+
+            sceneProps.controls.rotateSpeed = isDrwaing.current ? 0 : 1;
+            if (activeMenu != "pompom")
+                controls.rotateSpeed = 1;
+
+            // controls = new OrbitControls(camera, canvas);
+            // controls.enableZoom = false
+            // controls.enablePan = false
+        };
+
+        const handlePointerMove = (event: MouseEvent) => {
+            const mouse = getMouse(event)
+            raycaster.setFromCamera(mouse, sceneProps.camera);
+            intersects = raycaster.intersectObjects(sceneProps.scene.children);
+        };
+
+        const handlePointerUp = () => {
+            // controls.dispose();
+            // console.log("pointerup")
+            isDrwaing.current = false
+        };
+
+        if (activeMenu == "pompom") {
+
+            sceneProps.canvas.addEventListener('pointermove', handlePointerMove);
+            window.addEventListener('pointerdown', handlePointerDown);
+            window.addEventListener('pointerup', handlePointerUp);
+        }
+
+
+        // tick();
+
+        function tick() {
+            if (activeMenu == "pompom" || activeMenu == "cameraScan") {
+                // console.log("tick")
+
+                sceneProps.renderer.render(sceneProps.scene, sceneProps.camera);
+                sceneProps.controls.update();
+            } else {
+                return
+            }
+            if (activeMenu == "pompom" && isDrwaing.current) {
+
+                // raycaster.setFromCamera(mouse, sceneProps.camera);
+
+
+                // const intersects = raycaster.intersectObjects(sceneProps.scene.children);
+                console.log(intersects)
+                meshList.current.map((mesh: any) => {
+
+                    // console.log(intersects.length)
+                    if (intersects.length > 0 && mesh === intersects[0].object) {
+
+                        let patternPos = (mesh as any).patternPos;
+                        drawDot(patternPos, propsRef.current.selectColor)
+
+                    }
+                });
+            }
+            console.log(isDrwaing.current)
+
+
+            animationId = requestAnimationFrame(tick);
+        }
+        // アニメーションの開始
+        tick();
+
+
+        return () => {
+            cancelAnimationFrame(animationId);
+            sceneProps.canvas.removeEventListener('pointermove', handlePointerMove);
+            window.removeEventListener('pointerdown', handlePointerDown);
+            window.removeEventListener('pointerup', handlePointerUp);
+        };
+
+
+    }, [rollWidth, pitchWidth, pattern, colorList, selectColor, activeMenu, sceneProps])
+
+
+
+
+
+
+
+    useEffect(() => {
+        if (!sceneProps) return
         let counter = 0; // カウンターを初期化
         const intervalId = setInterval(() => {
             // 繰り返す処理
@@ -466,41 +500,26 @@ const Pompom = ({ meshList, sceneProps, setSceneProps, pattern, colorList, rollW
     // const moveRef = useRef(null);
     return (
 
-        <div
-            style={{
-                position: "relative",
-                width: "100%",
-                aspectRatio: "1",
-                border: "1px solid black",
-            }}
-        >
-            <canvas
-                id="edit3d"
-                className="no-margin"
-                width="1024"
-                height="1024"
-                style={{ width: "100%", height: "100%" }}
-            />
-            <Icon.ArrowsMove
-                // ref={moveRef}
-                id="ArrowsMove"
-                className="position-absolute"
-                style={{
-                    bottom: "2%",
-                    right: "2%",
-                    position: "absolute",
-                    width: "15%",
-                    height: "15%",
-                    pointerEvents: "none"
-
-                }}
-            />
-            <Help id="ArrowsMove">スワイプして回転</Help>
+        // <div
+        //     style={{
+        //         position: "relative",
+        //         width: "100%",
+        //         aspectRatio: "1",
+        //         border: "1px solid black",
+        //     }}
+        // >
+        <canvas
+            id="edit3d"
+            className="no-margin"
+            width="1024"
+            height="1024"
+            style={{ width: "100%", height: "100%" }}
+        />
 
 
 
 
-        </div >
+
     )
 };
 

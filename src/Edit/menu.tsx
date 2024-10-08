@@ -35,7 +35,7 @@ const Menu: React.FC<MenuProps> = ({ activeMenu, setActiveMenu, pattern, colorLi
             {/* <div style={{ display: activeMenu == "pompom" ? 'block' : 'none' }}> */}
 
             <UndoRedo
-                enable={activeMenu == "pompom"} pattern={pattern} setPattern={setPattern} colorList={colorList} setColorList={setColorList} selectColor={selectColor} setSelectColor={setSelectColor}></UndoRedo>
+                enable={activeMenu == "pompom" || activeMenu == "cameraScan"} pattern={pattern} setPattern={setPattern} colorList={colorList} setColorList={setColorList} selectColor={selectColor} setSelectColor={setSelectColor}></UndoRedo>
             {/* </div> */}
 
 
