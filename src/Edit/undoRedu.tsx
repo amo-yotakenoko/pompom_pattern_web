@@ -24,18 +24,18 @@ const UndoRedo: React.FC<UndoRedoProps> = ({ enable, pattern, colorList, selectC
     useEffect(() => {
         setTimeout(() => {
             if (history.length === 0) {
-                console.log("追加判定")
+                console.log("最初の状態更新")
                 setHistory([copy(stateRef.current)]);
-                setCurrent(1);
+                setCurrent(0);
             }
-        }, 5);
+        }, 2000);
     }, [history]);
     
     function copy(obj: any) {
         return JSON.parse(JSON.stringify(obj));
     }
     useEffect(() => {
-        stateRef.current = { pattern, colorList, selectColor };
+        stateRef.current = copy({ pattern, colorList, selectColor });
     }, [pattern, colorList, selectColor]);
 
 
@@ -51,29 +51,34 @@ const UndoRedo: React.FC<UndoRedoProps> = ({ enable, pattern, colorList, selectC
                     return
                 }
                 // console.log("更新チャック\n", JSON.stringify(history[current - 1]), "\n", JSON.stringify(stateRef.current), JSON.stringify(history[current - 1]) != JSON.stringify(stateRef.current))
-                if (JSON.stringify(history[current - 1]) != JSON.stringify(stateRef.current)) {
+                if (JSON.stringify(history[current]) != JSON.stringify(stateRef.current)) {
                     // const newHistory = copy(history);
                     let newHistory = copy(history)
-                    newHistory=  newHistory.splice(0, current);
+                    newHistory=  newHistory.splice(0, current+1);
                     let nextCurrent = current + 1
                     
                     newHistory.push(copy(stateRef.current))
-                    console.log("登録",current,newHistory)
+                    console.log("登録",newHistory.length,newHistory)
                     // console.log(newHistory.length)
                     setHistory(newHistory)
                     setCurrent(nextCurrent);
                 }
             }, 100);
         };
-
-        window.addEventListener('pointerup', handlePointerUp);
-        window.addEventListener('pointercancel', handlePointerUp);
-
+    const editingElement = document.getElementById('editing') ;
+        if (editingElement) {
+            editingElement.addEventListener('pointerup', handlePointerUp);
+            editingElement.addEventListener('pointercancel', handlePointerUp);
+        }
         return () => {
-            window.removeEventListener('pointerup', handlePointerUp);
-            window.removeEventListener('pointercancel', handlePointerUp);
+            if (editingElement) {
+                editingElement.removeEventListener('pointerup', handlePointerUp);
+                editingElement.removeEventListener('pointercancel', handlePointerUp);
+            }
         };
     }, [history, current]);
+
+   
 
 
     let log = []
@@ -81,7 +86,7 @@ const UndoRedo: React.FC<UndoRedoProps> = ({ enable, pattern, colorList, selectC
 
     return (
         <>
-            {/* {current}/{history.length}{`[${history.map(item => item.selectColor)}]`} */}
+            {current}/{history.length}{`[${history.map(item => item.selectColor)}]`}
             {/* ,{new Date().getMilliseconds()} */}
             <UndoButton
                 setIsundo={setIsundo}
@@ -133,12 +138,12 @@ const UndoButton = ({setIsundo, enable, history, current, setPattern, setColorLi
                 borderBottomRightRadius: '0px',
                 display: enable ? 'block' : 'none'
             }}
-            disabled={current === 1}
+            disabled={current === 0}
             onClick={() => {
 
-                setPattern(history[current - 2]?.pattern);
-                setColorList(history[current - 2]?.colorList);
-                setSelectColor(history[current - 2]?.selectColor);
+                setPattern(history[current - 1]?.pattern);
+                setColorList(history[current - 1]?.colorList);
+                setSelectColor(history[current - 1]?.selectColor);
                 setCurrent(current - 1);
                 setIsundo(true)
                 console.log({ history })
@@ -168,12 +173,12 @@ const RedoButton=({ setIsundo, enable, history, current, setPattern, setColorLis
                 borderBottomRightRadius: '0px',
                 display: enable ? 'block' : 'none'
             }}
-            disabled={current >= history.length}
+            disabled={current >= history.length-1}
             onClick={() => {
                 // setTimeout(() => {
-                setPattern(history[current]?.pattern);
-                setColorList(history[current]?.colorList);
-                setSelectColor(history[current]?.selectColor);
+                setPattern(history[current+1]?.pattern);
+                setColorList(history[current+1]?.colorList);
+                setSelectColor(history[current+1]?.selectColor);
                 setCurrent(current + 1);
                  setIsundo(true)
                 // }, 100);

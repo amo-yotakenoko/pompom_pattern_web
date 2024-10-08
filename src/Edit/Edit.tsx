@@ -155,8 +155,8 @@ function Edit() {
         <LocalStrageSave data={{ pattern, colorList, rollWidth, pitchWidth }} activeMenu={activeMenu} />
         <HelpButton activeMenu={activeMenu}></HelpButton>
 
-        <div className="container-fluid" style={{ padding: 0, margin: 0 }}>
-          <div className="row no-margin" style={{
+        <div className="container-fluid"  style={{ padding: 0, margin: 0 }}>
+          <div className="row no-margin" id="editing" style={{
             display: activeMenu === "pompom" || activeMenu === "cameraScan" ? "flex" : "none",
             // backgroundColor: "#f0f0ff",
           }}>
@@ -323,6 +323,7 @@ function Edit() {
           selectColor={selectColor}
           setSelectColor={setSelectColor}
         />
+
       </enableHelpContext.Provider>
 
     </>
