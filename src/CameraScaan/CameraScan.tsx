@@ -70,7 +70,7 @@ const CameraScan = ({ sceneProps, activeMenu, drawDot, meshList, colorList, mult
 				addMeshToScene({ x: 0, y: 0, z: destance }, 0),// 前
 				addMeshToScene({ x: 0, y: 0, z: - destance }, 0),// 後ろ
 				addMeshToScene({ x: destance, y: 0, z: 0 }, 0),//右
-				addMeshToScene({ x: - destance, y: 0, z: 0 }, 0),// 左
+				addMeshToScene({ x: - destance, y: 0, z: 0 }, 0),// 左　
 				addMeshToScene({ x: 0, y: destance, z: 0 }, 180),// 上
 				addMeshToScene({ x: 0, y: - destance, z: 0 }, 0),// 下
 			]
@@ -213,6 +213,8 @@ const CameraScan = ({ sceneProps, activeMenu, drawDot, meshList, colorList, mult
 		}
 	}, [activeMenu])
 
+	const [isFlip, SetIsFlip] = useState(false);
+
 	function onMouseClick(event: any) {
 		const raycaster = new THREE.Raycaster();
 		const mouse = new THREE.Vector2();
@@ -234,7 +236,8 @@ const CameraScan = ({ sceneProps, activeMenu, drawDot, meshList, colorList, mult
 			platesRef.current.forEach((plate: any, i: number) => {
 				// console.log("判定", intersects[0].object, plate.obj)
 				if (intersects[0].object == plate.obj) {
-					setSelectingPlate(i)
+					setSelectingPlate(i === 3 ? 2 : i)
+					SetIsFlip(i === 3)
 					isCancel = false
 				}
 			});
@@ -251,6 +254,13 @@ const CameraScan = ({ sceneProps, activeMenu, drawDot, meshList, colorList, mult
 			console.log(selectingPlate, selectingPlateobj)
 			selectingPlateobj.material.map = texture; // 各 plate にテクスチャを適用
 			selectingPlateobj.material.needsUpdate = true;  // マテリアルを更新
+
+			if (selectingPlate == 2) {
+				const selectingOtherPlateobj: any = platesRef.current[3].obj
+				console.log(selectingPlate, selectingPlateobj)
+				selectingOtherPlateobj.material.map = texture; // 各 plate にテクスチャを適用
+				selectingOtherPlateobj.material.needsUpdate = true;  // マテリアルを更新
+			}
 
 			document.getElementById("setCurrentState")?.click();
 
@@ -344,6 +354,13 @@ const CameraScan = ({ sceneProps, activeMenu, drawDot, meshList, colorList, mult
 		// canvasRef.current.width = 256;
 		// canvasRef.current.height = 256;
 		ctx.clearRect(0, 0, canvasRef.current.width, canvasRef.current.height);
+
+		if (isFlip) {
+			ctx.save();
+			ctx.scale(-1, 1);
+			ctx.translate(-canvasRef.current.width, 0);
+		}
+
 		ctx.drawImage(
 			videoRef.current, // 描画元の画像（ビデオなど）
 			xOffset, yOffset, // 描画元の開始位置
@@ -351,6 +368,7 @@ const CameraScan = ({ sceneProps, activeMenu, drawDot, meshList, colorList, mult
 			0, 0, // キャンバス上の描画開始位置
 			canvasRef.current.width, canvasRef.current.height // キャンバス上に描画するサイズ
 		);
+		if (isFlip) ctx.restore();
 
 		ctx.beginPath();
 		ctx.arc(canvasRef.current.width / 2, canvasRef.current.height / 2, canvasRef.current.width / 2, 0, Math.PI * 2, false);
@@ -359,9 +377,25 @@ const CameraScan = ({ sceneProps, activeMenu, drawDot, meshList, colorList, mult
 
 		if (0 > selectingPlate) return;
 		const texture = new THREE.CanvasTexture(canvasRef.current as any);
+		// if (isFlip) {
+		// 	texture.wrapS = THREE.RepeatWrapping; // テクスチャの繰り返しを有効にする
+		// 	texture.repeat.x = -1; // x方向に左右反転
+
+		// }
 		const selectingPlateobj = platesRef.current[selectingPlate].obj
 		selectingPlateobj.material.map = texture; // マテリアルのテクスチャを更新
 		selectingPlateobj.material.needsUpdate = true; // マテリアルの更新を促す
+		if (selectingPlate == 2) {
+			const fripTexture = new THREE.CanvasTexture(canvasRef.current as any);
+			// if (!isFlip) {
+			fripTexture.wrapS = THREE.RepeatWrapping; // テクスチャの繰り返しを有効にする
+			fripTexture.repeat.x = -1; // x方向に左右反転
+
+			// }
+			const rightSelectingPlateobj = platesRef.current[3].obj
+			rightSelectingPlateobj.material.map = fripTexture; // マテリアルのテクスチャを更新
+			rightSelectingPlateobj.material.needsUpdate = true; // マテリアルの更新を促す
+		}
 		(selectingPlateobj as any).isCaptured = true
 		// return
 		try {
@@ -698,12 +732,14 @@ const CameraScan = ({ sceneProps, activeMenu, drawDot, meshList, colorList, mult
 	}
 
 
-
+	// 2が右3が左
 	function plateAnimation() {
 		// console.log("plateanimation", activeMenuRef.current)
 		platesRef.current.forEach((plate: any, i: number) => {
 			let scale = plate.obj.scale.x;
-			let target = (i === selectingPlate) ? 1 : 0.5;
+			let target = (i == selectingPlate) ? 1 : 0.5;
+			if (i == 3 && selectingPlate == 2) target = 1;
+
 			if (activeMenu != "cameraScan") target = 0;
 
 			scale += (target - scale) * 0.05;
