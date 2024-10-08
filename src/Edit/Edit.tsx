@@ -155,7 +155,7 @@ function Edit() {
         <LocalStrageSave data={{ pattern, colorList, rollWidth, pitchWidth }} activeMenu={activeMenu} />
         <HelpButton activeMenu={activeMenu}></HelpButton>
 
-        <div className="container-fluid"  style={{ padding: 0, margin: 0 }}>
+        <div className="container-fluid" style={{ padding: 0, margin: 0 }}>
           <div className="row no-margin" id="editing" style={{
             display: activeMenu === "pompom" || activeMenu === "cameraScan" ? "flex" : "none",
             // backgroundColor: "#f0f0ff",
@@ -218,6 +218,7 @@ function Edit() {
                     // console.log("スキャン", cameraScanRef.current)
                     // if (cameraScanRef.current)
                     //   (cameraScanRef.current as any).takeScan();
+                    document.getElementById("addHistory")?.click();
                     setSelectingPlate(-1)
                   }}
                 />

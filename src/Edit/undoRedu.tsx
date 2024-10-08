@@ -4,20 +4,12 @@ import { Button } from 'react-bootstrap';
 import * as Icon from 'react-bootstrap-icons';
 import { enableHelpContext } from './Edit';
 import Help from "../Help"
-type UndoRedoProps = {
-    enable: any;
-    pattern: any;
-    colorList: any;
-    selectColor: number;
-    setPattern: any;
-    setColorList: any;
-    setSelectColor: any;
-};
+
 function copy(obj: any) {
     return JSON.parse(JSON.stringify(obj));
 }
 // var isundo = false;
-const UndoRedo: React.FC<UndoRedoProps> = ({ enable, pattern, colorList, selectColor, setPattern, setColorList, setSelectColor }) => {
+const UndoRedo = ({ enable, pattern, colorList, selectColor, setPattern, setColorList, setSelectColor, registerEnable }: any) => {
     const [history, setHistory] = useState<any[]>([]);
     // const historyRef = useRef<any>([]);
     const [current, setCurrent] = useState<number>(0);
@@ -69,19 +61,21 @@ const UndoRedo: React.FC<UndoRedoProps> = ({ enable, pattern, colorList, selectC
                 addHistory()
             }
         }
+        if (registerEnable) {
 
-        const editingElement = document.getElementById('editing');
-        if (editingElement) {
-            editingElement.addEventListener('pointerup', handlePointerUp);
-            editingElement.addEventListener('pointercancel', handlePointerUp);
-        }
-        return () => {
+            const editingElement = document.getElementById('editing');
             if (editingElement) {
-                editingElement.removeEventListener('pointerup', handlePointerUp);
-                editingElement.removeEventListener('pointercancel', handlePointerUp);
+                editingElement.addEventListener('pointerup', handlePointerUp);
+                editingElement.addEventListener('pointercancel', handlePointerUp);
             }
-        };
-    }, [history, current, pattern, colorList, selectColor]);
+            return () => {
+                if (editingElement) {
+                    editingElement.removeEventListener('pointerup', handlePointerUp);
+                    editingElement.removeEventListener('pointercancel', handlePointerUp);
+                }
+            };
+        }
+    }, [history, current, pattern, colorList, selectColor, registerEnable]);
 
 
     function addHistory() {
@@ -107,13 +101,21 @@ const UndoRedo: React.FC<UndoRedoProps> = ({ enable, pattern, colorList, selectC
 
     return (
         <>
-            <button onClick={addHistory}>addHistory</button>
+            {/* <button onClick={addHistory}>addHistory</button>
             {current}/{history.length - 1},{`${history.map((item: any) => item.selectColor)}`}
             {/* ,{new Date().getMilliseconds()} */}
-            {`${JSON.stringify(history.map((x: any) => x.pattern[0]))}`}<br />
+            {/* {`${JSON.stringify(history.map((x: any) => x.pattern[0]))}`}<br /> */}
             {/* {stateRef.current && JSON.stringify(stateRef.current.pattern[0])}
             {JSON.stringify(state.pattern[0])} */}
-            {JSON.stringify(pattern[0])}:今
+            {/* {JSON.stringify(pattern[0])}:今} */}
+
+            <div onClick={addHistory} id="addHistory"></div>
+            <div id="setCurrentState" onClick={() => {
+                setPattern(copy(history[current]?.pattern));
+                setColorList(copy(history[current]?.colorList));
+                setSelectColor(copy(history[current]?.selectColor));
+            }}></div >
+
             <UndoButton
                 // setIsundo={setIsundo}
                 enable={enable}
