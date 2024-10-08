@@ -36,7 +36,8 @@ PWAアプリとして開発しているため、ダウンロードせずに試�
 
 動作確認済:Android 12;SCV41 Build/SP1A.210812.016 Chrome 127.0.6533.105,iPhone11 Pro A2215 (MWC52J/A)  Chrome 128.6613.92
 
-
+TODO
+2本取りの時の手のトラッキング
 
 
 

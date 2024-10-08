@@ -252,10 +252,10 @@ const CameraScan = ({ sceneProps, activeMenu, drawDot, meshList, colorList, mult
 			selectingPlateobj.material.map = texture; // 各 plate にテクスチャを適用
 			selectingPlateobj.material.needsUpdate = true;  // マテリアルを更新
 
-			const undoButton = document.getElementById('undoButton');
-			console.log(undoButton)
-			if (undoButton)
-				undoButton.click();
+			// const undoButton = document.getElementById('undoButton');
+			// console.log(undoButton)
+			// if (undoButton)
+			// 	undoButton.click();
 
 
 		} catch {
@@ -737,8 +737,8 @@ const CameraScan = ({ sceneProps, activeMenu, drawDot, meshList, colorList, mult
 					setSelectedDeviceId={setSelectedDeviceId}
 					selectedDeviceId={selectedDeviceId}
 					setVideoOk={setVideoOk}
-					isEnable={activeMenu=="cameraScan"&& selectingPlate>=0}
-					
+					isEnable={activeMenu == "cameraScan" && selectingPlate >= 0}
+
 				/>
 				{/* {activeMenu === "cameraScan" &&
 						( */}
