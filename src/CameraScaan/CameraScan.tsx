@@ -737,6 +737,8 @@ const CameraScan = ({ sceneProps, activeMenu, drawDot, meshList, colorList, mult
 					setSelectedDeviceId={setSelectedDeviceId}
 					selectedDeviceId={selectedDeviceId}
 					setVideoOk={setVideoOk}
+					isEnable={activeMenu=="cameraScan"&& selectingPlate>=0}
+					
 				/>
 				{/* {activeMenu === "cameraScan" &&
 						( */}

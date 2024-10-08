@@ -114,6 +114,7 @@ const CameraCounter = ({ addCounter }: any) => {
                                                 setSelectedDeviceId={setSelectedDeviceId}
                                                 selectedDeviceId={selectedDeviceId}
                                                 setVideoOk={setVideoOk}
+                                                isEnable={true}
                                             />
 
 
