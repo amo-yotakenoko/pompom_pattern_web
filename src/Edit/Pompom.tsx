@@ -437,7 +437,7 @@ const Pompom = ({ meshList, sceneProps, setSceneProps, pattern, colorList, rollW
                     }
                 });
             }
-            console.log(isDrwaing.current)
+            // console.log(isDrwaing.current)
 
 
             animationId = requestAnimationFrame(tick);

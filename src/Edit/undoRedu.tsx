@@ -18,7 +18,7 @@ const UndoRedo: React.FC<UndoRedoProps> = ({ enable, pattern, colorList, selectC
     const [history, setHistory] = useState<any[]>([]);
     const [current, setCurrent] = useState<number>(0);
     
-    const [isundo, setIsundo]= useState(false); 
+    const [isundo, setIsundo]= useState(false); //いらない
     const stateRef = useRef<any>();
     
     useEffect(() => {
@@ -34,7 +34,10 @@ const UndoRedo: React.FC<UndoRedoProps> = ({ enable, pattern, colorList, selectC
     function copy(obj: any) {
         return JSON.parse(JSON.stringify(obj));
     }
+
+
     useEffect(() => {
+        console.log("stateref更新")
         stateRef.current = copy({ pattern, colorList, selectColor });
     }, [pattern, colorList, selectColor]);
 
@@ -45,12 +48,12 @@ const UndoRedo: React.FC<UndoRedoProps> = ({ enable, pattern, colorList, selectC
         const handlePointerUp = () => {
             // console.log("pointerup")
             setTimeout(() => {
-                if (isundo) {
-                    setIsundo( false)
-                    console.log("前操作がundoなのでcancel")
-                    return
-                }
-                // console.log("更新チャック\n", JSON.stringify(history[current - 1]), "\n", JSON.stringify(stateRef.current), JSON.stringify(history[current - 1]) != JSON.stringify(stateRef.current))
+                // if (isundo) {
+                //     setIsundo( false)
+                //     console.log("前操作がundoなのでcancel")
+                //     return
+                // }
+                console.log("更新チャック\n", JSON.stringify(history[current ]), "\n", JSON.stringify(stateRef.current), JSON.stringify(history[current ]) != JSON.stringify(stateRef.current))
                 if (JSON.stringify(history[current]) != JSON.stringify(stateRef.current)) {
                     // const newHistory = copy(history);
                     let newHistory = copy(history)
@@ -76,7 +79,7 @@ const UndoRedo: React.FC<UndoRedoProps> = ({ enable, pattern, colorList, selectC
                 editingElement.removeEventListener('pointercancel', handlePointerUp);
             }
         };
-    }, [history, current]);
+    }, [history, current,pattern, colorList, selectColor]);
 
    
 
