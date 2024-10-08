@@ -158,13 +158,15 @@ const BluePrint: React.FC<BluePrintProps> = ({ pattern, colorList, rollWidth, pi
         }
 
 
-        //使い終わった
+        //使い終わってない
         for (let pitch = 0; pitch < pitchWidth; pitch++) {
             for (let roll = 0; roll < rollWidth; roll++) {
-                // console.log(pattern)
-                // console.log(canvas)
-                const p = roll + pitch;
-                const color = propsRef.current.pattern[roll][pitch];
+                try {
+                    
+                    // console.log(pattern)
+                    // console.log(canvas)
+                    const p = roll + pitch;
+                    const color = propsRef.current.pattern[roll][pitch];
                 const i = p % propsRef.current.colorList[color].length;
                 ctx.fillStyle = propsRef.current.colorList[color][i];
                 ctx.strokeStyle = "#000000";
@@ -181,7 +183,7 @@ const BluePrint: React.FC<BluePrintProps> = ({ pattern, colorList, rollWidth, pi
                 center.y += (theta >= Math.PI ? -1 : 1) * 15;
                 ctx.lineWidth = 0.5;
                 ctx.beginPath();
-
+                
                 ctx.moveTo(center.x + Math.cos(theta) * (r), center.y + Math.sin(theta) * (r));
                 ctx.lineTo(center.x + Math.cos(theta + thetaWidth) * (r), center.y + Math.sin(theta + thetaWidth) * (r));
                 ctx.lineTo(center.x + Math.cos(theta + thetaWidth) * (r + rWidth), center.y + Math.sin(theta + thetaWidth) * (r + rWidth));
@@ -190,11 +192,17 @@ const BluePrint: React.FC<BluePrintProps> = ({ pattern, colorList, rollWidth, pi
                 ctx.stroke();
                 ctx.closePath();
                 ctx.fill();
+                } catch (e){
+                    console.log(e)
+            }
 
             }
             await new Promise(requestAnimationFrame);
             if (cancel) return;
         }
+
+
+        
         // await new Promise(resolve => setTimeout(resolve, 1000));
         let puted: any = [];
         for (let i = 0; i < rollWidth; i++) {
@@ -270,13 +278,13 @@ const BluePrint: React.FC<BluePrintProps> = ({ pattern, colorList, rollWidth, pi
             drawFrame(ctx, frame.center, frame.roll, frame.pitch, frame.piled, frame.widthCount);
             ctx.lineWidth = 1;
             ctx.stroke();
-            await new Promise(resolve => setTimeout(resolve, 100));
+            await new Promise(resolve => setTimeout(resolve, 1));
             console.log("かきこみ")
         }
         for (const frame of frames) {
 
             drawCountNumber(frame.piled, frame.center, frame.theta, frame.pitch, frame.roll, frame.thetaWidth, frame.widthCount, frame.frameColor);
-            await new Promise(resolve => setTimeout(resolve, 100));
+            await new Promise(resolve => setTimeout(resolve, 1));
         }
 
 

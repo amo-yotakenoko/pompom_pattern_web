@@ -42,7 +42,7 @@ const ColorEdit: React.FC<colorPaletteProps> = ({ colorList, selectColor, setSel
 
         <div style={{ width: "100%" }}>
             <Nav justify variant="tabs" activeKey={selectedMultiColor}
-                onSelect={(e: any) => { setSelectedMultiColor(parseInt(e)) }}>
+                onSelect={(e: any) => { try{ setSelectedMultiColor(parseInt(e)) }catch(e:any){console.log(e)} }}>
 
 
                 {colorList[selectColor].map((color: any, i: any) => (
