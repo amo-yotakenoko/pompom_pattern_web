@@ -4997,7 +4997,7 @@
       },
       {
         "$type": "YukkuriMovieMaker.Project.Items.TextItem, YukkuriMovieMaker",
-        "Text": "うちの猫ミモザ",
+        "Text": "うちの猫ミモ",
         "Decorations": [],
         "Font": "UD デジタル 教科書体 N-B",
         "FontSize": {
@@ -12542,7 +12542,7 @@
     "LayerSettings": {
       "Items": []
     },
-    "CurrentFrame": 4063,
+    "CurrentFrame": 2576,
     "Length": 6384,
     "MaxLayer": 13
   },
