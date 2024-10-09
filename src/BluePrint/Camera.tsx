@@ -2,7 +2,7 @@ import React, { useState, useRef, useEffect } from 'react';
 import { Button, ProgressBar } from 'react-bootstrap';
 
 
-const Camera = ({ isEnable,videoRef, devices, setDevices, setSelectedDeviceId, selectedDeviceId, setVideoOk }: any) => {
+const Camera = ({ isEnable, videoRef, devices, setDevices, setSelectedDeviceId, selectedDeviceId, setVideoOk }: any) => {
 
     // const canvasRef = useRef<HTMLCanvasElement>(null)
     useEffect(() => {
@@ -13,14 +13,14 @@ const Camera = ({ isEnable,videoRef, devices, setDevices, setSelectedDeviceId, s
                 .map(device => ({ label: device.label || 'Camera', deviceId: device.deviceId }));
             console.log(videoDevices)
             setDevices(videoDevices);
-            if (videoDevices.length > 0) {
+            if (!selectedDeviceId && videoDevices.length > 0) {
                 setSelectedDeviceId(videoDevices[0].deviceId);
             }
         };
         // if(isEnable)
         console.log(isEnable)
         fetchVideoDevices()
-    }, [ isEnable])
+    }, [isEnable])
 
     useEffect(() => {
         setVideoOk(false)
@@ -47,12 +47,12 @@ const Camera = ({ isEnable,videoRef, devices, setDevices, setSelectedDeviceId, s
             }
         };
         if (isEnable) {
-              
+
             openCamera();
             console.log("open")
         }
 
-    }, [selectedDeviceId,isEnable]);
+    }, [selectedDeviceId, isEnable]);
 
 
     return (

@@ -109,7 +109,7 @@
           "Frames": [],
           "Count": 0
         },
-        "Length": 3931,
+        "Length": 6384,
         "PlaybackRate": 100.0,
         "ContentOffset": "00:00:00",
         "Remark": "",
@@ -8231,15 +8231,15 @@
         "BeforeVideoEffects": [],
         "AfterVideoEffects": [],
         "Group": 0,
-        "Frame": 2789,
+        "Frame": 2787,
         "Layer": 4,
         "KeyFrames": {
           "Frames": [],
           "Count": 0
         },
-        "Length": 13,
+        "Length": 32,
         "PlaybackRate": 100.0,
-        "ContentOffset": "00:00:00.0499998",
+        "ContentOffset": "00:00:00",
         "Remark": "",
         "IsLocked": false,
         "IsHidden": false
@@ -9712,153 +9712,6 @@
           "Count": 0
         },
         "Length": 160,
-        "Remark": "",
-        "IsLocked": false,
-        "IsHidden": false
-      },
-      {
-        "$type": "YukkuriMovieMaker.Project.Items.VideoItem, YukkuriMovieMaker",
-        "IsWaveformEnabled": false,
-        "FilePath": "C:\\Users\\taken\\projects\\pompom_pattern_web\\movie\\カメラ表示.mp4",
-        "AudioTrackIndex": 0,
-        "Volume": {
-          "Values": [
-            {
-              "Value": 50.0
-            }
-          ],
-          "Span": 0.0,
-          "AnimationType": "なし"
-        },
-        "Pan": {
-          "Values": [
-            {
-              "Value": 0.0
-            }
-          ],
-          "Span": 0.0,
-          "AnimationType": "なし"
-        },
-        "PlaybackRate": 100.0,
-        "ContentOffset": "00:00:00",
-        "IsLooped": false,
-        "EchoIsEnabled": false,
-        "EchoInterval": 0.1,
-        "EchoAttenuation": 40.0,
-        "AudioEffects": [],
-        "X": {
-          "Values": [
-            {
-              "Value": 487.0
-            }
-          ],
-          "Span": 0.0,
-          "AnimationType": "なし"
-        },
-        "Y": {
-          "Values": [
-            {
-              "Value": 4.0
-            }
-          ],
-          "Span": 0.0,
-          "AnimationType": "なし"
-        },
-        "Z": {
-          "Values": [
-            {
-              "Value": 0.0
-            }
-          ],
-          "Span": 0.0,
-          "AnimationType": "なし"
-        },
-        "Opacity": {
-          "Values": [
-            {
-              "Value": 100.0
-            }
-          ],
-          "Span": 0.0,
-          "AnimationType": "なし"
-        },
-        "Zoom": {
-          "Values": [
-            {
-              "Value": 100.0
-            }
-          ],
-          "Span": 0.0,
-          "AnimationType": "なし"
-        },
-        "Rotation": {
-          "Values": [
-            {
-              "Value": 8.1
-            }
-          ],
-          "Span": 0.0,
-          "AnimationType": "なし"
-        },
-        "FadeIn": 0.0,
-        "FadeOut": 0.0,
-        "Blend": "Normal",
-        "IsInverted": false,
-        "IsClippingWithObjectAbove": false,
-        "IsAlwaysOnTop": false,
-        "IsZOrderEnabled": false,
-        "VideoEffects": [
-          {
-            "$type": "YukkuriMovieMaker.Project.Effects.CropEffect, YukkuriMovieMaker",
-            "Top": {
-              "Values": [
-                {
-                  "Value": 52.8
-                }
-              ],
-              "Span": 0.0,
-              "AnimationType": "なし"
-            },
-            "Bottom": {
-              "Values": [
-                {
-                  "Value": 30.8
-                }
-              ],
-              "Span": 0.0,
-              "AnimationType": "なし"
-            },
-            "Left": {
-              "Values": [
-                {
-                  "Value": 294.8
-                }
-              ],
-              "Span": 0.0,
-              "AnimationType": "なし"
-            },
-            "Right": {
-              "Values": [
-                {
-                  "Value": 1035.2
-                }
-              ],
-              "Span": 0.0,
-              "AnimationType": "なし"
-            },
-            "IsCentering": true,
-            "IsEnabled": true,
-            "Remark": ""
-          }
-        ],
-        "Group": 0,
-        "Frame": 3526,
-        "Layer": 1,
-        "KeyFrames": {
-          "Frames": [],
-          "Count": 0
-        },
-        "Length": 288,
         "Remark": "",
         "IsLocked": false,
         "IsHidden": false
@@ -12451,13 +12304,246 @@
         "Remark": "",
         "IsLocked": false,
         "IsHidden": false
+      },
+      {
+        "$type": "YukkuriMovieMaker.Project.Items.VideoItem, YukkuriMovieMaker",
+        "IsWaveformEnabled": false,
+        "FilePath": "C:\\Users\\taken\\projects\\pompom_pattern_web\\movie\\handtracker.mov",
+        "AudioTrackIndex": 0,
+        "Volume": {
+          "Values": [
+            {
+              "Value": 0.0
+            }
+          ],
+          "Span": 0.0,
+          "AnimationType": "なし"
+        },
+        "Pan": {
+          "Values": [
+            {
+              "Value": 0.0
+            }
+          ],
+          "Span": 0.0,
+          "AnimationType": "なし"
+        },
+        "PlaybackRate": 100.0,
+        "ContentOffset": "00:00:09.8833333",
+        "IsLooped": false,
+        "EchoIsEnabled": false,
+        "EchoInterval": 0.1,
+        "EchoAttenuation": 40.0,
+        "AudioEffects": [],
+        "X": {
+          "Values": [
+            {
+              "Value": 478.0
+            }
+          ],
+          "Span": 0.0,
+          "AnimationType": "なし"
+        },
+        "Y": {
+          "Values": [
+            {
+              "Value": 57.0
+            }
+          ],
+          "Span": 0.0,
+          "AnimationType": "なし"
+        },
+        "Z": {
+          "Values": [
+            {
+              "Value": 0.0
+            }
+          ],
+          "Span": 0.0,
+          "AnimationType": "なし"
+        },
+        "Opacity": {
+          "Values": [
+            {
+              "Value": 100.0
+            }
+          ],
+          "Span": 0.0,
+          "AnimationType": "なし"
+        },
+        "Zoom": {
+          "Values": [
+            {
+              "Value": 121.6
+            }
+          ],
+          "Span": 0.0,
+          "AnimationType": "なし"
+        },
+        "Rotation": {
+          "Values": [
+            {
+              "Value": 8.1
+            }
+          ],
+          "Span": 0.0,
+          "AnimationType": "なし"
+        },
+        "FadeIn": 0.0,
+        "FadeOut": 0.0,
+        "Blend": "Normal",
+        "IsInverted": false,
+        "IsClippingWithObjectAbove": false,
+        "IsAlwaysOnTop": false,
+        "IsZOrderEnabled": false,
+        "VideoEffects": [
+          {
+            "$type": "YukkuriMovieMaker.Project.Effects.CropEffect, YukkuriMovieMaker",
+            "Top": {
+              "Values": [
+                {
+                  "Value": 116.6
+                }
+              ],
+              "Span": 0.0,
+              "AnimationType": "なし"
+            },
+            "Bottom": {
+              "Values": [
+                {
+                  "Value": 0.0
+                }
+              ],
+              "Span": 0.0,
+              "AnimationType": "なし"
+            },
+            "Left": {
+              "Values": [
+                {
+                  "Value": 0.0
+                }
+              ],
+              "Span": 0.0,
+              "AnimationType": "なし"
+            },
+            "Right": {
+              "Values": [
+                {
+                  "Value": 0.0
+                }
+              ],
+              "Span": 0.0,
+              "AnimationType": "なし"
+            },
+            "IsCentering": true,
+            "IsEnabled": true,
+            "Remark": ""
+          }
+        ],
+        "Group": 0,
+        "Frame": 3526,
+        "Layer": 1,
+        "KeyFrames": {
+          "Frames": [],
+          "Count": 0
+        },
+        "Length": 373,
+        "Remark": "",
+        "IsLocked": false,
+        "IsHidden": false
+      },
+      {
+        "$type": "YukkuriMovieMaker.Project.Items.TransitionItem, YukkuriMovieMaker",
+        "X": {
+          "Values": [
+            {
+              "Value": 0.0
+            }
+          ],
+          "Span": 0.0,
+          "AnimationType": "なし"
+        },
+        "Y": {
+          "Values": [
+            {
+              "Value": 0.0
+            }
+          ],
+          "Span": 0.0,
+          "AnimationType": "なし"
+        },
+        "Z": {
+          "Values": [
+            {
+              "Value": 0.0
+            }
+          ],
+          "Span": 0.0,
+          "AnimationType": "なし"
+        },
+        "Opacity": {
+          "Values": [
+            {
+              "Value": 100.0
+            }
+          ],
+          "Span": 0.0,
+          "AnimationType": "なし"
+        },
+        "Zoom": {
+          "Values": [
+            {
+              "Value": 100.0
+            }
+          ],
+          "Span": 0.0,
+          "AnimationType": "なし"
+        },
+        "Rotation": {
+          "Values": [
+            {
+              "Value": 0.0
+            }
+          ],
+          "Span": 0.0,
+          "AnimationType": "なし"
+        },
+        "FadeIn": 0.0,
+        "FadeOut": 0.0,
+        "IsInverted": false,
+        "Blend": "Normal",
+        "IsAlwaysOnTop": false,
+        "IsZOrderEnabled": false,
+        "IsClippingWithObjectAbove": false,
+        "VideoEffects": [],
+        "TransitionType": "YukkuriMovieMaker.Transition.FadeTransitionPlugin, YukkuriMovieMaker, Version=4.33.0.3, Culture=neutral, PublicKeyToken=null",
+        "TransitionParameter": {
+          "$type": "YukkuriMovieMaker.Transition.FadeTransitionParameter, YukkuriMovieMaker",
+          "EasingType": "Expo",
+          "EasingMode": "InOut"
+        },
+        "BeforeVideoEffects": [],
+        "AfterVideoEffects": [],
+        "Group": 0,
+        "Frame": 3899,
+        "Layer": 4,
+        "KeyFrames": {
+          "Frames": [],
+          "Count": 0
+        },
+        "Length": 48,
+        "PlaybackRate": 100.0,
+        "ContentOffset": "00:00:00",
+        "Remark": "",
+        "IsLocked": false,
+        "IsHidden": false
       }
     ],
     "LayerSettings": {
       "Items": []
     },
-    "CurrentFrame": 3347,
-    "Length": 3931,
+    "CurrentFrame": 4063,
+    "Length": 6384,
     "MaxLayer": 13
   },
   "Characters": [
