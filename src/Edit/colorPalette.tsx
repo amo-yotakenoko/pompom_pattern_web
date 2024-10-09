@@ -176,7 +176,10 @@ const ColorPalette = ({ colorList, selectColor, setSelectColor, setMultiColorSel
                 {colorButtons}
                 <br></br>
                 <Help id={`color-${2}`} >色を選択</Help>
-                <Help id={`colorCheck-${0}`} placement="bottom" >使用する色を選択</Help>
+                {enableMultiColorSelect && (
+                    <Help id={`colorCheck-${0}`} placement="bottom" >使用する色を選択</Help>
+
+                )}
             </ButtonGroup>
             {/* </div> */}
 

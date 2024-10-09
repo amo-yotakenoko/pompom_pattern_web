@@ -37,16 +37,15 @@ const HelpButton = ({ activeMenu }: any) => {
 
 
     return (
-        <div id="QuestionCircle">
-            {/* help{`${useContext(enableHelpContext)}`} */}
-            {/* <Icon.QuestionCircle /> */}
+        // <div id="QuestionCircle">
 
-            <Icon.QuestionCircle id="QuestionCircle" style={{ fontSize: "2em", position: 'fixed', top: "5px", right: "5px", zIndex: 1000 }}
-                onClick={() => setEnableHelp((prev: any) => !prev)}
 
-            />
+        <Icon.QuestionCircle id="QuestionCircle" style={{ fontSize: "2.5em" }}
+            onClick={() => setEnableHelp((prev: any) => !prev)}
 
-        </div>
+        />
+
+        // </div>
     )
 }
 export default HelpButton;

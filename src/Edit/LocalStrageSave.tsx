@@ -104,7 +104,7 @@ const LocalStrageSave: React.FC<LocalStrageSaveProps> = ({ data, activeMenu }) =
             setTimeout(() => setIsSaved(true), 1)
         } catch (e) {
 
-            alert('保存容量が無くなりました、設計図タブからダウンロードしてください' + e);
+            // alert('保存容量が無くなりました、設計図タブからダウンロードしてください' + e);
         }
 
 

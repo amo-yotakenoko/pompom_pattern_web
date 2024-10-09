@@ -141,7 +141,7 @@ const Pompom = ({ meshList, sceneProps, setSceneProps, pattern, colorList, rollW
 
 
         // controls.autoRotate = true;
-        // controls.autoRotateSpeed = 2.0; 
+        // controls.autoRotateSpeed = 2.0;
 
 
         const directionalLight = new THREE.DirectionalLight(0xffffff, 1);

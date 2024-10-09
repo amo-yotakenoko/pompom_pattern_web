@@ -1,7 +1,7 @@
 import React, { useEffect, useState, createContext, useContext, useRef } from 'react';
 import { useLocation } from "react-router-dom"
 import * as THREE from 'three';
-import { Overlay, Tooltip } from 'react-bootstrap';
+import { Overlay, Tooltip, Button } from 'react-bootstrap';
 // import { Canvas, useFrame } from '@react-three/fiber';
 // import { BufferGeometry, Float32BufferAttribute, Mesh, MeshBasicMaterial } from 'three';
 // import { OrbitControls } from "@react-three/drei";
@@ -153,7 +153,39 @@ function Edit() {
     <>
       <enableHelpContext.Provider value={{ enableHelp, setEnableHelp }}>
         <LocalStrageSave data={{ pattern, colorList, rollWidth, pitchWidth }} activeMenu={activeMenu} />
-        <HelpButton activeMenu={activeMenu}></HelpButton>
+        <div style={{ position: 'fixed', top: "5px", right: "5px", display: 'flex', flexDirection: 'row-reverse', gap: '10px', zIndex: 1000 }}>
+
+          <HelpButton activeMenu={activeMenu}></HelpButton>
+          {activeMenu == "pompom" && (
+
+            <Icon.Camera style={{ fontSize: "2.5em" }}
+              onClick={() => setActiveMenu("cameraScan")}
+
+            />
+          )}
+          {activeMenu == "cameraScan" && (
+
+            <div style={{
+              fontSize: "1em", alignItems: 'center',
+              justifyContent: 'center'
+            }}
+              onClick={() => setActiveMenu("pompom")}
+
+            ><Button variant="outline-dark" style={{ borderWidth: '2px', paddingLeft: '5px' }}><Icon.CaretLeft style={{ fontSize: "1.5em", }}></Icon.CaretLeft>戻る</Button></div>
+          )}
+
+          {/* <Icon.Camera style={{ fontSize: "2em" }}
+            onClick={() => setEnableHelp((prev: any) => !prev)}
+
+          /> */}
+        </div>
+        {/* <div style={{ position: 'fixed', top: "2em", left: "5px", display: 'flex', flexDirection: 'column', zIndex: 1000 }}>
+
+          <Icon.Camera style={{ fontSize: "2.5em" }}
+            onClick={() => setEnableHelp((prev: any) => !prev)}
+
+          />
+        </div> */}
 
         <div className="container-fluid" style={{ padding: 0, margin: 0 }}>
           <div className="row no-margin" id="editing" style={{
@@ -199,23 +231,23 @@ function Edit() {
                     transition: "transform 0.3s ease", // 0.3秒かけてスムーズに大きさを変える
                   }}
                 />
-                  {/* {selectingPlate}{selectingPlate >= 0&&(<>カメラ <Help id="RecordCircle">撮影{selectingPlate}</Help></>)} */}
+                {/* {selectingPlate}{selectingPlate >= 0&&(<>カメラ <Help id="RecordCircle">撮影{selectingPlate}</Help></>)} */}
                 {/* <div style={{ display: selectingPlate < 0 ? "display" : "none" }}> */}
                 {selectingPlate < 0 && (
-                  
+
                   <Help id="ArrowsMove">{`スワイプして回転`}</Help>
                 )}
-                  {selectingPlate >= 0 && (
-                  
+                {selectingPlate >= 0 && (
+
                   <Help id="RecordCircle">{`撮影`}</Help>
-                  )}
-               {/* </div> */}
-               
-                 {/* <div style={{ display: selectingPlate >= 0 ? "display" : "none" }}>
+                )}
+                {/* </div> */}
+
+                {/* <div style={{ display: selectingPlate >= 0 ? "display" : "none" }}>
                   
                   <Help id="RecordCircle">撮影{selectingPlate}</Help>
                 </div> */}
-               
+
 
 
                 <Icon.RecordCircle
@@ -252,16 +284,16 @@ function Edit() {
               display: (activeMenu === "pompom" || activeMenu === "cameraScan") ? "flex" : "none",
             }}>
               {activeMenu === "pompom" && (
-                
+
                 <div className="col-6 col-xl-4 no-margin " style={{ display: activeMenu === "pompom" ? "flex" : "none", }}>
-                <ColorEdit
-                  colorList={colorList}
-                  selectColor={selectColor}
-                  setSelectColor={setSelectColor}
-                  setColorList={setColorList}
+                  <ColorEdit
+                    colorList={colorList}
+                    selectColor={selectColor}
+                    setSelectColor={setSelectColor}
+                    setColorList={setColorList}
                   />
-              </div>
-                )}
+                </div>
+              )}
 
               <div className="col-6 col-xl-4 no-margin " style={{ display: activeMenu === "cameraScan" ? "flex" : "none", }}>
                 <CameraScan
