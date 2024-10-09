@@ -230,12 +230,13 @@ const CameraScan = ({ sceneProps, activeMenu, drawDot, meshList, colorList, mult
 
 		// console.log("plate判定", intersects)
 		let isCancel = true;
-		if (intersects.length > 0) {
+		if (selectingPlate<0&&intersects.length > 0) {
 			// オブジェクトがタップされた場合
 			// console.log(intersects[0].object)
 			platesRef.current.forEach((plate: any, i: number) => {
 				// console.log("判定", intersects[0].object, plate.obj)
 				if (intersects[0].object == plate.obj) {
+					
 					setSelectingPlate(i === 3 ? 2 : i)
 					SetIsFlip(i === 3)
 					isCancel = false
@@ -243,6 +244,8 @@ const CameraScan = ({ sceneProps, activeMenu, drawDot, meshList, colorList, mult
 			});
 			// ここでタップされたオブジェクトに対して何か処理を行う
 		}
+
+
 		if (isCancel) cancelSelectingPlate();
 	}
 
