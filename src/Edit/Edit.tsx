@@ -182,6 +182,8 @@ function Edit() {
                   drawDot={drawDot}
                   meshList={meshList}
                 />
+
+
                 <Icon.ArrowsMove
                   // ref={moveRef}
                   id="ArrowsMove"
@@ -197,12 +199,28 @@ function Edit() {
                     transition: "transform 0.3s ease", // 0.3秒かけてスムーズに大きさを変える
                   }}
                 />
-                <Help id="ArrowsMove">スワイプして回転</Help>
+                  {/* {selectingPlate}{selectingPlate >= 0&&(<>カメラ <Help id="RecordCircle">撮影{selectingPlate}</Help></>)} */}
+                {/* <div style={{ display: selectingPlate < 0 ? "display" : "none" }}> */}
+                {selectingPlate < 0 && (
+                  
+                  <Help id="ArrowsMove">{`スワイプして回転`}</Help>
+                )}
+                  {selectingPlate >= 0 && (
+                  
+                  <Help id="RecordCircle">{`撮影`}</Help>
+                  )}
+               {/* </div> */}
+               
+                 {/* <div style={{ display: selectingPlate >= 0 ? "display" : "none" }}>
+                  
+                  <Help id="RecordCircle">撮影{selectingPlate}</Help>
+                </div> */}
+               
 
 
                 <Icon.RecordCircle
                   // ref={moveRef}
-                  id="ArrowsMove"
+                  id="RecordCircle"
                   className="position-absolute"
                   style={{
                     bottom: "2%",
@@ -223,7 +241,7 @@ function Edit() {
                   }}
                 />
                 {/* {selectingPlate} */}
-                <Help id="RecordCircle">撮影</Help>
+                {/* <Help id="RecordCircle">撮影</Help> */}
 
               </div >
             </div>
@@ -233,15 +251,17 @@ function Edit() {
               // backgroundColor: "#f0f0f0",
               display: (activeMenu === "pompom" || activeMenu === "cameraScan") ? "flex" : "none",
             }}>
-
-              <div className="col-6 col-xl-4 no-margin " style={{ display: activeMenu === "pompom" ? "flex" : "none", }}>
+              {activeMenu === "pompom" && (
+                
+                <div className="col-6 col-xl-4 no-margin " style={{ display: activeMenu === "pompom" ? "flex" : "none", }}>
                 <ColorEdit
                   colorList={colorList}
                   selectColor={selectColor}
                   setSelectColor={setSelectColor}
                   setColorList={setColorList}
-                />
+                  />
               </div>
+                )}
 
               <div className="col-6 col-xl-4 no-margin " style={{ display: activeMenu === "cameraScan" ? "flex" : "none", }}>
                 <CameraScan

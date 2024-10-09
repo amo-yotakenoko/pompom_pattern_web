@@ -286,10 +286,10 @@ const Pompom = ({ meshList, sceneProps, setSceneProps, pattern, colorList, rollW
         setSceneProps({ canvas, renderer, scene, camera, controls });
 
 
-        const geometry = new THREE.BoxGeometry(10, 10, 10); // 1x1x1サイズの立方体
-        const material = new THREE.MeshBasicMaterial({ color: 0x00ff00 }); // 緑色のマテリアル
-        const cube = new THREE.Mesh(geometry, material); // ジオメトリとマテリアルを組み合わせたメッシュ（立方体）
-        scene.add(cube);
+        // const geometry = new THREE.BoxGeometry(10, 10, 10); // 1x1x1サイズの立方体
+        // const material = new THREE.MeshBasicMaterial({ color: 0x00ff00 }); // 緑色のマテリアル
+        // const cube = new THREE.Mesh(geometry, material); // ジオメトリとマテリアルを組み合わせたメッシュ（立方体）
+        // scene.add(cube);
 
 
         renderer.render(scene, camera);

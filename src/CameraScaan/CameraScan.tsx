@@ -792,20 +792,21 @@ const CameraScan = ({ sceneProps, activeMenu, drawDot, meshList, colorList, mult
 
 				/>
 				{/* )} */}
-
-				<Form.Label>ズーム</Form.Label>
-				<Form.Range
-					// value={clipSizeRef.current} // 内部状態を使用
-					onChange={(e) => {
-						setClipSize(parseFloat(e.target.value));
-					}}
-					value={clipSize}
-					min={0.1}    // 最小値を0に設定
-					max={1}    // 最大値を1に設定
-					step={0.01}
-					style={{ direction: "rtl" }}
-
-				/>
+				{/* <Form.Label>ズーム</Form.Label> */}
+				<div style={{ display: "flex", alignItems: "center" }}>
+    <Icon.ZoomOut style={{ fontSize: "24px",  marginLeft: "10px",marginRight: "5px"}} />
+    <Form.Range
+        onChange={(e) => {
+            setClipSize(parseFloat(e.target.value));
+        }}
+        value={clipSize}
+        min={0.1}
+        max={1}
+        step={0.01}
+        style={{ direction: "rtl", margin: "0 10px" }} // rangeの左右に隙間を追加
+    />
+    <Icon.ZoomIn style={{ fontSize: "24px", marginLeft: "5px",marginRight: "10px" }} />
+</div>
 				{/* {selectingPlate} */}
 				<CameraSelect devices={devices} setSelectedDeviceId={setSelectedDeviceId} selectedDeviceId={selectedDeviceId}></CameraSelect>
 				<br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br />
