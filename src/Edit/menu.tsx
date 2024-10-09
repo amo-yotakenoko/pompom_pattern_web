@@ -47,7 +47,7 @@ const Menu: React.FC<MenuProps> = ({ activeMenu, setActiveMenu, pattern, colorLi
             {/* < Item displayName={<div id={"cameraScan"}>カメラ   <Icon.Camera /></div>} tabId={"cameraScan"} activeMenu={activeMenu} setActiveMenu={setActiveMenu} ></Item > */}
 
 
-            <Item displayName={<div id={"blueprintMenu"}>設計図    <Icon.FileEarmarkPost /></div>} tabId={"bluePrint"} activeMenu={activeMenu} setActiveMenu={setActiveMenu}></Item>
+            <Item displayName={<div id={"blueprintMenu"} >設計図    <Icon.FileEarmarkPost /></div>} tabId={"bluePrint"} activeMenu={activeMenu} setActiveMenu={setActiveMenu} isDisabled={activeMenu == "cameraScan"}></Item>
 
             {activeMenu != "bluePrint" && <Help id="blueprintMenu">完成したらこちら</Help>}
             {activeMenu != "pompom" && <Help id="editMenu">編集に戻る(進捗状況が削除されます)</Help>}
@@ -62,7 +62,7 @@ type ItemProps = {
 
 };
 
-const Item = ({ id, displayName, tabId, activeMenu, setActiveMenu }: any) => {
+const Item = ({ id, displayName, tabId, activeMenu, setActiveMenu, isDisabled }: any) => {
 
     function tabSet(tabId: any) {
         setActiveMenu(tabId);
@@ -80,6 +80,7 @@ const Item = ({ id, displayName, tabId, activeMenu, setActiveMenu }: any) => {
             value={tabId}
             checked={isSelected}
             onChange={(e) => tabSet(tabId)}
+            disabled={isDisabled}
             style={{
 
                 height: isSelected ? '2.5em' : '2em',
