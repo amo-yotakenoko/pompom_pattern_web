@@ -328,7 +328,9 @@ const KalmanFilter = ({ soundVolume, fingerHistory, addCounter, kalmanSettings, 
                 animation: `toLeft 5s`,
                 pointerEvents: 'none',
             }} key="soundAlert" variant="info">
-                カメラの映像が外部に送信されることは構造上ありません<br />    音が出ます
+                カメラの映像が外部に送信されることは構造上ありません
+                {/* <br /> */}
+                {/* 音が出ます */}
             </Alert>
         </div >
     );
