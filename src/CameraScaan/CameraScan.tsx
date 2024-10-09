@@ -740,13 +740,16 @@ const CameraScan = ({ sceneProps, activeMenu, drawDot, meshList, colorList, mult
 		// console.log("plateanimation", activeMenuRef.current)
 		platesRef.current.forEach((plate: any, i: number) => {
 			let scale = plate.obj.scale.x;
-			let target = (i == selectingPlate) ? 1 : 0.5;
+			let target = (0> selectingPlate) ? 0.5 : 0;
+			 if (i == selectingPlate) target=1
 			if (i == 3 && selectingPlate == 2) target = 1;
 
 			if (activeMenu != "cameraScan") target = 0;
 
 			scale += (target - scale) * 0.05;
+
 			plate.obj.scale.set(scale, scale, scale);
+			 plate.obj.visible =scale>0.1
 		});
 	}
 
