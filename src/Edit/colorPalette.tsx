@@ -52,7 +52,7 @@ const ColorPalette = ({ colorList, selectColor, setSelectColor, setMultiColorSel
         // console.log(cssColor.join(', '))
         colorButtons.push(
 
-            <div className='col-3  no-margin' >
+            <div className='col-3 col-md-2  no-margin' >
 
 
                 <ToggleButton

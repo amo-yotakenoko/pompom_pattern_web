@@ -285,7 +285,7 @@ function Edit() {
             }}>
               {activeMenu === "pompom" && (
 
-                <div className="col-6 col-xl-4 no-margin " style={{ display: activeMenu === "pompom" ? "flex" : "none", }}>
+                <div className="col-6 col-md-3 col-xl-4 no-margin " style={{ display: activeMenu === "pompom" ? "flex" : "none", }}>
                   <ColorEdit
                     colorList={colorList}
                     selectColor={selectColor}
@@ -308,7 +308,7 @@ function Edit() {
                 ></CameraScan>
               </div>
 
-              <div className="col-6 col-xl-4 no-margin" >
+              <div className="col-6 col-md-9  col-xl-4 no-margin" >
                 <ColorPalette
                   colorList={colorList}
                   selectColor={selectColor}
