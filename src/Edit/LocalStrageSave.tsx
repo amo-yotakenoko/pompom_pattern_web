@@ -28,6 +28,7 @@ const LocalStrageSave: React.FC<LocalStrageSaveProps> = ({ data, activeMenu }) =
 
 
     const [timer, setTimer] = useState(0);
+    const [saveError, setSaveError] = useState(false);
 
     useEffect(() => {
         const id = setInterval(() => {
@@ -36,12 +37,12 @@ const LocalStrageSave: React.FC<LocalStrageSaveProps> = ({ data, activeMenu }) =
             }
         }, 1000);
 
-        if (timer > 10) {
+        if (saveError==false&&timer > 30) {
             saveToLocalStrage()
             setTimer(-1);
         }
         return () => clearInterval(id);
-    }, [timer]);
+    }, [timer,saveError]);
 
     useEffect(() => {
         setIsSaved(true)
@@ -101,9 +102,11 @@ const LocalStrageSave: React.FC<LocalStrageSaveProps> = ({ data, activeMenu }) =
 
             localStorage.setItem('pompoms', JSON.stringify(datas));
             setTimeout(() => setIsSaved(true), 1)
+              setSaveError(false);
         } catch (e) {
 
             alert('保存容量が無くなりました、設計図タブからダウンロードしてください' + e);
+            setSaveError(true);
         }
 
 
@@ -155,12 +158,14 @@ const LocalStrageSave: React.FC<LocalStrageSaveProps> = ({ data, activeMenu }) =
             {/* <i className="bi bi-floppy2" onClick={saveToLocalStrage}></i>
             <i className="bi bi-123"></i> */}
             {(!isSaved && activeMenu == "pompom") &&
+            
                 <Icon.Floppy2 onClick={saveToLocalStrage} style={{
                     zIndex: 1000,
                     top: "5px",
                     left: "5px",
                     position: 'fixed',
-                }} />
+            }} />
+                
                 // <img onClick={saveToLocalStrage}>Save to</button>
             }
             {/* <button onClick={loadFromLocalStrage}>Load from localStorage</button> */}
