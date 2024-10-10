@@ -98,15 +98,17 @@ const CameraCounter = ({ addCounter }: any) => {
                                     <div className="col-6">
                                         <div style={{
                                             position: 'relative', width: '100%', height: '500px', justifyContent: 'center',
-                                            alignItems: 'center',transform: 'scaleX(-1)',
+                                            alignItems: 'center'
                                         }}>
 
                                             {!(trackerOk && videoOk) && (<Spinner animation="border" role="status" style={{ position: 'absolute', width: '100px', height: '100px' }}>
 
                                             </Spinner>)}
 
-                                            <video autoPlay playsInline={true} ref={videoRef} style={{ position: 'absolute', width: '100%' }} />
                                             {(trackerOk && videoOk) && !isTracked && <div style={{ position: 'absolute', width: '100%', color: "#00FF00", }} >  {rollingHand == "Right" ? "右" : "左"}手を画面に映してください</div>}
+                                            <div style={{ transform: 'scaleX(-1)' }}>
+                                                
+                                            <video autoPlay playsInline={true} ref={videoRef} style={{ position: 'absolute', width: '100%' }} />
                                             <Camera
                                                 videoRef={videoRef}
                                                 devices={devices}
@@ -128,7 +130,8 @@ const CameraCounter = ({ addCounter }: any) => {
                                                 fingerHistory={fingerHistory}
                                                 setsingerHistory={setsingerHistory}
                                                 setTrackerOk={setTrackerOk}
-                                            />
+                                                />
+                                                </div>
                                         </div>
                                     </div>
                                     <div className="col-6" style={{ position: "relative", overflow: "hidden" }}>
