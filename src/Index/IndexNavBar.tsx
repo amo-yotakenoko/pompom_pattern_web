@@ -38,6 +38,7 @@ const IndexNavBar = ({ }: any) => {
             <Nav.Link href="https://amo-yotakenoko.github.io/"  target="_blank" >
       <Icon.Boxes/>  他のアプリ(作者ホームページ)
             </Nav.Link>
+            
              <Nav.Link href="https://twitter.com/takenok58914745"  target="_blank" >
       <Icon.Twitter/> 作者Twitter(バグ報告などはこちらにお願いします)
             </Nav.Link>
