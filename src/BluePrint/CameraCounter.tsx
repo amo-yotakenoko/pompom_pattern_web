@@ -107,31 +107,31 @@ const CameraCounter = ({ addCounter }: any) => {
 
                                             {(trackerOk && videoOk) && !isTracked && <div style={{ position: 'absolute', width: '100%', color: "#00FF00", }} >  {rollingHand == "Right" ? "右" : "左"}手を画面に映してください</div>}
                                             <div style={{ transform: 'scaleX(-1)' }}>
-                                                
-                                            <video autoPlay playsInline={true} ref={videoRef} style={{ position: 'absolute', width: '100%' }} />
-                                            <Camera
-                                                videoRef={videoRef}
-                                                devices={devices}
-                                                setDevices={setDevices}
-                                                setSelectedDeviceId={setSelectedDeviceId}
-                                                selectedDeviceId={selectedDeviceId}
-                                                setVideoOk={setVideoOk}
-                                                isEnable={true}
-                                            />
 
-
-
-                                            <HandTracker
-                                                setIsTracked={setIsTracked}
-                                                rollingHand={rollingHand}
-                                                selectedDeviceId={selectedDeviceId}
-                                                videoRef={videoRef}
-                                                trackerSettings={trackerSettings}
-                                                fingerHistory={fingerHistory}
-                                                setsingerHistory={setsingerHistory}
-                                                setTrackerOk={setTrackerOk}
+                                                <video autoPlay playsInline={true} ref={videoRef} style={{ position: 'absolute', width: '100%' }} />
+                                                <Camera
+                                                    videoRef={videoRef}
+                                                    devices={devices}
+                                                    setDevices={setDevices}
+                                                    setSelectedDeviceId={setSelectedDeviceId}
+                                                    selectedDeviceId={selectedDeviceId}
+                                                    setVideoOk={setVideoOk}
+                                                    isEnable={true}
                                                 />
-                                                </div>
+
+
+
+                                                <HandTracker
+                                                    setIsTracked={setIsTracked}
+                                                    rollingHand={rollingHand}
+                                                    selectedDeviceId={selectedDeviceId}
+                                                    videoRef={videoRef}
+                                                    trackerSettings={trackerSettings}
+                                                    fingerHistory={fingerHistory}
+                                                    setsingerHistory={setsingerHistory}
+                                                    setTrackerOk={setTrackerOk}
+                                                />
+                                            </div>
                                         </div>
                                     </div>
                                     <div className="col-6" style={{ position: "relative", overflow: "hidden" }}>
@@ -142,7 +142,7 @@ const CameraCounter = ({ addCounter }: any) => {
                                             audiosRef={audiosRef}
                                             soundVolume={soundVolume}
                                         />
-                                        <div style={{ position: "absolute", top: "1px", right: "11px", display: "flex", alignItems: "center" }}>
+                                        <div style={{ position: "absolute", top: "1px", right: "1px", display: "flex", alignItems: "center" }}>
                                             <SoundVolume audiosRef={audiosRef} soundVolume={soundVolume} setSoundVolume={setSoundVolume} />
                                             <Icon.Sliders
                                                 id="AIparameters"

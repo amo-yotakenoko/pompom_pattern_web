@@ -357,14 +357,14 @@ const Pompom = ({ meshList, sceneProps, setSceneProps, pattern, colorList, rollW
             // console.log(event.clientX)
             // const element = event.currentTarget;
             const element = sceneProps.canvas;
-         
+
             const x = event.clientX - element.offsetLeft;
             const y = event.clientY - element.offsetTop;
-          
+
             const w = element.offsetWidth;
             const h = element.offsetHeight;
             let _mouse = new THREE.Vector2();
-            
+
             _mouse.x = (x / w) * 2 - 1;
             _mouse.y = -(y / h) * 2 + 1;
             return _mouse
@@ -442,7 +442,7 @@ const Pompom = ({ meshList, sceneProps, setSceneProps, pattern, colorList, rollW
 
             animationId = requestAnimationFrame(tick);
         }
-      
+
         tick();
 
 
@@ -464,9 +464,9 @@ const Pompom = ({ meshList, sceneProps, setSceneProps, pattern, colorList, rollW
 
     useEffect(() => {
         if (!sceneProps) return
-        let counter = 0; 
+        let counter = 0;
         const intervalId = setInterval(() => {
-          
+
             const camera = sceneProps.camera;
             if (activeMenu == "pompom") {
                 cameraDistanceRef.current -= Math.abs(cameraDistanceRef.current - 800) / 10 + 1;
@@ -489,7 +489,7 @@ const Pompom = ({ meshList, sceneProps, setSceneProps, pattern, colorList, rollW
             }
         }, 16);
 
-       
+
         return () => clearInterval(intervalId);
     }, [activeMenu]);
 
