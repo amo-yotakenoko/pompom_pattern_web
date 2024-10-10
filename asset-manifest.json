@@ -1,19 +1,20 @@
 {
   "files": {
     "main.css": "/pompom_pattern_web/static/css/main.ff1956d7.css",
-    "main.js": "/pompom_pattern_web/static/js/main.94b60f0d.js",
+    "main.js": "/pompom_pattern_web/static/js/main.ab1484da.js",
     "static/js/453.cc7e82c7.chunk.js": "/pompom_pattern_web/static/js/453.cc7e82c7.chunk.js",
     "static/media/importImageSaple.png": "/pompom_pattern_web/static/media/importImageSaple.cccf97c5494ec1fde4ca.png",
+    "static/media/icon_wide.png": "/pompom_pattern_web/static/media/icon_wide.dfa0f6d9f0c84e715307.png",
     "static/media/size_guide.jpg": "/pompom_pattern_web/static/media/size_guide.d1a9c3a09c2b8dfe5194.jpg",
     "service-worker.js": "/pompom_pattern_web/service-worker.js",
     "static/media/bluePrint_base.png": "/pompom_pattern_web/static/media/bluePrint_base.c0d82d72a8e2e7408e99.png",
     "index.html": "/pompom_pattern_web/index.html",
     "main.ff1956d7.css.map": "/pompom_pattern_web/static/css/main.ff1956d7.css.map",
-    "main.94b60f0d.js.map": "/pompom_pattern_web/static/js/main.94b60f0d.js.map",
+    "main.ab1484da.js.map": "/pompom_pattern_web/static/js/main.ab1484da.js.map",
     "453.cc7e82c7.chunk.js.map": "/pompom_pattern_web/static/js/453.cc7e82c7.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.ff1956d7.css",
-    "static/js/main.94b60f0d.js"
+    "static/js/main.ab1484da.js"
   ]
 }
