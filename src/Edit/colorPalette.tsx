@@ -33,9 +33,9 @@ const ColorPalette = ({ colorList, selectColor, setSelectColor, setMultiColorSel
 
     const MultiColorSelectChange = (i: any) => {
         setMultiColorSelect((prev: any) => {
-            const newSelect = [...prev]; // 以前の選択状態をコピー
-            newSelect[i] = !newSelect[i]; // 指定したインデックスの状態をトグル
-            return newSelect; // 更新した選択状態を返す
+            const newSelect = [...prev]; 
+            newSelect[i] = !newSelect[i]; 
+            return newSelect; 
         });
     };
 
@@ -89,10 +89,10 @@ const ColorPalette = ({ colorList, selectColor, setSelectColor, setMultiColorSel
                             position: "absolute",
                             top: "0%",
                             right: "5%",
-                            color: "white", // チェックマークの色を設定
-                            fontSize: "1.5em", // チェックマークのサイズを設定
-                            transform: enableMultiColorSelect ? "scale(1)" : "scale(0)", // チェックされていない場合は縮小
-                            transition: "transform 0.3s ease", // 0.3秒かけてスムーズに大きさを変える
+                            color: "white",
+                            fontSize: "1.5em", 
+                            transform: enableMultiColorSelect ? "scale(1)" : "scale(0)",
+                            transition: "transform 0.3s ease",
 
                         }}
                     />

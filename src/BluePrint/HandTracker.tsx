@@ -71,7 +71,7 @@ const HandTracker = ({ setIsTracked, selectedDeviceId, videoRef, fingerHistory, 
     //     })
 
 
-    //     // クリーンアップ関数
+    //    
     //     // return () => clearTimeout(frameCountFunc);
     //     return () => cancelAnimationFrame(frameCountFunc);
 
@@ -84,13 +84,12 @@ const HandTracker = ({ setIsTracked, selectedDeviceId, videoRef, fingerHistory, 
             // setFrameCount(prevCount => prevCount + 1);
             detecthand()
             // console.log("判定")
-            frameId = requestAnimationFrame(frameCountFunc); // 次のフレームで実行
+            frameId = requestAnimationFrame(frameCountFunc); 
         };
-        frameId = requestAnimationFrame(frameCountFunc); // 初回の呼び出し
+        frameId = requestAnimationFrame(frameCountFunc); 
 
-        // クリーンアップ関数
         return () => cancelAnimationFrame(frameId);
-    }, [rollingHand]); // [] でマウント時に一度だけ実行
+    }, [rollingHand]); 
 
 
 
@@ -103,7 +102,7 @@ const HandTracker = ({ setIsTracked, selectedDeviceId, videoRef, fingerHistory, 
 
         if (!canvas || !context) return;
         // console.log({ width: video.videoWidth })
-        // Canvas のサイズをビデオと一致させる
+      
         canvas.width = videoRef.current.videoWidth;
         canvas.height = videoRef.current.videoHeight;
         if (videoRef.current.videoWidth + videoRef.current.videoHeight <= 0) {
@@ -149,13 +148,13 @@ const HandTracker = ({ setIsTracked, selectedDeviceId, videoRef, fingerHistory, 
 
             const landmarks = results.landmarks[i]
             // console.log(handednes[0].categoryName, { rollingHand }, handednes[0].categoryName === rollingHand)
-            context.lineWidth = handednes[0].categoryName === rollingHand ? 2 : 0.5; // 線の幅を設定
+            context.lineWidth = handednes[0].categoryName === rollingHand ? 2 : 0.5; 
 
             landmarks.forEach((landmark: any) => {
                 context.beginPath();
                 const radios = Math.abs(landmark.z + 1) * (handednes[0].categoryName === rollingHand ? 5 : 2)
                 context.arc(landmark.x * canvas.width, landmark.y * canvas.height, radios, 0, 2 * Math.PI);
-                context.fillStyle = '#00FF11';  // 円の色を青に設定
+                context.fillStyle = '#00FF11'; 
                 context.fill();
             });
 
@@ -171,9 +170,9 @@ const HandTracker = ({ setIsTracked, selectedDeviceId, videoRef, fingerHistory, 
                     context.beginPath();
                     context.moveTo(startLandmark.x * canvas.width, startLandmark.y * canvas.height);
                     context.lineTo(endLandmark.x * canvas.width, endLandmark.y * canvas.height);
-                    context.strokeStyle = '#00FF00'; // 線の色を設定
+                    context.strokeStyle = '#00FF00';
 
-                    context.stroke(); // 線を描画
+                    context.stroke(); 
                 }
                 // console.log("landmarks[8]", landmarks[8])
 
@@ -188,7 +187,7 @@ const HandTracker = ({ setIsTracked, selectedDeviceId, videoRef, fingerHistory, 
                 setsingerHistory((fingerHistory: any) => {
                     const updatedHistory = [...fingerHistory, landmarks[8]];
                     if (updatedHistory.length > 50) {
-                        updatedHistory.shift(); // 100件を超えたら古いアイテムを削除
+                        updatedHistory.shift();
                     }
                     return updatedHistory;
                 });
@@ -207,9 +206,8 @@ const HandTracker = ({ setIsTracked, selectedDeviceId, videoRef, fingerHistory, 
 
 
     // function addsingerHistory(landmark: any[]) {
-    //     const updatedHistory = [...fingerHistory, landmark]; // 新しい要素を追加
+    //     const updatedHistory = [...fingerHistory, landmark];
 
-    //     // 配列の長さが100を超えた場合、先頭から要素を削除（古い要素を消す）
     //     if (updatedHistory.length > 100) {
     //         updatedHistory.shift();
     //     }
@@ -229,25 +227,24 @@ const HandTracker = ({ setIsTracked, selectedDeviceId, videoRef, fingerHistory, 
 
         fingerHistory.forEach((landmark: any) => {
             context.lineTo(landmark.x * canvas.width, landmark.y * canvas.height);
-            // console.log("せん")
+          
 
         });
 
 
-        context.strokeStyle = '#00FFFF'; // 線の色を設定
-        context.lineWidth = 2; // 線の幅を設定
-        context.stroke(); // 線を描画
+        context.strokeStyle = '#00FFFF'; 
+        context.lineWidth = 2; 
+        context.stroke(); 
         fingerHistory.forEach((landmark: any, index: number) => {
-            // 円を描く
+            
             context.beginPath();
             context.arc(landmark.x * canvas.width, landmark.y * canvas.height, 1, 0, Math.PI * 2);
-            context.fillStyle = 'red';  // 色を設定
-            context.fill();  // 円を塗りつぶす
+            context.fillStyle = 'red';  
+            context.fill();  
 
-            // インデックスを描画
-            context.fillStyle = 'black';  // テキストの色を設定
-            context.font = '12px Arial';  // フォントのサイズとスタイルを設定
-            context.fillText(index.toString(), landmark.x * canvas.width + 5, landmark.y * canvas.height - 5);  // インデックスを描画
+            context.fillStyle = 'black'; 
+            context.font = '12px Arial'; 
+            context.fillText(index.toString(), landmark.x * canvas.width + 5, landmark.y * canvas.height - 5);
         });
     }
 

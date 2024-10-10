@@ -50,13 +50,13 @@ const KalmanFilter = ({ soundVolume, fingerHistory, addCounter, kalmanSettings, 
         // console.log("z", z)
         const prior = predict(x, process_model);
         const newX = update(prior, { mean: z, var: kalmanSettings.sensor_var });
-        setX(newX); // xを更新
+        setX(newX); 
 
         // console.log(newX);
 
         setKalmanFilterResult((prevResults) => {
             const updatedResults = [...prevResults, newX];
-            // 配列が100を超えたら古い要素を削除
+          
             if (updatedResults.length > viewPointWidth) {
                 updatedResults.shift();
             }
@@ -109,9 +109,9 @@ const KalmanFilter = ({ soundVolume, fingerHistory, addCounter, kalmanSettings, 
             const updatedResults = [...prevResults, newCriterion];
 
             if (updatedResults.length > viewPointWidth) {
-                updatedResults.shift(); // ここで更新された配列を使う
+                updatedResults.shift();
             }
-            return updatedResults; // 更新された配列を返す
+            return updatedResults;
         });
 
 
@@ -154,7 +154,7 @@ const KalmanFilter = ({ soundVolume, fingerHistory, addCounter, kalmanSettings, 
         //         audio.pause();
         //         audio.currentTime = 0;
         //         audio.play();
-        //         break; // ループを中断
+        //         break; 
         //     }
         // }
         const lestAudio = audios.reduce((max: any, audio: any) => {
@@ -178,10 +178,10 @@ const KalmanFilter = ({ soundVolume, fingerHistory, addCounter, kalmanSettings, 
         const canvas = graphCanvasRef.current;
         const context = canvas?.getContext("2d");
         if (!context || !canvas) return
-        context.clearRect(0, 0, canvas.width, canvas.height); // キャンバスをクリア
-        context.fillStyle = 'white'; // 塗りつぶす色を白に設定
-        context.fillRect(0, 0, canvas.width, canvas.height); // キャンバスを白で塗りつぶす
-        // canvas.width = 1000;  // キャンバスの幅を1000pxに設定
+        context.clearRect(0, 0, canvas.width, canvas.height); 
+        context.fillStyle = 'white'; 
+        context.fillRect(0, 0, canvas.width, canvas.height);
+        // canvas.width = 1000; 
         // canvas.height = 100;
         context.strokeStyle = "#000000";
         //測定点
@@ -190,7 +190,7 @@ const KalmanFilter = ({ soundVolume, fingerHistory, addCounter, kalmanSettings, 
             const x = canvas.width / viewPointWidth * i
             context.beginPath();
             context.arc(x, fingerHistory[i].y * canvas.height, 3, 0, 2 * Math.PI);
-            context.stroke(); // 円の輪郭を描画
+            context.stroke(); 
         }
 
         // console.log("kalmanFilterResult", kalmanFilterResult)
@@ -212,7 +212,7 @@ const KalmanFilter = ({ soundVolume, fingerHistory, addCounter, kalmanSettings, 
             }
 
         }
-        context.stroke(); // 円の輪郭を描画
+        context.stroke(); 
 
 
         //分散
@@ -223,7 +223,7 @@ const KalmanFilter = ({ soundVolume, fingerHistory, addCounter, kalmanSettings, 
             context.beginPath();
             context.lineTo(x, y - kalmanFilterResult[i].var * canvas.height);
             context.lineTo(x, y + kalmanFilterResult[i].var * canvas.height);
-            context.stroke(); // 円の輪郭を描画
+            context.stroke(); 
 
 
         }
@@ -251,7 +251,7 @@ const KalmanFilter = ({ soundVolume, fingerHistory, addCounter, kalmanSettings, 
             if (plotMoveDirection === "none") {
                 context.strokeStyle = "#FF00FF";
             } else {
-                context.strokeStyle = plotMoveDirection === "up" ? "#FF0000" : "#0000FF"; // 青色に変更
+                context.strokeStyle = plotMoveDirection === "up" ? "#FF0000" : "#0000FF"; 
             }
 
             if (i == 0) {
@@ -262,11 +262,11 @@ const KalmanFilter = ({ soundVolume, fingerHistory, addCounter, kalmanSettings, 
 
             context.stroke();
 
-            context.beginPath(); // 新しいパスを開始
-            context.moveTo(x, y); // 青色の線の開始点に移動
+            context.beginPath(); 
+            context.moveTo(x, y);
 
         }
-        context.stroke(); // 円の輪郭を描画
+        context.stroke();
 
 
     }
@@ -289,7 +289,7 @@ const KalmanFilter = ({ soundVolume, fingerHistory, addCounter, kalmanSettings, 
             {/* <button onClick={playsound}>
                 音を鳴らす
             </button> */}
-            <canvas ref={graphCanvasRef} width={500} // 解像度（内部サイズ）
+            <canvas ref={graphCanvasRef} width={500} 
                 height={500} style={{
                     // border: '2px solid black',
                     width: '100%'

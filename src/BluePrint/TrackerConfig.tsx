@@ -8,7 +8,7 @@ import Card from 'react-bootstrap/Card';
 // const TrakerConfig = ({ minHandDetectionConfidence, setMinHandDetectionConfidence, minHandPresenceConfidence, setMinHandPresenceConfidence, minTrackingConfidence, setMinTrackingConfidence }: any) => {
 const TrakerConfig = ({ trackerSettings, setTrackerSettings }: any) => {
     if (!trackerSettings) {
-        return <div>設定がない</div>; // エラーメッセージやローディング状態
+        return <div>設定がない</div>; 
     }
     return (
         <>

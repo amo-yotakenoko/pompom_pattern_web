@@ -41,9 +41,9 @@ const SelectedHighlight = ({ drawFrame, selectingFrame, frames }: any) => {
 
         const blinkCountFunction = setTimeout(() => {
             setBlinkCount(prevCount => prevCount + 1);
-        }, 10); // 1秒後に実行
+        }, 10);
 
-        // クリーンアップ関数
+     
         return () => clearTimeout(blinkCountFunction);
 
 

@@ -77,7 +77,6 @@ const LocalStrageSave: React.FC<LocalStrageSaveProps> = ({ data, activeMenu }) =
     }, [isSaved]);
 
 
-    // Function to save data to localStorage
     function saveToLocalStrage() {
         // const key = 'pompoms';
         let value = localStorage.getItem('pompoms');
@@ -104,7 +103,7 @@ const LocalStrageSave: React.FC<LocalStrageSaveProps> = ({ data, activeMenu }) =
             setTimeout(() => setIsSaved(true), 1)
         } catch (e) {
 
-            // alert('保存容量が無くなりました、設計図タブからダウンロードしてください' + e);
+            alert('保存容量が無くなりました、設計図タブからダウンロードしてください' + e);
         }
 
 

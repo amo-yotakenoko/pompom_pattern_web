@@ -117,13 +117,13 @@ const ImageSave: React.FC<ImageSaveProps> = ({ data }) => {
             <div style={{ position: "absolute", bottom: "10px", right: "10px", display: "flex", alignItems: "center" }}>
                 <Icon.Download id="download"  onClick={() => { download(900) }} style={{
                     fontSize: "2rem",
-                    marginRight: "10px" // アイコンの間隔を調整
+                    marginRight: "10px" 
 
                 }} />
 
                 <Icon.Share id="share"
                     onClick={() => share(900)}
-                    style={{ fontSize: "2rem" }} // アイコンを大きくして位置を調整
+                    style={{ fontSize: "2rem" }} 
                 />
                 <Help id="download" placement="left">図案をダウンロード</Help>
                       <Help id="share" >図案を共有</Help>

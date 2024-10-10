@@ -70,11 +70,11 @@ const BluePrint: React.FC<BluePrintProps> = ({ pattern, colorList, rollWidth, pi
             ctx.clearRect(0, 0, canvas.width, canvas.height);
             await new Promise(resolve => setTimeout(resolve, 100));
             await drawPompom(ctx, canvas, pompomCanvas)
-            console.log("かきこみ1")
+            // console.log("かきこみ1")
             await drawbluePrint(ctx, canvas);
-            console.log("かきこみ2")
+            // console.log("かきこみ2")
 
-            console.log("かきこみ3")
+            // console.log("かきこみ3")
             // convartDownloadble(bluePrintImg);
             // ctx.clearRect(0, 0, canvas.width, canvas.height);
 
@@ -158,7 +158,6 @@ const BluePrint: React.FC<BluePrintProps> = ({ pattern, colorList, rollWidth, pi
         }
 
 
-        //使い終わってない
         for (let pitch = 0; pitch < pitchWidth; pitch++) {
             for (let roll = 0; roll < rollWidth; roll++) {
                 try {
@@ -454,7 +453,7 @@ const BluePrint: React.FC<BluePrintProps> = ({ pattern, colorList, rollWidth, pi
                 const scaleX = bluePrintMemo.width / rect.width;
                 const scaleY = bluePrintMemo.height / rect.height;
 
-                // スケールを考慮したx, y座標を計算
+          
 
                 if (frame == undefined) continue
                 // console.log("メモ4")
@@ -462,7 +461,7 @@ const BluePrint: React.FC<BluePrintProps> = ({ pattern, colorList, rollWidth, pi
                 // memoctx.arc(x, y, 1, 0, 2 * Math.PI);
                 // memoctx.fillStyle = 'rgba(0, 0, 0, 0.5)'; 
                 // memoctx.fill();
-                // // memoctx.strokeStyle = '#000'; // 黒色の線
+                // // memoctx.strokeStyle = '#000'; 
                 // memoctx.stroke();
 
                 // memoctx.beginPath();
@@ -473,7 +472,7 @@ const BluePrint: React.FC<BluePrintProps> = ({ pattern, colorList, rollWidth, pi
                 // console.log(frame)
                 let center_x = frame.center.x + Math.cos(getTheta(frame.roll + 1 - frame.widthCount / 2)) * getR(frame.pitch + frame.piled / 2)
                 let center_y = frame.center.y + Math.sin(getTheta(frame.roll + 1 - frame.widthCount / 2)) * getR(frame.pitch + frame.piled / 2)
-                // memoctx.closePath(); // 最初の点に戻る
+                // memoctx.closePath(); 
 
                 // if (isPointInFrame(frame, x, y)) {
                 //     // console.log(i, "を反転")
@@ -483,7 +482,7 @@ const BluePrint: React.FC<BluePrintProps> = ({ pattern, colorList, rollWidth, pi
 
 
                 if (rollProgress[i] > 0 && bluePrintMemo) {
-                    console.log("メモだ")
+                   
                     progress += frame.widthCount * frame.piled
                     let size = 30
                     // memoctx.fill();
@@ -538,7 +537,7 @@ const BluePrint: React.FC<BluePrintProps> = ({ pattern, colorList, rollWidth, pi
     //         const scaleX = canvas.width / rect.width;
     //         const scaleY = canvas.height / rect.height;
 
-    //         // スケールを考慮したx, y座標を計算
+    //         
     //         const x = (event.clientX - rect.left) * scaleX;
     //         const y = (event.clientY - rect.top) * scaleY;
     //         if (frame == undefined) continue

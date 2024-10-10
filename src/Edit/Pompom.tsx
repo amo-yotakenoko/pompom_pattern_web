@@ -286,9 +286,9 @@ const Pompom = ({ meshList, sceneProps, setSceneProps, pattern, colorList, rollW
         setSceneProps({ canvas, renderer, scene, camera, controls });
 
 
-        // const geometry = new THREE.BoxGeometry(10, 10, 10); // 1x1x1サイズの立方体
-        // const material = new THREE.MeshBasicMaterial({ color: 0x00ff00 }); // 緑色のマテリアル
-        // const cube = new THREE.Mesh(geometry, material); // ジオメトリとマテリアルを組み合わせたメッシュ（立方体）
+        // const geometry = new THREE.BoxGeometry(10, 10, 10);
+        // const material = new THREE.MeshBasicMaterial({ color: 0x00ff00 }); 
+        // const cube = new THREE.Mesh(geometry, material); 
         // scene.add(cube);
 
 
@@ -357,14 +357,14 @@ const Pompom = ({ meshList, sceneProps, setSceneProps, pattern, colorList, rollW
             // console.log(event.clientX)
             // const element = event.currentTarget;
             const element = sceneProps.canvas;
-            // canvas要素上のXY座標
+         
             const x = event.clientX - element.offsetLeft;
             const y = event.clientY - element.offsetTop;
-            // canvas要素の幅・高さ
+          
             const w = element.offsetWidth;
             const h = element.offsetHeight;
             let _mouse = new THREE.Vector2();
-            // -1〜+1の範囲で現在のマウス座標を登録する
+            
             _mouse.x = (x / w) * 2 - 1;
             _mouse.y = -(y / h) * 2 + 1;
             return _mouse
@@ -442,7 +442,7 @@ const Pompom = ({ meshList, sceneProps, setSceneProps, pattern, colorList, rollW
 
             animationId = requestAnimationFrame(tick);
         }
-        // アニメーションの開始
+      
         tick();
 
 
@@ -464,9 +464,9 @@ const Pompom = ({ meshList, sceneProps, setSceneProps, pattern, colorList, rollW
 
     useEffect(() => {
         if (!sceneProps) return
-        let counter = 0; // カウンターを初期化
+        let counter = 0; 
         const intervalId = setInterval(() => {
-            // 繰り返す処理
+          
             const camera = sceneProps.camera;
             if (activeMenu == "pompom") {
                 cameraDistanceRef.current -= Math.abs(cameraDistanceRef.current - 800) / 10 + 1;
@@ -483,14 +483,13 @@ const Pompom = ({ meshList, sceneProps, setSceneProps, pattern, colorList, rollW
             const newPosition = camera.position.clone().normalize().multiplyScalar(cameraDistanceRef.current);
             camera.position.set(newPosition.x, newPosition.y, newPosition.z);
 
-            // カウンターを増やし、100回実行したらインターバルをクリア
             counter++;
             if (counter >= 100) {
                 clearInterval(intervalId);
             }
-        }, 16); // 約60fpsのタイミングで繰り返す
+        }, 16);
 
-        // クリーンアップとしてインターバルをクリア
+       
         return () => clearInterval(intervalId);
     }, [activeMenu]);
 

@@ -5,27 +5,26 @@ import NavDropdown from 'react-bootstrap/NavDropdown';
 
 import ButtonGroup from 'react-bootstrap/ButtonGroup';
 function ValueSlider({ value, setValue, label, min, max }: any) {
-    // スライダーの内部状態を作成
+   
     const [internalValue, setInternalValue] = useState(value);
 
     const handleRangeChange = (event: any) => {
-        let newValue = parseFloat(event.target.value); // 文字列をfloatに変換
+        let newValue = parseFloat(event.target.value);
 
-        // 値を0.1から1の範囲に制限
         newValue = Math.max(0.01, Math.min(1, newValue));
 
-        setInternalValue(newValue); // 内部状態を更新
+        setInternalValue(newValue); 
     };
 
     const handleRangeMouseUp = () => {
         console.log("handleRangeMouseUp", internalValue)
-        setValue(internalValue); // スライダーを離したときに親に通知
+        setValue(internalValue); 
     };
 
     const handleInputChange = (event: any) => {
-        const newValue = Math.max(0.01, Math.min(1, parseFloat(event.target.value))); // 文字列をfloatに変換
-        setInternalValue(newValue); // 内部状態を更新
-        setValue(newValue); // 親コンポーネントに即時反映
+        const newValue = Math.max(0.01, Math.min(1, parseFloat(event.target.value)));
+        setInternalValue(newValue); 
+        setValue(newValue);
     };
 
     return (
@@ -33,17 +32,17 @@ function ValueSlider({ value, setValue, label, min, max }: any) {
             {label}
             <div className="d-flex align-items-center">
                 <Form.Range
-                    value={internalValue} // 内部状態を使用
+                    value={internalValue}
                     onChange={handleRangeChange}
                     onMouseUp={handleRangeMouseUp}
                     onTouchEnd={handleRangeMouseUp}
-                    min={min || 0.01}    // 最小値を0に設定
-                    max={max || 1}    // 最大値を1に設定
-                    step={0.01} // ステップを0.01に設定
+                    min={min || 0.01}   
+                    max={max || 1}   
+                    step={0.01} 
                 />
                 <Form.Control
                     type="number"
-                    value={internalValue} // 内部状態を使用
+                    value={internalValue} 
                     onChange={handleInputChange}
                     className="ms-2"
                     style={{ width: '100px' }}

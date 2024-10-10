@@ -227,8 +227,8 @@ function Edit() {
                     width: "15%",
                     height: "15%",
                     pointerEvents: "none",
-                    transform: selectingPlate < 0 ? "scale(1)" : "scale(0)", // チェックされていない場合は縮小
-                    transition: "transform 0.3s ease", // 0.3秒かけてスムーズに大きさを変える
+                    transform: selectingPlate < 0 ? "scale(1)" : "scale(0)", 
+                    transition: "transform 0.3s ease", 
                   }}
                 />
                 {/* {selectingPlate}{selectingPlate >= 0&&(<>カメラ <Help id="RecordCircle">撮影{selectingPlate}</Help></>)} */}
@@ -261,8 +261,8 @@ function Edit() {
                     width: "15%",
                     height: "15%",
                     // pointerEvents: "none",
-                    transform: selectingPlate >= 0 ? "scale(1)" : "scale(0)", // チェックされていない場合は縮小
-                    transition: "transform 0.3s ease", // 0.3秒かけてスムーズに大きさを変える
+                    transform: selectingPlate >= 0 ? "scale(1)" : "scale(0)",
+                    transition: "transform 0.3s ease",
                   }}
                   onClick={() => {
                     // console.log("スキャン", cameraScanRef.current)

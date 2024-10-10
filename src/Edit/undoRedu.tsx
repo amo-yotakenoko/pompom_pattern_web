@@ -14,7 +14,7 @@ const UndoRedo = ({ enable, pattern, colorList, selectColor, setPattern, setColo
     // const historyRef = useRef<any>([]);
     const [current, setCurrent] = useState<number>(0);
 
-    // const [isundo, setIsundo] = useState(false); //いらない
+    // const [isundo, setIsundo] = useState(false);
     // const lastStateRef = useRef<any>();
 
 
@@ -79,20 +79,18 @@ const UndoRedo = ({ enable, pattern, colorList, selectColor, setPattern, setColo
 
 
     function addHistory() {
-        // historyを新しくコピーして、状態を保持
+       
         setHistory((prevHistory) => {
             const newHistory = copy([
-                ...prevHistory.slice(0, current + 1), // 現在のインデックスまでの履歴をスライス
-                copy(state) // 現在の状態をコピーして追加
+                ...prevHistory.slice(0, current + 1), 
+                copy(state)
             ]);
-            console.log("state", JSON.stringify(state)); // newHistoryをログに出力
-            return newHistory; // 更新された履歴を返す
+            console.log("state", JSON.stringify(state));
+            return newHistory;
         });
 
 
-        // console.log("登録", newHistory.length, newHistory);
-
-        // currentを更新
+      
         setCurrent((prev) => prev + 1);
     }
 

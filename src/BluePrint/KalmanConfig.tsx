@@ -11,7 +11,7 @@ import { Overlay, Tooltip, OverlayTrigger } from 'react-bootstrap';
 const KalmanConfig = ({ kalmanSettings, setKalmanSettings }: any) => {
     // const targetRef = useRef(null);
     if (!kalmanSettings) {
-        return <div>設定がない</div>; // エラーメッセージやローディング状態
+        return <div>設定がない</div>;
     }
 
 

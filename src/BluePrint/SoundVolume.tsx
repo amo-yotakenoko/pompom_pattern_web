@@ -58,19 +58,19 @@ const SoundVolume = ({ audiosRef, soundVolume, setSoundVolume }: any) => {
             {soundVolume == 0 && (
                 <Icon.VolumeMuteFill
                     onClick={click}
-                    style={{ fontSize: "2rem" }} // アイコンを大きくして位置を調整
+                    style={{ fontSize: "2rem" }}
                 />
             )}
             {soundVolume == 1 && (
                 <Icon.VolumeDownFill
                     onClick={click}
-                    style={{ fontSize: "2rem" }} // アイコンを大きくして位置を調整
+                    style={{ fontSize: "2rem" }}
                 />
             )}
             {soundVolume == 2 && (
                 <Icon.VolumeUpFill
                     onClick={click}
-                    style={{ fontSize: "2rem" }} // アイコンを大きくして位置を調整
+                    style={{ fontSize: "2rem" }}
                 />
             )}
 
