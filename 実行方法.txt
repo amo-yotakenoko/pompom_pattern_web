@@ -4,4 +4,7 @@ npm startを実行しLocalかOn Your Networkのアドレスを開いてくださ
 実行できない場合は以下からアクセスしてください
 https://amo-yotakenoko.github.io/pompom_pattern_web/
 
+またスマホでカメラを使用する機能ではHTTPS通信が必要です
+Windowsの場合はnpm start前にset HTTPS=trueを実行してください
+
 またソースコードはsrc内にまとまってます
