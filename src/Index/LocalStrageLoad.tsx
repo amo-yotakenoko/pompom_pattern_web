@@ -85,14 +85,14 @@ const LocalStrageLoad: React.FC<LocalStrageLoadProps> = ({ }) => {
                                     onClick={() => setDeleteConfirmation(key)}
                                     alt="Delete Icon"
                                 />
-                                <img src={value.img} style={{ width: '100%' }} alt="Sample" />
+                                <img src={value.img} style={{ width: '100%' }}  />
                                 <Icon.Pencil
                                     style={{
                                         position: 'absolute',
                                         bottom: '0px',
                                         right: '0px',
                                         zIndex: 1,
-                                        fontSize: '64px'
+                                        fontSize: '2em'
                                     }}
                                     onClick={() => navigeteEdit(key, value.data)}
                                 >
@@ -127,8 +127,13 @@ const LocalStrageLoad: React.FC<LocalStrageLoadProps> = ({ }) => {
     return (
         <>
             <div className="row">
-                {strageUsed / 5 * 100 > 50 && <div className="col-12 my-3">
-                    <ProgressBar now={strageUsed / 5 * 100} label={`${strageUsed.toFixed(2)}MB/5MB`} />
+                {strageUsed / 5 * 100 > 35 && <div className="col-12 my-3">
+                    <ProgressBar now={strageUsed / 5 * 100} label={`${strageUsed.toFixed(2)}MB/5MB`}
+                        variant={
+                            strageUsed / 5 > 0.75 ? 'danger' :   // 80%以上で赤
+     strageUsed / 5 > 0.5 ? 'warning' :  
+    'primary'}
+/>
                 </div>}
                 {items}
             </div>

@@ -35,7 +35,7 @@ function IndexPage() {
         <>
 
             <div className="container" >
-                <div className="row">
+                <div className="row" style={{ marginTop: '20px' }}>
                     <div className="col-12">
                         <LayoutAlart />
                     </div>
