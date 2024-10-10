@@ -14,6 +14,7 @@ import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
 import Popover from 'react-bootstrap/Popover';
 // import * as Icon from 'react-bootstrap-icons';
 import * as Icon from 'react-bootstrap-icons';
+import IndexNavBar from './IndexNavBar';
 function testPattern(rollWidth: any, pitchWidth: any) {
     console.log("Pattern書き直し", rollWidth, pitchWidth)
     const _pattern: any = []
@@ -34,8 +35,9 @@ function IndexPage() {
     return (
         <>
 
+                <IndexNavBar></IndexNavBar>
             <div className="container" >
-                <div className="row" style={{ marginTop: '20px' }}>
+                <div className="row" style={{ marginTop: '70px' }}>
                     <div className="col-12">
                         <LayoutAlart />
                     </div>
