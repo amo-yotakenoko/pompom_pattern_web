@@ -30,14 +30,19 @@ const IndexNavBar = ({ }: any) => {
         </Navbar>
         
 
-        <Offcanvas show={enableMenu} onHide={()=>setEnableMenu(false)}>
+        <Offcanvas show={enableMenu} placement="end"  onHide={()=>setEnableMenu(false)}>
         <Offcanvas.Header closeButton>
           <Offcanvas.Title>Menu</Offcanvas.Title>
         </Offcanvas.Header>
         <Offcanvas.Body>
-            <a href="https://amo-yotakenoko.github.io/" className="text-primary">
-       他のアプリ(作者ホームページ)
-      </a>
+            <Nav.Link href="https://amo-yotakenoko.github.io/"  target="_blank" >
+      <Icon.Boxes/>  他のアプリ(作者ホームページ)
+            </Nav.Link>
+             <Nav.Link href="https://twitter.com/takenok58914745"  target="_blank" >
+      <Icon.Twitter/> 作者Twitter(バグ報告などはこちらにお願いします)
+            </Nav.Link>
+            
+            
         </Offcanvas.Body>
       </Offcanvas>
         
