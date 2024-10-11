@@ -191,6 +191,10 @@ function Edit() {
           <div className="row no-margin" id="editing" style={{
             display: activeMenu === "pompom" || activeMenu === "cameraScan" ? "flex" : "none",
             // backgroundColor: "#f0f0ff",
+            position: "fixed",
+            top: "0",
+
+            width: "100%",
           }}>
             <div className="col-12 col-xl-4 no-margin">
               <div
@@ -227,8 +231,8 @@ function Edit() {
                     width: "15%",
                     height: "15%",
                     pointerEvents: "none",
-                    transform: selectingPlate < 0 ? "scale(1)" : "scale(0)", 
-                    transition: "transform 0.3s ease", 
+                    transform: selectingPlate < 0 ? "scale(1)" : "scale(0)",
+                    transition: "transform 0.3s ease",
                   }}
                 />
                 {/* {selectingPlate}{selectingPlate >= 0&&(<>カメラ <Help id="RecordCircle">撮影{selectingPlate}</Help></>)} */}
@@ -279,7 +283,7 @@ function Edit() {
             </div>
 
             <div className="row no-margin" style={{
-              overflowY: "auto", height: "calc(100vh - 100vw - 1em)",
+              overflowY: "auto", height: "calc(100dvh - 100vw - 2em)",
               // backgroundColor: "#f0f0f0",
               display: (activeMenu === "pompom" || activeMenu === "cameraScan") ? "flex" : "none",
             }}>
@@ -306,6 +310,8 @@ function Edit() {
                   selectingPlate={selectingPlate} setSelectingPlate={setSelectingPlate}
                 // ref={cameraScanRef}
                 ></CameraScan>
+                <br />
+                <br /> <br /> <br /> <br /> <br /> <br />
               </div>
 
               <div className="col-6 col-md-9  col-xl-4 no-margin" >
