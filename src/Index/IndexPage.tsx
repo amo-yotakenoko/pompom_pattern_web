@@ -35,7 +35,7 @@ function IndexPage() {
     return (
         <>
 
-                <IndexNavBar></IndexNavBar>
+            <IndexNavBar></IndexNavBar>
             <div className="container" >
                 <div className="row" style={{ marginTop: '70px' }}>
                     <div className="col-12">
@@ -80,6 +80,8 @@ function IndexPage() {
                             </div>
                         </div>
                     </div>
+
+
 
 
                     <LocalStrageLoad></LocalStrageLoad>

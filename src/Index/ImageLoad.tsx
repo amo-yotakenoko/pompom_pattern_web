@@ -43,7 +43,7 @@ const ImageLoad: React.FC = () => {
                                 restoredData.saveKeyName = `image-${new Date().toLocaleTimeString()}`
                                 navigate('/edit', { state: restoredData });
                             } catch (error) {
-                             
+
                                 alert(`読み取れませんでした${error}`);
                             }
                             // binLoad();
@@ -76,6 +76,11 @@ const ImageLoad: React.FC = () => {
             });
         }
     }, []);
+
+
+
+
+
     return (
         <div>
             <input type="file" id="inputFile" className="form-control" accept=".png" />
