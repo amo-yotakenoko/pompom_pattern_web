@@ -68,18 +68,19 @@ const CameraCounter = ({ addCounter }: any) => {
                         onChange={() => setEnableCameraCounter(enableCameraCounter == "0" ? "1" : "0")}
                         label="AI巻きカウンタ"
                     /> */}
-                    <div
+                    <Button variant="outline-primary"
                         className="fs-2 mb-3"
                         onClick={() => setEnableCameraCounter(enableCameraCounter === "0" ? "1" : "0")}
                         style={{
                             padding: '10px',
                             display: 'flex',
-                            alignItems: 'center'
+                            alignItems: 'center',
+                            marginTop: '20px'
                         }}
                     >
-                        <Icon.Power style={{ fontSize: '24px' }} />
-                        <div style={{ fontSize: '20px', marginLeft: '2px' }}>AI巻きカウンタ</div>
-                    </div>
+                        <Icon.Power style={{ fontSize: '15px' }} />
+                        <div style={{ fontSize: '15px', marginLeft: '2px' }}>AI巻きカウンタ</div>
+                    </Button>
                 </>
             )}
 
