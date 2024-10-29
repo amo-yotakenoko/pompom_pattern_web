@@ -11,11 +11,15 @@ const RollCounter = ({ selectingFrame, rollProgress, setRollProgress, frames }: 
     let widthCount = 0
     let progress = 0
     let completeNumber = 0
-    function addCounter(value: number) {
-
+    function addCounter(value: number, piled = false) {
+        if (!piled)
+            value *= frames[selectingFrame].color.length
+        console.log({ value }, frames[selectingFrame].color.length)
         let added = progress + value
         added = Math.max(0, Math.min(completeNumber, added));
         setRollProgress(rollProgress.map((progress: any, i: any) => (i === selectingFrame ? added : progress)))
+        // console.log(frames[selectingFrame].color.length)
+
         return { rolled: added, isComplete: completeNumber == added }
     };
 
@@ -43,10 +47,10 @@ const RollCounter = ({ selectingFrame, rollProgress, setRollProgress, frames }: 
                 {/* {completeNumber} */}
                 <div className="d-flex w-100" >
                     <ButtonGroup className="w-100" id="rollCounter">
-                        <Button onClick={() => addCounter(-widthCount)} disabled={progress <= 0} className="flex-grow-1">
+                        <Button onClick={() => addCounter(-widthCount, true)} disabled={progress <= 0} className="flex-grow-1">
                             -1段
                         </Button>
-                        <Button onClick={() => addCounter(widthCount)} disabled={progress >= completeNumber} className="flex-grow-1">
+                        <Button onClick={() => addCounter(widthCount, true)} disabled={progress >= completeNumber} className="flex-grow-1">
                             +1段
                         </Button>
                     </ButtonGroup>
@@ -60,7 +64,7 @@ const RollCounter = ({ selectingFrame, rollProgress, setRollProgress, frames }: 
                         </Button>
                     </ButtonGroup>
                     <Help id="rollCounter" placement="right">巻き数メモ</Help>
-                </div>
+                </div >
 
 
                 <CameraCounter addCounter={addCounter}></CameraCounter>

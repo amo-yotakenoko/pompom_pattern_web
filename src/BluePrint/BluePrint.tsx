@@ -161,39 +161,39 @@ const BluePrint: React.FC<BluePrintProps> = ({ pattern, colorList, rollWidth, pi
         for (let pitch = 0; pitch < pitchWidth; pitch++) {
             for (let roll = 0; roll < rollWidth; roll++) {
                 try {
-                    
+
                     // console.log(pattern)
                     // console.log(canvas)
                     const p = roll + pitch;
                     const color = propsRef.current.pattern[roll][pitch];
-                const i = p % propsRef.current.colorList[color].length;
-                ctx.fillStyle = propsRef.current.colorList[color][i];
-                ctx.strokeStyle = "#000000";
-                ctx.lineWidth = 2;
-                const center = { x: canvas.width / 2, y: canvas.height / 2 };
+                    const i = p % propsRef.current.colorList[color].length;
+                    ctx.fillStyle = propsRef.current.colorList[color][i];
+                    ctx.strokeStyle = "#000000";
+                    ctx.lineWidth = 2;
+                    const center = { x: canvas.width / 2, y: canvas.height / 2 };
 
-                // console.log({ x, y })
-                // ctx.fillRect(x, y, 10, 10);
-                let theta = getTheta(roll);
+                    // console.log({ x, y })
+                    // ctx.fillRect(x, y, 10, 10);
+                    let theta = getTheta(roll);
 
-                let thetaWidth = (2 * Math.PI) * (1 / rollWidth);
-                let r = getR(pitch);
-                let rWidth = getR(pitch + 1) - getR(pitch);
-                center.y += (theta >= Math.PI ? -1 : 1) * 15;
-                ctx.lineWidth = 0.5;
-                ctx.beginPath();
-                
-                ctx.moveTo(center.x + Math.cos(theta) * (r), center.y + Math.sin(theta) * (r));
-                ctx.lineTo(center.x + Math.cos(theta + thetaWidth) * (r), center.y + Math.sin(theta + thetaWidth) * (r));
-                ctx.lineTo(center.x + Math.cos(theta + thetaWidth) * (r + rWidth), center.y + Math.sin(theta + thetaWidth) * (r + rWidth));
-                ctx.lineTo(center.x + Math.cos(theta) * (r + rWidth), center.y + Math.sin(theta) * (r + rWidth));
-                ctx.lineTo(center.x + Math.cos(theta) * (r), center.y + Math.sin(theta) * (r));
-                ctx.stroke();
-                ctx.closePath();
-                ctx.fill();
-                } catch (e){
+                    let thetaWidth = (2 * Math.PI) * (1 / rollWidth);
+                    let r = getR(pitch);
+                    let rWidth = getR(pitch + 1) - getR(pitch);
+                    center.y += (theta >= Math.PI ? -1 : 1) * 15;
+                    ctx.lineWidth = 0.5;
+                    ctx.beginPath();
+
+                    ctx.moveTo(center.x + Math.cos(theta) * (r), center.y + Math.sin(theta) * (r));
+                    ctx.lineTo(center.x + Math.cos(theta + thetaWidth) * (r), center.y + Math.sin(theta + thetaWidth) * (r));
+                    ctx.lineTo(center.x + Math.cos(theta + thetaWidth) * (r + rWidth), center.y + Math.sin(theta + thetaWidth) * (r + rWidth));
+                    ctx.lineTo(center.x + Math.cos(theta) * (r + rWidth), center.y + Math.sin(theta) * (r + rWidth));
+                    ctx.lineTo(center.x + Math.cos(theta) * (r), center.y + Math.sin(theta) * (r));
+                    ctx.stroke();
+                    ctx.closePath();
+                    ctx.fill();
+                } catch (e) {
                     console.log(e)
-            }
+                }
 
             }
             await new Promise(requestAnimationFrame);
@@ -201,7 +201,7 @@ const BluePrint: React.FC<BluePrintProps> = ({ pattern, colorList, rollWidth, pi
         }
 
 
-        
+
         // await new Promise(resolve => setTimeout(resolve, 1000));
         let puted: any = [];
         for (let i = 0; i < rollWidth; i++) {
@@ -254,7 +254,7 @@ const BluePrint: React.FC<BluePrintProps> = ({ pattern, colorList, rollWidth, pi
                         }
                     }
                     console.log({ widthCount })
-                    frames.push({ center: center, roll: roll, pitch: pitch, widthCount: widthCount, piled: piled, frameColor, thetaWidth, theta })
+                    frames.push({ center: center, roll: roll, pitch: pitch, widthCount: widthCount, piled: piled, frameColor, thetaWidth, theta, color: propsRef.current.colorList[color] })
 
 
                     // await new Promise(resolve => setTimeout(resolve, 1000));
@@ -453,7 +453,7 @@ const BluePrint: React.FC<BluePrintProps> = ({ pattern, colorList, rollWidth, pi
                 const scaleX = bluePrintMemo.width / rect.width;
                 const scaleY = bluePrintMemo.height / rect.height;
 
-          
+
 
                 if (frame == undefined) continue
                 // console.log("メモ4")
@@ -482,7 +482,7 @@ const BluePrint: React.FC<BluePrintProps> = ({ pattern, colorList, rollWidth, pi
 
 
                 if (rollProgress[i] > 0 && bluePrintMemo) {
-                   
+
                     progress += frame.widthCount * frame.piled
                     let size = 30
                     // memoctx.fill();
