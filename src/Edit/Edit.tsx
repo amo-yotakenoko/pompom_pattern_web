@@ -76,6 +76,8 @@ function Edit() {
   const meshList = useRef<THREE.Mesh[]>([]);
   const [sceneProps, setSceneProps] = useState(undefined);
   const [pattern, setPattern] = useState(brankPattern(rollWidth, pitchWidth));
+  const [symmetryType, setSymmetryType] = useState(0);
+
   function brankPattern(rollWidth: any, pitchWidth: any) {
     console.log("Pattern書き直し", rollWidth, pitchWidth)
     const _pattern: any = []
@@ -113,6 +115,10 @@ function Edit() {
         console.log("Patternを読み込み")
         console.log({ pattern: location.state.pattern })
         setPattern(location.state.pattern);
+      }
+      if (location.state.symmetryType !== undefined) {
+
+        setSymmetryType(location.state.symmetryType);
       }
 
 
@@ -152,7 +158,7 @@ function Edit() {
   return (
     <>
       <enableHelpContext.Provider value={{ enableHelp, setEnableHelp }}>
-        <LocalStrageSave data={{ pattern, colorList, rollWidth, pitchWidth }} activeMenu={activeMenu} />
+        <LocalStrageSave data={{ pattern, colorList, rollWidth, pitchWidth, symmetryType }} activeMenu={activeMenu} />
         <div style={{ position: 'fixed', top: "5px", right: "5px", display: 'flex', flexDirection: 'row-reverse', gap: '10px', zIndex: 1000 }}>
 
           <HelpButton activeMenu={activeMenu}></HelpButton>
@@ -217,6 +223,7 @@ function Edit() {
                   activeMenu={activeMenu}
                   drawDot={drawDot}
                   meshList={meshList}
+                  symmetryType={symmetryType}
                 />
 
 

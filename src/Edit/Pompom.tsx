@@ -7,7 +7,7 @@ import Help from "../Help"
 import CameraScan from '../CameraScaan/CameraScan';
 
 
-const Pompom = ({ meshList, sceneProps, setSceneProps, pattern, colorList, rollWidth, pitchWidth, selectColor, setPattern, activeMenu, drawDot }: any) => {
+const Pompom = ({ meshList, sceneProps, setSceneProps, pattern, colorList, rollWidth, pitchWidth, selectColor, setPattern, activeMenu, drawDot, symmetryType }: any) => {
     // let tmpSelectId = selectColor;
     // useEffect(() => {
     //     tick();
@@ -194,6 +194,20 @@ const Pompom = ({ meshList, sceneProps, setSceneProps, pattern, colorList, rollW
                     -Math.sin(pitchMax) * 100, Math.sin(yawMax) * radiusMax * 100, Math.cos(yawMax) * radiusMax * 100,
                     -Math.sin(pitchMax) * 100, Math.sin(yawMin) * radiusMax * 100, Math.cos(yawMin) * radiusMax * 100,
                 ];
+                if (symmetryType == 1) {
+
+                    for (let i = 0; i < vertices.length; i += 3) {
+                        let tmp = vertices[i + 0];
+                        vertices[i + 0] = vertices[i + 1];
+                        vertices[i + 1] = tmp;
+
+                        let tmp2 = vertices[i + 0];
+                        vertices[i + 0] = vertices[i + 2];
+                        vertices[i + 2] = tmp2;
+
+                    }
+                }
+
                 let radiusCenter = Math.cos((pitchMin + pitchMax) / 2);
 
                 let yawCenter = 2 * Math.PI * ((roll + 0.5) / rollWidth);
