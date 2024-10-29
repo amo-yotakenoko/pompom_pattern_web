@@ -68,6 +68,10 @@ const ImageLoad: React.FC = () => {
                         // bin.push(ImageData.data[image_i])
                         bits.push(ImageData.data[image_i] > (255 / 2) ? 1 : 0)
                         image_i += 4
+                        const x = (image_i / 4) % 900;
+                        if (x >= 32) {
+                            image_i += (900 - x) * 4;
+                        }
 
                     }
                     console.log("bits", bits)

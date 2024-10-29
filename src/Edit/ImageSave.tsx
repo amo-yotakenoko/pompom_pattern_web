@@ -226,6 +226,15 @@ function drawData(canvas: any, data: any) {
         ImageData.data[image_i++] = bit
         ImageData.data[image_i++] = bit
         ImageData.data[image_i++] = 255
+        const x = (image_i / 4) % 900;
+        const y = Math.floor(image_i / 4 / 900);
+        // Math.sqrt(1 - (image_i / 4 / 900)) * 900
+        // if (x + 900 / 2 > (1 - Math.sqrt(1 - Math.pow(1 - (y / 900 + 0.01), 2))) * 900) {
+        //     image_i += (900 - x) * 4;
+        // }
+        if (x >= 32) {
+            image_i += (900 - x) * 4;
+        }
         // ImageData.data[image_i + 3] = 255
 
         // ImageData.data[i] = 0
