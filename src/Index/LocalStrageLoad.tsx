@@ -85,7 +85,7 @@ const LocalStrageLoad: React.FC<LocalStrageLoadProps> = ({ }) => {
                                     onClick={() => setDeleteConfirmation(key)}
                                     alt="Delete Icon"
                                 />
-                                <img src={value.img} style={{ width: '100%' }}  />
+                                <img src={value.img} style={{ width: '100%' }} />
                                 <Icon.Pencil
                                     style={{
                                         position: 'absolute',
@@ -96,7 +96,7 @@ const LocalStrageLoad: React.FC<LocalStrageLoadProps> = ({ }) => {
                                     }}
                                     onClick={() => navigeteEdit(key, value.data)}
                                 >
-                                   
+
                                 </Icon.Pencil>
                             </div>
                         </div>
@@ -126,17 +126,17 @@ const LocalStrageLoad: React.FC<LocalStrageLoadProps> = ({ }) => {
 
     return (
         <>
-            <div className="row">
-                {strageUsed / 5 * 100 > 35 && <div className="col-12 my-3">
-                    <ProgressBar now={strageUsed / 5 * 100} label={`${strageUsed.toFixed(2)}MB/5MB`}
-                        variant={
-                            strageUsed / 5 > 0.75 ? 'danger' :   // 80%以上で赤
-     strageUsed / 5 > 0.5 ? 'warning' :  
-    'primary'}
-/>
-                </div>}
-                {items}
-            </div>
+            {/* <div className="row"> */}
+            {strageUsed / 5 * 100 > 35 && <div className="col-12 my-3">
+                <ProgressBar now={strageUsed / 5 * 100} label={`${strageUsed.toFixed(2)}MB/5MB`}
+                    variant={
+                        strageUsed / 5 > 0.75 ? 'danger' :   // 80%以上で赤
+                            strageUsed / 5 > 0.5 ? 'warning' :
+                                'primary'}
+                />
+            </div>}
+            {items}
+            {/* </div> */}
             <Modal show={deleteConfirmation != undefined} onHide={() => { setDeleteConfirmation(undefined) }}>
                 <Modal.Header closeButton>
                     <Modal.Title>削除しますか?</Modal.Title>
