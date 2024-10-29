@@ -30,8 +30,8 @@ const ImageSave: React.FC<ImageSaveProps> = ({ data }) => {
 
         drawData(canvas, data);
         let link = document.createElement("a");
-        link.href = canvas.toDataURL();
-        link.download = `pompom_${new Date().toLocaleTimeString()}.png`;
+        link.href = canvas.toDataURL('image/jpeg');
+        link.download = `pompom_${new Date().toLocaleTimeString()}.jpg`;
         link.click();
 
     }
@@ -99,8 +99,9 @@ const ImageSave: React.FC<ImageSaveProps> = ({ data }) => {
         drawData(canvas, data);
         const blob = Base64toBlob(canvas.toDataURL());
         console.log("blob", blob)
-        const image = new File([blob], 'tmp.png', { type: 'image/png' })
-        const image2 = new File([blob], 'tmp2.png', { type: 'image/png' })
+        const image = new File([blob], 'tmp.jpg', { type: 'image/jpeg' })
+        // const image = new File([blob], 'tmp.png', { type: 'image/png' })
+        // const image2 = new File([blob], 'tmp2.png', { type: 'image/png' })
         navigator.share({
             text: '#POMPOM模様',
             url: 'https://amo-yotakenoko.github.io/pompom_pattern_web/',
@@ -115,18 +116,18 @@ const ImageSave: React.FC<ImageSaveProps> = ({ data }) => {
     return (
         <>
             <div style={{ position: "absolute", bottom: "10px", right: "10px", display: "flex", alignItems: "center" }}>
-                <Icon.Download id="download"  onClick={() => { download(900) }} style={{
+                <Icon.Download id="download" onClick={() => { download(900) }} style={{
                     fontSize: "2rem",
-                    marginRight: "10px" 
+                    marginRight: "10px"
 
                 }} />
 
                 <Icon.Share id="share"
                     onClick={() => share(900)}
-                    style={{ fontSize: "2rem" }} 
+                    style={{ fontSize: "2rem" }}
                 />
                 <Help id="download" placement="left">図案をダウンロード</Help>
-                      <Help id="share" >図案を共有</Help>
+                <Help id="share" >図案を共有</Help>
             </div>
             {/* <img src={bluePrintBase}></img> */}
             {/* <img
@@ -191,6 +192,82 @@ const ImageSave: React.FC<ImageSaveProps> = ({ data }) => {
 function drawData(canvas: any, data: any) {
     let json = JSON.stringify(data)
     let bin = new TextEncoder().encode(json);
+    console.log("bin", bin)
+    let bits: any = [];
+    bin.forEach(bin => {
+        console.log("bin", bin.toString(2).padStart(8, '0').split(''))
+        bin.toString(2).padStart(8, '0').split('').forEach(bit => {
+            bits.push(parseInt(bit))
+        });
+    });
+    console.log("bit", bits)
+    // console.log(bits)
+    // let hexBin = Array.from(bin).map((byte) => {
+    //     return byte.toString(16).padStart(2, '0'); 
+    // });
+    // console.log(hexBin);
+
+
+
+    // while (hexBin.length % 3 != 0) {
+    //     hexBin.push("00");
+    // }
+    // let canvas = document.getElementById('bluePrint') as HTMLCanvasElement;
+    let ctx = canvas.getContext('2d');
+    if (!ctx) return
+
+    // let colors = []
+    var ImageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+    let image_i = 0
+    for (let i = 0; i < bits.length; i += 1) {
+        const bit = bits[i] * 255
+        // console.log(bit)
+        ImageData.data[image_i++] = bit
+        ImageData.data[image_i++] = bit
+        ImageData.data[image_i++] = bit
+        ImageData.data[image_i++] = 255
+        // ImageData.data[image_i + 3] = 255
+
+        // ImageData.data[i] = 0
+        // let color = "#"
+        // color += `${hexBin[i++]}`;
+        // color += `${hexBin[i++]}`;
+        // color += `${hexBin[i++]}`;
+        // colors.push(color)
+        // const image = ctx.getImageData(x, y, 1, 1).data;
+    }
+
+    ctx.putImageData(ImageData, 0, 0);
+    // console.log(bin)
+
+
+    // (() => {
+    //     let i = 0
+    //     for (let y = 0; y < canvas.height; y++) {
+    //         for (let x = 0; x < canvas.width; x++) {
+
+    //             console.log(x, y, colors[i])
+    //             if (colors[i] === undefined) return
+    //             ctx.fillStyle = colors[i++];
+    //             ctx.fillRect(x, y, 2, 2);
+
+    //             // ctx.beginPath();
+    //             // ctx.rect(0, 0, 100, 100); 
+    //             // ctx.stroke();               
+
+
+    //         }
+
+    //     }
+    // })();
+
+
+};
+
+
+function drawData_old(canvas: any, data: any) {
+    let json = JSON.stringify(data)
+    let bin = new TextEncoder().encode(json);
     // let hexBin = Array.from(bin).map((byte) => {
     //     return byte.toString(16).padStart(2, '0'); 
     // });
@@ -250,6 +327,12 @@ function drawData(canvas: any, data: any) {
 
 
 };
+
+
+
+
+
+
 
 
 

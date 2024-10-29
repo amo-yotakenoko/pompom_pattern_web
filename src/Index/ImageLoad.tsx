@@ -39,20 +39,76 @@ const ImageLoad: React.FC = () => {
                             console.log("aaaa")
                             try {
                                 let restoredData = binLoad();
-                                console.log(restoredData)
-                                restoredData.saveKeyName = `image-${new Date().toLocaleTimeString()}`
+                                restoredData.saveKeyName = `image-${new Date().toLocaleTimeString()}`;
                                 navigate('/edit', { state: restoredData });
                             } catch (error) {
-
-                                alert(`読み取れませんでした${error}`);
+                                console.log("新しい形式だめ", error);
+                                try {
+                                    let restoredData = binLoad_old();
+                                    restoredData.saveKeyName = `image-${new Date().toLocaleTimeString()}`;
+                                    navigate('/edit', { state: restoredData });
+                                } catch (error) {
+                                    console.log("古い形式だめ", error);
+                                    alert(`読み取れませんでした: ${error}`);
+                                }
                             }
                             // binLoad();
                         };
                     }
                 };
 
-
                 function binLoad() {
+                    if (!ctx) return;
+                    var ImageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+                    console.log({ ImageData })
+                    let image_i = 0
+                    let bits: any = [];
+                    for (let i = 0; i < canvas.width * canvas.height; i += 1) {
+                        // if (ImageData.data[image_i + 1] != 0) break;
+                        // bin.push(ImageData.data[image_i])
+                        bits.push(ImageData.data[image_i] > (255 / 2) ? 1 : 0)
+                        image_i += 4
+
+                    }
+                    console.log("bits", bits)
+                    let bin: any = []
+                    for (let i = 0; i < bits.length; i += 8) {
+                        // 8ビットを1バイトに変換
+                        const byte = parseInt(bits.slice(i, i + 8).join(''), 2);
+                        bin.push(byte);
+                    }
+                    console.log("bin", bin)
+
+
+
+                    ctx.putImageData(ImageData, 0, 0);
+                    let text = new TextDecoder().decode(new Uint8Array(bin));
+                    console.log("text", text)
+                    let textEnd = 0;
+                    let bracketCount = 0;
+                    for (const c of text) {
+                        console.log(c);
+                        if (c == "{") bracketCount += 1;
+                        if (c == "[") bracketCount += 1;
+                        if (c == "(") bracketCount += 1;
+                        if (c == "}") bracketCount -= 1;
+                        if (c == "]") bracketCount -= 1;
+                        if (c == ")") bracketCount -= 1;
+                        textEnd += 1;
+                        if (bracketCount == 0) {
+                            console.log("おわり", textEnd)
+                            break;
+                        }
+
+                    }
+                    text = text.substring(0, textEnd);
+                    console.log(text)
+
+                    return JSON.parse(text);
+                }
+
+
+                function binLoad_old() {
                     let bin = []
                     if (!ctx) return;
                     var ImageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
@@ -83,7 +139,7 @@ const ImageLoad: React.FC = () => {
 
     return (
         <div>
-            <input type="file" id="inputFile" className="form-control" accept=".png" />
+            <input type="file" id="inputFile" className="form-control" accept="image/*" />
             <canvas id="canvas" style={{
 
                 border: "2px solid black",
@@ -97,3 +153,9 @@ const ImageLoad: React.FC = () => {
 };
 
 export default ImageLoad;
+
+
+// [1, 1, 1, 1, 0, 1, 1, 1, 0, 0, 0, 1, 0, 1, 1, 1, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 1, 1, 1, 1, 0, 1, 0, 0, 1, 1, 1, 0, 1, 0, 0, 1, 1, 0, 0, 1, 0, 1, 1, 1, 1, 0, 0, 1, 0, 1, 1, 0, 1, 1, 1, 0, 1, 0, 0, 0, 1, 0, 1, 1, 1, 0, 1, 0, 1, 0, 1, 1, 0, 1, 1, 1, 0, 1, 1, 0, 1, 1, 1, 1, 0, 0, 0, 1, 1, 0, 1, 1, 0, 0,
+// [1, 1, 1, 1, 0, 1, 1, 1, 0, 0, 0, 1, 0, 1, 1, 1, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 1, 1, 1, 1, 0, 1, 0, 0, 1, 1, 1, 0, 1, 0, 0, 1, 1, 0, 0, 1, 0, 1, 1, 1, 1, 0, 0, 1, 0, 1, 1, 0, 1, 1, 1, 0, 1, 0, 0, 0, 1, 0, 1, 1, 1, 0, 1, 0, 1, 0, 1, 1, 0, 1, 1, 1, 0, 1, 1, 0, 1, 1, 1, 1, 0, 0, 0, 1, 1, 0, 1, 1, 0, 0,
+// 元
+// [123, 34, 112, 97, 116, 116, 101, 114, 110, 34, 58, 91, 91, 49, 44, 49, 44, 49, 44, 49, 44, 50, 44, 50, 44, 50, 44, 49, 93, 44, 91, 50, 44, 49, 44, 49, 44, 50, 44, 49, 44, 49, 44, 50, 44, 49, 93, 44, 91, 49, 44, 49, 44, 50, 44, 50, 44, 49, 44, 48, 44, 49, 44, 49, 93, 44, 91, 49, 44, 50, 44, 50, 44, 50, 44, 49, 44, 48, 44, 50, 44, 49, 93, 44, 91, 49, 44, 49, 44, 50, 44, 50, 44, 50, 44, 49, 44, 50, 44, 49, 
