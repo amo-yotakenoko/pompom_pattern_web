@@ -11,6 +11,7 @@ import Pompom from './Pompom'
 import ColorPalette from './colorPalette'
 import BluePrint from '../BluePrint/BluePrint'
 import Menu from './menu'
+import VerticalMenu from './VerticalMenu';
 import UndoRedo from './undoRedu'
 import ColorEdit from './colorEdit'
 import HelpButton from './HelpButton';
@@ -162,13 +163,13 @@ function Edit() {
         <div style={{ position: 'fixed', top: "5px", right: "5px", display: 'flex', flexDirection: 'row-reverse', gap: '10px', zIndex: 1000 }}>
 
           <HelpButton activeMenu={activeMenu}></HelpButton>
-          {activeMenu == "pompom" && (
+          {/* {activeMenu == "pompom" && (
 
             <Icon.Camera style={{ fontSize: "2.5em" }}
               onClick={() => setActiveMenu("cameraScan")}
 
             />
-          )}
+          )} */}
           {activeMenu == "cameraScan" && (
 
             <div style={{
@@ -290,10 +291,14 @@ function Edit() {
             </div>
 
             <div className="row no-margin" style={{
-              overflowY: "auto", height: "calc(100dvh - 100vw - 2em)",
+              overflowY: "auto", height: "calc(100dvh - 100vw - 2em)", width: "calc(100vw - 2em)",
               // backgroundColor: "#f0f0f0",
               display: (activeMenu === "pompom" || activeMenu === "cameraScan") ? "flex" : "none",
             }}>
+
+
+
+
               {activeMenu === "pompom" && (
 
                 <div className="col-6 col-md-3 col-xl-4 no-margin " style={{ display: activeMenu === "pompom" ? "flex" : "none", }}>
@@ -335,7 +340,17 @@ function Edit() {
 
 
 
+
+              <VerticalMenu activeMenu={activeMenu}
+                setActiveMenu={setActiveMenu}
+                pattern={pattern}
+                setPattern={setPattern}
+                colorList={colorList}
+                setColorList={setColorList}
+                selectColor={selectColor}
+                setSelectColor={setSelectColor}></VerticalMenu>
             </div>
+
 
             {/* 
             <div className="row no-margin" style={{
