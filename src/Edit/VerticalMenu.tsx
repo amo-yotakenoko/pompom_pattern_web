@@ -8,8 +8,9 @@ import Help from "../Help"
 import { Overlay, Tooltip, Button } from 'react-bootstrap';
 
 
-const VerticalMenu = ({ activeMenu, setActiveMenu, pattern, colorList, selectColor, setPattern, setColorList, setSelectColor }: any) => {
+const VerticalMenu = ({ activeMenu, setActiveMenu, pattern, colorList, selectColor, setPattern, setColorList, setSelectColor, isConfirmation }: any) => {
     console.log({ activeMenu })
+
     return (
         <>
             {/* {activeMenu} */}
@@ -30,10 +31,10 @@ const VerticalMenu = ({ activeMenu, setActiveMenu, pattern, colorList, selectCol
                 padding: 0
             }}>
 
-                < Item displayName={<div id={"editMenu"} style={{ textAlign: "center" }}> <Icon.PencilSquare />編集  </div>} tabId={"pompom"} activeMenu={activeMenu} setActiveMenu={setActiveMenu} ></Item >
-                <Item displayName={<div id={"cameraScanMenu"} style={{ textAlign: "center" }}>  <Icon.Camera />カメラ  </div>} tabId={"cameraScan"} activeMenu={activeMenu} setActiveMenu={setActiveMenu} isDisabled={activeMenu == "cameraScan"}></Item>
-                <Item displayName={<div id={"decorationMenu"} style={{ textAlign: "center" }}>  <Icon.Stars />装飾  </div>} tabId={"decoration"} activeMenu={activeMenu} setActiveMenu={setActiveMenu} isDisabled={activeMenu == "cameraScan"}></Item>
-                <Item displayName={<div id={"blueprintMenu"} style={{ textAlign: "center" }}>   <Icon.FileEarmarkPost />設計図 </div>} tabId={"bluePrint"} activeMenu={activeMenu} setActiveMenu={setActiveMenu} isDisabled={activeMenu == "cameraScan"}></Item>
+                < Item displayName={<div id={"editMenu"} style={{ textAlign: "center" }}> <Icon.PencilSquare />編集  </div>} tabId={"pompom"} isConfirmation={isConfirmation} activeMenu={activeMenu} setActiveMenu={setActiveMenu} ></Item >
+                <Item displayName={<div id={"cameraScanMenu"} style={{ textAlign: "center" }}>  <Icon.Camera />カメラ  </div>} tabId={"cameraScan"} isConfirmation={isConfirmation} activeMenu={activeMenu} setActiveMenu={setActiveMenu} isDisabled={activeMenu == "cameraScan"}></Item>
+                <Item displayName={<div id={"decorationMenu"} style={{ textAlign: "center" }}>  <Icon.Stars />装飾  </div>} tabId={"decoration"} isConfirmation={isConfirmation} activeMenu={activeMenu} setActiveMenu={setActiveMenu} isDisabled={activeMenu == "cameraScan"}></Item>
+                <Item displayName={<div id={"blueprintMenu"} style={{ textAlign: "center" }}>   <Icon.FileEarmarkPost />設計図 </div>} tabId={"bluePrint"} isConfirmation={isConfirmation} activeMenu={activeMenu} setActiveMenu={setActiveMenu} isDisabled={activeMenu == "cameraScan"}></Item>
 
                 {/* < Item displayName={<div id={"cameraScan"}>カメラ   <Icon.Camera /></div>} tabId={"cameraScan"} activeMenu={activeMenu} setActiveMenu={setActiveMenu} ></Item > */}
 
@@ -77,9 +78,12 @@ const VerticalMenu = ({ activeMenu, setActiveMenu, pattern, colorList, selectCol
     )
 }
 
-const Item = ({ id, displayName, tabId, activeMenu, setActiveMenu, isDisabled }: any) => {
+const Item = ({ id, displayName, tabId, activeMenu, setActiveMenu, isDisabled, isConfirmation }: any) => {
 
     function tabSet(tabId: any) {
+        if (isConfirmation && isConfirmation == true) {
+            if (!window.confirm("進捗がリセットされます!")) return;
+        }
         setActiveMenu(tabId);
     }
 

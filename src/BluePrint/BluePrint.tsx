@@ -719,6 +719,7 @@ const BluePrint = ({ pattern, colorList, rollWidth, pitchWidth, activeMenu, setA
             <div className="col-12 col-lg-6">
                 <VerticalMenu activeMenu={activeMenu}
                     setActiveMenu={setActiveMenu}
+                    isConfirmation={rollCountSum > 0}
                 ></VerticalMenu>
                 <div className="row no-margin" style={{ overflowY: "auto", maxHeight: "calc(100vh - 100vw )" }}>
 
