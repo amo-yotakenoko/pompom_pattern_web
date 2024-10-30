@@ -28,7 +28,8 @@ const VerticalMenu = ({ activeMenu, setActiveMenu, pattern, colorList, selectCol
                 // alignItems: 'center',
                 // justifyContent: 'center',
                 // background: "#ff0000",
-                padding: 0
+                padding: 0,
+                zIndex: 1000
             }}>
 
                 < Item displayName={<div id={"editMenu"} style={{ textAlign: "center" }}> <Icon.PencilSquare />編集  </div>} tabId={"pompom"} isConfirmation={isConfirmation} activeMenu={activeMenu} setActiveMenu={setActiveMenu} ></Item >

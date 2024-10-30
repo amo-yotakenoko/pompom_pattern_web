@@ -89,78 +89,78 @@ const CameraCounter = ({ addCounter }: any) => {
 
                     <Accordion.Collapse eventKey="1">
                         <div>
-                            <Card >
+                            {/* <Card > */}
 
 
 
-                                <div className="row  g-0">
+                            <div className="row  g-0">
 
 
-                                    <div className="col-6">
-                                        <div style={{
-                                            position: 'relative', width: '100%', height: '500px', justifyContent: 'center',
-                                            alignItems: 'center'
-                                        }}>
+                                <div className="col-6">
+                                    <div style={{
+                                        position: 'relative', width: '100%', justifyContent: 'center',
+                                        alignItems: 'center'
+                                    }}>
 
-                                            {!(trackerOk && videoOk) && (<Spinner animation="border" role="status" style={{ position: 'absolute', width: '100px', height: '100px' }}>
+                                        {!(trackerOk && videoOk) && (<Spinner animation="border" role="status" style={{ position: 'absolute', width: '100px', height: '100px' }}>
 
-                                            </Spinner>)}
+                                        </Spinner>)}
 
-                                            {(trackerOk && videoOk) && !isTracked && <div style={{ position: 'absolute', width: '100%', color: "#00FF00", }} >  {rollingHand == "Right" ? "右" : "左"}手を画面に映してください</div>}
-                                            <div style={{ transform: 'scaleX(-1)' }}>
+                                        {(trackerOk && videoOk) && !isTracked && <div style={{ position: 'absolute', width: '100%', color: "#00FF00", }} >  {rollingHand == "Right" ? "右" : "左"}手を画面に映してください</div>}
+                                        <div style={{ transform: 'scaleX(-1)' }}>
 
-                                                <video autoPlay playsInline={true} ref={videoRef} style={{ position: 'absolute', width: '100%' }} />
-                                                <Camera
-                                                    videoRef={videoRef}
-                                                    devices={devices}
-                                                    setDevices={setDevices}
-                                                    setSelectedDeviceId={setSelectedDeviceId}
-                                                    selectedDeviceId={selectedDeviceId}
-                                                    setVideoOk={setVideoOk}
-                                                    isEnable={true}
-                                                />
-
-
-
-                                                <HandTracker
-                                                    setIsTracked={setIsTracked}
-                                                    rollingHand={rollingHand}
-                                                    selectedDeviceId={selectedDeviceId}
-                                                    videoRef={videoRef}
-                                                    trackerSettings={trackerSettings}
-                                                    fingerHistory={fingerHistory}
-                                                    setsingerHistory={setsingerHistory}
-                                                    setTrackerOk={setTrackerOk}
-                                                />
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div className="col-6" style={{ position: "relative", overflow: "hidden" }}>
-                                        <KalmanFilter
-                                            fingerHistory={fingerHistory}
-                                            addCounter={addCounter}
-                                            kalmanSettings={kalmanSettings}
-                                            audiosRef={audiosRef}
-                                            soundVolume={soundVolume}
-                                        />
-                                        <div style={{ position: "absolute", top: "1px", right: "1px", display: "flex", alignItems: "center" }}>
-                                            <SoundVolume audiosRef={audiosRef} soundVolume={soundVolume} setSoundVolume={setSoundVolume} />
-                                            <Icon.Sliders
-                                                id="AIparameters"
-                                                onClick={() => setSettingShow(true)}
-                                                style={{ fontSize: "2rem", marginRight: "10px" }} // アイコンを大きくし、スライダーとの間に余白を追加
+                                            <video autoPlay playsInline={true} ref={videoRef} style={{ position: 'absolute', width: '100%' }} />
+                                            <Camera
+                                                videoRef={videoRef}
+                                                devices={devices}
+                                                setDevices={setDevices}
+                                                setSelectedDeviceId={setSelectedDeviceId}
+                                                selectedDeviceId={selectedDeviceId}
+                                                setVideoOk={setVideoOk}
+                                                isEnable={true}
                                             />
-                                            {/* {soundVolume} */}
-                                        </div>
 
-                                        <Help id="AIparameters" placement="bottom">パラメータ調整<br></br>うまく判定されないときはここをチェック</Help>
+
+
+                                            <HandTracker
+                                                setIsTracked={setIsTracked}
+                                                rollingHand={rollingHand}
+                                                selectedDeviceId={selectedDeviceId}
+                                                videoRef={videoRef}
+                                                trackerSettings={trackerSettings}
+                                                fingerHistory={fingerHistory}
+                                                setsingerHistory={setsingerHistory}
+                                                setTrackerOk={setTrackerOk}
+                                            />
+                                        </div>
                                     </div>
                                 </div>
+                                <div className="col-6" style={{ position: "relative", overflow: "hidden" }}>
+                                    <KalmanFilter
+                                        fingerHistory={fingerHistory}
+                                        addCounter={addCounter}
+                                        kalmanSettings={kalmanSettings}
+                                        audiosRef={audiosRef}
+                                        soundVolume={soundVolume}
+                                    />
+                                    <div style={{ position: "absolute", top: "1px", right: "1px", display: "flex", alignItems: "center" }}>
+                                        <SoundVolume audiosRef={audiosRef} soundVolume={soundVolume} setSoundVolume={setSoundVolume} />
+                                        <Icon.Sliders
+                                            id="AIparameters"
+                                            onClick={() => setSettingShow(true)}
+                                            style={{ fontSize: "2rem", marginRight: "10px" }} // アイコンを大きくし、スライダーとの間に余白を追加
+                                        />
+                                        {/* {soundVolume} */}
+                                    </div>
+
+                                    <Help id="AIparameters" placement="bottom">パラメータ調整<br></br>うまく判定されないときはここをチェック</Help>
+                                </div>
+                            </div>
 
 
 
 
-                            </Card>
+                            {/* </Card> */}
                         </div >
                     </Accordion.Collapse >
 
