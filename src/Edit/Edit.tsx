@@ -196,7 +196,7 @@ function Edit() {
 
         <div className="container-fluid" style={{ padding: 0, margin: 0 }}>
           <div className="row no-margin" id="editing" style={{
-            display: activeMenu === "pompom" || activeMenu === "cameraScan" ? "flex" : "none",
+            // display: (activeMenu === "pompom" || activeMenu === "cameraScan" || activeMenu === "decoration") ? "flex" : "none",
             // backgroundColor: "#f0f0ff",
             position: "fixed",
             top: "0",
@@ -210,6 +210,7 @@ function Edit() {
                   width: "100%",
                   aspectRatio: "1",
                   border: "1px solid black",
+                  display: (activeMenu === "pompom" || activeMenu === "cameraScan" || activeMenu === "decoration") ? "flex" : "none",
                 }}
               >
                 <Pompom
@@ -288,12 +289,26 @@ function Edit() {
                 {/* <Help id="RecordCircle">撮影</Help> */}
 
               </div >
+
             </div>
+            {activeMenu === "bluePrint" && (
+
+              <BluePrint
+                pattern={pattern}
+                colorList={colorList}
+                rollWidth={rollWidth}
+                pitchWidth={pitchWidth}
+                activeMenu={activeMenu}
+                setActiveMenu={setActiveMenu}
+              />
+
+
+            )}
 
             <div className="row no-margin" style={{
-              overflowY: "auto", height: "calc(100dvh - 100vw - 2em)", width: "calc(100vw - 2em)",
+              overflowY: "auto", height: "calc(100dvh - 100vw )", width: "calc(100vw - 2em)",
               // backgroundColor: "#f0f0f0",
-              display: (activeMenu === "pompom" || activeMenu === "cameraScan") ? "flex" : "none",
+              // display: (activeMenu === "pompom" || activeMenu === "cameraScan" || activeMenu === "decoration") ? "flex" : "none",
             }}>
 
 
@@ -325,31 +340,28 @@ function Edit() {
                 <br />
                 <br /> <br /> <br /> <br /> <br /> <br />
               </div>
+              {(activeMenu === "pompom" || activeMenu === "cameraScan") &&
+                <div className="col-6 col-md-9  col-xl-4 no-margin" >
+                  <ColorPalette
+                    colorList={colorList}
+                    selectColor={selectColor}
+                    setSelectColor={setSelectColor}
+                    setColorList={setColorList}
+                    multiColorSelect={multiColorSelect}
+                    setMultiColorSelect={setMultiColorSelect}
+                    enableMultiColorSelect={activeMenu === "cameraScan"}
+                  />
+                </div>
+              }
 
-              <div className="col-6 col-md-9  col-xl-4 no-margin" >
-                <ColorPalette
-                  colorList={colorList}
-                  selectColor={selectColor}
-                  setSelectColor={setSelectColor}
-                  setColorList={setColorList}
-                  multiColorSelect={multiColorSelect}
-                  setMultiColorSelect={setMultiColorSelect}
-                  enableMultiColorSelect={activeMenu === "cameraScan"}
-                />
-              </div>
+              {activeMenu !== "bluePrint" && (
+                <VerticalMenu activeMenu={activeMenu}
+                  setActiveMenu={setActiveMenu}
+                ></VerticalMenu>
+              )}
 
-
-
-
-              <VerticalMenu activeMenu={activeMenu}
-                setActiveMenu={setActiveMenu}
-                pattern={pattern}
-                setPattern={setPattern}
-                colorList={colorList}
-                setColorList={setColorList}
-                selectColor={selectColor}
-                setSelectColor={setSelectColor}></VerticalMenu>
             </div>
+
 
 
             {/* 
@@ -381,20 +393,9 @@ function Edit() {
 
 
           {/* <div style={{ display: activeMenu === "bluePrint" ? "block" : "none" }}> */}
-          {activeMenu === "bluePrint" && (
 
-            <BluePrint
-              pattern={pattern}
-              colorList={colorList}
-              rollWidth={rollWidth}
-              pitchWidth={pitchWidth}
-              activeMenu={activeMenu}
-            />
-
-
-          )}
         </div>
-        <Menu
+        {/* <Menu
           activeMenu={activeMenu}
           setActiveMenu={setActiveMenu}
           pattern={pattern}
@@ -403,7 +404,7 @@ function Edit() {
           setColorList={setColorList}
           selectColor={selectColor}
           setSelectColor={setSelectColor}
-        />
+        /> */}
 
       </enableHelpContext.Provider>
 

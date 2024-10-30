@@ -4,19 +4,20 @@ import RollCounter from './RollCounter';
 import SelectedHighlight from './SelectedHighlight';
 import Help from "../Help"
 import { Overlay, Tooltip } from 'react-bootstrap';
-type BluePrintProps = {
-    pattern: any;
-    colorList: any;
-    rollWidth: number;
-    pitchWidth: number;
-    activeMenu: any;
+import VerticalMenu from '../Edit/VerticalMenu';
+// type BluePrintProps = {
+//     pattern: any;
+//     colorList: any;
+//     rollWidth: number;
+//     pitchWidth: number;
+//     activeMenu: any;
 
-};
+// };
 var cancel = false;
 let frames: any = []
 
 
-const BluePrint: React.FC<BluePrintProps> = ({ pattern, colorList, rollWidth, pitchWidth, activeMenu }) => {
+const BluePrint = ({ pattern, colorList, rollWidth, pitchWidth, activeMenu, setActiveMenu }: any) => {
 
     const [rollProgress, setRollProgress] = useState<any[]>([]);
 
@@ -715,9 +716,11 @@ const BluePrint: React.FC<BluePrintProps> = ({ pattern, colorList, rollWidth, pi
                 </div >
 
             </div>
-
             <div className="col-12 col-lg-6">
-                <div className="row no-margin" style={{ overflowY: "auto", maxHeight: "calc(100vh - 100vw - 1em)" }}>
+                <VerticalMenu activeMenu={activeMenu}
+                    setActiveMenu={setActiveMenu}
+                ></VerticalMenu>
+                <div className="row no-margin" style={{ overflowY: "auto", maxHeight: "calc(100vh - 100vw )" }}>
 
                     <RollCounter frames={frames} selectingFrame={selectingFrame} rollProgress={rollProgress} setRollProgress={setRollProgress}></RollCounter>
 

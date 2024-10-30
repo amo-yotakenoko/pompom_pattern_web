@@ -30,7 +30,7 @@ const Pompom = ({ meshList, sceneProps, setSceneProps, pattern, colorList, rollW
         // activeMenuRef.current = activeMenu;
         // if (renderer !== null) {
         wireMeshList.current.forEach((m: any) => {
-            m.visible = activeMenu == "pompom" || activeMenu == "cameraScan"
+            m.visible = activeMenu == "pompom" || activeMenu == "cameraScan" || activeMenu == "decoration"
             console.log(m.visible)
         });
         // renderer.render(scene, camera);
@@ -425,8 +425,8 @@ const Pompom = ({ meshList, sceneProps, setSceneProps, pattern, colorList, rollW
         // tick();
 
         function tick() {
-            if (activeMenu == "pompom" || activeMenu == "cameraScan") {
-                // console.log("tick")
+            if (activeMenu == "pompom" || activeMenu == "cameraScan" || activeMenu == "decoration") {
+                console.log("tick");
 
                 sceneProps.renderer.render(sceneProps.scene, sceneProps.camera);
                 sceneProps.controls.update();
@@ -482,7 +482,7 @@ const Pompom = ({ meshList, sceneProps, setSceneProps, pattern, colorList, rollW
         const intervalId = setInterval(() => {
 
             const camera = sceneProps.camera;
-            if (activeMenu == "pompom") {
+            if (activeMenu == "pompom" || activeMenu == "decoration") {
                 cameraDistanceRef.current -= Math.abs(cameraDistanceRef.current - 800) / 10 + 1;
             } else if (activeMenu == "cameraScan") {
                 cameraDistanceRef.current += Math.abs(cameraDistanceRef.current - 2000) / 10 + 1;
