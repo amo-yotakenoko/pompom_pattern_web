@@ -7,6 +7,7 @@ import CameraSelect from '../BluePrint/CameraSelect';
 import { Button, ProgressBar, Form } from 'react-bootstrap';
 import { FontLoader } from 'three/examples/jsm/loaders/FontLoader';
 import { TextGeometry } from 'three/examples/jsm/geometries/TextGeometry';
+import chroma from "chroma-js";
 // import SimpleOrientationTracker from './没/getDeviderotation';
 // import { DeviceOrientationControls } from "three/examples/jsm/controls/DeviceOrientationControls";
 
@@ -495,12 +496,15 @@ const CameraScan = ({ sceneProps, activeMenu, drawDot, meshList, colorList, mult
 					RepresentativeColors.forEach((repColor: any, i: number) => {
 						if (multiColorSelect[i]) {
 
-							
+							// 色距離の計算部分、ユークリッド
 							const distance = Math.sqrt(
 								Math.pow(repColor.r - color.r, 2) +
 								Math.pow(repColor.g - color.g, 2) +
 								Math.pow(repColor.b - color.b, 2)
 							);
+							// https://gomiba.co/archives/2018/02/1813/
+							// chroma.deltaE
+							// const distance = chroma.deltaE(repColor, color);
 
 							if (distance < minDistance) {
 								minDistance = distance;

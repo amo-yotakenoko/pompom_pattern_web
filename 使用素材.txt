@@ -6,3 +6,5 @@ https://maou.audio/bgm_acoustic35/
 
 https://soundeffect-lab.info/sound/button/
 効果音ラボ,キャンセル4.mp3,決定ボタンを押す40.mp3,電子ルーレット停止ボタンを押す.mp3
+
+npm install chroma-js
