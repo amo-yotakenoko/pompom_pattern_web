@@ -33,13 +33,13 @@ const CameraScan = ({ sceneProps, activeMenu, drawDot, meshList, colorList, mult
 		const material2 = new THREE.MeshBasicMaterial({
 			color: 0xffffff, transparent: true, opacity: 0.5
 			, side: THREE.DoubleSide
-		}); 
+		});
 
-		
+
 		const plane = new THREE.Mesh(geometry2, material2);
 
 
-		
+
 		plane.position.set(pos.x, pos.y, pos.z);
 
 		const lookAtDirection = new THREE.Vector3(0, 0, 0).sub(plane.position).normalize();
@@ -48,7 +48,7 @@ const CameraScan = ({ sceneProps, activeMenu, drawDot, meshList, colorList, mult
 
 		plane.rotation.y += 180 / 360 * (2 * Math.PI);
 		plane.rotation.z += rotate / 360 * (2 * Math.PI);
-	
+
 		sceneProps.scene.add(plane);
 		(plane as any).isCameraScanPlate = true;
 		(plane as any).isCaptured = false;
@@ -77,7 +77,7 @@ const CameraScan = ({ sceneProps, activeMenu, drawDot, meshList, colorList, mult
 			const texture = new THREE.TextureLoader().load("cameraIcon.png");
 			_plates.forEach((plate: any, i: number) => {
 				plate.obj.material.map = texture;
-				plate.obj.material.needsUpdate = true;  
+				plate.obj.material.needsUpdate = true;
 			});
 			platesRef.current = _plates
 			console.log("プレート生成")
@@ -137,12 +137,12 @@ const CameraScan = ({ sceneProps, activeMenu, drawDot, meshList, colorList, mult
 			plateAnimation();
 		};
 
-		timerId = setInterval(intervalFunc, 1); 
+		timerId = setInterval(intervalFunc, 1);
 		return () => clearInterval(timerId);
 	}, [videoOk, clipSize, selectingPlate, activeMenu]);
 
 
-	
+
 
 	useEffect(() => {
 		if (!sceneProps || !sceneProps.canvas) return
@@ -200,31 +200,31 @@ const CameraScan = ({ sceneProps, activeMenu, drawDot, meshList, colorList, mult
 	function onMouseClick(event: any) {
 		const raycaster = new THREE.Raycaster();
 		const mouse = new THREE.Vector2();
-	
+
 		mouse.x = (event.clientX / sceneProps.canvas.clientWidth) * 2 - 1;
 		mouse.y = - (event.clientY / sceneProps.canvas.clientHeight) * 2 + 1;
 
-	
+
 		raycaster.setFromCamera(mouse, sceneProps.camera);
 
-		
+
 		const intersects = raycaster.intersectObjects(sceneProps.scene.children);
 
 		// console.log("plate判定", intersects)
 		let isCancel = true;
-		if (selectingPlate<0&&intersects.length > 0) {
-			
+		if (selectingPlate < 0 && intersects.length > 0) {
+
 			// console.log(intersects[0].object)
 			platesRef.current.forEach((plate: any, i: number) => {
 				// console.log("判定", intersects[0].object, plate.obj)
 				if (intersects[0].object == plate.obj) {
-					
+
 					setSelectingPlate(i === 3 ? 2 : i)
 					SetIsFlip(i === 3)
 					isCancel = false
 				}
 			});
-			
+
 		}
 
 
@@ -237,14 +237,14 @@ const CameraScan = ({ sceneProps, activeMenu, drawDot, meshList, colorList, mult
 			const texture = new THREE.TextureLoader().load("cameraIcon.png");
 			const selectingPlateobj: any = platesRef.current[selectingPlate].obj
 			console.log(selectingPlate, selectingPlateobj)
-			selectingPlateobj.material.map = texture; 
-			selectingPlateobj.material.needsUpdate = true; 
+			selectingPlateobj.material.map = texture;
+			selectingPlateobj.material.needsUpdate = true;
 
 			if (selectingPlate == 2) {
 				const selectingOtherPlateobj: any = platesRef.current[3].obj
 				console.log(selectingPlate, selectingPlateobj)
-				selectingOtherPlateobj.material.map = texture; 
-				selectingOtherPlateobj.material.needsUpdate = true;  
+				selectingOtherPlateobj.material.map = texture;
+				selectingOtherPlateobj.material.needsUpdate = true;
 			}
 
 			document.getElementById("setCurrentState")?.click();
@@ -282,14 +282,14 @@ const CameraScan = ({ sceneProps, activeMenu, drawDot, meshList, colorList, mult
 		// console.log(event.clientX)
 		// const element = event.currentTarget;
 		const element = sceneProps.canvas;
-		
+
 		const x = event.clientX - element.offsetLeft;
 		const y = event.clientY - element.offsetTop;
-		
+
 		const w = element.offsetWidth;
 		const h = element.offsetHeight;
 
-		
+
 		mouse.x = (x / w) * 2 - 1;
 		mouse.y = -(y / h) * 2 + 1;
 	}
@@ -328,12 +328,12 @@ const CameraScan = ({ sceneProps, activeMenu, drawDot, meshList, colorList, mult
 		// console.log("テクスチャ作成", videoRef.current.width)
 		const ctx = canvasRef.current.getContext('2d');
 		if (!ctx) return
-		let squareSize = Math.min(canvasRef.current.width, canvasRef.current.height); 
+		let squareSize = Math.min(canvasRef.current.width, canvasRef.current.height);
 		squareSize *= clipSize;
 		let centerX = videoRef.current.videoWidth / 2
 		let centerY = videoRef.current.videoHeight / 2
 		const xOffset = centerX - squareSize / 2;
-		const yOffset = centerY - squareSize / 2; 
+		const yOffset = centerY - squareSize / 2;
 		// ctx.fillStyle = 'red'; 
 		// ctx.fillRect(0, 0, canvasRef.current.width, canvasRef.current.height);
 		// canvasRef.current.width = 256;
@@ -347,7 +347,7 @@ const CameraScan = ({ sceneProps, activeMenu, drawDot, meshList, colorList, mult
 		}
 
 		ctx.drawImage(
-			videoRef.current, 
+			videoRef.current,
 			xOffset, yOffset,
 			squareSize, squareSize,
 			0, 0,
@@ -358,7 +358,7 @@ const CameraScan = ({ sceneProps, activeMenu, drawDot, meshList, colorList, mult
 		ctx.beginPath();
 		ctx.arc(canvasRef.current.width / 2, canvasRef.current.height / 2, canvasRef.current.width / 2, 0, Math.PI * 2, false);
 		ctx.closePath();
-		ctx.clip(); 
+		ctx.clip();
 
 		if (0 > selectingPlate) return;
 		const texture = new THREE.CanvasTexture(canvasRef.current as any);
@@ -368,18 +368,18 @@ const CameraScan = ({ sceneProps, activeMenu, drawDot, meshList, colorList, mult
 
 		// }
 		const selectingPlateobj = platesRef.current[selectingPlate].obj
-		selectingPlateobj.material.map = texture; 
+		selectingPlateobj.material.map = texture;
 		selectingPlateobj.material.needsUpdate = true;
 		if (selectingPlate == 2) {
 			const fripTexture = new THREE.CanvasTexture(canvasRef.current as any);
 			// if (!isFlip) {
-			fripTexture.wrapS = THREE.RepeatWrapping; 
+			fripTexture.wrapS = THREE.RepeatWrapping;
 			fripTexture.repeat.x = -1;
 
 			// }
 			const rightSelectingPlateobj = platesRef.current[3].obj
 			rightSelectingPlateobj.material.map = fripTexture;
-			rightSelectingPlateobj.material.needsUpdate = true; 
+			rightSelectingPlateobj.material.needsUpdate = true;
 		}
 		(selectingPlateobj as any).isCaptured = true
 		// return
@@ -433,7 +433,7 @@ const CameraScan = ({ sceneProps, activeMenu, drawDot, meshList, colorList, mult
 							// if (intersect.distance > 150) return
 							// if (!patternPos) return
 							// const mesh = intersect.object as any; 
-							const uv = intersect.uv as any; 
+							const uv = intersect.uv as any;
 							// const material = mesh.material; 
 							if (!uv) return
 							const x = Math.floor(uv.x * ctx.canvas.width);
@@ -497,14 +497,14 @@ const CameraScan = ({ sceneProps, activeMenu, drawDot, meshList, colorList, mult
 						if (multiColorSelect[i]) {
 
 							// 色距離の計算部分、ユークリッド
-							const distance = Math.sqrt(
-								Math.pow(repColor.r - color.r, 2) +
-								Math.pow(repColor.g - color.g, 2) +
-								Math.pow(repColor.b - color.b, 2)
-							);
+							// const distance = Math.sqrt(
+							// 	Math.pow(repColor.r - color.r, 2) +
+							// 	Math.pow(repColor.g - color.g, 2) +
+							// 	Math.pow(repColor.b - color.b, 2)
+							// );
 							// https://gomiba.co/archives/2018/02/1813/
 							// chroma.deltaE
-							// const distance = chroma.deltaE(repColor, color);
+							const distance = chroma.deltaE(repColor, color);
 
 							if (distance < minDistance) {
 								minDistance = distance;
@@ -547,7 +547,7 @@ const CameraScan = ({ sceneProps, activeMenu, drawDot, meshList, colorList, mult
 
 			// 		console.log(`Coordinates: (${x}, ${y}) - Color: rgba(${r}, ${g}, ${b}, ${a / 255})`);
 			// 		const raycaster = new THREE.Raycaster();
-			
+
 			// 		const direction = new THREE.Vector3(0, 0, 1).applyQuaternion(plate.quaternion).negate().normalize();
 
 
@@ -637,7 +637,7 @@ const CameraScan = ({ sceneProps, activeMenu, drawDot, meshList, colorList, mult
 
 	function getFirstVertexPosition(mesh: any) {
 		if (mesh.geometry instanceof THREE.BufferGeometry) {
-	
+
 			const positionAttribute = mesh.geometry.getAttribute('position');
 
 			if (positionAttribute && positionAttribute.count > 0) {
@@ -654,7 +654,7 @@ const CameraScan = ({ sceneProps, activeMenu, drawDot, meshList, colorList, mult
 			return null;
 		}
 	}
-	
+
 
 
 
@@ -664,8 +664,8 @@ const CameraScan = ({ sceneProps, activeMenu, drawDot, meshList, colorList, mult
 		// console.log("plateanimation", activeMenuRef.current)
 		platesRef.current.forEach((plate: any, i: number) => {
 			let scale = plate.obj.scale.x;
-			let target = (0> selectingPlate) ? 0.5 : 0;
-			 if (i == selectingPlate) target=1
+			let target = (0 > selectingPlate) ? 0.5 : 0;
+			if (i == selectingPlate) target = 1
 			if (i == 3 && selectingPlate == 2) target = 1;
 
 			if (activeMenu != "cameraScan") target = 0;
@@ -673,7 +673,7 @@ const CameraScan = ({ sceneProps, activeMenu, drawDot, meshList, colorList, mult
 			scale += (target - scale) * 0.05;
 
 			plate.obj.scale.set(scale, scale, scale);
-			 plate.obj.visible =scale>0.1
+			plate.obj.visible = scale > 0.1
 		});
 	}
 
@@ -692,7 +692,7 @@ const CameraScan = ({ sceneProps, activeMenu, drawDot, meshList, colorList, mult
 					autoPlay
 					style={{ width: '100%', border: '2px solid black', display: "none" }}
 				/>
-			
+
 
 
 
@@ -712,7 +712,7 @@ const CameraScan = ({ sceneProps, activeMenu, drawDot, meshList, colorList, mult
 
 				<canvas
 					ref={canvasRef}
-					width={256} 
+					width={256}
 					height={256}
 					style={{
 						border: '2px solid black', width: '100%', height: 'auto',
@@ -723,24 +723,24 @@ const CameraScan = ({ sceneProps, activeMenu, drawDot, meshList, colorList, mult
 				{/* )} */}
 				{/* <Form.Label>ズーム</Form.Label> */}
 				<div style={{ display: "flex", alignItems: "center" }}>
-    <Icon.ZoomOut style={{ fontSize: "24px",  marginLeft: "10px",marginRight: "5px"}} />
-    <Form.Range
-        onChange={(e) => {
-            setClipSize(parseFloat(e.target.value));
-        }}
-        value={clipSize}
-        min={0.1}
-        max={1}
-        step={0.01}
-        style={{ direction: "rtl", margin: "0 10px" }} 
-    />
-    <Icon.ZoomIn style={{ fontSize: "24px", marginLeft: "5px",marginRight: "10px" }} />
-</div>
+					<Icon.ZoomOut style={{ fontSize: "24px", marginLeft: "10px", marginRight: "5px" }} />
+					<Form.Range
+						onChange={(e) => {
+							setClipSize(parseFloat(e.target.value));
+						}}
+						value={clipSize}
+						min={0.1}
+						max={1}
+						step={0.01}
+						style={{ direction: "rtl", margin: "0 10px" }}
+					/>
+					<Icon.ZoomIn style={{ fontSize: "24px", marginLeft: "5px", marginRight: "10px" }} />
+				</div>
 				{/* {selectingPlate} */}
 				<CameraSelect devices={devices} setSelectedDeviceId={setSelectedDeviceId} selectedDeviceId={selectedDeviceId}></CameraSelect>
 				{/* <br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /> */}
 
-				
+
 			</div>
 			{/* )} */}
 		</>
