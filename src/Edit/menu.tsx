@@ -41,16 +41,18 @@ const Menu: React.FC<MenuProps> = ({ activeMenu, setActiveMenu, pattern, colorLi
 
 
 
-            < Item displayName={<div id={"editMenu"}>編集   <Icon.PencilSquare /></div>} tabId={"pompom"} activeMenu={activeMenu} setActiveMenu={setActiveMenu} ></Item >
+            {/* < Item displayName={<div id={"editMenu"}>編集   <Icon.PencilSquare /></div>} tabId={"pompom"} activeMenu={activeMenu} setActiveMenu={setActiveMenu} ></Item > */}
 
 
             {/* < Item displayName={<div id={"cameraScan"}>カメラ   <Icon.Camera /></div>} tabId={"cameraScan"} activeMenu={activeMenu} setActiveMenu={setActiveMenu} ></Item > */}
 
 
-            <Item displayName={<div id={"blueprintMenu"} >設計図    <Icon.FileEarmarkPost /></div>} tabId={"bluePrint"} activeMenu={activeMenu} setActiveMenu={setActiveMenu} isDisabled={activeMenu == "cameraScan"}></Item>
+            {/* <Item displayName={<div id={"blueprintMenu"} >設計図    <Icon.FileEarmarkPost /></div>} tabId={"bluePrint"} activeMenu={activeMenu} setActiveMenu={setActiveMenu} isDisabled={activeMenu == "cameraScan"}></Item> */}
 
-            {activeMenu != "bluePrint" && <Help id="blueprintMenu">完成したらこちら</Help>}
-            {activeMenu != "pompom" && <Help id="editMenu">編集に戻る(進捗状況が削除されます)</Help>}
+            {/* {activeMenu != "bluePrint" && <Help id="blueprintMenu">完成したらこちら</Help>}
+            {activeMenu != "pompom" && <Help id="editMenu">編集に戻る(進捗状況が削除されます)</Help>} */}
+
+            
         </ButtonGroup >
     )
 }

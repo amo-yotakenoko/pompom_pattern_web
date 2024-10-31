@@ -10,7 +10,7 @@ import LocalStrageSave from './LocalStrageSave';
 import Pompom from './Pompom'
 import ColorPalette from './colorPalette'
 import BluePrint from '../BluePrint/BluePrint'
-import Menu from './menu'
+import Menu from './Menu'
 import VerticalMenu from './VerticalMenu';
 import UndoRedo from './undoRedu'
 import ColorEdit from './colorEdit'
@@ -393,7 +393,7 @@ function Edit() {
           {/* <div style={{ display: activeMenu === "bluePrint" ? "block" : "none" }}> */}
 
         </div>
-        {/* <Menu
+        <Menu
           activeMenu={activeMenu}
           setActiveMenu={setActiveMenu}
           pattern={pattern}
@@ -402,7 +402,7 @@ function Edit() {
           setColorList={setColorList}
           selectColor={selectColor}
           setSelectColor={setSelectColor}
-        /> */}
+        />
 
       </enableHelpContext.Provider>
 
