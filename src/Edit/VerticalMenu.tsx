@@ -7,7 +7,6 @@ import * as Icon from 'react-bootstrap-icons';
 import Help from "../Help"
 import { Overlay, Tooltip, Button } from 'react-bootstrap';
 
-
 const VerticalMenu = ({ activeMenu, setActiveMenu, pattern, colorList, selectColor, setPattern, setColorList, setSelectColor, isConfirmation }: any) => {
     console.log({ activeMenu })
 

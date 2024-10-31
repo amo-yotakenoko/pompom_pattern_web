@@ -50,6 +50,16 @@ const ImageLoad: React.FC = () => {
                                 } catch (error) {
                                     console.log("古い形式だめ", error);
                                     alert(`読み取れませんでした: ${error}`);
+                                    // const buttonElement = document.getElementById('imageToLoadHelpBUtton') as HTMLElement;
+                                    // console.log(buttonElement);
+                                    //   buttonElement?.click();
+
+// // 要素が存在するかを確認してからクリック
+// if (buttonElement) {
+//     buttonElement.click(); // 要素が存在する場合にクリック
+// } else {
+//     console.error('要素が見つかりませんでした。IDが正しいか確認してください。');
+// }
                                 }
                             }
                             // binLoad();

@@ -9,6 +9,7 @@ import ButtonGroup from 'react-bootstrap/ButtonGroup';
 import Button from 'react-bootstrap/Button';
 import size_guide from '../img/size_guide.jpg';
 import horizontalSymmetry from '../img/horizontalSymmetry.jpg';
+import horizontalSymmetry2 from '../img/horizontalSymmetry2.jpg';
 // import horizontalSymmetry2 from '../img/horizontalSymmetry2.jpg';
 import SizeSet from './sizeSet'
 import { useNavigate } from "react-router-dom";
@@ -95,12 +96,16 @@ const New: React.FC<NewProps> = ({ }) => {
                 {[
                     <>
                         <img src={horizontalSymmetry} style={{ mixBlendMode: "multiply", width: "2em", transform: "rotate(0deg)" }}></img >
-                        左右対称
+                     <div style={{whiteSpace: 'nowrap'}}>左右対称</div>   
                     </>
                     ,
                     <>
                         <img src={horizontalSymmetry} style={{ mixBlendMode: "multiply", width: "2em", transform: "rotate(-90deg)" }}></img >
-                        上下対称
+                        <div style={{whiteSpace: 'nowrap'}}>上下対称</div>   
+                    </>,
+                     <>
+                        <img src={horizontalSymmetry2} style={{ mixBlendMode: "multiply", width: "2em", transform: "rotate(-90deg)" }}></img >
+                         <div style={{whiteSpace: 'nowrap'}}>前後対称</div>  
                     </>
                 ].map((content, idx) => (
                     <ToggleButton

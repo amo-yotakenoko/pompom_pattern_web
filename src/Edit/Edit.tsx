@@ -129,8 +129,6 @@ function Edit() {
 
 
 
-
-
   function drawDot(patternPos: any, selectColor: any) {
 
     // try {
