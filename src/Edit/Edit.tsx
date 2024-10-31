@@ -393,7 +393,7 @@ function Edit() {
           {/* <div style={{ display: activeMenu === "bluePrint" ? "block" : "none" }}> */}
 
         </div>
-        <Menu
+        {/* <Menu
           activeMenu={activeMenu}
           setActiveMenu={setActiveMenu}
           pattern={pattern}
@@ -402,7 +402,10 @@ function Edit() {
           setColorList={setColorList}
           selectColor={selectColor}
           setSelectColor={setSelectColor}
-        />
+        /> */}
+
+         <UndoRedo
+                enable={activeMenu == "pompom" || activeMenu == "cameraScan"} registerEnable={activeMenu == "pompom"} pattern={pattern} setPattern={setPattern} colorList={colorList} setColorList={setColorList} selectColor={selectColor} setSelectColor={setSelectColor}></UndoRedo>
 
       </enableHelpContext.Provider>
 

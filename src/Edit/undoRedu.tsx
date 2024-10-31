@@ -98,7 +98,9 @@ const UndoRedo = ({ enable, pattern, colorList, selectColor, setPattern, setColo
 
 
     return (
-        <>
+        <div style={{  display: "flex",position: "fixed", bottom: "0px", left: "0px" }}>
+
+        {/* <> */}
             {/* <button onClick={addHistory}>addHistory</button>
             {current}/{history.length - 1},{`${history.map((item: any) => item.selectColor)}`}
             {/* ,{new Date().getMilliseconds()} */}
@@ -134,7 +136,8 @@ const UndoRedo = ({ enable, pattern, colorList, selectColor, setPattern, setColo
                 setSelectColor={setSelectColor}
                 setCurrent={setCurrent}
             />
-        </>
+        {/* </> */}
+        </div>
     );
 };
 
@@ -156,12 +159,11 @@ const UndoButton = ({ setIsundo, enable, history, current, setPattern, setColorL
         <Button
             // ref={undoRef}
             id="undoButton"
-            variant="primary"
+           variant={"outline-dark"}
             style={{
                 height: '2em',
-                width: "10%",
-                borderBottomLeftRadius: '0px',
-                borderBottomRightRadius: '0px',
+                // width: "10%",
+               borderRadius: '0 4px 0 0',
                 display: enable ? 'block' : 'none'
             }}
             disabled={current === 0}
@@ -191,12 +193,11 @@ const RedoButton = ({ setIsundo, enable, history, current, setPattern, setColorL
         <Button
             id="redoButton"
             // ref={redoRef}
-            variant="primary"
+         variant={"outline-dark"}
             style={{
                 height: '2em',
-                width: "10%",
-                borderBottomLeftRadius: '0px',
-                borderBottomRightRadius: '0px',
+                // width: "10%",
+               borderRadius: '4px 4px 0 0',
                 display: enable ? 'block' : 'none'
             }}
             disabled={current >= history.length - 1}
