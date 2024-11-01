@@ -647,51 +647,59 @@ const BluePrint = ({ pattern, colorList, rollWidth, pitchWidth, activeMenu, setA
             }}> */}
             {/* <div style={{ width: '100vw', height: 'auto', position: 'relative' }}> */}
 
-            <div className="col-12 col-lg-6" style={{
+            <div className="col-12 col-lg-6 " style={{
                 position: "relative",
                 width: '100%',
                 paddingBottom: "100%",
-                // background: "#FFF000"
+                // right: "15px"
+
+                // padding: 0
+                // background: "#FF000"
             }}>
-                <div>
-
-                    <canvas id="bluePrint" width="1024" height="1024" style={{
-
-                        // border: "2px solid black",
-                        width: '100%',
-                        // position: 'absolute', top: 0, left: 0,
-                        // pointerEvents: 'none',
-                        // // display: "block",
-                        // margin: "auto"
-                        position: "absolute"
-                        // top: 0;           
-                        // left: 0;           
-                        // width: 100 %;        
-                        // height: 100 %;  
-
-                    }} />
-
-                    <canvas id="bluePrintMemo" width="1024" height="1024" style={{
-
-                        // border: "2px solid black",
-                        width: '100%',
-                        // position: 'absolute', top: 0, left: 0,
-                        // pointerEvents: 'none',
-                        // // display: "block",
-                        // margin: "auto"
-                        position: "absolute"
-                        // top: 0;            
-                        // left: 0;           
-                        // width: 100 %;      
-                        // height: 100 %;  
-
-                    }} />
 
 
-                    <SelectedHighlight drawFrame={drawFrame} selectingFrame={selectingFrame} frames={frames} ></SelectedHighlight>
+                <canvas id="bluePrint" className="no-margin" width="1024" height="1024" style={{
+                    // background: "#FFF000",
+                    // border: "2px solid black",
+                    width: '100%',
+                    paddingBottom: "100%",
+                    // position: 'absolute', top: 0, left: 0,
+                    // pointerEvents: 'none',
+                    // // display: "block",
+                    // margin: "auto"
+                    position: "absolute",
+                    // padding: 0,
+                    // margin: 0
+                    // top: 0;           
+                    // left: 0;           
+                    // width: 100 %;        
+                    // height: 100 %;  
+
+                }} />
+
+                <canvas id="bluePrintMemo" width="1024" height="1024" style={{
+
+                    // border: "2px solid black",
+                    width: '100%',
+                    // position: 'absolute', top: 0, left: 0,
+                    // pointerEvents: 'none',
+                    // // display: "block",
+                    // margin: "auto"
+                    position: "absolute",
+                    padding: 0,
+                    margin: 0
+                    // top: 0;            
+                    // left: 0;           
+                    // width: 100 %;      
+                    // height: 100 %;  
+
+                }} />
 
 
-                    {/* <div style={{
+                <SelectedHighlight drawFrame={drawFrame} selectingFrame={selectingFrame} frames={frames} ></SelectedHighlight>
+
+
+                {/* <div style={{
                             position: "absolute",
                             top: "0",
                             right: "0",
@@ -699,29 +707,29 @@ const BluePrint = ({ pattern, colorList, rollWidth, pitchWidth, activeMenu, setA
                             // height: "5%"
                         }}> */}
 
-                    <ImageSave data={{ pattern, colorList, rollWidth, pitchWidth }}></ImageSave>
-                    {/* </div> */}
+                <ImageSave data={{ pattern, colorList, rollWidth, pitchWidth }}></ImageSave>
+                {/* </div> */}
 
-                    <div style={{
-                        position: "absolute",
-                        top: "5px",
-                        left: "5px",
-                        fontSize: '16px',
-                        fontWeight: 'bold',
-                        pointerEvents: "none"
-                    }} id="allProgress">
-                        残り{rollWidth * pitchWidth - rollCountSum}巻き　{(rollCountSum / (rollWidth * pitchWidth) * 100).toFixed(0)}%
-                    </div >
-                    <Help id="allProgress" placement="bottom">全体の進捗</Help>
+                <div style={{
+                    position: "absolute",
+                    top: "5px",
+                    left: "5px",
+                    fontSize: '16px',
+                    fontWeight: 'bold',
+                    pointerEvents: "none"
+                }} id="allProgress">
+                    残り{rollWidth * pitchWidth - rollCountSum}巻き　{(rollCountSum / (rollWidth * pitchWidth) * 100).toFixed(0)}%
                 </div >
+                <Help id="allProgress" placement="bottom">全体の進捗</Help>
+
 
             </div>
-            <div className="col-12 col-lg-6">
+            <div className="col-12 col-lg-6" >
                 <VerticalMenu activeMenu={activeMenu}
                     setActiveMenu={setActiveMenu}
                     isConfirmation={rollCountSum > 0}
                 ></VerticalMenu>
-                <div className="row no-margin" style={{ overflowY: "auto", maxHeight: "calc(100vh - 100vw )" }}>
+                <div className="row no-margin" style={{ width: "calc(100vw - 1em)", overflowY: "auto", maxHeight: "calc(100vh - 100vw )" }}>
 
                     <RollCounter frames={frames} selectingFrame={selectingFrame} rollProgress={rollProgress} setRollProgress={setRollProgress}></RollCounter>
 

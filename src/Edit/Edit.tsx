@@ -288,20 +288,20 @@ function Edit() {
 
               </div >
 
+              {activeMenu === "bluePrint" && (
+
+                <BluePrint
+                  pattern={pattern}
+                  colorList={colorList}
+                  rollWidth={rollWidth}
+                  pitchWidth={pitchWidth}
+                  activeMenu={activeMenu}
+                  setActiveMenu={setActiveMenu}
+                />
+
+
+              )}
             </div>
-            {activeMenu === "bluePrint" && (
-
-              <BluePrint
-                pattern={pattern}
-                colorList={colorList}
-                rollWidth={rollWidth}
-                pitchWidth={pitchWidth}
-                activeMenu={activeMenu}
-                setActiveMenu={setActiveMenu}
-              />
-
-
-            )}
 
             <div className="row no-margin" style={{
               overflowY: "auto", height: "calc(100dvh - 100vw )", width: "calc(100vw - 2em)",
@@ -404,8 +404,8 @@ function Edit() {
           setSelectColor={setSelectColor}
         /> */}
 
-         <UndoRedo
-                enable={activeMenu == "pompom" || activeMenu == "cameraScan"} registerEnable={activeMenu == "pompom"} pattern={pattern} setPattern={setPattern} colorList={colorList} setColorList={setColorList} selectColor={selectColor} setSelectColor={setSelectColor}></UndoRedo>
+        <UndoRedo
+          enable={activeMenu == "pompom" || activeMenu == "cameraScan"} registerEnable={activeMenu == "pompom"} pattern={pattern} setPattern={setPattern} colorList={colorList} setColorList={setColorList} selectColor={selectColor} setSelectColor={setSelectColor}></UndoRedo>
 
       </enableHelpContext.Provider>
 
