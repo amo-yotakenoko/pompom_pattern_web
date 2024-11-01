@@ -128,6 +128,8 @@ const LocalStrageSave: React.FC<LocalStrageSaveProps> = ({ data, activeMenu }) =
         }
         // ctx.drawImage(bluePrintBaseImage, 0, 0, size, size);
         // console.log("ああああああああああああああ", pompomCanvas.style.getPropertyValue('display'), viewCanvas.style.getPropertyValue('display'))
+        ctx.fillStyle = 'white';
+ctx.fillRect(0, 0, size, size); 
         if (activeMenu == "pompom") {
             const pompomCanvas = document.getElementById("edit3d") as HTMLCanvasElement;
             ctx.drawImage(pompomCanvas, 0, 0, pompomCanvas.width, pompomCanvas.height, 0, 0, size, size);
@@ -138,7 +140,8 @@ const LocalStrageSave: React.FC<LocalStrageSaveProps> = ({ data, activeMenu }) =
 
         }
         // drawData(canvas, data);
-        const base64Image = canvas.toDataURL('image/png');
+        const base64Image = canvas.toDataURL('image/jpeg',0.2);
+        // const base64Image = canvas.toDataURL('image/png');
         console.log(base64Image)
         // console.log(base64Image);
         return base64Image

@@ -74,6 +74,7 @@ const LocalStrageLoad: React.FC<LocalStrageLoadProps> = ({ }) => {
                     <div className="card flex-fill">
                         <div className="card-body" style={{ padding: "10px" }}>
                             <div style={{ position: 'relative', width: '100%' }}>
+                                <img src={value.img} style={{ width: '100%' , mixBlendMode: 'multiply'}} />
                                 <img
                                     src={addIcon}
                                     style={{
@@ -85,7 +86,6 @@ const LocalStrageLoad: React.FC<LocalStrageLoadProps> = ({ }) => {
                                     onClick={() => setDeleteConfirmation(key)}
                                     alt="Delete Icon"
                                 />
-                                <img src={value.img} style={{ width: '100%' }} />
                                 <Icon.Pencil
                                     style={{
                                         position: 'absolute',
@@ -123,7 +123,7 @@ const LocalStrageLoad: React.FC<LocalStrageLoadProps> = ({ }) => {
         localStorage.setItem('pompoms', JSON.stringify(datas));
         setData(datas);
     }
-
+console.log(`${strageUsed.toFixed(2)}MB/5MB`)
     return (
         <>
             {/* <div className="row"> */}
