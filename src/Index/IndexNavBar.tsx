@@ -20,7 +20,8 @@ const IndexNavBar = ({ }: any) => {
               left: '50%',
               top: '50%',
               transform: 'translate(-50%, -50%)',
-              height: '30px'
+              height: '30px',
+                mixBlendMode: 'multiply',
             }}
           />
           <Icon.List
