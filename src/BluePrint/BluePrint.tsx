@@ -263,7 +263,7 @@ const BluePrint = ({ pattern, colorList, rollWidth, pitchWidth, activeMenu, setA
 
                     // drawCountNumber(piled, center, theta, pitch, roll, thetaWidth);
 
-                    await new Promise(requestAnimationFrame);
+                    // await new Promise(requestAnimationFrame);
                     // await new Promise(resolve => setTimeout(resolve, 1000));
                     if (cancel) return;
                 }

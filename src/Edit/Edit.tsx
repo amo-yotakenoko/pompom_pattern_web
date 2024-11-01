@@ -10,7 +10,7 @@ import LocalStrageSave from './LocalStrageSave';
 import Pompom from './Pompom'
 import ColorPalette from './colorPalette'
 import BluePrint from '../BluePrint/BluePrint'
-import Menu from './menu'
+import Menu from './Menu'
 import VerticalMenu from './VerticalMenu';
 import UndoRedo from './undoRedu'
 import ColorEdit from './colorEdit'
@@ -126,8 +126,6 @@ function Edit() {
 
     }
   }, [location.state]);
-
-
 
 
 
@@ -405,6 +403,9 @@ function Edit() {
           selectColor={selectColor}
           setSelectColor={setSelectColor}
         /> */}
+
+         <UndoRedo
+                enable={activeMenu == "pompom" || activeMenu == "cameraScan"} registerEnable={activeMenu == "pompom"} pattern={pattern} setPattern={setPattern} colorList={colorList} setColorList={setColorList} selectColor={selectColor} setSelectColor={setSelectColor}></UndoRedo>
 
       </enableHelpContext.Provider>
 

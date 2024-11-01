@@ -7,7 +7,6 @@ import * as Icon from 'react-bootstrap-icons';
 import Help from "../Help"
 import { Overlay, Tooltip, Button } from 'react-bootstrap';
 
-
 const VerticalMenu = ({ activeMenu, setActiveMenu, pattern, colorList, selectColor, setPattern, setColorList, setSelectColor, isConfirmation }: any) => {
     console.log({ activeMenu })
 
@@ -37,6 +36,13 @@ const VerticalMenu = ({ activeMenu, setActiveMenu, pattern, colorList, selectCol
                 <Item displayName={<div id={"decorationMenu"} style={{ textAlign: "center" }}>  <Icon.Stars />装飾  </div>} tabId={"decoration"} isConfirmation={isConfirmation} activeMenu={activeMenu} setActiveMenu={setActiveMenu} isDisabled={activeMenu == "cameraScan"}></Item>
                 <Item displayName={<div id={"blueprintMenu"} style={{ textAlign: "center" }}>   <Icon.FileEarmarkPost />設計図 </div>} tabId={"bluePrint"} isConfirmation={isConfirmation} activeMenu={activeMenu} setActiveMenu={setActiveMenu} isDisabled={activeMenu == "cameraScan"}></Item>
 
+
+
+                {activeMenu != "pompom" && <Help id="editMenu" placement="left">ペンモード</Help>}
+                 {activeMenu != "cameraScan" && <Help id="cameraScanMenu" placement="left">カメラモード</Help>}
+                    {activeMenu != "decoration" && <Help id="decorationMenu" placement="left">装飾</Help>}
+ {activeMenu != "bluePrint" && <Help id="blueprintMenu" placement="left">完成したらこちら</Help>}
+                
                 {/* < Item displayName={<div id={"cameraScan"}>カメラ   <Icon.Camera /></div>} tabId={"cameraScan"} activeMenu={activeMenu} setActiveMenu={setActiveMenu} ></Item > */}
 
 

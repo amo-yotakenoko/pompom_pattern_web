@@ -661,7 +661,7 @@ const CameraScan = ({ sceneProps, activeMenu, drawDot, meshList, colorList, mult
 
 	// 2が右3が左
 	function plateAnimation() {
-		console.log("plateAnimation", activeMenu)
+		// console.log("plateAnimation", activeMenu)
 		// console.log("plateanimation", activeMenuRef.current)
 		platesRef.current.forEach((plate: any, i: number) => {
 			let scale = plate.obj.scale.x;

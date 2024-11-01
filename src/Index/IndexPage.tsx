@@ -8,7 +8,7 @@ import { useNavigate } from "react-router-dom";
 import SizeSet from './sizeSet'
 import New from './New'
 import QRCode from '../img/qr.png';
-import importImageSaple from '../img/importImageSaple.png';
+import importImageSaple from '../img/importImageSaple.jpg'
 import Alert from 'react-bootstrap/Alert';
 import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
 import Popover from 'react-bootstrap/Popover';
@@ -55,22 +55,24 @@ function IndexPage() {
                         <div className="card flex-fill">
                             <div className="card-body">
                                 <h5 className="card-title" style={{ display: 'flex', alignItems: 'center' }}>画像から読み込み
+                                    {/* {window.innerWidth >= 768 ? "top" : "bottom"} */}
 
                                     <OverlayTrigger
                                         trigger="click"
                                         key="imageToLoadHelp"
+                                       
                                         rootClose={true}
-                                        placement="bottom"
+                                        placement={ window.innerWidth>= 768?"bottom":"top"}
                                         overlay={
-                                            <Popover id={`popover-positioned-${"imageToLoadHelp"}`}>
-                                                <Popover.Header as="h3">このタイプの画像が読み込めます</Popover.Header>
-                                                <Popover.Body>
-                                                    <img src={importImageSaple} style={{ maxWidth: "90%" }}></img>
+                                            <Popover id={`popover-positioned-${"imageToLoadHelp"}`}  style={{ width: 'fit-content', maxWidth: '80vw' }}>
+                                                {/* <Popover.Header as="h3">このタイプの画像が読み込めます</Popover.Header> */}
+                                                <Popover.Body style={{padding:0}}>
+                                                    <img src={importImageSaple} style={{ maxWidth: "15em", width: '100%', height: 'auto', display: 'block' }}></img>
                                                 </Popover.Body>
                                             </Popover>
                                         }
                                     >
-                                        <Icon.QuestionCircle onClick={() => { }} style={{ marginLeft: '8px' }} />
+                                        <Icon.QuestionCircle onClick={() => { }} style={{ marginLeft: '8px' }} id="imageToLoadHelpBUtton"/>
                                         {/* <Button variant="secondary">Popover on</Button> */}
                                     </OverlayTrigger>
 

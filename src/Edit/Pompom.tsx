@@ -132,8 +132,12 @@ const Pompom = ({ meshList, sceneProps, setSceneProps, pattern, colorList, rollW
         if (cameraPotitioinRef.current) {
             camera.position.set(cameraPotitioinRef.current.x, cameraPotitioinRef.current.y, cameraPotitioinRef.current.z);
         } else {
-
-            camera.position.set(0, 0, cameraDistanceRef.current);
+            if (symmetryType != 2) {
+    
+                camera.position.set(0, 0, cameraDistanceRef.current);
+            } else {
+                    camera.position.set(cameraDistanceRef.current, 0, 0);
+}
         }
         controls = new OrbitControls(camera, canvas);
         controls.enableZoom = false
@@ -426,7 +430,7 @@ const Pompom = ({ meshList, sceneProps, setSceneProps, pattern, colorList, rollW
 
         function tick() {
             if (activeMenu == "pompom" || activeMenu == "cameraScan" || activeMenu == "decoration") {
-                console.log("tick");
+                // console.log("tick");
 
                 sceneProps.renderer.render(sceneProps.scene, sceneProps.camera);
                 sceneProps.controls.update();
