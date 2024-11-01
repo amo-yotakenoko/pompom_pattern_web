@@ -157,9 +157,9 @@ const Pompom = ({ meshList, sceneProps, setSceneProps, pattern, colorList, rollW
 
 
 
+
                 // let pitchMin = Math.PI * (pitch / pitchWidth) / 2;
                 // let pitchMax = Math.PI * ((pitch + 1) / pitchWidth) / 2;
-
 
                 let pitchMin = Math.PI / 2 - Math.acos(1 - ((pitchWidth - pitch) / pitchWidth));
                 let pitchMax = Math.PI / 2 - Math.acos(1 - ((pitchWidth - (pitch + 1)) / pitchWidth));
