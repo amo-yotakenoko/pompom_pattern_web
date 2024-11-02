@@ -103,9 +103,12 @@ const ImageSave: React.FC<ImageSaveProps> = ({ data }) => {
         // const image = new File([blob], 'tmp.png', { type: 'image/png' })
         // const image2 = new File([blob], 'tmp2.png', { type: 'image/png' })
         navigator.share({
-            text: '#POMPOM模様',
+
+
             url: 'https://amo-yotakenoko.github.io/pompom_pattern_web/',
             files: [image]
+
+
         }).then(() => {
             console.log('Share was successful.')
         }).catch((error) => {
