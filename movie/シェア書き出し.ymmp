@@ -19,110 +19,6 @@
     },
     "Items": [
       {
-        "$type": "YukkuriMovieMaker.Project.Items.VideoItem, YukkuriMovieMaker",
-        "IsWaveformEnabled": false,
-        "FilePath": "C:\\Users\\taken\\projects\\pompom_pattern_web\\movie\\シェア.mp4",
-        "AudioTrackIndex": 0,
-        "Volume": {
-          "Values": [
-            {
-              "Value": 50.0
-            }
-          ],
-          "Span": 0.0,
-          "AnimationType": "なし"
-        },
-        "Pan": {
-          "Values": [
-            {
-              "Value": 0.0
-            }
-          ],
-          "Span": 0.0,
-          "AnimationType": "なし"
-        },
-        "PlaybackRate": 100.0,
-        "ContentOffset": "00:00:00",
-        "IsLooped": false,
-        "EchoIsEnabled": false,
-        "EchoInterval": 0.1,
-        "EchoAttenuation": 40.0,
-        "AudioEffects": [],
-        "X": {
-          "Values": [
-            {
-              "Value": 0.0
-            }
-          ],
-          "Span": 0.0,
-          "AnimationType": "なし"
-        },
-        "Y": {
-          "Values": [
-            {
-              "Value": 0.0
-            }
-          ],
-          "Span": 0.0,
-          "AnimationType": "なし"
-        },
-        "Z": {
-          "Values": [
-            {
-              "Value": 0.0
-            }
-          ],
-          "Span": 0.0,
-          "AnimationType": "なし"
-        },
-        "Opacity": {
-          "Values": [
-            {
-              "Value": 100.0
-            }
-          ],
-          "Span": 0.0,
-          "AnimationType": "なし"
-        },
-        "Zoom": {
-          "Values": [
-            {
-              "Value": 119.20000000000005
-            }
-          ],
-          "Span": 0.0,
-          "AnimationType": "なし"
-        },
-        "Rotation": {
-          "Values": [
-            {
-              "Value": 0.0
-            }
-          ],
-          "Span": 0.0,
-          "AnimationType": "なし"
-        },
-        "FadeIn": 0.0,
-        "FadeOut": 0.0,
-        "Blend": "Normal",
-        "IsInverted": false,
-        "IsClippingWithObjectAbove": false,
-        "IsAlwaysOnTop": false,
-        "IsZOrderEnabled": false,
-        "VideoEffects": [],
-        "Group": 0,
-        "Frame": 0,
-        "Layer": 4,
-        "KeyFrames": {
-          "Frames": [],
-          "Count": 0
-        },
-        "Length": 396,
-        "Remark": "",
-        "IsLocked": false,
-        "IsHidden": false
-      },
-      {
         "$type": "YukkuriMovieMaker.Project.Items.EffectItem, YukkuriMovieMaker",
         "ShapeType2": "YukkuriMovieMaker.Shape.QuadrilateralShapePlugin, YukkuriMovieMaker, Version=4.34.0.0, Culture=neutral, PublicKeyToken=null",
         "ShapeParameter": {
@@ -223,7 +119,7 @@
         "X": {
           "Values": [
             {
-              "Value": 122.0
+              "Value": 139.0
             }
           ],
           "Span": 0.0,
@@ -232,7 +128,7 @@
         "Y": {
           "Values": [
             {
-              "Value": -401.0
+              "Value": -349.0
             }
           ],
           "Span": 0.0,
@@ -1157,12 +1053,220 @@
         "Remark": "",
         "IsLocked": false,
         "IsHidden": false
+      },
+      {
+        "$type": "YukkuriMovieMaker.Project.Items.VideoItem, YukkuriMovieMaker",
+        "IsWaveformEnabled": false,
+        "FilePath": "C:\\Users\\taken\\projects\\pompom_pattern_web\\movie\\シェア.mp4",
+        "AudioTrackIndex": 0,
+        "Volume": {
+          "Values": [
+            {
+              "Value": 50.0
+            }
+          ],
+          "Span": 0.0,
+          "AnimationType": "なし"
+        },
+        "Pan": {
+          "Values": [
+            {
+              "Value": 0.0
+            }
+          ],
+          "Span": 0.0,
+          "AnimationType": "なし"
+        },
+        "PlaybackRate": 100.0,
+        "ContentOffset": "00:00:00",
+        "IsLooped": false,
+        "EchoIsEnabled": false,
+        "EchoInterval": 0.1,
+        "EchoAttenuation": 40.0,
+        "AudioEffects": [],
+        "X": {
+          "Values": [
+            {
+              "Value": 0.0
+            }
+          ],
+          "Span": 0.0,
+          "AnimationType": "なし"
+        },
+        "Y": {
+          "Values": [
+            {
+              "Value": -66.0
+            }
+          ],
+          "Span": 0.0,
+          "AnimationType": "なし"
+        },
+        "Z": {
+          "Values": [
+            {
+              "Value": 0.0
+            }
+          ],
+          "Span": 0.0,
+          "AnimationType": "なし"
+        },
+        "Opacity": {
+          "Values": [
+            {
+              "Value": 100.0
+            }
+          ],
+          "Span": 0.0,
+          "AnimationType": "なし"
+        },
+        "Zoom": {
+          "Values": [
+            {
+              "Value": 119.20000000000005
+            }
+          ],
+          "Span": 0.0,
+          "AnimationType": "なし"
+        },
+        "Rotation": {
+          "Values": [
+            {
+              "Value": 0.0
+            }
+          ],
+          "Span": 0.0,
+          "AnimationType": "なし"
+        },
+        "FadeIn": 0.0,
+        "FadeOut": 0.0,
+        "Blend": "Normal",
+        "IsInverted": false,
+        "IsClippingWithObjectAbove": false,
+        "IsAlwaysOnTop": false,
+        "IsZOrderEnabled": false,
+        "VideoEffects": [],
+        "Group": 0,
+        "Frame": 0,
+        "Layer": 4,
+        "KeyFrames": {
+          "Frames": [],
+          "Count": 0
+        },
+        "Length": 331,
+        "Remark": "",
+        "IsLocked": false,
+        "IsHidden": false
+      },
+      {
+        "$type": "YukkuriMovieMaker.Project.Items.VideoItem, YukkuriMovieMaker",
+        "IsWaveformEnabled": false,
+        "FilePath": "C:\\Users\\taken\\projects\\pompom_pattern_web\\movie\\シェア.mp4",
+        "AudioTrackIndex": 0,
+        "Volume": {
+          "Values": [
+            {
+              "Value": 50.0
+            }
+          ],
+          "Span": 0.0,
+          "AnimationType": "なし"
+        },
+        "Pan": {
+          "Values": [
+            {
+              "Value": 0.0
+            }
+          ],
+          "Span": 0.0,
+          "AnimationType": "なし"
+        },
+        "PlaybackRate": 100.0,
+        "ContentOffset": "00:00:05.5166666",
+        "IsLooped": false,
+        "EchoIsEnabled": false,
+        "EchoInterval": 0.1,
+        "EchoAttenuation": 40.0,
+        "AudioEffects": [],
+        "X": {
+          "Values": [
+            {
+              "Value": 0.0
+            }
+          ],
+          "Span": 0.0,
+          "AnimationType": "なし"
+        },
+        "Y": {
+          "Values": [
+            {
+              "Value": 0.0
+            }
+          ],
+          "Span": 0.0,
+          "AnimationType": "なし"
+        },
+        "Z": {
+          "Values": [
+            {
+              "Value": 0.0
+            }
+          ],
+          "Span": 0.0,
+          "AnimationType": "なし"
+        },
+        "Opacity": {
+          "Values": [
+            {
+              "Value": 100.0
+            }
+          ],
+          "Span": 0.0,
+          "AnimationType": "なし"
+        },
+        "Zoom": {
+          "Values": [
+            {
+              "Value": 119.20000000000005
+            }
+          ],
+          "Span": 0.0,
+          "AnimationType": "なし"
+        },
+        "Rotation": {
+          "Values": [
+            {
+              "Value": 0.0
+            }
+          ],
+          "Span": 0.0,
+          "AnimationType": "なし"
+        },
+        "FadeIn": 0.0,
+        "FadeOut": 0.0,
+        "Blend": "Normal",
+        "IsInverted": false,
+        "IsClippingWithObjectAbove": false,
+        "IsAlwaysOnTop": false,
+        "IsZOrderEnabled": false,
+        "VideoEffects": [],
+        "Group": 0,
+        "Frame": 331,
+        "Layer": 4,
+        "KeyFrames": {
+          "Frames": [],
+          "Count": 0
+        },
+        "Length": 65,
+        "Remark": "",
+        "IsLocked": false,
+        "IsHidden": false
       }
     ],
     "LayerSettings": {
       "Items": []
     },
-    "CurrentFrame": 1666,
+    "CurrentFrame": 485,
     "Length": 1275,
     "MaxLayer": 6
   },
