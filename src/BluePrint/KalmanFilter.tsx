@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState, useCallback } from 'react';
 import Alert from 'react-bootstrap/Alert';
 
 
-const KalmanFilter = ({ soundVolume, fingerHistory, addCounter, kalmanSettings, audiosRef }: any) => {
+const KalmanFilter = ({ soundVolume, fingerHistory, addCounter, kalmanSettings, audiosRef, cameraCounterisEnable }: any) => {
 
 
     useEffect(() => {
@@ -118,7 +118,7 @@ const KalmanFilter = ({ soundVolume, fingerHistory, addCounter, kalmanSettings, 
 
         const move = criterion[criterion.length - 1] - criterion[criterion.length - 2];
         // console.log(criterion[criterion.length - 1] - criterion[criterion.length - 2])
-        if (criterion.length > 0) {
+        if (criterion.length > 0 && cameraCounterisEnable) {
             let progress = null;
             if (moveDirection != "up" && move < 0) {
 

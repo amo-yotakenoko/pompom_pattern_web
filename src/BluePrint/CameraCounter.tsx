@@ -13,6 +13,9 @@ import Alert from 'react-bootstrap/Alert';
 import Help from "../Help"
 import SoundVolume from './SoundVolume';
 
+import plagIconOn from '../img/plag_on.jpg';
+import plagIconOff from '../img/plag_off.jpg';
+
 const CameraCounter = ({ addCounter }: any) => {
     const { enableHelp, setEnableHelp } = useContext(enableHelpContext);
 
@@ -28,7 +31,8 @@ const CameraCounter = ({ addCounter }: any) => {
 
     const handLandmarkerRef = useRef<any>(null);
     const [fingerHistory, setsingerHistory] = useState([]);
-    const [rollingHand, setRollingHand] = useState("Right");
+    const [rollingHand, setRollingHand] = useState("Left");
+    const [cameraCounterisEnable, setCameraCounterIsEnable] = useState(true);
 
     // console.log("cameracounter")
     // const [minHandDetectionConfidence, setMinHandDetectionConfidence] = useState(0.5);
@@ -142,14 +146,25 @@ const CameraCounter = ({ addCounter }: any) => {
                                         kalmanSettings={kalmanSettings}
                                         audiosRef={audiosRef}
                                         soundVolume={soundVolume}
+                                        cameraCounterisEnable={cameraCounterisEnable}
                                     />
                                     <div style={{ position: "absolute", top: "1px", right: "1px", display: "flex", alignItems: "center" }}>
+                                        <img
+                                            src={cameraCounterisEnable ? plagIconOn : plagIconOff}
+                                            onClick={() => setCameraCounterIsEnable(prevState => !prevState)}
+                                            style={{
+                                                width: "2rem",
+                                                height: "2rem",
+                                                marginRight: "10px"
+                                            }}
+                                        />
                                         <SoundVolume audiosRef={audiosRef} soundVolume={soundVolume} setSoundVolume={setSoundVolume} />
                                         <Icon.Sliders
                                             id="AIparameters"
                                             onClick={() => setSettingShow(true)}
-                                            style={{ fontSize: "2rem", marginRight: "10px" }} // アイコンを大きくし、スライダーとの間に余白を追加
+                                            style={{ fontSize: "2rem", marginRight: "10px" }}
                                         />
+
                                         {/* {soundVolume} */}
                                     </div>
 
