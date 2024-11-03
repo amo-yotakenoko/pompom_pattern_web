@@ -37,7 +37,7 @@ const CameraCounter = ({ addCounter }: any) => {
     const [trackerSettings, setTrackerSettings] = useState({
         minHandDetectionConfidence: 0.05,
         minHandPresenceConfidence: 0.01,
-        minTrackingConfidence: 0.01,
+        minTrackingConfidence: 0.9,
     });
     const [kalmanSettings, setKalmanSettings] = useState({
         process_var: 0.1,

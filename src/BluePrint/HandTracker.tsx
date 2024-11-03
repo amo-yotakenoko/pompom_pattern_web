@@ -50,6 +50,7 @@ const HandTracker = ({ setIsTracked, selectedDeviceId, videoRef, fingerHistory, 
                 minHandDetectionConfidence: trackerSettings.minHandDetectionConfidence,
                 minHandPresenceConfidence: trackerSettings.minHandPresenceConfidence,
                 minTrackingConfidence: trackerSettings.minTrackingConfidence,
+                numHands: 2,
             });
             console.log("HandLandmarkerの設定を更新しました", trackerSettings);
         }
@@ -84,12 +85,12 @@ const HandTracker = ({ setIsTracked, selectedDeviceId, videoRef, fingerHistory, 
             // setFrameCount(prevCount => prevCount + 1);
             detecthand()
             // console.log("判定")
-            frameId = requestAnimationFrame(frameCountFunc); 
+            frameId = requestAnimationFrame(frameCountFunc);
         };
-        frameId = requestAnimationFrame(frameCountFunc); 
+        frameId = requestAnimationFrame(frameCountFunc);
 
         return () => cancelAnimationFrame(frameId);
-    }, [rollingHand]); 
+    }, [rollingHand]);
 
 
 
@@ -102,7 +103,7 @@ const HandTracker = ({ setIsTracked, selectedDeviceId, videoRef, fingerHistory, 
 
         if (!canvas || !context) return;
         // console.log({ width: video.videoWidth })
-      
+
         canvas.width = videoRef.current.videoWidth;
         canvas.height = videoRef.current.videoHeight;
         if (videoRef.current.videoWidth + videoRef.current.videoHeight <= 0) {
@@ -148,13 +149,13 @@ const HandTracker = ({ setIsTracked, selectedDeviceId, videoRef, fingerHistory, 
 
             const landmarks = results.landmarks[i]
             // console.log(handednes[0].categoryName, { rollingHand }, handednes[0].categoryName === rollingHand)
-            context.lineWidth = handednes[0].categoryName === rollingHand ? 2 : 0.5; 
+            context.lineWidth = handednes[0].categoryName === rollingHand ? 2 : 0.5;
 
             landmarks.forEach((landmark: any) => {
                 context.beginPath();
                 const radios = Math.abs(landmark.z + 1) * (handednes[0].categoryName === rollingHand ? 5 : 2)
                 context.arc(landmark.x * canvas.width, landmark.y * canvas.height, radios, 0, 2 * Math.PI);
-                context.fillStyle = '#00FF11'; 
+                context.fillStyle = '#00FF11';
                 context.fill();
             });
 
@@ -172,7 +173,7 @@ const HandTracker = ({ setIsTracked, selectedDeviceId, videoRef, fingerHistory, 
                     context.lineTo(endLandmark.x * canvas.width, endLandmark.y * canvas.height);
                     context.strokeStyle = '#00FF00';
 
-                    context.stroke(); 
+                    context.stroke();
                 }
                 // console.log("landmarks[8]", landmarks[8])
 
@@ -227,23 +228,23 @@ const HandTracker = ({ setIsTracked, selectedDeviceId, videoRef, fingerHistory, 
 
         fingerHistory.forEach((landmark: any) => {
             context.lineTo(landmark.x * canvas.width, landmark.y * canvas.height);
-          
+
 
         });
 
 
-        context.strokeStyle = '#00FFFF'; 
-        context.lineWidth = 2; 
-        context.stroke(); 
+        context.strokeStyle = '#00FFFF';
+        context.lineWidth = 2;
+        context.stroke();
         fingerHistory.forEach((landmark: any, index: number) => {
-            
+
             context.beginPath();
             context.arc(landmark.x * canvas.width, landmark.y * canvas.height, 1, 0, Math.PI * 2);
-            context.fillStyle = 'red';  
-            context.fill();  
+            context.fillStyle = 'red';
+            context.fill();
 
-            context.fillStyle = 'black'; 
-            context.font = '12px Arial'; 
+            context.fillStyle = 'black';
+            context.font = '12px Arial';
             context.fillText(index.toString(), landmark.x * canvas.width + 5, landmark.y * canvas.height - 5);
         });
     }

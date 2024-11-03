@@ -50,13 +50,13 @@ const KalmanFilter = ({ soundVolume, fingerHistory, addCounter, kalmanSettings, 
         // console.log("z", z)
         const prior = predict(x, process_model);
         const newX = update(prior, { mean: z, var: kalmanSettings.sensor_var });
-        setX(newX); 
+        setX(newX);
 
         // console.log(newX);
 
         setKalmanFilterResult((prevResults) => {
             const updatedResults = [...prevResults, newX];
-          
+
             if (updatedResults.length > viewPointWidth) {
                 updatedResults.shift();
             }
@@ -178,8 +178,8 @@ const KalmanFilter = ({ soundVolume, fingerHistory, addCounter, kalmanSettings, 
         const canvas = graphCanvasRef.current;
         const context = canvas?.getContext("2d");
         if (!context || !canvas) return
-        context.clearRect(0, 0, canvas.width, canvas.height); 
-        context.fillStyle = 'white'; 
+        context.clearRect(0, 0, canvas.width, canvas.height);
+        context.fillStyle = 'white';
         context.fillRect(0, 0, canvas.width, canvas.height);
         // canvas.width = 1000; 
         // canvas.height = 100;
@@ -190,7 +190,7 @@ const KalmanFilter = ({ soundVolume, fingerHistory, addCounter, kalmanSettings, 
             const x = canvas.width / viewPointWidth * i
             context.beginPath();
             context.arc(x, fingerHistory[i].y * canvas.height, 3, 0, 2 * Math.PI);
-            context.stroke(); 
+            context.stroke();
         }
 
         // console.log("kalmanFilterResult", kalmanFilterResult)
@@ -212,7 +212,7 @@ const KalmanFilter = ({ soundVolume, fingerHistory, addCounter, kalmanSettings, 
             }
 
         }
-        context.stroke(); 
+        context.stroke();
 
 
         //分散
@@ -223,7 +223,7 @@ const KalmanFilter = ({ soundVolume, fingerHistory, addCounter, kalmanSettings, 
             context.beginPath();
             context.lineTo(x, y - kalmanFilterResult[i].var * canvas.height);
             context.lineTo(x, y + kalmanFilterResult[i].var * canvas.height);
-            context.stroke(); 
+            context.stroke();
 
 
         }
@@ -251,7 +251,7 @@ const KalmanFilter = ({ soundVolume, fingerHistory, addCounter, kalmanSettings, 
             if (plotMoveDirection === "none") {
                 context.strokeStyle = "#FF00FF";
             } else {
-                context.strokeStyle = plotMoveDirection === "up" ? "#FF0000" : "#0000FF"; 
+                context.strokeStyle = plotMoveDirection === "up" ? "#FF0000" : "#0000FF";
             }
 
             if (i == 0) {
@@ -262,7 +262,7 @@ const KalmanFilter = ({ soundVolume, fingerHistory, addCounter, kalmanSettings, 
 
             context.stroke();
 
-            context.beginPath(); 
+            context.beginPath();
             context.moveTo(x, y);
 
         }
@@ -289,7 +289,7 @@ const KalmanFilter = ({ soundVolume, fingerHistory, addCounter, kalmanSettings, 
             {/* <button onClick={playsound}>
                 音を鳴らす
             </button> */}
-            <canvas ref={graphCanvasRef} width={500} 
+            <canvas ref={graphCanvasRef} width={500}
                 height={500} style={{
                     // border: '2px solid black',
                     width: '100%'
