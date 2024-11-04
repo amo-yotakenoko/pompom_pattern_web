@@ -3,11 +3,13 @@ import { Navbar, Nav, NavDropdown, Form, Button, FormControl, Container, Offcanv
 import React, { useState, createContext, useContext, useRef, useEffect } from 'react';
 import * as Icon from 'react-bootstrap-icons';
 import appIcon from '../img/icon_wide.jpg';
-
+import licenseFile from './lisences.json';
 const IndexNavBar = ({ }: any) => {
 
 
   const [enableMenu, setEnableMenu] = useState(false);
+  const [enableLicense, setEnableLicense] = useState(false);
+  const license: any = enableLicense ? licenseFile : null
   return (
     <>
       <Navbar bg="light" expand="lg" fixed="top">
@@ -21,7 +23,7 @@ const IndexNavBar = ({ }: any) => {
               top: '50%',
               transform: 'translate(-50%, -50%)',
               height: '30px',
-                mixBlendMode: 'multiply',
+              mixBlendMode: 'multiply',
             }}
           />
           <Icon.List
@@ -43,10 +45,39 @@ const IndexNavBar = ({ }: any) => {
           <Nav.Link href="https://twitter.com/takenok58914745" target="_blank" >
             <Icon.Twitter /> 作者Twitter(バグ報告などはこちらにお願いします)
           </Nav.Link>
+          <div onClick={() => setEnableLicense((prev) => !prev)}>
+
+            <Nav.Link  >
+              <Icon.FileEarmarkText /> ライセンス表記
+            </Nav.Link>
+          </div>
+
+          {enableLicense &&
+            <div style={{ borderLeft: "3px solid", marginLeft: "5px" }}>
+              以下の表はlicense-checkerによります。
+              {Object.keys(license).map((key) => {
+                const packageInfo = license[key]; // license[key] で直接アクセス
+
+                return (
+                  <div>
+                    {key}
+                    <ul >
+                      {/* <li > {packageInfo.licenses}</li> */}
+                      <li >{packageInfo.licenses}</li>
+                      <li >{packageInfo.publisher}</li>
+                      <li >{packageInfo.repository}</li>
+                    </ul>
+
+                  </div>
+                );
+
+              })}
+            </div>
+          }
 
 
         </Offcanvas.Body>
-      </Offcanvas>
+      </Offcanvas >
 
     </>
   )
