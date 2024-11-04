@@ -64,7 +64,9 @@ const IndexNavBar = ({ }: any) => {
                     <ul >
                       {/* <li > {packageInfo.licenses}</li> */}
                       <li >license:{packageInfo.licenses}</li>
-                      <li >{packageInfo.publisher}</li>
+                      {packageInfo.publisher && (
+                        <li >{packageInfo.publisher}</li>
+                      )}
                       <li >{packageInfo.repository}</li>
                     </ul>
 
