@@ -53,8 +53,8 @@ const IndexNavBar = ({ }: any) => {
           </div>
 
           {enableLicense &&
-            <div style={{ borderLeft: "3px solid", marginLeft: "5px" }}>
-              以下の表はlicense-checkerによります。
+            <div style={{ borderLeft: "3px solid", marginLeft: "5px", paddingLeft: "3px" }}>
+              以下はlicense-checkerによります。
               {Object.keys(license).map((key) => {
                 const packageInfo = license[key]; // license[key] で直接アクセス
 
@@ -63,7 +63,7 @@ const IndexNavBar = ({ }: any) => {
                     {key}
                     <ul >
                       {/* <li > {packageInfo.licenses}</li> */}
-                      <li >{packageInfo.licenses}</li>
+                      <li >license:{packageInfo.licenses}</li>
                       <li >{packageInfo.publisher}</li>
                       <li >{packageInfo.repository}</li>
                     </ul>
