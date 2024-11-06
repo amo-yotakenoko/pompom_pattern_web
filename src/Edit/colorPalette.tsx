@@ -52,7 +52,7 @@ const ColorPalette = ({ colorList, selectColor, setSelectColor, setMultiColorSel
         // console.log(cssColor.join(', '))
         colorButtons.push(
 
-            <div className='col-3 col-md-2  no-margin' >
+            <div className='col-3 col-md-2  no-margin' tutorial-item="colorPallete">
 
 
                 <ToggleButton
@@ -77,7 +77,8 @@ const ColorPalette = ({ colorList, selectColor, setSelectColor, setMultiColorSel
 
                         paddingTop: "100%",
                         boxShadow: `0 4px 8px rgba(0, 0, 0, ${isSelected ? 0.75 : 0.2})`,
-                        position: "relative"
+                        position: "relative",
+                        // zIndex:2001
                     }}
                 >
 

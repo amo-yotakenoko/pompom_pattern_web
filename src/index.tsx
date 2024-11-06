@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom/client';
 import './index.css';
 import Edit from "./Edit/Edit"
 import IndexPage from "./Index/IndexPage"
+import Tutorial from './Tutorial';
 
 import reportWebVitals from './reportWebVitals';
 import * as serviceWorkerRegistration from "./serviceWorkerRegistration";
@@ -18,6 +19,7 @@ root.render(
       <Route path={`/edit`} element={<Edit />} />
       <Route path="*" element={<IndexPage />} />
     </Routes>
+    {/* <Tutorial></Tutorial> */}
   </BrowserRouter>
 
   // </React.StrictMode>
