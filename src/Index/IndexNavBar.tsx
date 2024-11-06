@@ -3,7 +3,7 @@ import { Navbar, Nav, NavDropdown, Form, Button, FormControl, Container, Offcanv
 import React, { useState, createContext, useContext, useRef, useEffect } from 'react';
 import * as Icon from 'react-bootstrap-icons';
 import appIcon from '../img/icon_wide.jpg';
-import licenseFile from './lisences.json';
+import licenseFile from '../lisences.json';
 const IndexNavBar = ({ }: any) => {
 
 
