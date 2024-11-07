@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState ,useRef,} from 'react';
 
 import Overlay from 'react-bootstrap/Overlay';
 import Tooltip from 'react-bootstrap/Tooltip';
@@ -38,6 +38,38 @@ const ColorEdit: React.FC<colorPaletteProps> = ({ colorList, selectColor, setSel
     useEffect(() => {
         setSelectedMultiColor(0)
     }, [selectColor]);
+
+
+const pickerRef = useRef<any>(null); 
+  useEffect(() => {
+      console.log("カラーパレット改造")
+      console.log("pickerRef.current1", pickerRef.current);
+      const hueElement = pickerRef.current.querySelector('.flexbox-fix').children[1].children[0];
+      const colorSampleElement = pickerRef.current.querySelector('.flexbox-fix').children[0].children[0];
+
+      
+ const hueHandleElement =hueElement.children[0].children[0].children[1].children[0];
+
+      console.log(" hueElement", hueElement);
+       console.log("  hueHandleElement",hueHandleElement );
+             console.log("colorSampleElement", colorSampleElement);
+      console.log("colorSampleElement", colorSampleElement);
+      
+
+      hueElement.style.height = "20px";
+      colorSampleElement.style.height = "20px";
+      colorSampleElement.style.width = "20px";
+      hueHandleElement.style.height = "20px";
+        hueHandleElement.style.width = "20px";
+    //   const inner= pickerRef.current.innerHTML;
+    //   pickerRef.current.innerHTML = inner;
+    //  inner= inner.replace("margin-top: 0px; width: 10px; height: 10px; border-radius: 8px; position: relative; overflow: hidden;", "margin-top: 0px; width: 22px; height: 22px; border-radius: 16px; position: relative; overflow: hidden;");
+        // inner= inner.replace("height: 10px; position: relative; margin-bottom: 0px;", "height: 22px; position: relative; margin-bottom: 0px;");
+    //   margin-top: 0px; width: 10px; height: 10px; border-radius: 8px; position: relative; overflow: hidden;
+    //   margin-top: 0px; width: 22px; height: 22px; border-radius: 16px; position: relative; overflow: hidden;
+
+  }, []);
+    
     return (
 
         <div style={{ width: "100%" }}>
@@ -106,8 +138,9 @@ const ColorEdit: React.FC<colorPaletteProps> = ({ colorList, selectColor, setSel
                 </Nav.Item> */}
             </Nav >
             {/* {PhotoshopPicker} */}
-            <div style={{ height: "10vw", backgroundColor: "red" }} id="picker">
-                <ChromePicker color={colorList[selectColor][selectedMultiColor]}
+            <div style={{ height: "10vw", backgroundColor: "red" }}  ref={pickerRef}>
+                <ChromePicker color={colorList[selectColor][selectedMultiColor]}   
+                
                     onChange={(color) => colorChange(color, selectColor, selectedMultiColor)}
                     disableAlpha={true}
                     styles={{
