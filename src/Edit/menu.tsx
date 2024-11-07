@@ -52,7 +52,7 @@ const Menu: React.FC<MenuProps> = ({ activeMenu, setActiveMenu, pattern, colorLi
             {/* {activeMenu != "bluePrint" && <Help id="blueprintMenu">完成したらこちら</Help>}
             {activeMenu != "pompom" && <Help id="editMenu">編集に戻る(進捗状況が削除されます)</Help>} */}
 
-            
+
         </ButtonGroup >
     )
 }
