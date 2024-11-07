@@ -38,7 +38,7 @@ const LocalStrageSave: React.FC<LocalStrageSaveProps> = ({ data, activeMenu }) =
         }, 1000);
 
         if (saveError==false&&timer > 30) {
-            saveToLocalStrage()
+            saveToLocalStrage(false)
             setTimer(-1);
         }
         return () => clearInterval(id);
@@ -78,7 +78,7 @@ const LocalStrageSave: React.FC<LocalStrageSaveProps> = ({ data, activeMenu }) =
     }, [isSaved]);
 
 
-    function saveToLocalStrage() {
+    function saveToLocalStrage(click:boolean=false) {
         // const key = 'pompoms';
         let value = localStorage.getItem('pompoms');
 
@@ -105,7 +105,11 @@ const LocalStrageSave: React.FC<LocalStrageSaveProps> = ({ data, activeMenu }) =
               setSaveError(false);
         } catch (e) {
 
-            alert('保存容量が無くなりました、設計図タブからダウンロードしてください' + e);
+            if (click) {
+                alert('保存に失敗しました、設計図タブからダウンロードしてください' + e);
+                
+            }
+            console.log("保存エラー",e)
             setSaveError(true);
         }
 
@@ -162,7 +166,7 @@ ctx.fillRect(0, 0, size, size);
             <i className="bi bi-123"></i> */}
             {(!isSaved && activeMenu == "pompom") &&
             
-                <Icon.Floppy2 onClick={saveToLocalStrage} style={{
+                <Icon.Floppy2 onClick={() => { saveToLocalStrage (true)}} style={{
                     zIndex: 1000,
                     top: "5px",
                     left: "5px",
