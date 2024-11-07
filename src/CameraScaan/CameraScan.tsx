@@ -2,6 +2,7 @@ import React, { useState, createContext, useContext, useEffect, useRef } from 'r
 import * as Icon from 'react-bootstrap-icons';
 import * as THREE from 'three';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
+import { FBXLoader } from 'three/examples/jsm/loaders/FBXLoader.js';
 import Camera from '../BluePrint/Camera';
 import CameraSelect from '../BluePrint/CameraSelect';
 import { Button, ProgressBar, Form } from 'react-bootstrap';

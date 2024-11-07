@@ -133,11 +133,11 @@ const Pompom = ({ meshList, sceneProps, setSceneProps, pattern, colorList, rollW
             camera.position.set(cameraPotitioinRef.current.x, cameraPotitioinRef.current.y, cameraPotitioinRef.current.z);
         } else {
             if (symmetryType != 2) {
-    
+
                 camera.position.set(0, 0, cameraDistanceRef.current);
             } else {
-                    camera.position.set(cameraDistanceRef.current, 0, 0);
-}
+                camera.position.set(cameraDistanceRef.current, 0, 0);
+            }
         }
         controls = new OrbitControls(camera, canvas);
         controls.enableZoom = false
@@ -443,7 +443,7 @@ const Pompom = ({ meshList, sceneProps, setSceneProps, pattern, colorList, rollW
 
 
                 // const intersects = raycaster.intersectObjects(sceneProps.scene.children);
-                console.log(intersects)
+                // console.log(intersects)
                 meshList.current.map((mesh: any) => {
 
                     // console.log(intersects.length)

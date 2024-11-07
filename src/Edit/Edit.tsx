@@ -19,6 +19,7 @@ import CameraScan from '../CameraScaan/CameraScan';
 import { Camera } from 'react-bootstrap-icons';
 import * as Icon from 'react-bootstrap-icons';
 import Help from "../Help"
+import Decoration from '../Decoration/Decoration';
 // import CameraScan from '../CameraScaan/CameraScan';
 // import Button from 'react-bootstrap/Button';
 // import '../index.css';
@@ -78,6 +79,7 @@ function Edit() {
   const [sceneProps, setSceneProps] = useState(undefined);
   const [pattern, setPattern] = useState(brankPattern(rollWidth, pitchWidth));
   const [symmetryType, setSymmetryType] = useState(0);
+  const [decorationObjects, setDecorationObjects] = useState<any>([]);
 
   function brankPattern(rollWidth: any, pitchWidth: any) {
     console.log("Pattern書き直し", rollWidth, pitchWidth)
@@ -335,6 +337,14 @@ function Edit() {
                   selectingPlate={selectingPlate} setSelectingPlate={setSelectingPlate}
                 // ref={cameraScanRef}
                 ></CameraScan>
+                <br />
+                <br /> <br /> <br /> <br /> <br /> <br />
+              </div>
+
+
+              <div className="col-6 col-xl-4 no-margin " style={{ display: activeMenu === "decoration" ? "flex" : "none", }}>
+                <Decoration sceneProps={sceneProps}
+                  decorationObjects={decorationObjects} setDecorationObjects={setDecorationObjects}></Decoration>
                 <br />
                 <br /> <br /> <br /> <br /> <br /> <br />
               </div>
