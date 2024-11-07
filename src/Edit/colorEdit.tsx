@@ -72,7 +72,7 @@ const pickerRef = useRef<any>(null);
     
     return (
 
-        <div style={{ width: "100%" }}>
+        <div style={{ width: "100%" }} id="picker">
             <Nav justify variant="tabs" activeKey={selectedMultiColor}
                 onSelect={(e: any) => { try{ setSelectedMultiColor(parseInt(e)) }catch(e:any){console.log(e)} }}>
 
