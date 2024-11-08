@@ -94,7 +94,7 @@ const BluePrint = ({ pattern, colorList, rollWidth, pitchWidth, activeMenu, setA
 
 
     async function drawPompom(ctx: any, canvas: HTMLCanvasElement, pompomCanvas: HTMLCanvasElement) {
-        await new Promise(resolve => setTimeout(resolve, 10));
+        // await new Promise(resolve => setTimeout(resolve, 10));
 
         console.log("pompomかきこみ", pompomCanvas)
         // const pompomCtx = pompomCanvas.getContext('2d');

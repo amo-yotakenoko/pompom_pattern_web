@@ -351,9 +351,44 @@ const Pompom = ({ meshList, sceneProps, setSceneProps, pattern, colorList, rollW
 
 
     const isDrwaing = useRef(false);
+
+    let intersects: any = []
+    let animationId: number;
+
+    function tick() {
+        sceneProps.renderer.render(sceneProps.scene, sceneProps.camera);
+        sceneProps.controls.update();
+        if (activeMenu == "pompom" && isDrwaing.current) {
+
+            // raycaster.setFromCamera(mouse, sceneProps.camera);
+
+
+            // const intersects = raycaster.intersectObjects(sceneProps.scene.children);
+            // console.log(intersects)
+            meshList.current.map((mesh: any) => {
+
+                // console.log(intersects.length)
+                if (intersects.length > 0 && mesh === intersects[0].object) {
+
+                    let patternPos = (mesh as any).patternPos;
+                    drawDot(patternPos, propsRef.current.selectColor)
+
+                }
+            });
+        }
+        // console.log(isDrwaing.current)
+        console.log(activeMenu)
+        // if (activeMenu !== "bluePrint") {
+
+        animationId = requestAnimationFrame(tick);
+        // }
+    }
+
+
+
     useEffect(() => {
 
-        let animationId: number;
+
 
         // isDrwaing.current = false
 
@@ -387,7 +422,7 @@ const Pompom = ({ meshList, sceneProps, setSceneProps, pattern, colorList, rollW
             _mouse.y = -(y / h) * 2 + 1;
             return _mouse
         }
-        let intersects: any = []
+
         const handlePointerDown = (event: MouseEvent) => {
             console.log("event", event)
             const mouse = getMouse(event)
@@ -428,40 +463,39 @@ const Pompom = ({ meshList, sceneProps, setSceneProps, pattern, colorList, rollW
 
         // tick();
 
-        function tick() {
-            if (activeMenu == "pompom" || activeMenu == "cameraScan" || activeMenu == "decoration") {
-                // console.log("tick");
+        // if (activeMenu == "pompom" || activeMenu == "cameraScan" || activeMenu == "decoration") {
+        //     // console.log("tick");
 
+        //     sceneProps.renderer.render(sceneProps.scene, sceneProps.camera);
+        //     sceneProps.controls.update();
+        // } else {
+        //     return
+        // }
+
+        // if (activeMenu == "bluePrint") {
+        //     // console.log("tick");
+        //     setTimeout(() => {
+        //         const newPosition = camera.position.clone().normalize().multiplyScalar(800);
+        //         camera.position.set(newPosition.x, newPosition.y, newPosition.z);
+
+        //         sceneProps.renderer.render(sceneProps.scene, sceneProps.camera);
+        //         sceneProps.controls.update();
+        //     }, 0);
+        // }
+        if (activeMenu == "pompom" || activeMenu == "cameraScan" || activeMenu == "decoration") {
+
+            tick();
+        }
+        if (activeMenu == "bluePrint") {
+            console.log("blueprintに移動")
+            requestAnimationFrame(() => {
+                const newPosition = sceneProps.camera.position.clone().normalize().multiplyScalar(800);
+                sceneProps.camera.position.set(newPosition.x, newPosition.y, newPosition.z);
                 sceneProps.renderer.render(sceneProps.scene, sceneProps.camera);
                 sceneProps.controls.update();
-            } else {
-                return
-            }
-            if (activeMenu == "pompom" && isDrwaing.current) {
-
-                // raycaster.setFromCamera(mouse, sceneProps.camera);
-
-
-                // const intersects = raycaster.intersectObjects(sceneProps.scene.children);
-                // console.log(intersects)
-                meshList.current.map((mesh: any) => {
-
-                    // console.log(intersects.length)
-                    if (intersects.length > 0 && mesh === intersects[0].object) {
-
-                        let patternPos = (mesh as any).patternPos;
-                        drawDot(patternPos, propsRef.current.selectColor)
-
-                    }
-                });
-            }
-            // console.log(isDrwaing.current)
-
-
-            animationId = requestAnimationFrame(tick);
+            });
         }
 
-        tick();
 
 
         return () => {
@@ -469,6 +503,13 @@ const Pompom = ({ meshList, sceneProps, setSceneProps, pattern, colorList, rollW
             sceneProps.canvas.removeEventListener('pointermove', handlePointerMove);
             window.removeEventListener('pointerdown', handlePointerDown);
             window.removeEventListener('pointerup', handlePointerUp);
+            // if (activeMenu == "bluePrint") {
+            //     const newPosition = sceneProps.camera.position.clone().normalize().multiplyScalar(800);
+            //     sceneProps.camera.position.set(newPosition.x, newPosition.y, newPosition.z);
+            //     sceneProps.renderer.render(sceneProps.scene, sceneProps.camera);
+
+            // }
+
         };
 
 
@@ -486,12 +527,19 @@ const Pompom = ({ meshList, sceneProps, setSceneProps, pattern, colorList, rollW
         const intervalId = setInterval(() => {
 
             const camera = sceneProps.camera;
-            if (activeMenu == "pompom" || activeMenu == "decoration") {
-                cameraDistanceRef.current -= Math.abs(cameraDistanceRef.current - 800) / 10 + 1;
-            } else if (activeMenu == "cameraScan") {
-                cameraDistanceRef.current += Math.abs(cameraDistanceRef.current - 2000) / 10 + 1;
-                console.log("他の画面");
-            } else if (activeMenu == "bluePrint") {
+            const targetDistances: { [key: string]: number } = {
+                pompom: 800,
+                cameraScan: 2000,
+                decoration: 1000
+            };
+
+            const targetDistance = targetDistances[activeMenu];
+            if (targetDistance !== undefined) {
+                cameraDistanceRef.current += (targetDistance - cameraDistanceRef.current) / 10 + 1;
+                if (activeMenu !== "pompom") console.log("他の画面");
+            }
+
+            else if (activeMenu == "bluePrint") {
                 cameraDistanceRef.current = 800;
             }
 

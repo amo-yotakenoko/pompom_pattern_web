@@ -39,10 +39,10 @@ const VerticalMenu = ({ activeMenu, setActiveMenu, pattern, colorList, selectCol
 
 
                 {activeMenu != "pompom" && <Help id="editMenu" placement="left">ペンモード</Help>}
-                 {activeMenu != "cameraScan" && <Help id="cameraScanMenu" placement="left">カメラモード</Help>}
-                    {activeMenu != "decoration" && <Help id="decorationMenu" placement="left">装飾</Help>}
- {activeMenu != "bluePrint" && <Help id="blueprintMenu" placement="left">完成したらこちら</Help>}
-                
+                {activeMenu != "cameraScan" && <Help id="cameraScanMenu" placement="left">カメラモード</Help>}
+                {activeMenu != "decoration" && <Help id="decorationMenu" placement="left">装飾</Help>}
+                {activeMenu != "bluePrint" && <Help id="blueprintMenu" placement="left">完成したらこちら</Help>}
+
                 {/* < Item displayName={<div id={"cameraScan"}>カメラ   <Icon.Camera /></div>} tabId={"cameraScan"} activeMenu={activeMenu} setActiveMenu={setActiveMenu} ></Item > */}
 
 
@@ -91,7 +91,9 @@ const Item = ({ id, displayName, tabId, activeMenu, setActiveMenu, isDisabled, i
         if (isConfirmation && isConfirmation == true) {
             if (!window.confirm("進捗がリセットされます!")) return;
         }
+
         setActiveMenu(tabId);
+
     }
 
     let isSelected = tabId === activeMenu;
