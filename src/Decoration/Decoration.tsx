@@ -44,7 +44,10 @@ const Decoration = ({ sceneProps, decorationObjects, setDecorationObjects }: any
 
 	function addDecorationObjects() {
 		setDecorationObjects([...decorationObjects, {
-			name: "aa", pitch: 0, yaw: 0
+			name: "aa",
+			pitch: 0,
+			yaw: 0,
+			symmetry:true
 		}]);
 	}
 
@@ -105,9 +108,16 @@ const Decoration = ({ sceneProps, decorationObjects, setDecorationObjects }: any
 							updateSelectiongItemProperty("yaw", parseInt(e.target.value, 10));
 						}}
 						min={0}
-						max={180}
+						max={360}
 						step={1}
 					/>
+
+					  <Form.Check
+						type="checkbox"
+						label="Enable feature"
+						checked={decorationObjects[selectingId].symmetry} 
+						onChange={(e: any) => { updateSelectiongItemProperty("symmetry", !decorationObjects[selectingId].symmetry) }} 
+      />
 
 
 				</>
@@ -119,61 +129,136 @@ const Decoration = ({ sceneProps, decorationObjects, setDecorationObjects }: any
 }
 
 const Item = ({ property, sceneProps, id, setSelectingId, selectingId }: any) => {
+	
+	const [objects, setObjects] = useState<any>([]);
 
-	const [object, setObject] = useState<THREE.Object3D | null>(null);
-	useEffect(() => {
-		console.log("モデル名変更")
+	const loadObjects = async (file:string) => {
 		// https://notetoself-dy.com/fbx-animaition-three-js/#outline__3
 		const loader = new FBXLoader();
-		console.log(`${process.env.PUBLIC_URL}/model/${property.model}.fbx`)
-		loader.load(`${process.env.PUBLIC_URL}/model/${property.model}.fbx`, function (obj) {
-			obj.scale.set(0.1, 0.1, 0.1)
+		// const file = `${process.env.PUBLIC_URL}/model/${property.model}.fbx`;
+		console.log({ file })
+		const tmpobjects: any[] = [];
+		for (let i = 0; i < (property.symmetry ? 2 : 1); i++) {
+			const obj = await new Promise((resolve, reject) => {
+				loader.load(
+					file,
+					(obj) => {
+						obj.scale.set(0.1, 0.1, 0.1);
 
-			obj.traverse(function (child: any) {
-				if (child.isMesh) {
-					child.material.color.set(0xff0000); // 赤色に変更
-				}
+						obj.traverse((child: any) => {
+							if (child.isMesh) {
+								child.material.color.set(0xff0000);
+							}
+						});
+
+						resolve(obj);
+					},
+					undefined, 
+					// (error) => reject(error)
+				);
 			});
-			// console.log("object", object)
 
 			sceneProps.scene.add(obj);
-			setObject(obj);
-		})
+			tmpobjects.push(obj); 
+		}
+		 setObjects(tmpobjects); 
+	}
 
+	useEffect(() => {
+		console.log("モデル名変更")
 
+		deleteObjects();
+		const file = `${process.env.PUBLIC_URL}/model/${property.model}.fbx`;
+		loadObjects(file)
+
+		// const loader = new FBXLoader();
+		// // console.log(`${process.env.PUBLIC_URL}/model/${property.model}.fbx`)
+		// const file = `${process.env.PUBLIC_URL}/model/${property.model}.fbx`
+		
+		// let tmpobjects: any = []
+		// for (let i = 0; i < (property.symmetry?2:1); i++) {
+		
+		// 	loader.load( file, function (obj) {
+		// 		obj.scale.set(0.1, 0.1, 0.1)
+				
+		// 		obj.traverse(function (child: any) {
+		// 			if (child.isMesh) {
+		// 				child.material.color.set(0xff0000); // 赤色に変更
+		// 			}
+		// 		});
+		// 		// console.log("object", object)
+				
+		// 		sceneProps.scene.add(obj);
+		// 		tmpobjects.push(obj)
+		// 	})
+		// }
+
+		// console.log({ tmpobjects })
+		// setObjects(tmpobjects);
+		// requestAnimationFrame(positionUpdate);
+		
 		return () => {
-
-			if (object) {
-				console.log("今のを削除")
-				sceneProps.scene.remove(object);
-				setObject(null);
-			}
+			
+			// if (objects) {
+				console.log("今のを削除",objects)
+				objects.forEach((object: any) => {
+					
+					sceneProps.scene.remove(object);
+				});
+				setObjects([]);
+			// }
 		};
-	}, [property.model]);
+		
 
+	}, [property.model, property.symmetry]);
+	
+
+	function deleteObjects() {
+		console.log("今のを削除", objects);
+		objects.forEach((object: any) => {
+
+			sceneProps.scene.remove(object);
+		});
+		setObjects([]);
+	}
+	
 	// useEffect(() => {
 	// 	console.log("モデル名変更")
 	// }, [property.model])
 
 
 	useEffect(() => {
-		console.log("座標変更", object)
-		if (!object) return
+		positionUpdate()
+	}, [property.model, property.pitch, property.yaw, property.symmetry,objects]);
 
-		// 度をラジアンに変換
-		const pitch = property.pitch * (Math.PI / 180);
-		const yaw = property.yaw * (Math.PI / 180);
+// 		useEffect(() => {
+// setTimeout(() => positionUpdate(), 1000);
+// 	}, [ property.symmetry]);
+	
+	function positionUpdate() {
+		console.log("座標変更", objects)
+		if (!objects) return
+		objects.forEach((object: any,index:number) => {
+			// 度をラジアンに変換
+			const pitch = property.pitch * (Math.PI / 180);
+			const yaw = property.yaw * (Math.PI / 180);
 
 
-		let x = Math.sin(pitch) * 100;
-		let y = Math.sin(yaw) * Math.cos(pitch) * 100;
-		let z = Math.cos(yaw) * Math.cos(pitch) * 100;
+			let x = Math.sin(pitch) * 100;
+			let y = Math.sin(yaw) * Math.cos(pitch) * 100;
+			let z = Math.cos(yaw) * Math.cos(pitch) * 100;
 
-		object.position.set(x, y, z);
-		object.lookAt(0, 0, 0);
-		object.rotateX(-Math.PI / 2);
+			console.log({ index })
+			if (index == 1) {
+				x*=-1
+			}
 
-	}, [property.pitch, property.yaw]);
+			object.position.set(x, y, z);
+			object.lookAt(0, 0, 0);
+			object.rotateX(-Math.PI / 2);
+		});
+
+	}
 
 	const isSelected = id == selectingId;
 	return (<>
