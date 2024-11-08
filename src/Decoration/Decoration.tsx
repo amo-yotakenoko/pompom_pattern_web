@@ -14,7 +14,7 @@ import { Button, ProgressBar, Form } from 'react-bootstrap';
 // };
 
 // import Tooltip from 'react-bootstrap/Tooltip';
-const Decoration = ({ sceneProps, decorationObjects, setDecorationObjects }: any) => {
+const Decoration = ({ sceneProps, decorationObjects, setDecorationObjects, symmetryType }: any) => {
 
 
 	// const [objects, setObjects] = useState<any>([]);
@@ -45,11 +45,11 @@ const Decoration = ({ sceneProps, decorationObjects, setDecorationObjects }: any
 	function addDecorationObjects() {
 		setDecorationObjects([...decorationObjects, {
 			name: "aa",
-			pitch: 0,
-			roll: 0,
-			size:100,
-			
-			symmetry:true
+			pitch: 45,
+			roll: 90,
+			size: 100,
+
+			symmetry: true
 		}]);
 	}
 
@@ -65,6 +65,7 @@ const Decoration = ({ sceneProps, decorationObjects, setDecorationObjects }: any
 					selectingId={selectingId}
 					setSelectingId={setSelectingId}
 					id={i}
+					symmetryType={symmetryType}
 				></Item>
 			))}
 			<Button onClick={() => { addDecorationObjects() }}
@@ -88,26 +89,26 @@ const Decoration = ({ sceneProps, decorationObjects, setDecorationObjects }: any
 							</Button>
 						))
 					}
-<br></br>
+					<br></br>
 					{/* <Button onClick={() => { updateSelectiongItemProperty("x", decorationObjects[selectingId].x + 1) }}
 					>
 						x+=1
 					</Button> */}
 					{/* <Form.Label className="me-2">pitch</Form.Label> */}
 					<ValueSetting
-							label={<>pitch</>}
+						label={<>pitch</>}
 						value={decorationObjects[selectingId].pitch}
 						onChange={(e: any) => {
 							console.log("value", parseInt(e.target.value, 10));
 							updateSelectiongItemProperty("pitch", parseInt(e.target.value, 10));
 						}}
-						min={decorationObjects[selectingId].symmetry?0:-90}
-						max={decorationObjects[selectingId].symmetry?90:90}
+						min={decorationObjects[selectingId].symmetry ? 0 : -90}
+						max={decorationObjects[selectingId].symmetry ? 90 : 90}
 						step={1}
 					/>
-						{/* <Form.Label className="me-2">roll</Form.Label> */}
+					{/* <Form.Label className="me-2">roll</Form.Label> */}
 					<ValueSetting
-							label={<>roll</>}
+						label={<>roll</>}
 						value={decorationObjects[selectingId].roll}
 						onChange={(e: any) => {
 							console.log("value", parseInt(e.target.value, 10));
@@ -118,8 +119,8 @@ const Decoration = ({ sceneProps, decorationObjects, setDecorationObjects }: any
 						step={1}
 					/>
 
-						<ValueSetting
-							label={<>size</>}
+					<ValueSetting
+						label={<>size</>}
 						value={decorationObjects[selectingId].size}
 						onChange={(e: any) => {
 							console.log("size", parseInt(e.target.value, 10));
@@ -131,12 +132,12 @@ const Decoration = ({ sceneProps, decorationObjects, setDecorationObjects }: any
 					/>
 
 
-					  <Form.Check
+					<Form.Check
 						type="checkbox"
 						label="左右対称"
-						checked={decorationObjects[selectingId].symmetry} 
-						onChange={(e: any) => { updateSelectiongItemProperty("symmetry", !decorationObjects[selectingId].symmetry) }} 
-      />
+						checked={decorationObjects[selectingId].symmetry}
+						onChange={(e: any) => { updateSelectiongItemProperty("symmetry", !decorationObjects[selectingId].symmetry) }}
+					/>
 
 
 				</>
@@ -147,11 +148,11 @@ const Decoration = ({ sceneProps, decorationObjects, setDecorationObjects }: any
 	</>);
 }
 
-const Item = ({ property, sceneProps, id, setSelectingId, selectingId }: any) => {
-	
+const Item = ({ property, sceneProps, id, setSelectingId, selectingId, symmetryType }: any) => {
+
 	const [objects, setObjects] = useState<any>([]);
 
-	const loadObjects = async (file:string) => {
+	const loadObjects = async (file: string) => {
 		// https://notetoself-dy.com/fbx-animaition-three-js/#outline__3
 		const loader = new FBXLoader();
 		// const file = `${process.env.PUBLIC_URL}/model/${property.model}.fbx`;
@@ -172,15 +173,15 @@ const Item = ({ property, sceneProps, id, setSelectingId, selectingId }: any) =>
 
 						resolve(obj);
 					},
-					undefined, 
+					undefined,
 					// (error) => reject(error)
 				);
 			});
 
 			sceneProps.scene.add(obj);
-			tmpobjects.push(obj); 
+			tmpobjects.push(obj);
 		}
-		 setObjects(tmpobjects); 
+		setObjects(tmpobjects);
 	}
 
 	useEffect(() => {
@@ -193,20 +194,20 @@ const Item = ({ property, sceneProps, id, setSelectingId, selectingId }: any) =>
 		// const loader = new FBXLoader();
 		// // console.log(`${process.env.PUBLIC_URL}/model/${property.model}.fbx`)
 		// const file = `${process.env.PUBLIC_URL}/model/${property.model}.fbx`
-		
+
 		// let tmpobjects: any = []
 		// for (let i = 0; i < (property.symmetry?2:1); i++) {
-		
+
 		// 	loader.load( file, function (obj) {
 		// 		obj.scale.set(0.1, 0.1, 0.1)
-				
+
 		// 		obj.traverse(function (child: any) {
 		// 			if (child.isMesh) {
 		// 				child.material.color.set(0xff0000); // 赤色に変更
 		// 			}
 		// 		});
 		// 		// console.log("object", object)
-				
+
 		// 		sceneProps.scene.add(obj);
 		// 		tmpobjects.push(obj)
 		// 	})
@@ -215,22 +216,22 @@ const Item = ({ property, sceneProps, id, setSelectingId, selectingId }: any) =>
 		// console.log({ tmpobjects })
 		// setObjects(tmpobjects);
 		// requestAnimationFrame(positionUpdate);
-		
+
 		return () => {
-			
+
 			// if (objects) {
-				console.log("今のを削除",objects)
-				objects.forEach((object: any) => {
-					
-					sceneProps.scene.remove(object);
-				});
-				setObjects([]);
+			console.log("今のを削除", objects)
+			objects.forEach((object: any) => {
+
+				sceneProps.scene.remove(object);
+			});
+			setObjects([]);
 			// }
 		};
-		
+
 
 	}, [property.model, property.symmetry]);
-	
+
 
 	function deleteObjects() {
 		console.log("今のを削除", objects);
@@ -240,7 +241,7 @@ const Item = ({ property, sceneProps, id, setSelectingId, selectingId }: any) =>
 		});
 		setObjects([]);
 	}
-	
+
 	// useEffect(() => {
 	// 	console.log("モデル名変更")
 	// }, [property.model])
@@ -248,24 +249,24 @@ const Item = ({ property, sceneProps, id, setSelectingId, selectingId }: any) =>
 
 	useEffect(() => {
 		positionUpdate()
-	}, [property,objects]);
+	}, [property, objects]);
 
-// 		useEffect(() => {
-// setTimeout(() => positionUpdate(), 1000);
-// 	}, [ property.symmetry]);
-	
+	// 		useEffect(() => {
+	// setTimeout(() => positionUpdate(), 1000);
+	// 	}, [ property.symmetry]);
+
 	function positionUpdate() {
 		console.log("座標変更", objects)
 		if (!objects) return
-		objects.forEach((object: any,index:number) => {
+		objects.forEach((object: any, index: number) => {
 			// 度をラジアンに変換
-			const pitch = (property.pitch+0) * (Math.PI / 180);
+			const pitch = (property.pitch + 0) * (Math.PI / 180);
 			const roll = (property.roll - 90) * (Math.PI / 180);
-			
-			const sizex = property.size/1000;
-			const sizey = property.size/1000;
-			const sizez = property.size/1000;
-			
+
+			const sizex = property.size / 1000;
+			const sizey = property.size / 1000;
+			const sizez = property.size / 1000;
+
 
 
 			let x = Math.sin(pitch) * 100;
@@ -273,8 +274,17 @@ const Item = ({ property, sceneProps, id, setSelectingId, selectingId }: any) =>
 			let z = Math.cos(roll) * Math.cos(pitch) * 100;
 
 			console.log({ index })
+			console.log({ symmetryType })
 			if (index == 1) {
-				x*=-1
+				if (symmetryType == 1) {
+
+					y *= -1
+				} else if (symmetryType == 2) {
+
+					z *= -1
+				} else {
+					x *= -1
+				}
 			}
 
 			object.position.set(x, y, z);

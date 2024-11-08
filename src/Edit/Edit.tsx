@@ -344,7 +344,10 @@ function Edit() {
 
               <div className="col-6 col-xl-4 no-margin " style={{ display: activeMenu === "decoration" ? "flex" : "none", }}>
                 <Decoration sceneProps={sceneProps}
-                  decorationObjects={decorationObjects} setDecorationObjects={setDecorationObjects}></Decoration>
+                  decorationObjects={decorationObjects}
+                  setDecorationObjects={setDecorationObjects}
+                  symmetryType={symmetryType}
+                ></Decoration>
                 <br />
                 <br /> <br /> <br /> <br /> <br /> <br />
               </div>
