@@ -12,7 +12,7 @@ import { enableHelpContext } from '../Edit/Edit';
 import Alert from 'react-bootstrap/Alert';
 import Help from "../Help"
 import SoundVolume from './SoundVolume';
-
+import AICounterIcon from '../img/AIcounter.png';
 import plagIconOn from '../img/plag_on.jpg';
 import plagIconOff from '../img/plag_off.jpg';
 
@@ -72,148 +72,169 @@ const CameraCounter = ({ addCounter }: any) => {
                         onChange={() => setEnableCameraCounter(enableCameraCounter == "0" ? "1" : "0")}
                         label="AI巻きカウンタ"
                     /> */}
-                    <Button variant="outline-primary"
-                        className="fs-2 mb-3"
+                    <Button
+                        variant="dark"
+                        // className="fs-2 mb-3"
                         onClick={() => setEnableCameraCounter(enableCameraCounter === "0" ? "1" : "0")}
                         style={{
+                            border: '3px solid gray',
                             padding: '10px',
                             display: 'flex',
                             alignItems: 'center',
-                            marginTop: '20px'
+                            marginTop: '20px',
+                            // alignItems: 'center', // 縦方向の中央揃え
+                            justifyContent: 'center', // 横方向の中央揃え
+                            // backgroundColor: 'black',
+                            // color: 'white'
                         }}
                     >
-                        <Icon.Power style={{ fontSize: '15px' }} />
+                        {/* <Icon.Power style={{ fontSize: '15px' }} /> */}
+                        <img src={AICounterIcon} style={{
+                            // mixBlendMode: "multiply",
+                            height: '22px', marginRight: '2px'
+                        }}></img >
+
+                        <br></br>
                         <div style={{ fontSize: '15px', marginLeft: '2px' }}>AI巻きカウンタ</div>
                     </Button>
+
+
+
+
                 </>
-            )}
+            )
+            }
 
-            {enableCameraCounter == "1" && (
-                <Accordion activeKey={enableCameraCounter}>
+            {
+                enableCameraCounter == "1" && (
+                    <Accordion activeKey={enableCameraCounter}>
 
-                    <Accordion.Collapse eventKey="1">
-                        <div>
-                            {/* <Card > */}
-
-
-
-                            <div className="row  g-0">
-
-
-                                <div className="col-6">
-                                    <div style={{
-                                        position: 'relative', width: '100%', justifyContent: 'center',
-                                        alignItems: 'center'
-                                    }}>
-
-                                        {!(trackerOk && videoOk) && (<Spinner animation="border" role="status" style={{ position: 'absolute', width: '100px', height: '100px' }}>
-
-                                        </Spinner>)}
-
-                                        {(trackerOk && videoOk) && !isTracked && <div style={{ position: 'absolute', width: '100%', color: "#00FF00", }} >  {rollingHand == "Right" ? "右" : "左"}手を画面に映してください</div>}
-                                        <div style={{ transform: 'scaleX(-1)' }}>
-
-                                            <video autoPlay playsInline={true} ref={videoRef} style={{ position: 'absolute', width: '100%' }} />
-                                            <Camera
-                                                videoRef={videoRef}
-                                                devices={devices}
-                                                setDevices={setDevices}
-                                                setSelectedDeviceId={setSelectedDeviceId}
-                                                selectedDeviceId={selectedDeviceId}
-                                                setVideoOk={setVideoOk}
-                                                isEnable={true}
-                                            />
+                        <Accordion.Collapse eventKey="1">
+                            <div>
+                                {/* <Card > */}
 
 
 
-                                            <HandTracker
-                                                setIsTracked={setIsTracked}
-                                                rollingHand={rollingHand}
-                                                selectedDeviceId={selectedDeviceId}
-                                                videoRef={videoRef}
-                                                trackerSettings={trackerSettings}
-                                                fingerHistory={fingerHistory}
-                                                setsingerHistory={setsingerHistory}
-                                                setTrackerOk={setTrackerOk}
-                                            />
+                                <div className="row  g-0">
+
+
+                                    <div className="col-6">
+                                        <div style={{
+                                            position: 'relative', width: '100%', justifyContent: 'center',
+                                            alignItems: 'center'
+                                        }}>
+
+                                            {!(trackerOk && videoOk) && (<Spinner animation="border" role="status" style={{ position: 'absolute', width: '100px', height: '100px' }}>
+
+                                            </Spinner>)}
+
+                                            {(trackerOk && videoOk) && !isTracked && <div style={{ position: 'absolute', width: '100%', color: "#00FF00", }} >  {rollingHand == "Right" ? "右" : "左"}手を画面に映してください</div>}
+                                            <div style={{ transform: 'scaleX(-1)' }}>
+
+                                                <video autoPlay playsInline={true} ref={videoRef} style={{ position: 'absolute', width: '100%' }} />
+                                                <Camera
+                                                    videoRef={videoRef}
+                                                    devices={devices}
+                                                    setDevices={setDevices}
+                                                    setSelectedDeviceId={setSelectedDeviceId}
+                                                    selectedDeviceId={selectedDeviceId}
+                                                    setVideoOk={setVideoOk}
+                                                    // setIsEnable={setIsEnable}
+                                                    isEnable={true}
+                                                    setEnableCameraCounter={setEnableCameraCounter}
+                                                />
+
+
+
+                                                <HandTracker
+                                                    setIsTracked={setIsTracked}
+                                                    rollingHand={rollingHand}
+                                                    selectedDeviceId={selectedDeviceId}
+                                                    videoRef={videoRef}
+                                                    trackerSettings={trackerSettings}
+                                                    fingerHistory={fingerHistory}
+                                                    setsingerHistory={setsingerHistory}
+                                                    setTrackerOk={setTrackerOk}
+                                                />
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
-                                <div className="col-6" style={{ position: "relative", overflow: "hidden" }}>
-                                    <KalmanFilter
-                                        fingerHistory={fingerHistory}
-                                        addCounter={addCounter}
-                                        kalmanSettings={kalmanSettings}
-                                        audiosRef={audiosRef}
-                                        soundVolume={soundVolume}
-                                        cameraCounterisEnable={cameraCounterisEnable}
-                                    />
-                                    <div style={{ position: "absolute", top: "1px", right: "1px", display: "flex", alignItems: "center" }}>
-                                        <img
-                                            src={cameraCounterisEnable ? plagIconOn : plagIconOff}
-                                            onClick={() => setCameraCounterIsEnable(prevState => !prevState)}
-                                            style={{
-                                                width: "2rem",
-                                                height: "2rem",
-                                                marginRight: "10px"
-                                            }}
+                                    <div className="col-6" style={{ position: "relative", overflow: "hidden" }}>
+                                        <KalmanFilter
+                                            fingerHistory={fingerHistory}
+                                            addCounter={addCounter}
+                                            kalmanSettings={kalmanSettings}
+                                            audiosRef={audiosRef}
+                                            soundVolume={soundVolume}
+                                            cameraCounterisEnable={cameraCounterisEnable}
                                         />
-                                        <SoundVolume audiosRef={audiosRef} soundVolume={soundVolume} setSoundVolume={setSoundVolume} />
-                                        <Icon.Sliders
-                                            id="AIparameters"
-                                            onClick={() => setSettingShow(true)}
-                                            style={{ fontSize: "2rem", marginRight: "10px" }}
-                                        />
+                                        <div style={{ position: "absolute", top: "1px", right: "1px", display: "flex", alignItems: "center" }}>
+                                            <img
+                                                src={cameraCounterisEnable ? plagIconOn : plagIconOff}
+                                                onClick={() => setCameraCounterIsEnable(prevState => !prevState)}
+                                                style={{
+                                                    width: "2rem",
+                                                    height: "2rem",
+                                                    marginRight: "10px"
+                                                }}
+                                            />
+                                            <SoundVolume audiosRef={audiosRef} soundVolume={soundVolume} setSoundVolume={setSoundVolume} />
+                                            <Icon.Sliders
+                                                id="AIparameters"
+                                                onClick={() => setSettingShow(true)}
+                                                style={{ fontSize: "2rem", marginRight: "10px" }}
+                                            />
 
-                                        {/* {soundVolume} */}
+                                            {/* {soundVolume} */}
+                                        </div>
+
+                                        <Help id="AIparameters" placement="bottom">パラメータ調整<br></br>うまく判定されないときはここをチェック</Help>
                                     </div>
-
-                                    <Help id="AIparameters" placement="bottom">パラメータ調整<br></br>うまく判定されないときはここをチェック</Help>
                                 </div>
-                            </div>
 
 
 
 
-                            {/* </Card> */}
-                        </div >
-                    </Accordion.Collapse >
+                                {/* </Card> */}
+                            </div >
+                        </Accordion.Collapse >
 
-                    <Modal
-                        show={setttingShow}
-                        onHide={() => setSettingShow(false)}
-                    >
-                        <Modal.Header closeButton>
-                            <Modal.Title>設定</Modal.Title>
-                        </Modal.Header>
-                        <Modal.Body>
+                        <Modal
+                            show={setttingShow}
+                            onHide={() => setSettingShow(false)}
+                        >
+                            <Modal.Header closeButton>
+                                <Modal.Title>設定</Modal.Title>
+                            </Modal.Header>
+                            <Modal.Body>
 
-                            < RollHandSelect rollingHand={rollingHand} setRollingHand={setRollingHand}></RollHandSelect>
-                            <CameraSelect devices={devices} setSelectedDeviceId={setSelectedDeviceId} selectedDeviceId={selectedDeviceId}></CameraSelect>
+                                < RollHandSelect rollingHand={rollingHand} setRollingHand={setRollingHand}></RollHandSelect>
+                                <CameraSelect devices={devices} setSelectedDeviceId={setSelectedDeviceId} selectedDeviceId={selectedDeviceId}></CameraSelect>
 
 
-                            <TrakerConfig
-                                // minHandDetectionConfidence={minHandDetectionConfidence}
-                                // setMinHandDetectionConfidence={setMinHandDetectionConfidence}
-                                // minHandPresenceConfidence={minHandPresenceConfidence}
-                                // setMinHandPresenceConfidence={setMinHandPresenceConfidence}
-                                // minTrackingConfidence={minTrackingConfidence}
-                                // setMinTrackingConfidence={setMinTrackingConfidence}
-                                trackerSettings={trackerSettings} setTrackerSettings={setTrackerSettings}
-                            ></TrakerConfig>
-                            <KalmanConfig
-                                kalmanSettings={kalmanSettings} setKalmanSettings={setKalmanSettings}>
-                            </KalmanConfig>
+                                <TrakerConfig
+                                    // minHandDetectionConfidence={minHandDetectionConfidence}
+                                    // setMinHandDetectionConfidence={setMinHandDetectionConfidence}
+                                    // minHandPresenceConfidence={minHandPresenceConfidence}
+                                    // setMinHandPresenceConfidence={setMinHandPresenceConfidence}
+                                    // minTrackingConfidence={minTrackingConfidence}
+                                    // setMinTrackingConfidence={setMinTrackingConfidence}
+                                    trackerSettings={trackerSettings} setTrackerSettings={setTrackerSettings}
+                                ></TrakerConfig>
+                                <KalmanConfig
+                                    kalmanSettings={kalmanSettings} setKalmanSettings={setKalmanSettings}>
+                                </KalmanConfig>
 
-                            <Button variant="danger" onClick={() => {
-                                setEnableCameraCounter("0");
-                                setSettingShow(false);
-                            }
-                            }>AI巻きカウンタを無効化</Button>
-                        </Modal.Body>
-                    </Modal>
-                </Accordion >
-            )}
+                                <Button variant="danger" onClick={() => {
+                                    setEnableCameraCounter("0");
+                                    setSettingShow(false);
+                                }
+                                }>AI巻きカウンタを無効化</Button>
+                            </Modal.Body>
+                        </Modal>
+                    </Accordion >
+                )
+            }
         </>
     )
 

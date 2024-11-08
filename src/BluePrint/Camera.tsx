@@ -2,7 +2,7 @@ import React, { useState, useRef, useEffect } from 'react';
 import { Button, ProgressBar } from 'react-bootstrap';
 
 
-const Camera = ({ isEnable, videoRef, devices, setDevices, setSelectedDeviceId, selectedDeviceId, setVideoOk }: any) => {
+const Camera = ({ isEnable, setEnableCameraCounter, videoRef, devices, setDevices, setSelectedDeviceId, selectedDeviceId, setVideoOk }: any) => {
 
     // const canvasRef = useRef<HTMLCanvasElement>(null)
     useEffect(() => {
@@ -43,6 +43,7 @@ const Camera = ({ isEnable, videoRef, devices, setDevices, setSelectedDeviceId, 
                 } catch (error) {
                     alert("カメラが起動できませんでした" + error)
                     console.error("Error accessing the camera: ", error);
+                    if (setEnableCameraCounter) setEnableCameraCounter(false)
                 }
             }
         };
