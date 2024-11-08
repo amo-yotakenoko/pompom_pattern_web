@@ -200,6 +200,7 @@ const CameraScan = ({ sceneProps, activeMenu, drawDot, meshList, colorList, mult
 
 	function onMouseClick(event: any) {
 		const raycaster = new THREE.Raycaster();
+		raycaster.layers.enable(0);
 		const mouse = new THREE.Vector2();
 
 		mouse.x = (event.clientX / sceneProps.canvas.clientWidth) * 2 - 1;

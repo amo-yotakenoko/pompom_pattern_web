@@ -47,6 +47,7 @@ const Decoration = ({ sceneProps, decorationObjects, setDecorationObjects, symme
 			name: "aa",
 			pitch: 45,
 			roll: 90,
+			rotate: 0,
 			size: 100,
 
 			symmetry: true
@@ -120,6 +121,18 @@ const Decoration = ({ sceneProps, decorationObjects, setDecorationObjects, symme
 					/>
 
 					<ValueSetting
+						label={<>rotate</>}
+						value={decorationObjects[selectingId].rotate}
+						onChange={(e: any) => {
+							console.log("rotate", parseInt(e.target.value, 10));
+							updateSelectiongItemProperty("rotate", parseInt(e.target.value, 10));
+						}}
+						min={0}
+						max={360}
+						step={1}
+					/>
+
+					<ValueSetting
 						label={<>size</>}
 						value={decorationObjects[selectingId].size}
 						onChange={(e: any) => {
@@ -130,6 +143,7 @@ const Decoration = ({ sceneProps, decorationObjects, setDecorationObjects, symme
 						max={200}
 						step={1}
 					/>
+
 
 
 					<Form.Check
@@ -164,7 +178,6 @@ const Item = ({ property, sceneProps, id, setSelectingId, selectingId, symmetryT
 					file,
 					(obj) => {
 						obj.scale.set(0.1, 0.1, 0.1);
-
 						obj.traverse((child: any) => {
 							if (child.isMesh) {
 								child.material.color.set(0xff0000);
@@ -177,6 +190,7 @@ const Item = ({ property, sceneProps, id, setSelectingId, selectingId, symmetryT
 					// (error) => reject(error)
 				);
 			});
+
 
 			sceneProps.scene.add(obj);
 			tmpobjects.push(obj);
@@ -260,8 +274,10 @@ const Item = ({ property, sceneProps, id, setSelectingId, selectingId, symmetryT
 		if (!objects) return
 		objects.forEach((object: any, index: number) => {
 			// 度をラジアンに変換
+			object.layers.set(10);
 			const pitch = (property.pitch + 0) * (Math.PI / 180);
 			const roll = (property.roll - 90) * (Math.PI / 180);
+			const rotate = (property.rotate) * (Math.PI / 180);
 
 			const sizex = property.size / 1000;
 			const sizey = property.size / 1000;
@@ -291,6 +307,10 @@ const Item = ({ property, sceneProps, id, setSelectingId, selectingId, symmetryT
 			object.scale.set(sizex, sizey, sizez);
 			object.lookAt(0, 0, 0);
 			object.rotateX(-Math.PI / 2);
+
+
+			object.rotateY(index == 0 ? rotate : -rotate);
+
 		});
 
 	}

@@ -368,12 +368,19 @@ const Pompom = ({ meshList, sceneProps, setSceneProps, pattern, colorList, rollW
             meshList.current.map((mesh: any) => {
 
                 // console.log(intersects.length)
-                if (intersects.length > 0 && mesh === intersects[0].object) {
+                // if (intersects.length > 0 && mesh === intersects[0].object) {
 
-                    let patternPos = (mesh as any).patternPos;
-                    drawDot(patternPos, propsRef.current.selectColor)
+                intersects.forEach((intersect: any) => {
+                    // intersect.object は交差したオブジェクトを指します
+                    const mesh = intersect.object;
 
-                }
+                    // patternPosプロパティが存在する場合にドットを描画
+                    if (mesh && (mesh as any).patternPos) {
+                        let patternPos = (mesh as any).patternPos;
+                        drawDot(patternPos, propsRef.current.selectColor);
+                    }
+                });
+                // }
             });
         }
         // console.log(isDrwaing.current)
@@ -394,6 +401,8 @@ const Pompom = ({ meshList, sceneProps, setSceneProps, pattern, colorList, rollW
 
         // https://ics.media/tutorial-three/raycast/
         const raycaster = new THREE.Raycaster();
+        raycaster.layers.enable(0);
+        raycaster.layers.disable(10);
 
         console.log("sceneProps", sceneProps)
         if (!sceneProps) return
