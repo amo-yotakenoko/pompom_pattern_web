@@ -2,7 +2,7 @@ import React, { useState, createContext, useContext, useEffect, useRef } from 'r
 import * as THREE from 'three';
 import { FBXLoader } from 'three/examples/jsm/loaders/FBXLoader.js';
 // import eyeModel from '/model/eye.fbx';
-
+import ValueSetting from './ValueSetting';
 import { Button, ProgressBar, Form } from 'react-bootstrap';
 // import SimpleOrientationTracker from './没/getDeviderotation';
 // import { DeviceOrientationControls } from "three/examples/jsm/controls/DeviceOrientationControls";
@@ -46,7 +46,9 @@ const Decoration = ({ sceneProps, decorationObjects, setDecorationObjects }: any
 		setDecorationObjects([...decorationObjects, {
 			name: "aa",
 			pitch: 0,
-			yaw: 0,
+			roll: 0,
+			size:100,
+			
 			symmetry:true
 		}]);
 	}
@@ -86,35 +88,52 @@ const Decoration = ({ sceneProps, decorationObjects, setDecorationObjects }: any
 							</Button>
 						))
 					}
-
-					<Button onClick={() => { updateSelectiongItemProperty("x", decorationObjects[selectingId].x + 1) }}
+<br></br>
+					{/* <Button onClick={() => { updateSelectiongItemProperty("x", decorationObjects[selectingId].x + 1) }}
 					>
 						x+=1
-					</Button>
-					<Form.Range
+					</Button> */}
+					{/* <Form.Label className="me-2">pitch</Form.Label> */}
+					<ValueSetting
+							label={<>pitch</>}
 						value={decorationObjects[selectingId].pitch}
 						onChange={(e: any) => {
 							console.log("value", parseInt(e.target.value, 10));
 							updateSelectiongItemProperty("pitch", parseInt(e.target.value, 10));
 						}}
-						min={0}
-						max={180}
+						min={decorationObjects[selectingId].symmetry?0:-90}
+						max={decorationObjects[selectingId].symmetry?90:90}
 						step={1}
 					/>
-					<Form.Range
-						value={decorationObjects[selectingId].yaw}
+						{/* <Form.Label className="me-2">roll</Form.Label> */}
+					<ValueSetting
+							label={<>roll</>}
+						value={decorationObjects[selectingId].roll}
 						onChange={(e: any) => {
 							console.log("value", parseInt(e.target.value, 10));
-							updateSelectiongItemProperty("yaw", parseInt(e.target.value, 10));
+							updateSelectiongItemProperty("roll", parseInt(e.target.value, 10));
 						}}
 						min={0}
 						max={360}
 						step={1}
 					/>
 
+						<ValueSetting
+							label={<>size</>}
+						value={decorationObjects[selectingId].size}
+						onChange={(e: any) => {
+							console.log("size", parseInt(e.target.value, 10));
+							updateSelectiongItemProperty("size", parseInt(e.target.value, 10));
+						}}
+						min={0}
+						max={200}
+						step={1}
+					/>
+
+
 					  <Form.Check
 						type="checkbox"
-						label="Enable feature"
+						label="左右対称"
 						checked={decorationObjects[selectingId].symmetry} 
 						onChange={(e: any) => { updateSelectiongItemProperty("symmetry", !decorationObjects[selectingId].symmetry) }} 
       />
@@ -229,7 +248,7 @@ const Item = ({ property, sceneProps, id, setSelectingId, selectingId }: any) =>
 
 	useEffect(() => {
 		positionUpdate()
-	}, [property.model, property.pitch, property.yaw, property.symmetry,objects]);
+	}, [property,objects]);
 
 // 		useEffect(() => {
 // setTimeout(() => positionUpdate(), 1000);
@@ -240,13 +259,18 @@ const Item = ({ property, sceneProps, id, setSelectingId, selectingId }: any) =>
 		if (!objects) return
 		objects.forEach((object: any,index:number) => {
 			// 度をラジアンに変換
-			const pitch = property.pitch * (Math.PI / 180);
-			const yaw = property.yaw * (Math.PI / 180);
+			const pitch = (property.pitch+0) * (Math.PI / 180);
+			const roll = (property.roll - 90) * (Math.PI / 180);
+			
+			const sizex = property.size/1000;
+			const sizey = property.size/1000;
+			const sizez = property.size/1000;
+			
 
 
 			let x = Math.sin(pitch) * 100;
-			let y = Math.sin(yaw) * Math.cos(pitch) * 100;
-			let z = Math.cos(yaw) * Math.cos(pitch) * 100;
+			let y = Math.sin(roll) * Math.cos(pitch) * 100;
+			let z = Math.cos(roll) * Math.cos(pitch) * 100;
 
 			console.log({ index })
 			if (index == 1) {
@@ -254,6 +278,7 @@ const Item = ({ property, sceneProps, id, setSelectingId, selectingId }: any) =>
 			}
 
 			object.position.set(x, y, z);
+			object.scale.set(sizex, sizey, sizez);
 			object.lookAt(0, 0, 0);
 			object.rotateX(-Math.PI / 2);
 		});
