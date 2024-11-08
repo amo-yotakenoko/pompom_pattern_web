@@ -10,7 +10,7 @@ import LocalStrageSave from './LocalStrageSave';
 import Pompom from './Pompom'
 import ColorPalette from './colorPalette'
 import BluePrint from '../BluePrint/BluePrint'
-import Menu from './Menu'
+import Menu from '../Menu'
 import VerticalMenu from './VerticalMenu';
 import UndoRedo from './undoRedu'
 import ColorEdit from './colorEdit'

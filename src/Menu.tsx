@@ -2,9 +2,9 @@ import React, { useEffect, useRef } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import ButtonGroup from 'react-bootstrap/ButtonGroup';
 import ToggleButton from 'react-bootstrap/ToggleButton';
-import UndoRedo from './undoRedu';
+import UndoRedo from './Edit/undoRedu';
 import * as Icon from 'react-bootstrap-icons';
-import Help from "../Help"
+import Help from "./Help"
 type MenuProps = {
     activeMenu: any;
     setActiveMenu: any;
