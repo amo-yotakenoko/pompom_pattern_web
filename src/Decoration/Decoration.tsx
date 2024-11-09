@@ -121,7 +121,7 @@ const Decoration = ({ sceneProps, decorationObjects, setDecorationObjects, symme
 			</Button>
 		</div >
 
-
+{/* 1.21.3 */}
 		<div className="col-10 no-margin" >
 			{selecting != null && (
 				<>
@@ -469,7 +469,8 @@ const Item = ({ property, sceneProps, id, setSelectingId, selectingId, symmetryT
 
 				width: "100%", height: "100%", right: 0
 			}}>
-				{id}{property.model ?? null}
+				<img src={`${process.env.PUBLIC_URL}/model/eye.jpg`} alt="icon" style={{   width:"100%",  aspectRatio: 1,mixBlendMode:"multiply" }} />
+				{/* {id}{property.model ?? null} */}
 			</Button>
 		</div>
 
