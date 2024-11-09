@@ -347,7 +347,7 @@ function Edit() {
               </div>
 
 
-              <div className="col-6 col-xl-4 no-margin " style={{ display: activeMenu === "decoration" ? "flex" : "none", }}>
+              <div className="col-12 no-margin " style={{ display: activeMenu === "decoration" ? "flex" : "none", }}>
                 <Decoration sceneProps={sceneProps}
                   decorationObjects={decorationObjects}
                   setDecorationObjects={setDecorationObjects}

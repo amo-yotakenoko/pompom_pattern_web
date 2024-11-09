@@ -29,6 +29,7 @@ const AddDecoration = ({ newDecorationModalShow, setNewDecorationModalShow, deco
             pitch: 45,
             roll: 90,
             rotate: 0,
+            size: 150,
         },
         {
             model: "ear",
@@ -36,7 +37,13 @@ const AddDecoration = ({ newDecorationModalShow, setNewDecorationModalShow, deco
             roll: 180,
             rotate: -90,
         },
-        { model: "nose" },
+        {
+            model: "nose",
+            symmetry: false,
+            pitch: 0,
+            roll: 70,
+            // rotate: -90,
+        },
     ];
 
     return (<>

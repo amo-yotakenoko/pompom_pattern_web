@@ -99,7 +99,7 @@ const Decoration = ({ sceneProps, decorationObjects, setDecorationObjects, symme
 		{/* デコレーション */}
 		{/* {`${objects}`} */}
 		{newDecorationModalShow}
-		<div className="col-3 col-md-3  col-xl-2 no-margin" >
+		<div className="col-2 col-md-2  col-xl-2 no-margin" >
 
 			{decorationObjects.map((obj: any, i: number) => (
 				<Item property={obj}
@@ -138,97 +138,105 @@ const Decoration = ({ sceneProps, decorationObjects, setDecorationObjects, symme
 						x+=1
 					</Button> */}
 					{/* <Form.Label className="me-2">pitch</Form.Label> */}
-					<ValueSetting
-						label={<>pitch</>}
-						value={decorationObjects[selectingId].pitch}
-						onChange={(e: any) => {
-							console.log("value", parseInt(e.target.value, 10));
-							updateSelectiongItemProperty("pitch", parseInt(e.target.value, 10));
-						}}
-						min={decorationObjects[selectingId].symmetry ? 0 : -90}
-						max={decorationObjects[selectingId].symmetry ? 90 : 90}
-						step={1}
-					/>
-					{/* <Form.Label className="me-2">roll</Form.Label> */}
-					<ValueSetting
-						label={<>roll</>}
-						value={decorationObjects[selectingId].roll}
-						onChange={(e: any) => {
-							console.log("value", parseInt(e.target.value, 10));
-							updateSelectiongItemProperty("roll", parseInt(e.target.value, 10));
-						}}
-						min={0}
-						max={360}
-						step={1}
-					/>
-
-					<ValueSetting
-						label={<>rotate</>}
-						value={decorationObjects[selectingId].rotate}
-						onChange={(e: any) => {
-							console.log("rotate", parseInt(e.target.value, 10));
-							updateSelectiongItemProperty("rotate", parseInt(e.target.value, 10));
-						}}
-						min={0}
-						max={360}
-						step={1}
-					/>
-
-					<ValueSetting
-						label={<>size</>}
-						value={decorationObjects[selectingId].size}
-						onChange={(e: any) => {
-							console.log("size", parseInt(e.target.value, 10));
-							updateSelectiongItemProperty("size", parseInt(e.target.value, 10));
-						}}
-						min={0}
-						max={200}
-						step={1}
-					/>
-
 					<div className="container">
 						<div className="row">
-							{colorList.map((color: any, index: any) => (
-								<div className="col-3 col-md-3 no-margin" key={index}>
-									<div
-										style={{
-											backgroundColor: color[0],
-											width: '100%',
-											aspectRatio: 1, // 高さと幅を1:1にすることで円形を維持
-											borderRadius: '50%',
-											textAlign: 'center',
+							<div className="col-6 no-margin" >
+								<div className="container">
+									<div className="row">
+										{colorList.map((color: any, index: any) => (
+											<div className="col-3 col-md-3 no-margin" key={index}>
+												<div
+													style={{
+														backgroundColor: color[0],
+														width: '100%',
+														aspectRatio: 1, // 高さと幅を1:1にすることで円形を維持
+														borderRadius: '50%',
+														textAlign: 'center',
 
 
-											display: 'flex',
-											justifyContent: 'center',
-											alignItems: 'center',
-											boxSizing: 'border-box',
-											boxShadow: `0 4px 8px rgba(0, 0, 0, ${index == decorationObjects[selectingId].colorIndex ? 0.75 : 0.2})`,
-										}}
-										onClick={() => { updateSelectiongItemProperty("colorIndex", index); console.log("おされた", index) }}
-									>
-										{/* {index},{decorationObjects[selectingId].colorIndex} */}
+														display: 'flex',
+														justifyContent: 'center',
+														alignItems: 'center',
+														boxSizing: 'border-box',
+														boxShadow: `0 4px 8px rgba(0, 0, 0, ${index == decorationObjects[selectingId].colorIndex ? 0.75 : 0.2})`,
+													}}
+													onClick={() => { updateSelectiongItemProperty("colorIndex", index); console.log("おされた", index) }}
+												>
+													{/* {index},{decorationObjects[selectingId].colorIndex} */}
+												</div>
+											</div>
+										))}
 									</div>
 								</div>
-							))}
+							</div>
+
+							<div className="col-6 no-margin" >
+								<ValueSetting
+									label={<>pitch</>}
+									value={decorationObjects[selectingId].pitch}
+									onChange={(e: any) => {
+										console.log("value", parseInt(e.target.value, 10));
+										updateSelectiongItemProperty("pitch", parseInt(e.target.value, 10));
+									}}
+									min={decorationObjects[selectingId].symmetry ? 0 : -90}
+									max={decorationObjects[selectingId].symmetry ? 90 : 90}
+									step={1}
+								/>
+								{/* <Form.Label className="me-2">roll</Form.Label> */}
+								<ValueSetting
+									label={<>roll</>}
+									value={decorationObjects[selectingId].roll}
+									onChange={(e: any) => {
+										console.log("value", parseInt(e.target.value, 10));
+										updateSelectiongItemProperty("roll", parseInt(e.target.value, 10));
+									}}
+									min={0}
+									max={360}
+									step={1}
+								/>
+
+								<ValueSetting
+									label={<>rotate</>}
+									value={decorationObjects[selectingId].rotate}
+									onChange={(e: any) => {
+										console.log("rotate", parseInt(e.target.value, 10));
+										updateSelectiongItemProperty("rotate", parseInt(e.target.value, 10));
+									}}
+									min={0}
+									max={360}
+									step={1}
+								/>
+
+								<ValueSetting
+									label={<>size</>}
+									value={decorationObjects[selectingId].size}
+									onChange={(e: any) => {
+										console.log("size", parseInt(e.target.value, 10));
+										updateSelectiongItemProperty("size", parseInt(e.target.value, 10));
+									}}
+									min={0}
+									max={200}
+									step={1}
+								/>
+
+
+								<Icon.Trash onClick={() => {
+									const newItems = decorationObjects.filter((_: any, index: any) => index !== selectingId);
+									setDecorationObjects(newItems);
+
+								}}></Icon.Trash>
+
+
+
+								<Form.Check
+									type="checkbox"
+									label="左右対称"
+									checked={decorationObjects[selectingId].symmetry}
+									onChange={(e: any) => { updateSelectiongItemProperty("symmetry", !decorationObjects[selectingId].symmetry) }}
+								/>
+							</div>
 						</div>
 					</div>
-
-					<Icon.Trash onClick={() => {
-						const newItems = decorationObjects.filter((_: any, index: any) => index !== selectingId);
-						setDecorationObjects(newItems);
-
-					}}></Icon.Trash>
-
-
-
-					<Form.Check
-						type="checkbox"
-						label="左右対称"
-						checked={decorationObjects[selectingId].symmetry}
-						onChange={(e: any) => { updateSelectiongItemProperty("symmetry", !decorationObjects[selectingId].symmetry) }}
-					/>
-
 
 				</>
 			)}
