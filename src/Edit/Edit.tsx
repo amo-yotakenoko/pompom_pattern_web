@@ -124,6 +124,11 @@ function Edit() {
         setSymmetryType(location.state.symmetryType);
       }
 
+      if (location.state.decorationObjects !== undefined) {
+
+        setDecorationObjects(location.state.decorationObjects);
+      }
+
 
 
     }
@@ -159,7 +164,7 @@ function Edit() {
   return (
     <>
       <enableHelpContext.Provider value={{ enableHelp, setEnableHelp }}>
-        <LocalStrageSave data={{ pattern, colorList, rollWidth, pitchWidth, symmetryType }} activeMenu={activeMenu} />
+        <LocalStrageSave data={{ pattern, colorList, rollWidth, pitchWidth, symmetryType, decorationObjects }} activeMenu={activeMenu} />
         <div style={{ position: 'fixed', top: "5px", right: "5px", display: 'flex', flexDirection: 'row-reverse', gap: '10px', zIndex: 1000 }}>
 
           <HelpButton activeMenu={activeMenu}></HelpButton>

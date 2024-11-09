@@ -37,12 +37,12 @@ const LocalStrageSave: React.FC<LocalStrageSaveProps> = ({ data, activeMenu }) =
             }
         }, 1000);
 
-        if (saveError==false&&timer > 30) {
+        if (saveError == false && timer > 30) {
             saveToLocalStrage(false)
             setTimer(-1);
         }
         return () => clearInterval(id);
-    }, [timer,saveError]);
+    }, [timer, saveError]);
 
     useEffect(() => {
         setIsSaved(true)
@@ -78,7 +78,7 @@ const LocalStrageSave: React.FC<LocalStrageSaveProps> = ({ data, activeMenu }) =
     }, [isSaved]);
 
 
-    function saveToLocalStrage(click:boolean=false) {
+    function saveToLocalStrage(click: boolean = false) {
         // const key = 'pompoms';
         let value = localStorage.getItem('pompoms');
 
@@ -102,14 +102,14 @@ const LocalStrageSave: React.FC<LocalStrageSaveProps> = ({ data, activeMenu }) =
 
             localStorage.setItem('pompoms', JSON.stringify(datas));
             setTimeout(() => setIsSaved(true), 1)
-              setSaveError(false);
+            setSaveError(false);
         } catch (e) {
 
             if (click) {
                 alert('保存に失敗しました、設計図タブからダウンロードしてください' + e);
-                
+
             }
-            console.log("保存エラー",e)
+            console.log("保存エラー", e)
             setSaveError(true);
         }
 
@@ -133,7 +133,7 @@ const LocalStrageSave: React.FC<LocalStrageSaveProps> = ({ data, activeMenu }) =
         // ctx.drawImage(bluePrintBaseImage, 0, 0, size, size);
         // console.log("ああああああああああああああ", pompomCanvas.style.getPropertyValue('display'), viewCanvas.style.getPropertyValue('display'))
         ctx.fillStyle = 'white';
-ctx.fillRect(0, 0, size, size); 
+        ctx.fillRect(0, 0, size, size);
         if (activeMenu == "pompom") {
             const pompomCanvas = document.getElementById("edit3d") as HTMLCanvasElement;
             ctx.drawImage(pompomCanvas, 0, 0, pompomCanvas.width, pompomCanvas.height, 0, 0, size, size);
@@ -144,7 +144,7 @@ ctx.fillRect(0, 0, size, size);
 
         }
         // drawData(canvas, data);
-        const base64Image = canvas.toDataURL('image/jpeg',0.2);
+        const base64Image = canvas.toDataURL('image/jpeg', 0.2);
         // const base64Image = canvas.toDataURL('image/png');
         console.log(base64Image)
         // console.log(base64Image);
@@ -165,14 +165,14 @@ ctx.fillRect(0, 0, size, size);
             {/* <i className="bi bi-floppy2" onClick={saveToLocalStrage}></i>
             <i className="bi bi-123"></i> */}
             {(!isSaved && activeMenu == "pompom") &&
-            
-                <Icon.Floppy2 onClick={() => { saveToLocalStrage (true)}} style={{
+
+                <Icon.Floppy2 onClick={() => { saveToLocalStrage(true) }} style={{
                     zIndex: 1000,
                     top: "5px",
                     left: "5px",
                     position: 'fixed',
-            }} />
-                
+                }} />
+
                 // <img onClick={saveToLocalStrage}>Save to</button>
             }
             {/* <button onClick={loadFromLocalStrage}>Load from localStorage</button> */}
