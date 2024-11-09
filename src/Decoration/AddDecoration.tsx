@@ -44,6 +44,13 @@ const AddDecoration = ({ newDecorationModalShow, setNewDecorationModalShow, deco
             roll: 70,
             // rotate: -90,
         },
+        {
+            model: "tail",
+            symmetry: false,
+            pitch: 0,
+            roll: 289,
+            // rotate: -90,
+        },
     ];
 
     return (<>
