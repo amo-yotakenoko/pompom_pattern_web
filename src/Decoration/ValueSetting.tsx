@@ -14,21 +14,21 @@ import { Button, ProgressBar, Form } from 'react-bootstrap';
 // };
 
 // import Tooltip from 'react-bootstrap/Tooltip';
-const ValueSetting = ({value,onChange,min,max,step,label  }: any) => {
+const ValueSetting = ({ value, onChange, min, max, step, label }: any) => {
 
-    return (<>
-    
-    {label}{step}
-					<Form.Range
-							
-						value={value}
-						onChange={onChange}
-						min={min}
-						max={max}
-						step={0.01}
-					/>
-    
-    </>);
+	return (<>
+
+		{label}
+		<Form.Range
+
+			value={value}
+			onChange={onChange}
+			min={min}
+			max={max}
+			step={0.01}
+		/>
+
+	</>);
 }
 
 

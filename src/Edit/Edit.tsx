@@ -121,7 +121,8 @@ function Edit() {
       }
       if (location.state.symmetryType !== undefined) {
 
-        setSymmetryType(location.state.symmetryType);
+        // setSymmetryType(location.state.symmetryType);
+        setSymmetryType(2);
       }
 
       if (location.state.decorationObjects !== undefined) {
@@ -347,7 +348,7 @@ function Edit() {
               </div>
 
 
-              <div className="col-12 no-margin " style={{ display: activeMenu === "decoration" ? "flex" : "none", }}>
+              <div className="col-12 " style={{ display: activeMenu === "decoration" ? "flex" : "none", }}>
                 <Decoration sceneProps={sceneProps}
                   decorationObjects={decorationObjects}
                   setDecorationObjects={setDecorationObjects}

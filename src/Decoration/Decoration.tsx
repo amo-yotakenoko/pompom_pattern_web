@@ -98,150 +98,169 @@ const Decoration = ({ sceneProps, decorationObjects, setDecorationObjects, symme
 		<AddDecoration newDecorationModalShow={newDecorationModalShow} setNewDecorationModalShow={setNewDecorationModalShow} decorationObjects={decorationObjects} addDecorationObject={addDecorationObject}></AddDecoration>
 		{/* デコレーション */}
 		{/* {`${objects}`} */}
-		{newDecorationModalShow}
-		<div className="col-2 col-md-2  col-xl-2 no-margin" >
+		{/* {newDecorationModalShow} */}
+		<div className='row' >
 
-			{decorationObjects.map((obj: any, i: number) => (
-				<Item property={obj}
-					sceneProps={sceneProps}
-					selectingId={selectingId}
-					setSelectingId={setSelectingId}
-					id={i}
-					symmetryType={symmetryType}
-					colorList={colorList}
-				></Item>
-			))}
-			<Button onClick={() => { setNewDecorationModalShow(true); console.log({ newDecorationModalShow }) }}
-				style={{
-					// background: "#FF0000",
-					width: "90%",
-					aspectRatio: "1"
-				}}>
-				+
-			</Button>
-		</div >
+			<div className="col-12 "
+				style={{ display: "flex", flexWrap: "wrap", height: "2em", margin: '1px', width: "100%", borderBottom: `${decorationObjects.length > 0 ? 1 : 0}px solid black` }}>
 
-{/* 1.21.3 */}
-		<div className="col-10 no-margin" >
-			{selecting != null && (
-				<>
-					{/* {
+				{decorationObjects.map((obj: any, i: number) => (
+					<Item
+						key={i}
+						property={obj}
+						sceneProps={sceneProps}
+						selectingId={selectingId}
+						setSelectingId={setSelectingId}
+						id={i}
+						symmetryType={symmetryType}
+						colorList={colorList}
+					/>
+				))}
+				<Button
+					onClick={() => {
+						setNewDecorationModalShow(true);
+						console.log({ newDecorationModalShow })
+					}}
+					style={{
+						// padding: 0,
+						padding: 0, margin: 0,
+						width: 32,
+						height: 32,
+						// width: "2em", aspectRatio: 1
+						border: 'none',
+					}}
+					variant="outline-dark"
+				>
+					<Icon.Plus style={{
+
+						width: "2em", aspectRatio: 1, padding: 0, margin: 0
+					}}></Icon.Plus>
+				</Button>
+			</div>
+
+
+			{/* 1.21.3 */}
+			<div className="col-12" >
+				{selecting != null && (
+					<>
+						{/* {
 						modelFileNames.map((fileName: any) => (
 							<Button onClick={() => { updateSelectiongItemProperty("model", `${fileName}`) }}	>
-								{fileName}
+							{fileName}
 							</Button>
-						))
-					} */}
-					<br></br>
-					{/* <Button onClick={() => { updateSelectiongItemProperty("x", decorationObjects[selectingId].x + 1) }}
+							))
+							} */}
+						<br></br>
+						{/* <Button onClick={() => { updateSelectiongItemProperty("x", decorationObjects[selectingId].x + 1) }}
 					>
-						x+=1
+					x+=1
 					</Button> */}
-					{/* <Form.Label className="me-2">pitch</Form.Label> */}
-					<div className="container">
-						<div className="row">
-							<div className="col-6 no-margin" >
-								<div className="container">
-									<div className="row">
-										{colorList.map((color: any, index: any) => (
-											<div className="col-3 col-md-3 no-margin" key={index}>
-												<div
-													style={{
-														backgroundColor: color[0],
-														width: '100%',
-														aspectRatio: 1, // 高さと幅を1:1にすることで円形を維持
-														borderRadius: '50%',
-														textAlign: 'center',
+						{/* <Form.Label className="me-2">pitch</Form.Label> */}
+						<div className="container">
+							<div className="row">
+								<div className="col-6 no-margin" >
+									<div className="container">
+										<div className="row">
+											{colorList.map((color: any, index: any) => (
+												<div className="col-3 col-md-3 no-margin" key={index}>
+													<div
+														style={{
+															backgroundColor: color[0],
+															width: '100%',
+															aspectRatio: 1, // 高さと幅を1:1にすることで円形を維持
+															borderRadius: '50%',
+															textAlign: 'center',
 
 
-														display: 'flex',
-														justifyContent: 'center',
-														alignItems: 'center',
-														boxSizing: 'border-box',
-														boxShadow: `0 4px 8px rgba(0, 0, 0, ${index == decorationObjects[selectingId].colorIndex ? 0.75 : 0.2})`,
-													}}
-													onClick={() => { updateSelectiongItemProperty("colorIndex", index); console.log("おされた", index) }}
-												>
-													{/* {index},{decorationObjects[selectingId].colorIndex} */}
+															display: 'flex',
+															justifyContent: 'center',
+															alignItems: 'center',
+															boxSizing: 'border-box',
+															boxShadow: `0 4px 8px rgba(0, 0, 0, ${index == decorationObjects[selectingId].colorIndex ? 0.75 : 0.2})`,
+														}}
+														onClick={() => { updateSelectiongItemProperty("colorIndex", index); console.log("おされた", index) }}
+													>
+														{/* {index},{decorationObjects[selectingId].colorIndex} */}
+													</div>
 												</div>
-											</div>
-										))}
+											))}
+										</div>
 									</div>
 								</div>
-							</div>
 
-							<div className="col-6 no-margin" >
-								<ValueSetting
-									label={<>pitch</>}
-									value={decorationObjects[selectingId].pitch}
-									onChange={(e: any) => {
-										console.log("value", parseInt(e.target.value, 10));
-										updateSelectiongItemProperty("pitch", parseInt(e.target.value, 10));
-									}}
-									min={decorationObjects[selectingId].symmetry ? 0 : -90}
-									max={decorationObjects[selectingId].symmetry ? 90 : 90}
-									step={1}
-								/>
-								{/* <Form.Label className="me-2">roll</Form.Label> */}
-								<ValueSetting
-									label={<>roll</>}
-									value={decorationObjects[selectingId].roll}
-									onChange={(e: any) => {
-										console.log("value", parseInt(e.target.value, 10));
-										updateSelectiongItemProperty("roll", parseInt(e.target.value, 10));
-									}}
-									min={0}
-									max={360}
-									step={1}
-								/>
+								<div className="col-6 no-margin" >
+									<ValueSetting
+										label={<>ピッチ位置</>}
+										value={decorationObjects[selectingId].pitch}
+										onChange={(e: any) => {
+											console.log("value", parseInt(e.target.value, 10));
+											updateSelectiongItemProperty("pitch", parseInt(e.target.value, 10));
+										}}
+										min={decorationObjects[selectingId].symmetry ? 0 : -90}
+										max={decorationObjects[selectingId].symmetry ? 90 : 90}
+										step={1}
+									/>
+									{/* <Form.Label className="me-2">roll</Form.Label> */}
+									<ValueSetting
+										label={<>ロール位置</>}
+										value={decorationObjects[selectingId].roll}
+										onChange={(e: any) => {
+											console.log("value", parseInt(e.target.value, 10));
+											updateSelectiongItemProperty("roll", parseInt(e.target.value, 10));
+										}}
+										min={0}
+										max={360}
+										step={1}
+									/>
 
-								<ValueSetting
-									label={<>rotate</>}
-									value={decorationObjects[selectingId].rotate}
-									onChange={(e: any) => {
-										console.log("rotate", parseInt(e.target.value, 10));
-										updateSelectiongItemProperty("rotate", parseInt(e.target.value, 10));
-									}}
-									min={0}
-									max={360}
-									step={1}
-								/>
+									<ValueSetting
+										label={<>回転</>}
+										value={decorationObjects[selectingId].rotate}
+										onChange={(e: any) => {
+											console.log("rotate", parseInt(e.target.value, 10));
+											updateSelectiongItemProperty("rotate", parseInt(e.target.value, 10));
+										}}
+										min={0}
+										max={360}
+										step={1}
+									/>
 
-								<ValueSetting
-									label={<>size</>}
-									value={decorationObjects[selectingId].size}
-									onChange={(e: any) => {
-										console.log("size", parseInt(e.target.value, 10));
-										updateSelectiongItemProperty("size", parseInt(e.target.value, 10));
-									}}
-									min={0}
-									max={200}
-									step={1}
-								/>
-
-
-								<Icon.Trash onClick={() => {
-									const newItems = decorationObjects.filter((_: any, index: any) => index !== selectingId);
-									setDecorationObjects(newItems);
-
-								}}></Icon.Trash>
+									<ValueSetting
+										label={<>サイズ</>}
+										value={decorationObjects[selectingId].size}
+										onChange={(e: any) => {
+											console.log("size", parseInt(e.target.value, 10));
+											updateSelectiongItemProperty("size", parseInt(e.target.value, 10));
+										}}
+										min={0}
+										max={200}
+										step={1}
+									/>
 
 
+									<Form.Check
+										type="checkbox"
+										label="左右対称"
+										checked={decorationObjects[selectingId].symmetry}
+										onChange={(e: any) => { updateSelectiongItemProperty("symmetry", !decorationObjects[selectingId].symmetry) }}
+									/>
+									<Icon.Trash onClick={() => {
+										const newItems = decorationObjects.filter((_: any, index: any) => index !== selectingId);
+										setDecorationObjects(newItems);
 
-								<Form.Check
-									type="checkbox"
-									label="左右対称"
-									checked={decorationObjects[selectingId].symmetry}
-									onChange={(e: any) => { updateSelectiongItemProperty("symmetry", !decorationObjects[selectingId].symmetry) }}
-								/>
+									}}></Icon.Trash>
+
+
+
+								</div>
 							</div>
 						</div>
-					</div>
 
-				</>
-			)}
+					</>
+				)}
 
-		</div>
+			</div>
+		</div >
 
 	</>);
 }
@@ -339,8 +358,12 @@ const Item = ({ property, sceneProps, id, setSelectingId, selectingId, symmetryT
 		};
 
 
-	}, [property.model, property.symmetry]);
+	}, [property.model, property.symmetry,]);
 
+
+	useEffect(() => {
+		console.log({ objects })
+	}, [objects]);
 
 
 
@@ -462,19 +485,28 @@ const Item = ({ property, sceneProps, id, setSelectingId, selectingId, symmetryT
 	return (<>
 		<div style={{
 			// background: "#FF0000",
-			width: isSelected ? "100%" : "90%"
-			, aspectRatio: "1"
+			aspectRatio: "1",
+			// paddingBottom: 10,
 		}}>
 			<Button onClick={() => { setSelectingId(id) }} style={{
 
-				width: "100%", height: "100%", right: 0
-			}}>
-				<img src={`${process.env.PUBLIC_URL}/model/eye.jpg`} alt="icon" style={{   width:"100%",  aspectRatio: 1,mixBlendMode:"multiply" }} />
+				paddingBottom: isSelected ? "1px" : "0px",
+				// height: "100%", aspectRatio: 1,
+				padding: 0,
+				width: "2em", aspectRatio: 1, margin: 0,
+				borderBottomLeftRadius: isSelected ? "0px" : "8px",
+				borderBottomRightRadius: isSelected ? "0px" : "8px",
+				borderBottom: isSelected ? 'none' : '1px solid #000000',
+				backgroundColor: "#ffffff",
+				// borderColor: "#ff0000"
+			}}
+				variant="outline-dark">
+
+				<img src={`${process.env.PUBLIC_URL}/model/${property.model}.jpg`} alt="icon" style={{ width: "2em", aspectRatio: 1, mixBlendMode: "multiply" }} />
 				{/* {id}{property.model ?? null} */}
 			</Button>
-		</div>
+		</div >
 
-		{/* {item} */}
 	</>);
 }
 

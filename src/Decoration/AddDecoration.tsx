@@ -71,35 +71,52 @@ const AddDecoration = ({ newDecorationModalShow, setNewDecorationModalShow, deco
                 <Container>
                     <Row>
                         {items.map((item, index) => (
-                         <Col
-  key={index}
-  xs={6}
-  md={4}
-  style={{
-    border: '2px solid black',
-    aspectRatio: 1,
-    borderRadius: '4px',
-    overflow: 'hidden', 
-  }}
-                                 onClick={() => {
-
-
+                            <Col
+                                key={index}
+                                xs={6}
+                                md={4}
+                                style={{
+                                    border: '2px solid black',
+                                    aspectRatio: 1,
+                                    borderRadius: '4px',
+                                    overflow: 'hidden',
+                                    position: 'relative', // これにより、文字の位置指定が可能になる
+                                }}
+                                onClick={() => {
                                     addDecorationObject(item)
                                 }}
->
-  <img
-    src={`${process.env.PUBLIC_URL}/model/${item.model}.jpg`}
-    alt="icon"
-    style={{
-      width: '100%',
-      height: '100%',
-      objectFit: 'cover', // 枠に合わせて画像が切り取られるようにする
-      margin: 0,
-        padding: 0,
-      mixBlendMode:"multiply"
-    }}
-  />
-</Col>
+                            >
+                                <img
+                                    src={`${process.env.PUBLIC_URL}/model/${item.model}.jpg`}
+                                    alt="icon"
+                                    style={{
+                                        width: '100%',
+                                        height: '100%',
+                                        objectFit: 'cover',
+                                        margin: 0,
+                                        padding: 0,
+                                        mixBlendMode: "multiply",
+                                    }}
+                                />
+                                <span
+                                    style={{
+                                        position: 'absolute',
+                                        bottom: '2px',
+
+                                        left: '50%',             // 左右中央に揃えるためにleftを50%
+                                        transform: 'translateX(-50%)', // 中央揃えにするためにX軸方向に移動
+
+                                        fontWeight: 'bold'
+                                    }}
+                                >
+                                    {({
+                                        ear: "耳",
+                                        tail: "しっぽ",
+                                        eye: "目",
+                                        nose: "鼻",
+                                    }[item.model] || item.model)}
+                                </span>
+                            </Col>
 
                         ))}
 
