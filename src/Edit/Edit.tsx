@@ -347,6 +347,7 @@ function Edit() {
                   decorationObjects={decorationObjects}
                   setDecorationObjects={setDecorationObjects}
                   symmetryType={symmetryType}
+                  colorList={colorList}
                 ></Decoration>
                 <br />
                 <br /> <br /> <br /> <br /> <br /> <br />

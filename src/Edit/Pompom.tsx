@@ -384,7 +384,7 @@ const Pompom = ({ meshList, sceneProps, setSceneProps, pattern, colorList, rollW
             });
         }
         // console.log(isDrwaing.current)
-        console.log(activeMenu)
+        // console.log(activeMenu)
         // if (activeMenu !== "bluePrint") {
 
         animationId = requestAnimationFrame(tick);

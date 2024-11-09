@@ -6,23 +6,38 @@ import ValueSetting from './ValueSetting';
 import { Button, ProgressBar, Form } from 'react-bootstrap';
 // import SimpleOrientationTracker from './没/getDeviderotation';
 // import { DeviceOrientationControls } from "three/examples/jsm/controls/DeviceOrientationControls";
-
+import AddDecoration from './AddDecoration';
+import * as Icon from 'react-bootstrap-icons';
 
 // type SelectRollingHandProps = {
 //     rollingHand: string;
 //     setRollingHand: React.Dispatch<React.SetStateAction<string>>;
 // };
+const itemBase = {
+	name: "aa",
+	pitch: 45,
+	roll: 90,
+	rotate: 0,
+	size: 100,
+	colorIndex: 0,
 
+	symmetry: true
+}
 // import Tooltip from 'react-bootstrap/Tooltip';
-const Decoration = ({ sceneProps, decorationObjects, setDecorationObjects, symmetryType }: any) => {
+const Decoration = ({ sceneProps, decorationObjects, setDecorationObjects, symmetryType, colorList }: any) => {
 
 
 	// const [objects, setObjects] = useState<any>([]);
 
 	const [selectingId, setSelectingId] = useState<number>(0);
 
-	const modelFileNames = ["eye", "ear"]
+	// const modelFileNames = ["eye", "ear"]
 	const selecting = selectingId >= 0 && selectingId < decorationObjects.length ? decorationObjects[selectingId] : null;
+
+
+	const [newDecorationModalShow, setNewDecorationModalShow] = useState(false);
+
+
 
 	useEffect(() => {
 		if (!sceneProps) return
@@ -42,23 +57,49 @@ const Decoration = ({ sceneProps, decorationObjects, setDecorationObjects, symme
 		});
 	};
 
-	function addDecorationObjects() {
-		setDecorationObjects([...decorationObjects, {
-			name: "aa",
-			pitch: 45,
-			roll: 90,
-			rotate: 0,
-			size: 100,
+	function addDecorationObject(newDecorationObject: any) {
+		console.log(newDecorationObject, "を追加")
+		setDecorationObjects([
+			...decorationObjects,
+			{ ...JSON.parse(JSON.stringify(itemBase)), ...newDecorationObject, uuid: crypto.randomUUID() }
+		]);
+		console.log(decorationObjects.length)
+		setSelectingId(decorationObjects.length)
+		setNewDecorationModalShow(false)
+		console.log(decorationObjects)
 
-			symmetry: true
-		}]);
 	}
 
+	// useEffect(() => {
+	// 	if (!sceneProps || !sceneProps.scene) return;
+
+	// 	// シーン内のオブジェクトを走査
+	// 	sceneProps.scene.traverse((child: any) => {
+	// 		// userData.tagが指定されたタグと一致する場合に削除
+	// 		if (child.userData.tag === "decoration") {
+	// 			// シーンからオブジェクトを削除
+	// 			sceneProps.scene.remove(child);
+
+	// 			// マテリアルがあれば解放
+	// 			if (child.material) {
+	// 				child.material.dispose();
+	// 			}
+
+	// 			// もし geometry があれば、それも解放
+	// 			if (child.geometry) {
+	// 				child.geometry.dispose();
+	// 			}
+	// 		}
+	// 	});
+	// }, [sceneProps, decorationObjects.length]);
+
+
 	return (<>
+		<AddDecoration newDecorationModalShow={newDecorationModalShow} setNewDecorationModalShow={setNewDecorationModalShow} decorationObjects={decorationObjects} addDecorationObject={addDecorationObject}></AddDecoration>
 		{/* デコレーション */}
 		{/* {`${objects}`} */}
-
-		<div className="col-2 col-md-2  col-xl-2 no-margin" >
+		{newDecorationModalShow}
+		<div className="col-3 col-md-3  col-xl-2 no-margin" >
 
 			{decorationObjects.map((obj: any, i: number) => (
 				<Item property={obj}
@@ -67,9 +108,10 @@ const Decoration = ({ sceneProps, decorationObjects, setDecorationObjects, symme
 					setSelectingId={setSelectingId}
 					id={i}
 					symmetryType={symmetryType}
+					colorList={colorList}
 				></Item>
 			))}
-			<Button onClick={() => { addDecorationObjects() }}
+			<Button onClick={() => { setNewDecorationModalShow(true); console.log({ newDecorationModalShow }) }}
 				style={{
 					// background: "#FF0000",
 					width: "90%",
@@ -83,13 +125,13 @@ const Decoration = ({ sceneProps, decorationObjects, setDecorationObjects, symme
 		<div className="col-10 no-margin" >
 			{selecting != null && (
 				<>
-					{
+					{/* {
 						modelFileNames.map((fileName: any) => (
 							<Button onClick={() => { updateSelectiongItemProperty("model", `${fileName}`) }}	>
 								{fileName}
 							</Button>
 						))
-					}
+					} */}
 					<br></br>
 					{/* <Button onClick={() => { updateSelectiongItemProperty("x", decorationObjects[selectingId].x + 1) }}
 					>
@@ -144,6 +186,40 @@ const Decoration = ({ sceneProps, decorationObjects, setDecorationObjects, symme
 						step={1}
 					/>
 
+					<div className="container">
+						<div className="row">
+							{colorList.map((color: any, index: any) => (
+								<div className="col-3 col-md-3 no-margin" key={index}>
+									<div
+										style={{
+											backgroundColor: color[0],
+											width: '100%',
+											aspectRatio: 1, // 高さと幅を1:1にすることで円形を維持
+											borderRadius: '50%',
+											textAlign: 'center',
+
+
+											display: 'flex',
+											justifyContent: 'center',
+											alignItems: 'center',
+											boxSizing: 'border-box',
+											boxShadow: `0 4px 8px rgba(0, 0, 0, ${index == decorationObjects[selectingId].colorIndex ? 0.75 : 0.2})`,
+										}}
+										onClick={() => { updateSelectiongItemProperty("colorIndex", index); console.log("おされた", index) }}
+									>
+										{/* {index},{decorationObjects[selectingId].colorIndex} */}
+									</div>
+								</div>
+							))}
+						</div>
+					</div>
+
+					<Icon.Trash onClick={() => {
+						const newItems = decorationObjects.filter((_: any, index: any) => index !== selectingId);
+						setDecorationObjects(newItems);
+
+					}}></Icon.Trash>
+
 
 
 					<Form.Check
@@ -162,9 +238,22 @@ const Decoration = ({ sceneProps, decorationObjects, setDecorationObjects, symme
 	</>);
 }
 
-const Item = ({ property, sceneProps, id, setSelectingId, selectingId, symmetryType }: any) => {
+const Item = ({ property, sceneProps, id, setSelectingId, selectingId, symmetryType, colorList }: any) => {
 
 	const [objects, setObjects] = useState<any>([]);
+
+	console.log("レンダリング変更")
+
+
+
+	useEffect(() => {
+		return () => {
+			console.log("削除")
+			removeObject()
+		};
+
+	}, []);
+
 
 	const loadObjects = async (file: string) => {
 		// https://notetoself-dy.com/fbx-animaition-three-js/#outline__3
@@ -172,6 +261,7 @@ const Item = ({ property, sceneProps, id, setSelectingId, selectingId, symmetryT
 		// const file = `${process.env.PUBLIC_URL}/model/${property.model}.fbx`;
 		console.log({ file })
 		const tmpobjects: any[] = [];
+		let color = colorList[property.colorIndex][0]
 		for (let i = 0; i < (property.symmetry ? 2 : 1); i++) {
 			const obj = await new Promise((resolve, reject) => {
 				loader.load(
@@ -180,9 +270,10 @@ const Item = ({ property, sceneProps, id, setSelectingId, selectingId, symmetryT
 						obj.scale.set(0.1, 0.1, 0.1);
 						obj.traverse((child: any) => {
 							if (child.isMesh) {
-								child.material.color.set(0xff0000);
+								child.material = new THREE.MeshToonMaterial({ color: color });
 							}
 						});
+						obj.userData.tag = 'decoration';
 
 						resolve(obj);
 					},
@@ -235,16 +326,60 @@ const Item = ({ property, sceneProps, id, setSelectingId, selectingId, symmetryT
 
 			// if (objects) {
 			console.log("今のを削除", objects)
-			objects.forEach((object: any) => {
-
-				sceneProps.scene.remove(object);
-			});
-			setObjects([]);
+			removeObject()
 			// }
 		};
 
 
 	}, [property.model, property.symmetry]);
+
+
+
+
+	useEffect(() => {
+		let color = colorList[property.colorIndex][0]
+		// console.log({ color })
+
+
+
+		objects.forEach((object: any) => {
+			console.log(object)
+			object.traverse((child: any) => {
+				if (child.isMesh) {
+					// child.material = new THREE.MeshToonMaterial({ color: 0x6699FF });
+					child.material.color.set(color); // 新しい色を設定
+				}
+			});
+
+			// sceneProps.scene.remove(object);
+		});
+	}, [property.colorIndex, colorList]);
+
+
+
+
+	function removeObject() {
+		objects.forEach((object: any) => {
+
+			sceneProps.scene.remove(object);
+		});
+		setObjects([]);
+	}
+
+	useEffect(() => {
+		console.log("uuidが変更")
+		// removeObject()
+	}, [property.uuid]);
+
+	// useEffect(() => {
+	// 	console.log("今のを削除", objects)
+	// 	objects.forEach((object: any) => {
+
+	// 		sceneProps.scene.remove(object);
+	// 	});
+	// 	setObjects([]);
+
+	// }, [property]);
 
 
 	function deleteObjects() {
