@@ -36,6 +36,18 @@ const Decoration = ({ sceneProps, decorationObjects, setDecorationObjects, symme
 
 
 	const [newDecorationModalShow, setNewDecorationModalShow] = useState(false);
+	const [objects, setObjects] = useState<any>([]);
+
+
+	function deleteObjects() {
+		console.log("今のを削除", objects);
+		objects.forEach((object: any) => {
+			object.forEach((o: any) => {
+				sceneProps.scene.remove(o);
+			});
+		});
+		// setObjects([]);
+	}
 
 
 
@@ -55,6 +67,7 @@ const Decoration = ({ sceneProps, decorationObjects, setDecorationObjects, symme
 			updatedObjects[selectingId] = { ...prev[selectingId], [key]: value };
 			return updatedObjects;
 		});
+
 	};
 
 	function addDecorationObject(newDecorationObject: any) {
@@ -68,7 +81,16 @@ const Decoration = ({ sceneProps, decorationObjects, setDecorationObjects, symme
 		setNewDecorationModalShow(false)
 		console.log(decorationObjects)
 
+		deleteObjects();
+		// setObjects(new Array(n).fill(null));
 	}
+
+
+	useEffect(() => {
+		deleteObjects();
+		setObjects(new Array(decorationObjects.length).fill([]));
+
+	}, [decorationObjects.length]);
 
 	// useEffect(() => {
 	// 	if (!sceneProps || !sceneProps.scene) return;
@@ -114,8 +136,17 @@ const Decoration = ({ sceneProps, decorationObjects, setDecorationObjects, symme
 						id={i}
 						symmetryType={symmetryType}
 						colorList={colorList}
+						objects={objects[i]}
+						setObjects={(newValue: any) => {
+
+							setObjects((prevItems: any) =>
+								prevItems.map((item: any, j: any) => (j === i ? newValue : item)) // 指定したインデックスだけ変更
+							);
+
+						}}
 					/>
 				))}
+
 				<Button
 					onClick={() => {
 						setNewDecorationModalShow(true);
@@ -167,7 +198,7 @@ const Decoration = ({ sceneProps, decorationObjects, setDecorationObjects, symme
 														style={{
 															backgroundColor: color[0],
 															width: '100%',
-															aspectRatio: 1, // 高さと幅を1:1にすることで円形を維持
+															aspectRatio: 1,
 															borderRadius: '50%',
 															textAlign: 'center',
 
@@ -184,6 +215,9 @@ const Decoration = ({ sceneProps, decorationObjects, setDecorationObjects, symme
 													</div>
 												</div>
 											))}
+
+
+
 										</div>
 									</div>
 								</div>
@@ -265,21 +299,24 @@ const Decoration = ({ sceneProps, decorationObjects, setDecorationObjects, symme
 	</>);
 }
 
-const Item = ({ property, sceneProps, id, setSelectingId, selectingId, symmetryType, colorList }: any) => {
+const Item = ({ property, sceneProps, id, setSelectingId, selectingId, symmetryType, colorList, objects, setObjects }: any) => {
 
-	const [objects, setObjects] = useState<any>([]);
+	// const [objects, setObjects] = useState<any>([]);
 
 	console.log("レンダリング変更")
 
 
 
 	useEffect(() => {
-		return () => {
-			console.log("削除")
-			removeObject()
-		};
+		console.log("objects", objects)
+		if (objects && objects.length < 1) {
 
-	}, []);
+			const file = `${process.env.PUBLIC_URL}/model/${property.model}.fbx`;
+			loadObjects(file);
+		}
+
+
+	}, [objects]);
 
 
 	const loadObjects = async (file: string) => {
@@ -316,86 +353,86 @@ const Item = ({ property, sceneProps, id, setSelectingId, selectingId, symmetryT
 		setObjects(tmpobjects);
 	}
 
-	useEffect(() => {
-		console.log("モデル名変更")
+	// useEffect(() => {
+	// 	console.log("モデル名変更")
 
-		deleteObjects();
-		const file = `${process.env.PUBLIC_URL}/model/${property.model}.fbx`;
-		loadObjects(file)
+	// 	deleteObjects();
+	// 	const file = `${process.env.PUBLIC_URL}/model/${property.model}.fbx`;
+	// 	loadObjects(file)
 
-		// const loader = new FBXLoader();
-		// // console.log(`${process.env.PUBLIC_URL}/model/${property.model}.fbx`)
-		// const file = `${process.env.PUBLIC_URL}/model/${property.model}.fbx`
+	// 	// const loader = new FBXLoader();
+	// 	// // console.log(`${process.env.PUBLIC_URL}/model/${property.model}.fbx`)
+	// 	// const file = `${process.env.PUBLIC_URL}/model/${property.model}.fbx`
 
-		// let tmpobjects: any = []
-		// for (let i = 0; i < (property.symmetry?2:1); i++) {
+	// 	// let tmpobjects: any = []
+	// 	// for (let i = 0; i < (property.symmetry?2:1); i++) {
 
-		// 	loader.load( file, function (obj) {
-		// 		obj.scale.set(0.1, 0.1, 0.1)
+	// 	// 	loader.load( file, function (obj) {
+	// 	// 		obj.scale.set(0.1, 0.1, 0.1)
 
-		// 		obj.traverse(function (child: any) {
-		// 			if (child.isMesh) {
-		// 				child.material.color.set(0xff0000); // 赤色に変更
-		// 			}
-		// 		});
-		// 		// console.log("object", object)
+	// 	// 		obj.traverse(function (child: any) {
+	// 	// 			if (child.isMesh) {
+	// 	// 				child.material.color.set(0xff0000); // 赤色に変更
+	// 	// 			}
+	// 	// 		});
+	// 	// 		// console.log("object", object)
 
-		// 		sceneProps.scene.add(obj);
-		// 		tmpobjects.push(obj)
-		// 	})
-		// }
+	// 	// 		sceneProps.scene.add(obj);
+	// 	// 		tmpobjects.push(obj)
+	// 	// 	})
+	// 	// }
 
-		// console.log({ tmpobjects })
-		// setObjects(tmpobjects);
-		// requestAnimationFrame(positionUpdate);
+	// 	// console.log({ tmpobjects })
+	// 	// setObjects(tmpobjects);
+	// 	// requestAnimationFrame(positionUpdate);
 
-		return () => {
+	// 	return () => {
 
-			// if (objects) {
-			console.log("今のを削除", objects)
-			removeObject()
-			// }
-		};
-
-
-	}, [property.model, property.symmetry,]);
+	// 		// if (objects) {
+	// 		console.log("今のを削除", objects)
+	// 		removeObject()
+	// 		// }
+	// 	};
 
 
-	useEffect(() => {
-		console.log({ objects })
-	}, [objects]);
+	// }, [property.model, property.symmetry,]);
 
 
-
-	useEffect(() => {
-		let color = colorList[property.colorIndex][0]
-		// console.log({ color })
+	// useEffect(() => {
+	// 	console.log({ objects })
+	// }, [objects]);
 
 
 
-		objects.forEach((object: any) => {
-			console.log(object)
-			object.traverse((child: any) => {
-				if (child.isMesh) {
-					// child.material = new THREE.MeshToonMaterial({ color: 0x6699FF });
-					child.material.color.set(color); // 新しい色を設定
-				}
-			});
-
-			// sceneProps.scene.remove(object);
-		});
-	}, [property.colorIndex, colorList]);
+	// useEffect(() => {
+	// 	let color = colorList[property.colorIndex][0]
+	// 	// console.log({ color })
 
 
 
+	// 	objects.forEach((object: any) => {
+	// 		console.log(object)
+	// 		object.traverse((child: any) => {
+	// 			if (child.isMesh) {
+	// 				// child.material = new THREE.MeshToonMaterial({ color: 0x6699FF });
+	// 				child.material.color.set(color); // 新しい色を設定
+	// 			}
+	// 		});
 
-	function removeObject() {
-		objects.forEach((object: any) => {
+	// 		// sceneProps.scene.remove(object);
+	// 	});
+	// }, [property.colorIndex, colorList]);
 
-			sceneProps.scene.remove(object);
-		});
-		setObjects([]);
-	}
+
+
+
+	// function removeObject() {
+	// 	objects.forEach((object: any) => {
+
+	// 		sceneProps.scene.remove(object);
+	// 	});
+	// 	setObjects([]);
+	// }
 
 	useEffect(() => {
 		console.log("uuidが変更")
