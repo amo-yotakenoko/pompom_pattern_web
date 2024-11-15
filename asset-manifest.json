@@ -1,20 +1,23 @@
 {
   "files": {
     "main.css": "/pompom_pattern_web/static/css/main.ff1956d7.css",
-    "main.js": "/pompom_pattern_web/static/js/main.ab1484da.js",
+    "main.js": "/pompom_pattern_web/static/js/main.749704e3.js",
     "static/js/453.cc7e82c7.chunk.js": "/pompom_pattern_web/static/js/453.cc7e82c7.chunk.js",
-    "static/media/importImageSaple.png": "/pompom_pattern_web/static/media/importImageSaple.cccf97c5494ec1fde4ca.png",
-    "static/media/icon_wide.png": "/pompom_pattern_web/static/media/icon_wide.dfa0f6d9f0c84e715307.png",
+    "static/media/icon_wide.jpg": "/pompom_pattern_web/static/media/icon_wide.3e7b9c6bc9878c95071e.jpg",
+    "static/media/importImageSaple.jpg": "/pompom_pattern_web/static/media/importImageSaple.1ad065293ce28c8b05bf.jpg",
     "static/media/size_guide.jpg": "/pompom_pattern_web/static/media/size_guide.d1a9c3a09c2b8dfe5194.jpg",
     "service-worker.js": "/pompom_pattern_web/service-worker.js",
-    "static/media/bluePrint_base.png": "/pompom_pattern_web/static/media/bluePrint_base.c0d82d72a8e2e7408e99.png",
+    "static/media/horizontalSymmetry.jpg": "/pompom_pattern_web/static/media/horizontalSymmetry.9438b6cd098146c3b455.jpg",
+    "static/media/bluePrint_base.png": "/pompom_pattern_web/static/media/bluePrint_base.b9e309ffbe4b3c91e967.png",
+    "static/media/horizontalSymmetry2.jpg": "/pompom_pattern_web/static/media/horizontalSymmetry2.65abcf5ba9a59e173100.jpg",
+    "static/media/plag_off.jpg": "/pompom_pattern_web/static/media/plag_off.da3f9d389436e7a7334e.jpg",
     "index.html": "/pompom_pattern_web/index.html",
     "main.ff1956d7.css.map": "/pompom_pattern_web/static/css/main.ff1956d7.css.map",
-    "main.ab1484da.js.map": "/pompom_pattern_web/static/js/main.ab1484da.js.map",
+    "main.749704e3.js.map": "/pompom_pattern_web/static/js/main.749704e3.js.map",
     "453.cc7e82c7.chunk.js.map": "/pompom_pattern_web/static/js/453.cc7e82c7.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.ff1956d7.css",
-    "static/js/main.ab1484da.js"
+    "static/js/main.749704e3.js"
   ]
 }
