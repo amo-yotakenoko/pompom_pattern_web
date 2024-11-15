@@ -85,35 +85,15 @@ const Decoration = ({ sceneProps, decorationObjects, setDecorationObjects, symme
 		// setObjects(new Array(n).fill(null));
 	}
 
-
-	useEffect(() => {
+	function resetObjects() {
 		deleteObjects();
 		setObjects(new Array(decorationObjects.length).fill([]));
 
+	}
+	useEffect(() => {
+		resetObjects()
 	}, [decorationObjects.length]);
 
-	// useEffect(() => {
-	// 	if (!sceneProps || !sceneProps.scene) return;
-
-	// 	// シーン内のオブジェクトを走査
-	// 	sceneProps.scene.traverse((child: any) => {
-	// 		// userData.tagが指定されたタグと一致する場合に削除
-	// 		if (child.userData.tag === "decoration") {
-	// 			// シーンからオブジェクトを削除
-	// 			sceneProps.scene.remove(child);
-
-	// 			// マテリアルがあれば解放
-	// 			if (child.material) {
-	// 				child.material.dispose();
-	// 			}
-
-	// 			// もし geometry があれば、それも解放
-	// 			if (child.geometry) {
-	// 				child.geometry.dispose();
-	// 			}
-	// 		}
-	// 	});
-	// }, [sceneProps, decorationObjects.length]);
 
 
 	return (<>
@@ -276,11 +256,15 @@ const Decoration = ({ sceneProps, decorationObjects, setDecorationObjects, symme
 										type="checkbox"
 										label="左右対称"
 										checked={decorationObjects[selectingId].symmetry}
-										onChange={(e: any) => { updateSelectiongItemProperty("symmetry", !decorationObjects[selectingId].symmetry) }}
+										onChange={(e: any) => {
+											updateSelectiongItemProperty("symmetry", !decorationObjects[selectingId].symmetry);
+											resetObjects();
+										}}
 									/>
 									<Icon.Trash onClick={() => {
 										const newItems = decorationObjects.filter((_: any, index: any) => index !== selectingId);
 										setDecorationObjects(newItems);
+										setSelectingId(0)
 
 									}}></Icon.Trash>
 
@@ -309,11 +293,21 @@ const Item = ({ property, sceneProps, id, setSelectingId, selectingId, symmetryT
 
 	useEffect(() => {
 		console.log("objects", objects)
-		if (objects && objects.length < 1) {
+		if (!objects) return;
+		// || (property.symmetry ? 2 : 1) == objects.length
+		const file = `${process.env.PUBLIC_URL}/model/${property.model}.fbx`;
+		console.log("左右対称", (property.symmetry ? 2 : 1), objects.length)
+		if ((objects.length == 0)) {
 
-			const file = `${process.env.PUBLIC_URL}/model/${property.model}.fbx`;
+
+			// if ((property.symmetry ? 2 : 1) === objects.length) return;
 			loadObjects(file);
 		}
+		// else if ((property.symmetry ? 2 : 1) != objects.length) {
+		// 	console.log("左右対称リセット")
+		// 	removeObject()
+		// 	loadObjects(file);
+		// }
 
 
 	}, [objects]);
@@ -404,35 +398,35 @@ const Item = ({ property, sceneProps, id, setSelectingId, selectingId, symmetryT
 
 
 
-	// useEffect(() => {
-	// 	let color = colorList[property.colorIndex][0]
-	// 	// console.log({ color })
+	useEffect(() => {
+		let color = colorList[property.colorIndex][0]
+		// console.log({ color })
 
 
 
-	// 	objects.forEach((object: any) => {
-	// 		console.log(object)
-	// 		object.traverse((child: any) => {
-	// 			if (child.isMesh) {
-	// 				// child.material = new THREE.MeshToonMaterial({ color: 0x6699FF });
-	// 				child.material.color.set(color); // 新しい色を設定
-	// 			}
-	// 		});
+		objects.forEach((object: any) => {
+			console.log(object)
+			object.traverse((child: any) => {
+				if (child.isMesh) {
+					// child.material = new THREE.MeshToonMaterial({ color: 0x6699FF });
+					child.material.color.set(color); // 新しい色を設定
+				}
+			});
 
-	// 		// sceneProps.scene.remove(object);
-	// 	});
-	// }, [property.colorIndex, colorList]);
-
-
+			// sceneProps.scene.remove(object);
+		});
+	}, [property.colorIndex, colorList]);
 
 
-	// function removeObject() {
-	// 	objects.forEach((object: any) => {
 
-	// 		sceneProps.scene.remove(object);
-	// 	});
-	// 	setObjects([]);
-	// }
+
+	function removeObject() {
+		objects.forEach((object: any) => {
+
+			sceneProps.scene.remove(object);
+		});
+		setObjects([]);
+	}
 
 	useEffect(() => {
 		console.log("uuidが変更")

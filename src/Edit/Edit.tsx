@@ -121,8 +121,8 @@ function Edit() {
       }
       if (location.state.symmetryType !== undefined) {
 
-        // setSymmetryType(location.state.symmetryType);
-        setSymmetryType(2);
+        setSymmetryType(location.state.symmetryType);
+        // setSymmetryType(2);
       }
 
       if (location.state.decorationObjects !== undefined) {
