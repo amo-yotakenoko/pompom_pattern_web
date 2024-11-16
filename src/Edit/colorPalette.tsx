@@ -33,9 +33,9 @@ const ColorPalette = ({ colorList, selectColor, setSelectColor, setMultiColorSel
 
     const MultiColorSelectChange = (i: any) => {
         setMultiColorSelect((prev: any) => {
-            const newSelect = [...prev]; 
-            newSelect[i] = !newSelect[i]; 
-            return newSelect; 
+            const newSelect = [...prev];
+            newSelect[i] = !newSelect[i];
+            return newSelect;
         });
     };
 
@@ -91,7 +91,7 @@ const ColorPalette = ({ colorList, selectColor, setSelectColor, setMultiColorSel
                             top: "0%",
                             right: "5%",
                             color: "white",
-                            fontSize: "1.5em", 
+                            fontSize: "1.5em",
                             transform: enableMultiColorSelect ? "scale(1)" : "scale(0)",
                             transition: "transform 0.3s ease",
 
@@ -183,9 +183,8 @@ const ColorPalette = ({ colorList, selectColor, setSelectColor, setMultiColorSel
                 )}
             </ButtonGroup>
             {/* </div> */}
-
-
-
+            <br></br><br></br><br></br>
+            <br></br><br></br><br></br>
         </>
 
 

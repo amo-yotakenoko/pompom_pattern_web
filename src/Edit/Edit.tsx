@@ -209,7 +209,7 @@ function Edit() {
 
             width: "100%",
           }}>
-            <div className="col-12 col-xl-4 no-margin">
+            <div className={`${window.innerHeight > window.innerWidth ? "col-12" : "col-4"} no-margin`}>
               <div
                 style={{
                   position: "relative",
@@ -312,7 +312,7 @@ function Edit() {
             </div>
 
             <div className="row no-margin" style={{
-              overflowY: "auto", height: "calc(100dvh - 100vw )", width: "calc(100vw - 2em)",
+              overflowY: "auto", height: `${window.innerHeight < window.innerWidth ? "calc(100dvh - 100vw )" : "100dvh "} no-margin`, width: "calc(100vw - 2em)",
               // backgroundColor: "#f0f0f0",
               // display: (activeMenu === "pompom" || activeMenu === "cameraScan" || activeMenu === "decoration") ? "flex" : "none",
             }}>
@@ -427,7 +427,7 @@ function Edit() {
         <UndoRedo
           enable={activeMenu == "pompom" || activeMenu == "cameraScan"} registerEnable={activeMenu == "pompom"} pattern={pattern} setPattern={setPattern} colorList={colorList} setColorList={setColorList} selectColor={selectColor} setSelectColor={setSelectColor}></UndoRedo>
 
-      </enableHelpContext.Provider>
+      </enableHelpContext.Provider >
 
     </>
   );
