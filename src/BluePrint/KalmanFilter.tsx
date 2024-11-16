@@ -314,7 +314,21 @@ const KalmanFilter = ({ soundVolume, fingerHistory, addCounter, kalmanSettings, 
                     transform: translateY(-100%);
                     opacity: 0;
                 }
-      }`}
+      }
+
+      @keyframes toLeft2 {
+                0% {
+                    transform: translateY(-100%);
+                    opacity: 0;
+                }
+                100% {
+                    transform: translateY(0%);
+                    opacity: 1;
+                }
+                
+      }
+      
+      `}
             </style>
 
             <Alert style={{

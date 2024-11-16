@@ -57,11 +57,16 @@ const CameraCounter = ({ addCounter }: any) => {
     const [kalmanSettings, setKalmanSettings] = useState<any>();
 
 
+    const [isRollingHandUnset, setRollingHandUnset] = useState<any>(true);
+
+
     useEffect(() => {
         localStorage.setItem("cameraCountersSetting", JSON.stringify({
             rollingHand, trackerSettings, kalmanSettings
         }));
     }, [rollingHand, trackerSettings, kalmanSettings])
+
+
 
 
     if (!rollingHand) {
@@ -73,6 +78,7 @@ const CameraCounter = ({ addCounter }: any) => {
             setRollingHand(config.rollingHand)
             setTrackerSettings(config.trackerSettings)
             setKalmanSettings(config.kalmanSettings)
+            setRollingHandUnset(false)
             console.log("cameraCountersSetting読込失敗")
         } catch (error) {
             defaultLoad()
@@ -81,7 +87,7 @@ const CameraCounter = ({ addCounter }: any) => {
 
     }
     function defaultLoad() {
-
+        setRollingHandUnset(true)
         setRollingHand(defaultConfig.rollingHand)
         setTrackerSettings(defaultConfig.trackerSettings)
         setKalmanSettings(defaultConfig.kalmanSettings)
@@ -238,7 +244,45 @@ const CameraCounter = ({ addCounter }: any) => {
 
                                 {/* </Card> */}
                             </div >
+
+
                         </Accordion.Collapse >
+                        {/* {isRollingHandUnset} */}
+
+                        {isRollingHandUnset && (
+
+                            <Alert style={{
+                                position: 'fixed',
+                                bottom: "5px",
+                                left: "5px",
+                                right: "5px",
+                                // transform: "translateY(-100%)",
+                                opacity: 1,
+                                zIndex: 1000,
+                                animation: `toLeft2 2s`,
+                                // pointerEvents: 'none',
+                            }} variant="info">
+                                あなたがぽんぽん器具を持つ手は?
+                                分からない場合は利きでない方を選んでください
+                                <br></br>
+                                <Button onClick={() => {
+                                    setRollingHand("Left");
+                                    setRollingHandUnset(false);
+                                }}>
+
+                                    左手
+                                </Button>
+                                <Button onClick={() => {
+                                    setRollingHand("Right");
+                                    setRollingHandUnset(false);
+                                }}>
+
+                                    右手
+                                </Button>
+
+                            </Alert >
+
+                        )}
 
                         <Modal
                             show={setttingShow}
