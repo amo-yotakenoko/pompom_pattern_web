@@ -318,7 +318,7 @@ const KalmanFilter = ({ soundVolume, fingerHistory, addCounter, kalmanSettings, 
 
       @keyframes toLeft2 {
                 0% {
-                    transform: translateY(-100%);
+                    transform: translateY(100%);
                     opacity: 0;
                 }
                 100% {

@@ -253,7 +253,7 @@ const CameraCounter = ({ addCounter }: any) => {
 
                             <Alert style={{
                                 position: 'fixed',
-                                bottom: "5px",
+                                bottom: "0px",
                                 left: "5px",
                                 right: "5px",
                                 // transform: "translateY(-100%)",
@@ -262,17 +262,21 @@ const CameraCounter = ({ addCounter }: any) => {
                                 animation: `toLeft2 2s`,
                                 // pointerEvents: 'none',
                             }} variant="info">
-                                あなたがぽんぽん器具を持つ手は?
-                                分からない場合は利きでない方を選んでください
-                                <br></br>
-                                <Button onClick={() => {
+                                あなたがぽんぽん器具を持つ手は? <br></br>
+                                <div style={{ color: "#7d7d7d", fontSize: '12px' }}>
+
+                                    分からない場合は利き手でない方を選んでください
+                                </div>
+
+                                {/* <br></br> */}
+                                <Button style={{ width: '50%' }} onClick={() => {
                                     setRollingHand("Left");
                                     setRollingHandUnset(false);
                                 }}>
 
                                     左手
                                 </Button>
-                                <Button onClick={() => {
+                                <Button style={{ width: '50%' }} onClick={() => {
                                     setRollingHand("Right");
                                     setRollingHandUnset(false);
                                 }}>
