@@ -44,6 +44,7 @@ const KalmanConfig = ({ kalmanSettings, setKalmanSettings }: any) => {
                 setValue={(value: any) => setKalmanSettings((prev: any) => ({ ...prev, sensor_var: value }))}
                 label={"センサーの分散"}
             />
+            {/* {`${localStorage.getItem("cameraCountersSetting")}`} */}
 
         </>
     )

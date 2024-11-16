@@ -16,6 +16,20 @@ import AICounterIcon from '../img/AIcounter.png';
 import plagIconOn from '../img/plag_on.jpg';
 import plagIconOff from '../img/plag_off.jpg';
 
+
+const defaultConfig = {
+    trackerSettings: {
+        minHandDetectionConfidence: 0.1,
+        minHandPresenceConfidence: 0.2,
+        minTrackingConfidence: 0.95,
+    },
+    kalmanSettings: {
+        process_var: 0.2,
+        sensor_var: 0.1,
+    },
+    rollingHand: "Left"
+}
+
 const CameraCounter = ({ addCounter }: any) => {
     const { enableHelp, setEnableHelp } = useContext(enableHelpContext);
 
@@ -31,22 +45,49 @@ const CameraCounter = ({ addCounter }: any) => {
 
     const handLandmarkerRef = useRef<any>(null);
     const [fingerHistory, setsingerHistory] = useState([]);
-    const [rollingHand, setRollingHand] = useState("Left");
     const [cameraCounterisEnable, setCameraCounterIsEnable] = useState(true);
 
     // console.log("cameracounter")
     // const [minHandDetectionConfidence, setMinHandDetectionConfidence] = useState(0.5);
     // const [minHandPresenceConfidence, setMinHandPresenceConfidence] = useState(0.5);
     // const [minTrackingConfidence, setMinTrackingConfidence] = useState(0.5);
-    const [trackerSettings, setTrackerSettings] = useState({
-        minHandDetectionConfidence: 0.05,
-        minHandPresenceConfidence: 0.01,
-        minTrackingConfidence: 0.9,
-    });
-    const [kalmanSettings, setKalmanSettings] = useState({
-        process_var: 0.1,
-        sensor_var: 0.05,
-    });
+
+    const [rollingHand, setRollingHand] = useState<any>();
+    const [trackerSettings, setTrackerSettings] = useState<any>();
+    const [kalmanSettings, setKalmanSettings] = useState<any>();
+
+
+    useEffect(() => {
+        localStorage.setItem("cameraCountersSetting", JSON.stringify({
+            rollingHand, trackerSettings, kalmanSettings
+        }));
+    }, [rollingHand, trackerSettings, kalmanSettings])
+
+
+    if (!rollingHand) {
+        let config: any;
+        try {
+
+
+            config = JSON.parse(localStorage.getItem("cameraCountersSetting") as string);
+            setRollingHand(config.rollingHand)
+            setTrackerSettings(config.trackerSettings)
+            setKalmanSettings(config.kalmanSettings)
+            console.log("cameraCountersSetting読込失敗")
+        } catch (error) {
+            defaultLoad()
+        }
+
+
+    }
+    function defaultLoad() {
+
+        setRollingHand(defaultConfig.rollingHand)
+        setTrackerSettings(defaultConfig.trackerSettings)
+        setKalmanSettings(defaultConfig.kalmanSettings)
+
+    }
+
 
     const [enableCameraCounter, setEnableCameraCounter] = useState("0")
     const [setttingShow, setSettingShow] = useState(false);
@@ -222,14 +263,22 @@ const CameraCounter = ({ addCounter }: any) => {
                                     trackerSettings={trackerSettings} setTrackerSettings={setTrackerSettings}
                                 ></TrakerConfig>
                                 <KalmanConfig
-                                    kalmanSettings={kalmanSettings} setKalmanSettings={setKalmanSettings}>
+                                    kalmanSettings={kalmanSettings} setKalmanSettings={setKalmanSettings} defaultConfig={defaultConfig} >
                                 </KalmanConfig>
+
+                                <Button variant="danger" onClick={() => {
+                                    defaultLoad();
+                                    setSettingShow(false);
+                                }
+                                }>初期設定に戻す</Button>
+
 
                                 <Button variant="danger" onClick={() => {
                                     setEnableCameraCounter("0");
                                     setSettingShow(false);
                                 }
                                 }>AI巻きカウンタを無効化</Button>
+
                             </Modal.Body>
                         </Modal>
                     </Accordion >
