@@ -132,20 +132,30 @@ const Decoration = ({ sceneProps, decorationObjects, setDecorationObjects, symme
 						setNewDecorationModalShow(true);
 						console.log({ newDecorationModalShow })
 					}}
-					style={{
-						// padding: 0,
-						padding: 0, margin: 0,
-						width: 32,
-						height: 32,
-						// width: "2em", aspectRatio: 1
-						border: 'none',
-					}}
+					style={decorationObjects.length > 0 ?
+						{
+							// padding: 0,
+							padding: 0, margin: 0,
+							width: 32,
+							height: 32,
+							// width: "2em", aspectRatio: 1
+							border: 'none',
+						} :
+						{
+
+						}
+					}
 					variant="outline-dark"
 				>
-					<Icon.Plus style={{
+					{decorationObjects.length <= 0 && "装飾を追加"}
+					<Icon.Plus style={decorationObjects.length > 0 ? {
 
 						width: "2em", aspectRatio: 1, padding: 0, margin: 0
-					}}></Icon.Plus>
+					} :
+						{
+
+						}
+					}></Icon.Plus>
 				</Button>
 			</div>
 
