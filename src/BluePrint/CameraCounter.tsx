@@ -15,11 +15,11 @@ import SoundVolume from './SoundVolume';
 import AICounterIcon from '../img/AIcounter.png';
 import plagIconOn from '../img/plag_on.jpg';
 import plagIconOff from '../img/plag_off.jpg';
-
-
+import Popover from 'react-bootstrap/Popover';
+import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
 const defaultConfig = {
     trackerSettings: {
-        minHandDetectionConfidence: 0.1,
+        minHandDetectionConfidence: 0.2,
         minHandPresenceConfidence: 0.2,
         minTrackingConfidence: 0.95,
     },
@@ -45,7 +45,7 @@ const CameraCounter = ({ addCounter }: any) => {
 
     const handLandmarkerRef = useRef<any>(null);
     const [fingerHistory, setsingerHistory] = useState([]);
-    const [cameraCounterisEnable, setCameraCounterIsEnable] = useState(true);
+    const [cameraCounterisEnable, setCameraCounterIsEnable] = useState(false);
 
     // console.log("cameracounter")
     // const [minHandDetectionConfidence, setMinHandDetectionConfidence] = useState(0.5);
@@ -216,15 +216,28 @@ const CameraCounter = ({ addCounter }: any) => {
                                             cameraCounterisEnable={cameraCounterisEnable}
                                         />
                                         <div style={{ position: "absolute", top: "1px", right: "1px", display: "flex", alignItems: "center" }}>
-                                            <img
-                                                src={cameraCounterisEnable ? plagIconOn : plagIconOff}
-                                                onClick={() => setCameraCounterIsEnable(prevState => !prevState)}
-                                                style={{
-                                                    width: "2rem",
-                                                    height: "2rem",
-                                                    marginRight: "10px"
-                                                }}
-                                            />
+                                            <OverlayTrigger show={!cameraCounterisEnable} placement="bottom" overlay={<Popover id="popover-basic">
+                                                <div style={{ padding: "5px" }}>
+
+                                                    カメラカウンタを有効化
+                                                </div>
+                                                {/* </Popover.Body> */}
+                                            </Popover>}>
+                                                <img
+                                                    src={cameraCounterisEnable ? plagIconOn : plagIconOff}
+                                                    onClick={() => setCameraCounterIsEnable(prevState => !prevState)}
+                                                    style={{
+                                                        width: "2rem",
+                                                        height: "2rem",
+                                                        marginRight: "10px",
+                                                        cursor: "pointer" // クリック可能なカーソル
+                                                    }}
+                                                    alt="camera counter icon"
+                                                />
+                                            </OverlayTrigger>
+
+                                            {/* カウンタ有効化 */}
+
                                             <SoundVolume audiosRef={audiosRef} soundVolume={soundVolume} setSoundVolume={setSoundVolume} />
                                             <Icon.Sliders
                                                 id="AIparameters"
