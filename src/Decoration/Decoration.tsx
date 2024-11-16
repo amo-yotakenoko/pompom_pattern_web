@@ -403,7 +403,8 @@ const Item = ({ property, sceneProps, id, setSelectingId, selectingId, symmetryT
 		// console.log({ color })
 
 
-
+		// console.log(objects)
+		if (!objects) return
 		objects.forEach((object: any) => {
 			console.log(object)
 			object.traverse((child: any) => {
