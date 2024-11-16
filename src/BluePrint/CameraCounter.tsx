@@ -15,6 +15,20 @@ import SoundVolume from './SoundVolume';
 import AICounterIcon from '../img/AIcounter.png';
 import plagIconOn from '../img/plag_on.jpg';
 import plagIconOff from '../img/plag_off.jpg';
+import Popover from 'react-bootstrap/Popover';
+import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
+const defaultConfig = {
+    trackerSettings: {
+        minHandDetectionConfidence: 0.2,
+        minHandPresenceConfidence: 0.2,
+        minTrackingConfidence: 0.95,
+    },
+    kalmanSettings: {
+        process_var: 0.2,
+        sensor_var: 0.1,
+    },
+    rollingHand: "Left"
+}
 
 const CameraCounter = ({ addCounter }: any) => {
     const { enableHelp, setEnableHelp } = useContext(enableHelpContext);
@@ -31,22 +45,55 @@ const CameraCounter = ({ addCounter }: any) => {
 
     const handLandmarkerRef = useRef<any>(null);
     const [fingerHistory, setsingerHistory] = useState([]);
-    const [rollingHand, setRollingHand] = useState("Left");
-    const [cameraCounterisEnable, setCameraCounterIsEnable] = useState(true);
+    const [cameraCounterisEnable, setCameraCounterIsEnable] = useState(false);
 
     // console.log("cameracounter")
     // const [minHandDetectionConfidence, setMinHandDetectionConfidence] = useState(0.5);
     // const [minHandPresenceConfidence, setMinHandPresenceConfidence] = useState(0.5);
     // const [minTrackingConfidence, setMinTrackingConfidence] = useState(0.5);
-    const [trackerSettings, setTrackerSettings] = useState({
-        minHandDetectionConfidence: 0.05,
-        minHandPresenceConfidence: 0.01,
-        minTrackingConfidence: 0.9,
-    });
-    const [kalmanSettings, setKalmanSettings] = useState({
-        process_var: 0.1,
-        sensor_var: 0.05,
-    });
+
+    const [rollingHand, setRollingHand] = useState<any>();
+    const [trackerSettings, setTrackerSettings] = useState<any>();
+    const [kalmanSettings, setKalmanSettings] = useState<any>();
+
+
+    const [isRollingHandUnset, setRollingHandUnset] = useState<any>(true);
+
+
+    useEffect(() => {
+        localStorage.setItem("cameraCountersSetting", JSON.stringify({
+            rollingHand, trackerSettings, kalmanSettings
+        }));
+    }, [rollingHand, trackerSettings, kalmanSettings])
+
+
+
+
+    if (!rollingHand) {
+        let config: any;
+        try {
+
+
+            config = JSON.parse(localStorage.getItem("cameraCountersSetting") as string);
+            setRollingHand(config.rollingHand)
+            setTrackerSettings(config.trackerSettings)
+            setKalmanSettings(config.kalmanSettings)
+            setRollingHandUnset(false)
+            console.log("cameraCountersSetting読込失敗")
+        } catch (error) {
+            defaultLoad()
+        }
+
+
+    }
+    function defaultLoad() {
+        setRollingHandUnset(true)
+        setRollingHand(defaultConfig.rollingHand)
+        setTrackerSettings(defaultConfig.trackerSettings)
+        setKalmanSettings(defaultConfig.kalmanSettings)
+
+    }
+
 
     const [enableCameraCounter, setEnableCameraCounter] = useState("0")
     const [setttingShow, setSettingShow] = useState(false);
@@ -169,15 +216,28 @@ const CameraCounter = ({ addCounter }: any) => {
                                             cameraCounterisEnable={cameraCounterisEnable}
                                         />
                                         <div style={{ position: "absolute", top: "1px", right: "1px", display: "flex", alignItems: "center" }}>
-                                            <img
-                                                src={cameraCounterisEnable ? plagIconOn : plagIconOff}
-                                                onClick={() => setCameraCounterIsEnable(prevState => !prevState)}
-                                                style={{
-                                                    width: "2rem",
-                                                    height: "2rem",
-                                                    marginRight: "10px"
-                                                }}
-                                            />
+                                            <OverlayTrigger show={!cameraCounterisEnable} placement="bottom" overlay={<Popover id="popover-basic">
+                                                <div style={{ padding: "5px" }}>
+
+                                                    カメラカウンタを有効化
+                                                </div>
+                                                {/* </Popover.Body> */}
+                                            </Popover>}>
+                                                <img
+                                                    src={cameraCounterisEnable ? plagIconOn : plagIconOff}
+                                                    onClick={() => setCameraCounterIsEnable(prevState => !prevState)}
+                                                    style={{
+                                                        width: "2rem",
+                                                        height: "2rem",
+                                                        marginRight: "10px",
+                                                        cursor: "pointer" // クリック可能なカーソル
+                                                    }}
+                                                    alt="camera counter icon"
+                                                />
+                                            </OverlayTrigger>
+
+                                            {/* カウンタ有効化 */}
+
                                             <SoundVolume audiosRef={audiosRef} soundVolume={soundVolume} setSoundVolume={setSoundVolume} />
                                             <Icon.Sliders
                                                 id="AIparameters"
@@ -197,7 +257,49 @@ const CameraCounter = ({ addCounter }: any) => {
 
                                 {/* </Card> */}
                             </div >
+
+
                         </Accordion.Collapse >
+                        {/* {isRollingHandUnset} */}
+
+                        {isRollingHandUnset && (
+
+                            <Alert style={{
+                                position: 'fixed',
+                                bottom: "0px",
+                                left: "5px",
+                                right: "5px",
+                                // transform: "translateY(-100%)",
+                                opacity: 1,
+                                zIndex: 1000,
+                                animation: `toLeft2 2s`,
+                                // pointerEvents: 'none',
+                            }} variant="info">
+                                あなたがぽんぽん器具を持つ手は? <br></br>
+                                <div style={{ color: "#7d7d7d", fontSize: '12px' }}>
+
+                                    分からない場合は利き手でない方を選んでください
+                                </div>
+
+                                {/* <br></br> */}
+                                <Button style={{ width: '50%' }} onClick={() => {
+                                    setRollingHand("Left");
+                                    setRollingHandUnset(false);
+                                }}>
+
+                                    左手
+                                </Button>
+                                <Button style={{ width: '50%' }} onClick={() => {
+                                    setRollingHand("Right");
+                                    setRollingHandUnset(false);
+                                }}>
+
+                                    右手
+                                </Button>
+
+                            </Alert >
+
+                        )}
 
                         <Modal
                             show={setttingShow}
@@ -222,14 +324,22 @@ const CameraCounter = ({ addCounter }: any) => {
                                     trackerSettings={trackerSettings} setTrackerSettings={setTrackerSettings}
                                 ></TrakerConfig>
                                 <KalmanConfig
-                                    kalmanSettings={kalmanSettings} setKalmanSettings={setKalmanSettings}>
+                                    kalmanSettings={kalmanSettings} setKalmanSettings={setKalmanSettings} defaultConfig={defaultConfig} >
                                 </KalmanConfig>
+
+                                <Button variant="danger" onClick={() => {
+                                    defaultLoad();
+                                    setSettingShow(false);
+                                }
+                                }>初期設定に戻す</Button>
+
 
                                 <Button variant="danger" onClick={() => {
                                     setEnableCameraCounter("0");
                                     setSettingShow(false);
                                 }
                                 }>AI巻きカウンタを無効化</Button>
+
                             </Modal.Body>
                         </Modal>
                     </Accordion >

@@ -51,6 +51,26 @@ const AddDecoration = ({ newDecorationModalShow, setNewDecorationModalShow, deco
             roll: 289,
             // rotate: -90,
         },
+        {
+            model: "mouse",
+            symmetry: false,
+            pitch: 0,
+            roll: 70,
+            // rotate: -90,
+        }, {
+            model: "longear",
+            pitch: 25,
+            roll: 180,
+            rotate: -90,
+        },
+        {
+            model: "ribbon",
+            pitch: 45,
+            roll: 180 - 35,
+            rotate: 0,
+            symmetry: false,
+            size: 150,
+        },
     ];
 
     return (<>
@@ -114,6 +134,9 @@ const AddDecoration = ({ newDecorationModalShow, setNewDecorationModalShow, deco
                                         tail: "しっぽ",
                                         eye: "目",
                                         nose: "鼻",
+                                        longear: "うさ耳",
+                                        mouse: "口",
+                                        ribbon: "リボン",
                                     }[item.model] || item.model)}
                                 </span>
                             </Col>

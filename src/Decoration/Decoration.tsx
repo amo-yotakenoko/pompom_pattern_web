@@ -36,6 +36,18 @@ const Decoration = ({ sceneProps, decorationObjects, setDecorationObjects, symme
 
 
 	const [newDecorationModalShow, setNewDecorationModalShow] = useState(false);
+	const [objects, setObjects] = useState<any>([]);
+
+
+	function deleteObjects() {
+		console.log("今のを削除", objects);
+		objects.forEach((object: any) => {
+			object.forEach((o: any) => {
+				sceneProps.scene.remove(o);
+			});
+		});
+		// setObjects([]);
+	}
 
 
 
@@ -55,6 +67,7 @@ const Decoration = ({ sceneProps, decorationObjects, setDecorationObjects, symme
 			updatedObjects[selectingId] = { ...prev[selectingId], [key]: value };
 			return updatedObjects;
 		});
+
 	};
 
 	function addDecorationObject(newDecorationObject: any) {
@@ -68,30 +81,19 @@ const Decoration = ({ sceneProps, decorationObjects, setDecorationObjects, symme
 		setNewDecorationModalShow(false)
 		console.log(decorationObjects)
 
+		deleteObjects();
+		// setObjects(new Array(n).fill(null));
 	}
 
-	// useEffect(() => {
-	// 	if (!sceneProps || !sceneProps.scene) return;
+	function resetObjects() {
+		deleteObjects();
+		setObjects(new Array(decorationObjects.length).fill([]));
 
-	// 	// シーン内のオブジェクトを走査
-	// 	sceneProps.scene.traverse((child: any) => {
-	// 		// userData.tagが指定されたタグと一致する場合に削除
-	// 		if (child.userData.tag === "decoration") {
-	// 			// シーンからオブジェクトを削除
-	// 			sceneProps.scene.remove(child);
+	}
+	useEffect(() => {
+		resetObjects()
+	}, [decorationObjects.length]);
 
-	// 			// マテリアルがあれば解放
-	// 			if (child.material) {
-	// 				child.material.dispose();
-	// 			}
-
-	// 			// もし geometry があれば、それも解放
-	// 			if (child.geometry) {
-	// 				child.geometry.dispose();
-	// 			}
-	// 		}
-	// 	});
-	// }, [sceneProps, decorationObjects.length]);
 
 
 	return (<>
@@ -114,27 +116,46 @@ const Decoration = ({ sceneProps, decorationObjects, setDecorationObjects, symme
 						id={i}
 						symmetryType={symmetryType}
 						colorList={colorList}
+						objects={objects[i]}
+						setObjects={(newValue: any) => {
+
+							setObjects((prevItems: any) =>
+								prevItems.map((item: any, j: any) => (j === i ? newValue : item)) // 指定したインデックスだけ変更
+							);
+
+						}}
 					/>
 				))}
+
 				<Button
 					onClick={() => {
 						setNewDecorationModalShow(true);
 						console.log({ newDecorationModalShow })
 					}}
-					style={{
-						// padding: 0,
-						padding: 0, margin: 0,
-						width: 32,
-						height: 32,
-						// width: "2em", aspectRatio: 1
-						border: 'none',
-					}}
+					style={decorationObjects.length > 0 ?
+						{
+							// padding: 0,
+							padding: 0, margin: 0,
+							width: 32,
+							height: 32,
+							// width: "2em", aspectRatio: 1
+							border: 'none',
+						} :
+						{
+
+						}
+					}
 					variant="outline-dark"
 				>
-					<Icon.Plus style={{
+					{decorationObjects.length <= 0 && "装飾を追加"}
+					<Icon.Plus style={decorationObjects.length > 0 ? {
 
 						width: "2em", aspectRatio: 1, padding: 0, margin: 0
-					}}></Icon.Plus>
+					} :
+						{
+
+						}
+					}></Icon.Plus>
 				</Button>
 			</div>
 
@@ -167,7 +188,7 @@ const Decoration = ({ sceneProps, decorationObjects, setDecorationObjects, symme
 														style={{
 															backgroundColor: color[0],
 															width: '100%',
-															aspectRatio: 1, // 高さと幅を1:1にすることで円形を維持
+															aspectRatio: 1,
 															borderRadius: '50%',
 															textAlign: 'center',
 
@@ -184,6 +205,9 @@ const Decoration = ({ sceneProps, decorationObjects, setDecorationObjects, symme
 													</div>
 												</div>
 											))}
+
+
+
 										</div>
 									</div>
 								</div>
@@ -242,11 +266,15 @@ const Decoration = ({ sceneProps, decorationObjects, setDecorationObjects, symme
 										type="checkbox"
 										label="左右対称"
 										checked={decorationObjects[selectingId].symmetry}
-										onChange={(e: any) => { updateSelectiongItemProperty("symmetry", !decorationObjects[selectingId].symmetry) }}
+										onChange={(e: any) => {
+											updateSelectiongItemProperty("symmetry", !decorationObjects[selectingId].symmetry);
+											resetObjects();
+										}}
 									/>
 									<Icon.Trash onClick={() => {
 										const newItems = decorationObjects.filter((_: any, index: any) => index !== selectingId);
 										setDecorationObjects(newItems);
+										setSelectingId(0)
 
 									}}></Icon.Trash>
 
@@ -265,21 +293,34 @@ const Decoration = ({ sceneProps, decorationObjects, setDecorationObjects, symme
 	</>);
 }
 
-const Item = ({ property, sceneProps, id, setSelectingId, selectingId, symmetryType, colorList }: any) => {
+const Item = ({ property, sceneProps, id, setSelectingId, selectingId, symmetryType, colorList, objects, setObjects }: any) => {
 
-	const [objects, setObjects] = useState<any>([]);
+	// const [objects, setObjects] = useState<any>([]);
 
 	console.log("レンダリング変更")
 
 
 
 	useEffect(() => {
-		return () => {
-			console.log("削除")
-			removeObject()
-		};
+		console.log("objects", objects)
+		if (!objects) return;
+		// || (property.symmetry ? 2 : 1) == objects.length
+		const file = `${process.env.PUBLIC_URL}/model/${property.model}.fbx`;
+		console.log("左右対称", (property.symmetry ? 2 : 1), objects.length)
+		if ((objects.length == 0)) {
 
-	}, []);
+
+			// if ((property.symmetry ? 2 : 1) === objects.length) return;
+			loadObjects(file);
+		}
+		// else if ((property.symmetry ? 2 : 1) != objects.length) {
+		// 	console.log("左右対称リセット")
+		// 	removeObject()
+		// 	loadObjects(file);
+		// }
+
+
+	}, [objects]);
 
 
 	const loadObjects = async (file: string) => {
@@ -316,54 +357,54 @@ const Item = ({ property, sceneProps, id, setSelectingId, selectingId, symmetryT
 		setObjects(tmpobjects);
 	}
 
-	useEffect(() => {
-		console.log("モデル名変更")
+	// useEffect(() => {
+	// 	console.log("モデル名変更")
 
-		deleteObjects();
-		const file = `${process.env.PUBLIC_URL}/model/${property.model}.fbx`;
-		loadObjects(file)
+	// 	deleteObjects();
+	// 	const file = `${process.env.PUBLIC_URL}/model/${property.model}.fbx`;
+	// 	loadObjects(file)
 
-		// const loader = new FBXLoader();
-		// // console.log(`${process.env.PUBLIC_URL}/model/${property.model}.fbx`)
-		// const file = `${process.env.PUBLIC_URL}/model/${property.model}.fbx`
+	// 	// const loader = new FBXLoader();
+	// 	// // console.log(`${process.env.PUBLIC_URL}/model/${property.model}.fbx`)
+	// 	// const file = `${process.env.PUBLIC_URL}/model/${property.model}.fbx`
 
-		// let tmpobjects: any = []
-		// for (let i = 0; i < (property.symmetry?2:1); i++) {
+	// 	// let tmpobjects: any = []
+	// 	// for (let i = 0; i < (property.symmetry?2:1); i++) {
 
-		// 	loader.load( file, function (obj) {
-		// 		obj.scale.set(0.1, 0.1, 0.1)
+	// 	// 	loader.load( file, function (obj) {
+	// 	// 		obj.scale.set(0.1, 0.1, 0.1)
 
-		// 		obj.traverse(function (child: any) {
-		// 			if (child.isMesh) {
-		// 				child.material.color.set(0xff0000); // 赤色に変更
-		// 			}
-		// 		});
-		// 		// console.log("object", object)
+	// 	// 		obj.traverse(function (child: any) {
+	// 	// 			if (child.isMesh) {
+	// 	// 				child.material.color.set(0xff0000); // 赤色に変更
+	// 	// 			}
+	// 	// 		});
+	// 	// 		// console.log("object", object)
 
-		// 		sceneProps.scene.add(obj);
-		// 		tmpobjects.push(obj)
-		// 	})
-		// }
+	// 	// 		sceneProps.scene.add(obj);
+	// 	// 		tmpobjects.push(obj)
+	// 	// 	})
+	// 	// }
 
-		// console.log({ tmpobjects })
-		// setObjects(tmpobjects);
-		// requestAnimationFrame(positionUpdate);
+	// 	// console.log({ tmpobjects })
+	// 	// setObjects(tmpobjects);
+	// 	// requestAnimationFrame(positionUpdate);
 
-		return () => {
+	// 	return () => {
 
-			// if (objects) {
-			console.log("今のを削除", objects)
-			removeObject()
-			// }
-		};
-
-
-	}, [property.model, property.symmetry,]);
+	// 		// if (objects) {
+	// 		console.log("今のを削除", objects)
+	// 		removeObject()
+	// 		// }
+	// 	};
 
 
-	useEffect(() => {
-		console.log({ objects })
-	}, [objects]);
+	// }, [property.model, property.symmetry,]);
+
+
+	// useEffect(() => {
+	// 	console.log({ objects })
+	// }, [objects]);
 
 
 
@@ -372,7 +413,8 @@ const Item = ({ property, sceneProps, id, setSelectingId, selectingId, symmetryT
 		// console.log({ color })
 
 
-
+		// console.log(objects)
+		if (!objects) return
 		objects.forEach((object: any) => {
 			console.log(object)
 			object.traverse((child: any) => {
