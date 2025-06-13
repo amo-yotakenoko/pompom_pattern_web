@@ -125,4 +125,4 @@ PomPomPattern-ぽんぽん設計図ジェネレーター-
 
 
 
-?camera=disable&decoration=disable
+?camera=disable&decoration=disable&rollWidth=20&pitchWidth=8&symmetryType=0&colors=FFFFFF,FF5733,FFBD33

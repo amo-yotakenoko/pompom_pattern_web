@@ -15,11 +15,19 @@ import { useNavigate, useLocation } from "react-router-dom";
 import * as Icon from "react-bootstrap-icons";
 type NewProps = {};
 const New: React.FC<NewProps> = ({}) => {
-  const [rollWidth, setRollWidth] = useState(20);
-  const [pitchWidth, setPitchWidth] = useState(8);
-  const [symmetryType, setSymmetryType] = useState(0);
-  const navigate = useNavigate();
   const location = useLocation();
+
+  const params = new URLSearchParams(location.search);
+
+  // クエリパラメータを取得（存在すればその値、なければデフォルト）
+  const initRollWidth = parseFloat(params.get("rollWidth") ?? "20");
+  const initPitchWidth = parseFloat(params.get("pitchWidth") ?? "8");
+  const initSymmetryType = parseInt(params.get("symmetryType") ?? "0");
+
+  const [rollWidth, setRollWidth] = useState(initRollWidth);
+  const [pitchWidth, setPitchWidth] = useState(initPitchWidth);
+  const [symmetryType, setSymmetryType] = useState(initSymmetryType);
+  const navigate = useNavigate();
   const newCreate = () => {
     navigate(`/edit${location.search}`, {
       state: {
