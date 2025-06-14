@@ -1,51 +1,65 @@
-import React, { useEffect, useState, createContext, useContext, useRef } from 'react';
-import { useLocation } from "react-router-dom"
-import * as THREE from 'three';
-import { Overlay, Tooltip, Button } from 'react-bootstrap';
+import React, {
+  useEffect,
+  useState,
+  createContext,
+  useContext,
+  useRef,
+} from "react";
+import { useLocation } from "react-router-dom";
+import * as THREE from "three";
+import { Overlay, Tooltip, Button } from "react-bootstrap";
 // import { Canvas, useFrame } from '@react-three/fiber';
 // import { BufferGeometry, Float32BufferAttribute, Mesh, MeshBasicMaterial } from 'three';
 // import { OrbitControls } from "@react-three/drei";
-import 'bootstrap/dist/css/bootstrap.min.css';
-import LocalStrageSave from './LocalStrageSave';
-import Pompom from './Pompom'
-import ColorPalette from './colorPalette'
-import BluePrint from '../BluePrint/BluePrint'
-import Menu from '../Menu'
-import VerticalMenu from './VerticalMenu';
-import UndoRedo from './undoRedu'
-import ColorEdit from './colorEdit'
-import HelpButton from './HelpButton';
-import CameraScan from '../CameraScaan/CameraScan';
-import { Camera } from 'react-bootstrap-icons';
-import * as Icon from 'react-bootstrap-icons';
-import Help from "../Help"
-import Decoration from '../Decoration/Decoration';
+import "bootstrap/dist/css/bootstrap.min.css";
+import LocalStrageSave from "./LocalStrageSave";
+import Pompom from "./Pompom";
+import ColorPalette from "./colorPalette";
+import BluePrint from "../BluePrint/BluePrint";
+import Menu from "../Menu";
+import VerticalMenu from "./VerticalMenu";
+import UndoRedo from "./undoRedu";
+import ColorEdit from "./colorEdit";
+import HelpButton from "./HelpButton";
+import CameraScan from "../CameraScaan/CameraScan";
+import { Camera } from "react-bootstrap-icons";
+import * as Icon from "react-bootstrap-icons";
+import Help from "../Help";
+import Decoration from "../Decoration/Decoration";
 // import CameraScan from '../CameraScaan/CameraScan';
 // import Button from 'react-bootstrap/Button';
 // import '../index.css';
 
 const enableHelpContext = createContext<any>(null);
 function Edit() {
-  const location = useLocation()
+  const location = useLocation();
 
+  const params = new URLSearchParams(location.search);
+  const colorsStr = params.get("colors");
 
+  const initPathColors = colorsStr
+    ? colorsStr.split(",").map((code) => ["#" + code])
+    : [];
+  console.log({ initPathColors });
 
-
-  const [colorList, setColorList] = useState([
-    ["#FFFFFF"],
-    ["#FF5733"],
-    ["#FFBD33", "#FF0033"],
-    ["#FFFF33"],
-    ["#B6FF33"],
-    ["#33FF57"],
-    ["#33FFBD"],
-    ["#33FFFF"],
-    ["#33B6FF"],
-    ["#3357FF"],
-    ["#BD33FF"],
-    ["#FF33FF"],
-
-  ]);
+  const [colorList, setColorList] = useState(
+    initPathColors.length > 0
+      ? initPathColors
+      : [
+          ["#FFFFFF"],
+          ["#FF5733"],
+          ["#FFBD33", "#FF0033"],
+          ["#FFFF33"],
+          ["#B6FF33"],
+          ["#33FF57"],
+          ["#33FFBD"],
+          ["#33FFFF"],
+          ["#33B6FF"],
+          ["#3357FF"],
+          ["#BD33FF"],
+          ["#FF33FF"],
+        ]
+  );
 
   const [multiColorSelect, setMultiColorSelect] = useState([
     true,
@@ -60,10 +74,7 @@ function Edit() {
     false,
     false,
     false,
-
   ]);
-
-
 
   const [rollWidth, setRollWidth] = useState(0);
   const [pitchWidth, setPitchWidth] = useState(0);
@@ -82,69 +93,66 @@ function Edit() {
   const [decorationObjects, setDecorationObjects] = useState<any>([]);
 
   function brankPattern(rollWidth: any, pitchWidth: any) {
-    console.log("Pattern書き直し", rollWidth, pitchWidth)
-    const _pattern: any = []
+    console.log("Pattern書き直し", rollWidth, pitchWidth);
+    const _pattern: any = [];
     for (let i = 0; i < rollWidth; i++) {
       _pattern[i] = [];
       for (let j = 0; j < pitchWidth; j++) {
         _pattern[i][j] = 0;
       }
     }
-    return _pattern
-
+    return _pattern;
   }
 
-
   useEffect(() => {
-    console.log({ 読込: location.state })
+    console.log({ 読込: location.state });
     if (location.state) {
-
       if (location.state.colorList !== undefined) {
-        console.log("カラーリストを読み込み")
+        console.log("カラーリストを読み込み");
         setColorList(location.state.colorList);
       }
 
+      let sizeChange = false;
 
-      let sizeChange = false
-
-      if (location.state.pitchWidth !== undefined && location.state.rollWidth !== undefined) {
-        console.log("rollWidthを読み込み")
-        setRollWidth(location.state.rollWidth)
-        setPitchWidth(location.state.pitchWidth)
-        setPattern(brankPattern(location.state.rollWidth, location.state.pitchWidth))
+      if (
+        location.state.pitchWidth !== undefined &&
+        location.state.rollWidth !== undefined
+      ) {
+        console.log("rollWidthを読み込み");
+        setRollWidth(location.state.rollWidth);
+        setPitchWidth(location.state.pitchWidth);
+        setPattern(
+          brankPattern(location.state.rollWidth, location.state.pitchWidth)
+        );
       }
 
       if (location.state.pattern !== undefined) {
-        console.log("Patternを読み込み")
-        console.log({ pattern: location.state.pattern })
+        console.log("Patternを読み込み");
+        console.log({ pattern: location.state.pattern });
         setPattern(location.state.pattern);
       }
       if (location.state.symmetryType !== undefined) {
-
         setSymmetryType(location.state.symmetryType);
         // setSymmetryType(2);
       }
 
       if (location.state.decorationObjects !== undefined) {
-
         setDecorationObjects(location.state.decorationObjects);
       }
-
-
-
     }
   }, [location.state]);
 
-
-
   function drawDot(patternPos: any, selectColor: any) {
-
     // try {
     if (pattern[patternPos.r][patternPos.p] !== selectColor) {
       // console.log("ぬる", isDrwaing)
-      console.log(pattern[patternPos.r][patternPos.p], selectColor, pattern[patternPos.r][patternPos.p] !== selectColor)
+      console.log(
+        pattern[patternPos.r][patternPos.p],
+        selectColor,
+        pattern[patternPos.r][patternPos.p] !== selectColor
+      );
 
-      let newPatternList = [...pattern]
+      let newPatternList = [...pattern];
       newPatternList[patternPos.r][patternPos.p] = selectColor;
       setPattern(newPatternList);
     }
@@ -152,7 +160,6 @@ function Edit() {
     //   console.log(e)
     // }
   }
-
 
   const [selectingPlate, setSelectingPlate] = useState<any>(-1);
 
@@ -165,9 +172,28 @@ function Edit() {
   return (
     <>
       <enableHelpContext.Provider value={{ enableHelp, setEnableHelp }}>
-        <LocalStrageSave data={{ pattern, colorList, rollWidth, pitchWidth, symmetryType, decorationObjects }} activeMenu={activeMenu} />
-        <div style={{ position: 'fixed', top: "5px", right: "5px", display: 'flex', flexDirection: 'row-reverse', gap: '10px', zIndex: 1000 }}>
-
+        <LocalStrageSave
+          data={{
+            pattern,
+            colorList,
+            rollWidth,
+            pitchWidth,
+            symmetryType,
+            decorationObjects,
+          }}
+          activeMenu={activeMenu}
+        />
+        <div
+          style={{
+            position: "fixed",
+            top: "5px",
+            right: "5px",
+            display: "flex",
+            flexDirection: "row-reverse",
+            gap: "10px",
+            zIndex: 1000,
+          }}
+        >
           <HelpButton activeMenu={activeMenu}></HelpButton>
           {/* {activeMenu == "pompom" && (
 
@@ -177,14 +203,22 @@ function Edit() {
             />
           )} */}
           {activeMenu == "cameraScan" && (
-
-            <div style={{
-              fontSize: "1em", alignItems: 'center',
-              justifyContent: 'center'
-            }}
+            <div
+              style={{
+                fontSize: "1em",
+                alignItems: "center",
+                justifyContent: "center",
+              }}
               onClick={() => setActiveMenu("pompom")}
-
-            ><Button variant="outline-dark" style={{ borderWidth: '2px', paddingLeft: '5px' }}><Icon.CaretLeft style={{ fontSize: "1.5em", }}></Icon.CaretLeft>戻る</Button></div>
+            >
+              <Button
+                variant="outline-dark"
+                style={{ borderWidth: "2px", paddingLeft: "5px" }}
+              >
+                <Icon.CaretLeft style={{ fontSize: "1.5em" }}></Icon.CaretLeft>
+                戻る
+              </Button>
+            </div>
           )}
 
           {/* <Icon.Camera style={{ fontSize: "2em" }}
@@ -201,22 +235,35 @@ function Edit() {
         </div> */}
 
         <div className="container-fluid" style={{ padding: 0, margin: 0 }}>
-          <div className="row no-margin" id="editing" style={{
-            // display: (activeMenu === "pompom" || activeMenu === "cameraScan" || activeMenu === "decoration") ? "flex" : "none",
-            // backgroundColor: "#f0f0ff",
-            position: "fixed",
-            top: "0",
+          <div
+            className="row no-margin"
+            id="editing"
+            style={{
+              // display: (activeMenu === "pompom" || activeMenu === "cameraScan" || activeMenu === "decoration") ? "flex" : "none",
+              // backgroundColor: "#f0f0ff",
+              position: "fixed",
+              top: "0",
 
-            width: "100%",
-          }}>
-            <div className={`${window.innerHeight > window.innerWidth ? "col-12" : "col-4"} no-margin`}>
+              width: "100%",
+            }}
+          >
+            <div
+              className={`${
+                window.innerHeight > window.innerWidth ? "col-12" : "col-4"
+              } no-margin`}
+            >
               <div
                 style={{
                   position: "relative",
                   width: "100%",
                   aspectRatio: "1",
                   border: "1px solid black",
-                  display: (activeMenu === "pompom" || activeMenu === "cameraScan" || activeMenu === "decoration") ? "flex" : "none",
+                  display:
+                    activeMenu === "pompom" ||
+                    activeMenu === "cameraScan" ||
+                    activeMenu === "decoration"
+                      ? "flex"
+                      : "none",
                 }}
               >
                 <Pompom
@@ -233,7 +280,6 @@ function Edit() {
                   meshList={meshList}
                   symmetryType={symmetryType}
                 />
-
 
                 <Icon.ArrowsMove
                   // ref={moveRef}
@@ -253,21 +299,15 @@ function Edit() {
                 {/* {selectingPlate}{selectingPlate >= 0&&(<>カメラ <Help id="RecordCircle">撮影{selectingPlate}</Help></>)} */}
                 {/* <div style={{ display: selectingPlate < 0 ? "display" : "none" }}> */}
                 {selectingPlate < 0 && (
-
                   <Help id="ArrowsMove">{`スワイプして回転`}</Help>
                 )}
-                {selectingPlate >= 0 && (
-
-                  <Help id="RecordCircle">{`撮影`}</Help>
-                )}
+                {selectingPlate >= 0 && <Help id="RecordCircle">{`撮影`}</Help>}
                 {/* </div> */}
 
                 {/* <div style={{ display: selectingPlate >= 0 ? "display" : "none" }}>
                   
                   <Help id="RecordCircle">撮影{selectingPlate}</Help>
                 </div> */}
-
-
 
                 <Icon.RecordCircle
                   // ref={moveRef}
@@ -288,16 +328,14 @@ function Edit() {
                     // if (cameraScanRef.current)
                     //   (cameraScanRef.current as any).takeScan();
                     document.getElementById("addHistory")?.click();
-                    setSelectingPlate(-1)
+                    setSelectingPlate(-1);
                   }}
                 />
                 {/* {selectingPlate} */}
                 {/* <Help id="RecordCircle">撮影</Help> */}
-
-              </div >
+              </div>
 
               {activeMenu === "bluePrint" && (
-
                 <BluePrint
                   pattern={pattern}
                   colorList={colorList}
@@ -306,23 +344,28 @@ function Edit() {
                   activeMenu={activeMenu}
                   setActiveMenu={setActiveMenu}
                 />
-
-
               )}
             </div>
 
-            <div className="row no-margin" style={{
-              overflowY: "auto", height: `${window.innerHeight < window.innerWidth ? "calc(100dvh - 100vw )" : "100dvh "} no-margin`, width: "calc(100vw - 2em)",
-              // backgroundColor: "#f0f0f0",
-              // display: (activeMenu === "pompom" || activeMenu === "cameraScan" || activeMenu === "decoration") ? "flex" : "none",
-            }}>
-
-
-
-
+            <div
+              className="row no-margin"
+              style={{
+                overflowY: "auto",
+                height: `${
+                  window.innerHeight < window.innerWidth
+                    ? "calc(100dvh - 100vw )"
+                    : "100dvh "
+                } no-margin`,
+                width: "calc(100vw - 2em)",
+                // backgroundColor: "#f0f0f0",
+                // display: (activeMenu === "pompom" || activeMenu === "cameraScan" || activeMenu === "decoration") ? "flex" : "none",
+              }}
+            >
               {activeMenu === "pompom" && (
-
-                <div className="col-6 col-md-3 col-xl-4 no-margin " style={{ display: activeMenu === "pompom" ? "flex" : "none", }}>
+                <div
+                  className="col-6 col-md-3 col-xl-4 no-margin "
+                  style={{ display: activeMenu === "pompom" ? "flex" : "none" }}
+                >
                   <ColorEdit
                     colorList={colorList}
                     selectColor={selectColor}
@@ -332,7 +375,12 @@ function Edit() {
                 </div>
               )}
 
-              <div className="col-6 col-xl-4 no-margin " style={{ display: activeMenu === "cameraScan" ? "flex" : "none", }}>
+              <div
+                className="col-6 col-xl-4 no-margin "
+                style={{
+                  display: activeMenu === "cameraScan" ? "flex" : "none",
+                }}
+              >
                 <CameraScan
                   sceneProps={sceneProps}
                   activeMenu={activeMenu}
@@ -340,16 +388,22 @@ function Edit() {
                   meshList={meshList}
                   colorList={colorList}
                   multiColorSelect={multiColorSelect}
-                  selectingPlate={selectingPlate} setSelectingPlate={setSelectingPlate}
-                // ref={cameraScanRef}
+                  selectingPlate={selectingPlate}
+                  setSelectingPlate={setSelectingPlate}
+                  // ref={cameraScanRef}
                 ></CameraScan>
                 <br />
                 <br /> <br /> <br /> <br /> <br /> <br />
               </div>
 
-
-              <div className="col-12 " style={{ display: activeMenu === "decoration" ? "flex" : "none", }}>
-                <Decoration sceneProps={sceneProps}
+              <div
+                className="col-12 "
+                style={{
+                  display: activeMenu === "decoration" ? "flex" : "none",
+                }}
+              >
+                <Decoration
+                  sceneProps={sceneProps}
                   decorationObjects={decorationObjects}
                   setDecorationObjects={setDecorationObjects}
                   symmetryType={symmetryType}
@@ -358,8 +412,8 @@ function Edit() {
                 <br />
                 <br /> <br /> <br /> <br /> <br /> <br />
               </div>
-              {(activeMenu === "pompom" || activeMenu === "cameraScan") &&
-                <div className="col-6 col-md-9  col-xl-4 no-margin" >
+              {(activeMenu === "pompom" || activeMenu === "cameraScan") && (
+                <div className="col-6 col-md-9  col-xl-4 no-margin">
                   <ColorPalette
                     colorList={colorList}
                     selectColor={selectColor}
@@ -370,17 +424,15 @@ function Edit() {
                     enableMultiColorSelect={activeMenu === "cameraScan"}
                   />
                 </div>
-              }
+              )}
 
               {activeMenu !== "bluePrint" && (
-                <VerticalMenu activeMenu={activeMenu}
+                <VerticalMenu
+                  activeMenu={activeMenu}
                   setActiveMenu={setActiveMenu}
                 ></VerticalMenu>
               )}
-
             </div>
-
-
 
             {/* 
             <div className="row no-margin" style={{
@@ -400,18 +452,9 @@ function Edit() {
               </div>
 
             </div> */}
-
-
-
-
-
-
-
           </div>
 
-
           {/* <div style={{ display: activeMenu === "bluePrint" ? "block" : "none" }}> */}
-
         </div>
         {/* <Menu
           activeMenu={activeMenu}
@@ -425,10 +468,16 @@ function Edit() {
         /> */}
 
         <UndoRedo
-          enable={activeMenu == "pompom" || activeMenu == "cameraScan"} registerEnable={activeMenu == "pompom"} pattern={pattern} setPattern={setPattern} colorList={colorList} setColorList={setColorList} selectColor={selectColor} setSelectColor={setSelectColor}></UndoRedo>
-
-      </enableHelpContext.Provider >
-
+          enable={activeMenu == "pompom" || activeMenu == "cameraScan"}
+          registerEnable={activeMenu == "pompom"}
+          pattern={pattern}
+          setPattern={setPattern}
+          colorList={colorList}
+          setColorList={setColorList}
+          selectColor={selectColor}
+          setSelectColor={setSelectColor}
+        ></UndoRedo>
+      </enableHelpContext.Provider>
     </>
   );
 }
