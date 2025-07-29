@@ -25,7 +25,7 @@ const BluePrint = ({
   setActiveMenu,
 }: any) => {
   const [rollProgress, setRollProgress] = useState<any[]>([]);
-
+  let rollOffset = 0;
   const [progress, setProgress] = useState(0);
   const propsRef = useRef({ pattern, colorList });
   useEffect(() => {
@@ -46,7 +46,6 @@ const BluePrint = ({
   function getTheta(roll: any) {
     return 2 * Math.PI * (roll / rollWidth);
   }
-  let rollOffset = 5;
 
   function getpattern(roll: number, pitch: number) {
     //   return propsRef.current.pattern[roll][pitch];
@@ -148,40 +147,127 @@ const BluePrint = ({
     );
   }
 
+  function calculateFrame() {
+    let puted: any = [];
+    let frames: any = [];
+    for (let i = 0; i < rollWidth; i++) {
+      puted[i] = [];
+      for (let j = 0; j < pitchWidth; j++) {
+        puted[i][j] = false;
+      }
+    }
+    let widthCount = 0;
+
+    for (let pitch = 0; pitch < pitchWidth; pitch++) {
+      for (let roll = 0; roll < rollWidth; roll++) {
+        // ctx.clearRect(0, 0, canvas.width, canvas.height);
+        const color = getpattern(roll, pitch);
+        let frameColor = isNearBlack(propsRef.current.colorList[color][0])
+          ? "white"
+          : "black";
+        let theta = getTheta(roll);
+        let thetaWidth = 2 * Math.PI * (1 / rollWidth);
+        let r = getR(pitch);
+        const center = {
+          x: canvas.width / 2,
+          y: canvas.height / 2 + (0.5 <= roll / rollWidth ? -1 : 1) * 15,
+        };
+
+        let isChange = false;
+
+        //上下の分かれ目なら
+        if (
+          roll == rollWidth - 1 ||
+          0.5 <= roll / rollWidth !== 0.5 <= (roll + 1) / rollWidth
+        )
+          isChange = true;
+        else if (puted[roll + 1][pitch]) isChange = true;
+        else if (getpattern(roll, pitch) !== getpattern(roll + 1, pitch))
+          isChange = true;
+        if (puted[roll][pitch]) {
+          continue;
+        }
+        widthCount += 1;
+        // console.log("ああああああ")
+        if (isChange) {
+          let piled = countPiled(pitch, roll, widthCount, center, color);
+
+          for (let pitch_i = pitch; pitch_i < pitch + piled; pitch_i++) {
+            for (let roll_i = roll; roll_i > roll - widthCount; roll_i--) {
+              puted[roll_i][pitch_i] = true;
+            }
+          }
+          //   console.log({ widthCount });
+          frames.push({
+            center: center,
+            roll: roll,
+            pitch: pitch,
+            widthCount: widthCount,
+            piled: piled,
+            frameColor,
+            thetaWidth,
+            theta,
+            color: propsRef.current.colorList[color],
+          });
+
+          // await new Promise(resolve => setTimeout(resolve, 1000));
+          // drawFrame(center, roll, pitch, piled);
+
+          // drawCountNumber(piled, center, theta, pitch, roll, thetaWidth);
+
+          // await new Promise(requestAnimationFrame);
+          // await new Promise(resolve => setTimeout(resolve, 1000));
+        }
+
+        if (isChange) widthCount = 0;
+      }
+    }
+    return frames;
+  }
+
+  function countPiled(pitch: any, roll: any, i: any, center: any, color: any) {
+    let piled = 0;
+    for (piled = 0; pitch + piled < pitchWidth; piled++) {
+      for (let roll_i = roll; roll_i > roll - i; roll_i--) {
+        // ctx.beginPath();
+        // ctx.arc(center.x + Math.cos(t) * r, center.y + Math.sin(t) * r, 5, 0, Math.PI * 2);
+        // ctx.closePath();
+        if (color !== getpattern(roll_i, pitch + piled)) {
+          return piled;
+        }
+
+        ctx.strokeStyle =
+          getpattern(roll, pitch) == getpattern(roll_i, pitch + piled)
+            ? "black"
+            : "red";
+        ctx.lineWidth = 2;
+        ctx.stroke();
+        // await new Promise(requestAnimationFrame);
+      }
+    }
+    return piled;
+  }
+
   async function drawbluePrint(ctx: any, canvas: HTMLCanvasElement) {
     // canvas.width = canvasParent.clientWidth;
     // canvas.height = canvasParent.clientHeight;
     // console.log("draw");
 
     // ctx.fillText("aa", 100, 100);
-    function countPiled(
-      pitch: any,
-      roll: any,
-      i: any,
-      center: any,
-      color: any
-    ) {
-      let piled = 0;
-      for (piled = 0; pitch + piled < pitchWidth; piled++) {
-        for (let roll_i = roll; roll_i > roll - i; roll_i--) {
-          // ctx.beginPath();
-          // ctx.arc(center.x + Math.cos(t) * r, center.y + Math.sin(t) * r, 5, 0, Math.PI * 2);
-          // ctx.closePath();
-          if (color !== getpattern(roll_i, pitch + piled)) {
-            return piled;
-          }
+    let mixframeCount = 1000;
+    let bestRollOffset = 0;
+    for (rollOffset = 0; rollOffset < rollWidth; rollOffset++) {
+      const frameCount = calculateFrame().length;
 
-          ctx.strokeStyle =
-            getpattern(roll, pitch) == getpattern(roll_i, pitch + piled)
-              ? "black"
-              : "red";
-          ctx.lineWidth = 2;
-          ctx.stroke();
-          // await new Promise(requestAnimationFrame);
-        }
+      console.log(`${rollOffset}, ${frameCount}`);
+      if (mixframeCount > frameCount) {
+        console.log(`最適なオフセット更新: ${rollOffset}`);
+        bestRollOffset = rollOffset;
+        mixframeCount = frameCount;
       }
-      return piled;
     }
+    rollOffset = bestRollOffset;
+    console.log(`最適なオフセット: ${rollOffset}`);
 
     for (let pitch = 0; pitch < pitchWidth; pitch++) {
       for (let roll = 0; roll < rollWidth; roll++) {
@@ -239,86 +325,13 @@ const BluePrint = ({
     }
 
     // await new Promise(resolve => setTimeout(resolve, 1000));
-    let puted: any = [];
-    for (let i = 0; i < rollWidth; i++) {
-      puted[i] = [];
-      for (let j = 0; j < pitchWidth; j++) {
-        puted[i][j] = false;
-      }
-    }
 
     // await new Promise(resolve => setTimeout(resolve, 1000));
     ctx.beginPath();
     // ctx.moveTo(center.x + Math.cos(getTheta(roll + 1)) * getR(pitch), center.y + Math.sin(getTheta(roll + 1)) * getR(pitch));
     // ctx.lineTo(center.x + Math.cos(getTheta(roll + 1)) * getR(pitch + piled), center.y + Math.sin(getTheta(roll + 1)) * getR(pitch + piled));
     ctx.moveTo(0, 0);
-    let widthCount = 0;
-    frames = [];
-
-    for (let pitch = 0; pitch < pitchWidth; pitch++) {
-      for (let roll = 0; roll < rollWidth; roll++) {
-        // ctx.clearRect(0, 0, canvas.width, canvas.height);
-        const color = getpattern(roll, pitch);
-        let frameColor = isNearBlack(propsRef.current.colorList[color][0])
-          ? "white"
-          : "black";
-        let theta = getTheta(roll);
-        let thetaWidth = 2 * Math.PI * (1 / rollWidth);
-        let r = getR(pitch);
-        const center = {
-          x: canvas.width / 2,
-          y: canvas.height / 2 + (0.5 <= roll / rollWidth ? -1 : 1) * 15,
-        };
-
-        let isChange = false;
-
-        //上下の分かれ目なら
-        if (
-          roll == rollWidth - 1 ||
-          0.5 <= roll / rollWidth !== 0.5 <= (roll + 1) / rollWidth
-        )
-          isChange = true;
-        else if (puted[roll + 1][pitch]) isChange = true;
-        else if (getpattern(roll, pitch) !== getpattern(roll + 1, pitch))
-          isChange = true;
-        if (puted[roll][pitch]) {
-          continue;
-        }
-        widthCount += 1;
-        // console.log("ああああああ")
-        if (isChange) {
-          let piled = countPiled(pitch, roll, widthCount, center, color);
-
-          for (let pitch_i = pitch; pitch_i < pitch + piled; pitch_i++) {
-            for (let roll_i = roll; roll_i > roll - widthCount; roll_i--) {
-              puted[roll_i][pitch_i] = true;
-            }
-          }
-          console.log({ widthCount });
-          frames.push({
-            center: center,
-            roll: roll,
-            pitch: pitch,
-            widthCount: widthCount,
-            piled: piled,
-            frameColor,
-            thetaWidth,
-            theta,
-            color: propsRef.current.colorList[color],
-          });
-
-          // await new Promise(resolve => setTimeout(resolve, 1000));
-          // drawFrame(center, roll, pitch, piled);
-
-          // drawCountNumber(piled, center, theta, pitch, roll, thetaWidth);
-
-          // await new Promise(requestAnimationFrame);
-          // await new Promise(resolve => setTimeout(resolve, 1000));
-        }
-
-        if (isChange) widthCount = 0;
-      }
-    }
+    frames = calculateFrame();
 
     setRollProgress(Array.from({ length: frames.length }, () => 0));
     for (const frame of frames) {
@@ -458,16 +471,15 @@ const BluePrint = ({
         ctx.restore();
       }
     }
+  }
+  function isNearBlack(color: string): boolean {
+    let r = parseInt(color.substring(1, 3), 16);
+    let g = parseInt(color.substring(3, 5), 16);
+    let b = parseInt(color.substring(5, 7), 16);
 
-    function isNearBlack(color: string): boolean {
-      let r = parseInt(color.substring(1, 3), 16);
-      let g = parseInt(color.substring(3, 5), 16);
-      let b = parseInt(color.substring(5, 7), 16);
+    let brightness = 0.2126 * r + 0.7152 * g + 0.0722 * b;
 
-      let brightness = 0.2126 * r + 0.7152 * g + 0.0722 * b;
-
-      return brightness > 256 / 2 ? false : true;
-    }
+    return brightness > 256 / 2 ? false : true;
   }
   function drawFrame(
     ctx: any,
