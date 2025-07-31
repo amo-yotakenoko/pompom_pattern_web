@@ -254,18 +254,37 @@ const BluePrint = ({
     // console.log("draw");
 
     // ctx.fillText("aa", 100, 100);
-    let mixframeCount = 1000;
     let bestRollOffset = 0;
-    for (rollOffset = 0; rollOffset < rollWidth; rollOffset++) {
-      const frameCount = calculateFrame().length;
+    let minFrameCount = Infinity;
+    let maxTotalSize = -Infinity;
 
-      console.log(`${rollOffset}, ${frameCount}`);
-      if (mixframeCount > frameCount) {
+    for (rollOffset = 0; rollOffset < rollWidth; rollOffset++) {
+      const frames = calculateFrame(); // frames配列を取得
+      const frameCount = frames.length;
+
+      // 各frameのサイズ合計を計算
+      const totalSize = frames.reduce(
+        (acc: any, frame: any) => acc + frame.widthCount * frame.thetaWidth,
+        0
+      );
+
+      console.log(
+        `${rollOffset}, frameCount: ${frameCount}, totalSize: ${totalSize}`
+      );
+
+      // フレーム数が少ない or フレーム数が同じでサイズ合計が大きい
+      const isBetter =
+        frameCount < minFrameCount ||
+        (frameCount === minFrameCount && totalSize > maxTotalSize);
+
+      if (isBetter) {
         console.log(`最適なオフセット更新: ${rollOffset}`);
         bestRollOffset = rollOffset;
-        mixframeCount = frameCount;
+        minFrameCount = frameCount;
+        maxTotalSize = totalSize;
       }
     }
+
     rollOffset = bestRollOffset;
     console.log(`最適なオフセット: ${rollOffset}`);
 
