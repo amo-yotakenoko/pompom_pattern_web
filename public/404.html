@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="UTF-8" />
+	<title>Redirecting...</title>
+	<script>
+		const pathname = window.location.pathname;
+
+		// 正確に "/pompom_pattern_web/workshop" に一致したときだけリダイレクト
+		if (pathname === "/pompom_pattern_web/workshop") {
+			window.location.replace(
+				"/pompom_pattern_web?camera=disable&decoration=disable&colors=FFFFFF,111111,F58220&pitchWidth=6&rollWidth=20"
+			);
+		} else {
+			// それ以外のルートは SPA に任せる
+			window.location.replace("/pompom_pattern_web" + window.location.pathname + window.location.search + window.location.hash);
+		}
+	</script>
+</head>
+
+<body>
+	<p>Redirecting...</p>
+</body>
+
+</html>
