@@ -23,6 +23,7 @@ const New: React.FC<NewProps> = ({}) => {
   const initRollWidth = parseFloat(params.get("rollWidth") ?? "20");
   const initPitchWidth = parseFloat(params.get("pitchWidth") ?? "8");
   const initSymmetryType = parseInt(params.get("symmetryType") ?? "0");
+  // console.log({ initPitchWidth }, { initRollWidth }, { initSymmetryType });
 
   const [rollWidth, setRollWidth] = useState(initRollWidth);
   const [pitchWidth, setPitchWidth] = useState(initPitchWidth);
