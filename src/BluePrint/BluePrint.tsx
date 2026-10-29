@@ -450,7 +450,10 @@ const BluePrint = ({
             
             // text = `高さ${piled},全部${piled * widthCount},横巻${widthDisplay}`;
             
-          text = `${Math.ceil((piled * widthCount)/widthDisplay)}`;
+            text = `${Math.ceil((piled * widthCount) / widthDisplay)}`;
+            if (widthCount == 1) {
+                text+=`(*${colorLength})`
+            }
         }
 
           
