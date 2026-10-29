@@ -376,7 +376,8 @@ const BluePrint = ({
         frame.roll,
         frame.thetaWidth,
         frame.widthCount,
-        frame.frameColor
+        frame.frameColor,
+        frame.color.length
       );
       await new Promise((resolve) => setTimeout(resolve, 1));
     }
@@ -389,7 +390,8 @@ const BluePrint = ({
       roll: number,
       thetaWidth: number,
       widthCount: any,
-      frameColor: any
+      frameColor: any,
+      colorLength: number
     ) {
       let fontsize = 20;
       ctx.font = `${fontsize}px Arial`;
@@ -407,7 +409,8 @@ const BluePrint = ({
           rollWidth,
           textHeight,
           thetaWidth,
-          canvas
+          canvas,
+          colorLength
         );
       }
       if (widthCount > 1) {
@@ -420,8 +423,7 @@ const BluePrint = ({
           thetaWidth,
           roll,
           pitch,
-          colorList,
-          pattern
+          colorLength
         );
       }
 
@@ -435,9 +437,23 @@ const BluePrint = ({
         rollWidth: number,
         textHeight: number,
         thetaWidth: number,
-        canvas: any
+        canvas: any,
+        colorLength: number
       ) {
         let text = `${piled}`;
+
+        if (colorLength > 1) {
+          let widthDisplay =
+                Math.ceil(widthCount / colorLength) * colorLength;
+            
+            
+            
+            // text = `高さ${piled},全部${piled * widthCount},横巻${widthDisplay}`;
+            
+          text = `${Math.ceil((piled * widthCount)/widthDisplay)}`;
+        }
+
+          
         const textWidth = ctx.measureText(text).width;
         ctx.save();
         let textTheta = getTheta(roll + 1);
@@ -464,12 +480,10 @@ const BluePrint = ({
         thetaWidth: number,
         roll: number,
         pitch: number,
-        colorList: any,
-        pattern: any
+        colorLength: number
       ) {
         theta -= (2 * Math.PI * (widthCount / rollWidth)) / 2;
         let text = `${widthCount}`;
-        let colorLength = colorList[pattern[roll][pitch]].length;
         if (colorLength > 1) {
           text = `${Math.ceil(widthCount / colorLength)}(*${colorLength})`;
         }
