@@ -21,7 +21,7 @@ root.render(
         path={`/workshop`}
         element={
           <Navigate
-            to="/?camera=disable&decoration=disable&colors=FFFFFF,111111,F58220&pitchWidth=6&rollWidth=20"
+            to="/?camera=disable&decoration=disable&colors=FFFFFF,111111,F58220&pitchWidth=6&rollWidth=30"
             replace
           />
         }
